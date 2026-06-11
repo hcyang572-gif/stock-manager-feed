@@ -1,0 +1,207 @@
+{
+  "schema_version": "1.0",
+  "date": "2026-06-12",
+  "generated_at": "2026-06-12T00:45:00+09:00",
+  "horizon_hours": 48,
+  "data_source": "yfinance (실측)",
+  "market_state": {
+    "korea": {
+      "status": "closed",
+      "basis": "확정종가",
+      "asof": "2026-06-11T14:55:00+09:00"
+    },
+    "us": {
+      "status": "open",
+      "basis": "장중·실시간·미확정",
+      "asof": "2026-06-12T00:40:00+09:00"
+    }
+  },
+  "summary": {
+    "signal_count": 4,
+    "observation_count": 2,
+    "position_count": 0,
+    "top_signal": "SK하이닉스",
+    "headline": "위험회피 국면(6/11 미 반도체 쇼크 후 반등). 4종 전부 돌파 대기형·48h 신규촉매 부재 — 강한 매수 신호 없음, 비중 축소 권고. 합의2(SK하이닉스·삼성) 우선."
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "name": "SK하이닉스",
+      "code": "000660",
+      "market": "KR",
+      "direction": "long",
+      "confidence": "mid",
+      "price": 2101000.0,
+      "currency": "KRW",
+      "entry": 2202500.0,
+      "entry_type": "breakout",
+      "entry_note": "한국 6/11 확정종가. 6/12 시초 갭 확인 후 진입. 돌파형: LW 롱트리거 2,202,500원 상향 돌파 + 거래량 동반 시에만 진입. 미돌파 시 무진입. 현재가 대비 트리거 +4.8% 원거리.",
+      "stop": 2033643,
+      "target1": 2540214,
+      "target2": 2709071,
+      "rr": 2.0,
+      "atr_pct": 8.037,
+      "hold_cap_hours": 48,
+      "weight_pct": 8,
+      "catalyst_verified": false,
+      "evidence": "과대낙폭 후 기술적 반등(6/11 장중 -9.9%→종가 +2.6%). Micron 6/24 FQ3 호실적 기대 readthrough(HBM 슈퍼사이클). 단 48h 신규 D-day 촉매는 부재 — 순수 촉매 아님. | 기술: VWAP 2,072,348 대비 위치·거래량 1.385x·tech_score 49, combined 71.8(합의2).",
+      "risk_notes": [
+        "돌파 대기형: 트리거 2,202,500 미돌파 또는 거래량 미동반 시 무진입.",
+        "고변동성 ATR 8.037% — 손절폭 깊음, 비중 축소 적용.",
+        "48h 신규 D-day 촉매 부재 — 과대낙폭 반등/기술 돌파 의존, 강한 매수 아님."
+      ],
+      "tags": [
+        "HBM",
+        "메모리슈퍼사이클",
+        "과대낙폭반등",
+        "합의2",
+        "돌파대기"
+      ]
+    },
+    {
+      "rank": 2,
+      "name": "삼성전자",
+      "code": "005930",
+      "market": "KR",
+      "direction": "long",
+      "confidence": "mid",
+      "price": 299000.0,
+      "currency": "KRW",
+      "entry": 308500.0,
+      "entry_type": "breakout",
+      "entry_note": "한국 6/11 확정종가. 6/12 시초 갭 확인 후 진입. 돌파형: LW 롱트리거 308,500원 상향 돌파 + 거래량 동반 시에만 진입. 미돌파 시 무진입. 현재가 대비 트리거 +3.2% 원거리.",
+      "stop": 287500,
+      "target1": 354964,
+      "target2": 378196,
+      "rr": 2.21,
+      "atr_pct": 7.77,
+      "hold_cap_hours": 48,
+      "weight_pct": 7,
+      "catalyst_verified": false,
+      "evidence": "6/11 미 반도체 쇼크로 -6.4% 동반급락(종가 -1.2%). HBM4 양산 진입·섹터 반등 동조. Micron 6/24 readthrough. 48h 신규 촉매 아님. | 기술: VWAP 297,568 대비 위치·거래량 1.172x·tech_score 48, combined 66.6(합의2).",
+      "risk_notes": [
+        "돌파 대기형: 트리거 308,500 미돌파 또는 거래량 미동반 시 무진입.",
+        "고변동성 ATR 7.77% — 손절폭 깊음, 비중 축소 적용.",
+        "48h 신규 D-day 촉매 부재 — 과대낙폭 반등/기술 돌파 의존, 강한 매수 아님."
+      ],
+      "tags": [
+        "HBM4",
+        "메모리",
+        "섹터동조반등",
+        "합의2",
+        "돌파대기"
+      ]
+    },
+    {
+      "rank": 3,
+      "name": "NVIDIA",
+      "code": "NVDA",
+      "market": "US",
+      "direction": "long",
+      "confidence": "low",
+      "price": 201.85,
+      "currency": "USD",
+      "entry": 203.45,
+      "entry_type": "breakout",
+      "entry_note": "미국 장중 미확정(00:40 KST 스냅샷). 마감 종가 재확인 필수. 돌파형: 203.45 상향 돌파 + 거래량 회복 시에만. 거래량 0.29x로 돌파 신뢰도 낮음 — 거래량 동반 없으면 무진입.",
+      "stop": 199.54,
+      "target1": 220.2,
+      "target2": 228.57,
+      "rr": 4.28,
+      "atr_pct": 4.149,
+      "hold_cap_hours": 48,
+      "weight_pct": 4,
+      "catalyst_verified": false,
+      "evidence": "기술적 돌파대기만(촉매 합의 없음). 트리거 매우 근접(-0.79%), VWAP 부근. 단 거래량 0.29x로 빈약, 15m RSI 41.7 약세권. 차기 실적 8/26로 48h 밖. | 기술: VWAP 202 대비 위치·거래량 0.295x·tech_score 42, combined 16.8(합의1).",
+      "risk_notes": [
+        "돌파 대기형: 트리거 203 미돌파 또는 거래량 미동반 시 무진입.",
+        "단독 후보(합의 미달) — 저확신, 보조적 진입만.",
+        "48h 신규 D-day 촉매 부재 — 과대낙폭 반등/기술 돌파 의존, 강한 매수 아님."
+      ],
+      "tags": [
+        "AI반도체",
+        "돌파근접",
+        "거래량빈약",
+        "단독후보강등"
+      ]
+    },
+    {
+      "rank": 4,
+      "name": "Tesla",
+      "code": "TSLA",
+      "market": "US",
+      "direction": "long",
+      "confidence": "low",
+      "price": 386.51,
+      "currency": "USD",
+      "entry": 393.08,
+      "entry_type": "breakout",
+      "entry_note": "미국 장중 미확정(00:40 KST 스냅샷). 마감 종가 재확인 필수. 돌파형: 393.08 상향 돌파 + 거래량 회복 시에만. 거래량 빈약 — 거래량 동반 없으면 무진입.",
+      "stop": 380.67,
+      "target1": 426.41,
+      "target2": 443.07,
+      "rr": 2.68,
+      "atr_pct": 4.311,
+      "hold_cap_hours": 48,
+      "weight_pct": 4,
+      "catalyst_verified": false,
+      "evidence": "기술적 돌파대기만(촉매 합의 없음). 트리거 -1.67% 아래, VWAP 상단. 거래량 0.39x 빈약, 15m RSI 39.0 약세권. 로보택시는 진행형 테마로 48h D-day 없음. | 기술: VWAP 385 대비 위치·거래량 0.385x·tech_score 42, combined 16.8(합의1).",
+      "risk_notes": [
+        "돌파 대기형: 트리거 393 미돌파 또는 거래량 미동반 시 무진입.",
+        "단독 후보(합의 미달) — 저확신, 보조적 진입만.",
+        "48h 신규 D-day 촉매 부재 — 과대낙폭 반등/기술 돌파 의존, 강한 매수 아님."
+      ],
+      "tags": [
+        "로보택시테마",
+        "돌파대기",
+        "거래량빈약",
+        "단독후보강등"
+      ]
+    }
+  ],
+  "observations": [
+    {
+      "name": "한미반도체",
+      "code": "042700",
+      "market": "KR",
+      "price": null,
+      "currency": "KRW",
+      "watch_trigger": null,
+      "reason": "_01_quotes.json에 시세 부재(price null) + 웹시세 상충(13.0만 vs 8.7만)으로 미검증. 매매가 산출 불가 → 날조 금지 원칙상 제외. data-collector 실측 후 재평가."
+    },
+    {
+      "name": "LG에너지솔루션",
+      "code": "373220",
+      "market": "KR",
+      "price": 384500.0,
+      "currency": "KRW",
+      "watch_trigger": 397000.0,
+      "reason": "기술 단독·최저 점수(35). 15m RSI 83.3 과매수(추격 위험), 거래량 0.74x 빈약, 트리거 -3.15% 아래. 위험회피 국면에서 매수 부적합 → 관망."
+    }
+  ],
+  "positions": [],
+  "portfolio": {
+    "total_unrealized": 0,
+    "total_unrealized_pct": 0,
+    "count": 0,
+    "to_close": 0,
+    "currency_note": "다통화 보유 시 통화별 합산은 환산 없이 표기(KRW/USD 분리)."
+  },
+  "assumptions": {
+    "fee_pct": 0.015,
+    "tax_pct_kr": 0.18,
+    "tax_pct_us": 0.0
+  },
+  "risk_notes": [
+    "위험회피 국면: 6/10 미 5월 CPI 후 6/11 미 반도체 쇼크(Micron -13%, AMD/Intel ~-11%) → 변동성 확대. 비중 일괄 축소 적용(총 위험노출 ≤23% 권고).",
+    "반도체 과집중 경고: 채택 신호 중 SK하이닉스·삼성전자·NVIDIA 3개가 반도체/메모리 테마 — 동일 테마 3개 이상. 셋 중 1~2개만 실제 진입 권고, 동반 진입 시 합산 비중 상한 15%.",
+    "고변동성: KR 반도체 ATR 8.0%(SK하이닉스 8.04%, 삼성 7.77%). 1·ATR 손절폭이 매우 넓어 손실 규모 큼 — 비중 하향 반영 완료.",
+    "48h 신규 촉매 부재: 모든 후보가 과대낙폭 반등 또는 기술적 돌파대기에 의존. 순수 D-day 촉매 없음 → 전반적으로 '강한 매수' 아님, 보수적 톤.",
+    "전 종목 돌파 대기(pending): 5개 기술 후보 전부 현재가 < LW 롱트리거. 트리거 미돌파+거래량 미동반 시 전량 무진입이 기본값. 추격매수 금지.",
+    "KR 진입 조건: 6/11 확정종가 기준. 6/12 시초 갭(상방 갭 시 트리거 재계산, 하방 갭 시 진입 보류) 확인 필수.",
+    "US 진입 조건: 00:40 KST 장중 미확정 스냅샷. 미 정규장 마감 종가로 트리거·VWAP 재확인 후에만 익일 판단.",
+    "FOMC 6/16~17·트리플위칭 6/18은 48h 밖 양방향 리스크. 보유 포지션의 48h 시간청산 캡이 이 이벤트 이전 청산을 보장하므로 캡 준수 필수.",
+    "동시 보유 한도: 최대 2~3종목. 합의2 신호(SK하이닉스·삼성전자) 우선, 단독 강등 신호(NVDA·TSLA)는 거래량 동반 확정 시에만 보조적으로."
+  ],
+  "disclaimer": "본 산출물은 투자 참고용이며 매수·매도를 보장하지 않는다. 실주문은 사용자가 증권사 앱에서 직접 판단·실행한다(자동주문 없음)."
+}
