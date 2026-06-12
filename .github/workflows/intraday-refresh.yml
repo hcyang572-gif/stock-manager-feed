@@ -32,6 +32,9 @@ jobs:
         run: pip install --quiet holidays tzdata
 
       - name: Refresh quotes
+        env:
+          KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
+          KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
         run: python scripts/intraday_refresh.py
 
       - name: Commit & push if changed

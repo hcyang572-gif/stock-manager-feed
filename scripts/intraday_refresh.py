@@ -13,6 +13,7 @@ GitHub Actions(.github/workflows/intraday-refresh.yml)가 30분마다 호출한�
 """
 import datetime
 import json
+import os
 import sys
 import urllib.parse
 import urllib.request
@@ -20,13 +21,92 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 KST = ZoneInfo("Asia/Seoul")
-FEED_PATH = Path(__file__).resolve().parent.parent / "feed.json"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+FEED_PATH = REPO_ROOT / "feed.json"
+KIS_CONFIG_PATH = REPO_ROOT / "config" / "kis_config.json"
+KIS_TOKEN_PATH = REPO_ROOT / "config" / ".kis_token.json"
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
 HOSTS = ["query1.finance.yahoo.com", "query2.finance.yahoo.com"]
-# 네이버 실시간 polling API — 국내 종목 현재가. Yahoo 와 달리 데이터센터(클라우드)
-# IP 를 차단하지 않아 GitHub Actions 에서 안정적이다(한국 종목 1차 소스).
 NAVER_POLL = "https://polling.finance.naver.com/api/realtime/domestic/stock/{code}"
+KIS_BASE = "https://openapi.koreainvestment.com:9443"
+
+
+def _load_kis_config():
+    """KIS 설정 로드 — 파일 우선, 없으면 환경변수(GitHub Actions)."""
+    app_key = os.environ.get("KIS_APP_KEY")
+    app_secret = os.environ.get("KIS_APP_SECRET")
+    if KIS_CONFIG_PATH.exists():
+        cfg = json.loads(KIS_CONFIG_PATH.read_text(encoding="utf-8"))
+        app_key = app_key or cfg.get("app_key")
+        app_secret = app_secret or cfg.get("app_secret")
+        account_type = cfg.get("account_type", "real")
+    else:
+        account_type = os.environ.get("KIS_ACCOUNT_TYPE", "real")
+    if not app_key or not app_secret:
+        return None
+    return {"app_key": app_key, "app_secret": app_secret, "account_type": account_type}
+
+
+def _get_kis_token(cfg):
+    """KIS 액세스 토큰 취득 — 캐시 유효하면 재사용, 만료 시 재발급."""
+    now_ts = datetime.datetime.now(KST).timestamp()
+    if KIS_TOKEN_PATH.exists():
+        try:
+            cached = json.loads(KIS_TOKEN_PATH.read_text(encoding="utf-8"))
+            if cached.get("expires_at", 0) > now_ts + 300:
+                return cached["access_token"]
+        except Exception:
+            pass
+    body = json.dumps({
+        "grant_type": "client_credentials",
+        "appkey": cfg["app_key"],
+        "appsecret": cfg["app_secret"],
+    }).encode("utf-8")
+    req = urllib.request.Request(
+        f"{KIS_BASE}/oauth2/tokenP",
+        data=body,
+        method="POST",
+        headers={"Content-Type": "application/json"},
+    )
+    with urllib.request.urlopen(req, timeout=10) as r:
+        resp = json.load(r)
+    token = resp.get("access_token")
+    expires_in = int(resp.get("expires_in", 86400))
+    if token:
+        KIS_TOKEN_PATH.parent.mkdir(parents=True, exist_ok=True)
+        KIS_TOKEN_PATH.write_text(
+            json.dumps({"access_token": token, "expires_at": now_ts + expires_in},
+                       ensure_ascii=False),
+            encoding="utf-8",
+        )
+    return token
+
+
+def fetch_price_kis(code, cfg, token):
+    """KIS OpenAPI 로 국내 종목 현재가 조회. 실패 시 None."""
+    tr_id = "FHKST01010100" if cfg.get("account_type") == "real" else "VHKST01010100"
+    params = urllib.parse.urlencode({
+        "FID_COND_MRKT_DIV_CODE": "J",
+        "FID_INPUT_ISCD": code,
+    })
+    req = urllib.request.Request(
+        f"{KIS_BASE}/uapi/domestic-stock/v1/quotations/inquire-price?{params}",
+        headers={
+            "Authorization": f"Bearer {token}",
+            "appkey": cfg["app_key"],
+            "appsecret": cfg["app_secret"],
+            "tr_id": tr_id,
+            "custtype": "P",
+        },
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=10) as r:
+            data = json.load(r)
+        price_str = data.get("output", {}).get("stck_prpr", "").replace(",", "")
+        return float(price_str) if price_str else None
+    except Exception:
+        return None
 
 
 def _get_json(url, headers=None):
@@ -131,17 +211,36 @@ def fetch_price_yahoo(symbol):
     return None
 
 
-def fetch_price(code, market):
-    """현재가 조회 → (price, source). 한국=네이버 1차·Yahoo 백업, 그 외=Yahoo.
+_kis_cfg = None    # 모듈 레벨 캐시
+_kis_token = None
 
-    네이버는 클라우드 IP 차단이 없어 GitHub Actions 에서 안정적이다. 네이버가
-    실패할 때만 Yahoo 로 폴백한다(symbol 해석 비용은 그때만 발생).
+
+def fetch_price(code, market):
+    """현재가 조회 → (price, source).
+    KR: KIS 1차 → 네이버 2차 → Yahoo 백업.
+    미국 등: Yahoo 단독.
     """
+    global _kis_cfg, _kis_token
     market = (market or "KR").upper()
     if market == "KR":
+        # KIS 1차
+        if _kis_cfg is None:
+            _kis_cfg = _load_kis_config()
+        if _kis_cfg and _kis_token is None:
+            try:
+                _kis_token = _get_kis_token(_kis_cfg)
+            except Exception as e:
+                print(f"[KIS] 토큰 발급 실패: {e}")
+                _kis_token = False  # 이번 실행은 KIS 건너뜀
+        if _kis_cfg and _kis_token:
+            p = fetch_price_kis(code, _kis_cfg, _kis_token)
+            if p is not None:
+                return p, "kis"
+        # 네이버 2차
         p = fetch_price_naver(code)
         if p is not None:
             return p, "naver"
+        # Yahoo 백업
         sym = resolve_symbol(code, market)
         p = fetch_price_yahoo(sym) if sym else None
         return (p, "yahoo") if p is not None else (None, None)
@@ -159,7 +258,7 @@ def main():
         print(f"[intraday] skip ({reason}) @ {now.isoformat()}")
         return 0
 
-    feed = json.loads(FEED_PATH.read_text(encoding="utf-8"))
+    feed = json.loads(FEED_PATH.read_text(encoding="utf-8-sig"))
     changed = 0
     src_count = {}  # source → 조회 성공 건수(로그용)
     miss = []       # 시세 미확보 종목(로그용)
