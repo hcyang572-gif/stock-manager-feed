@@ -137,6 +137,46 @@ def fetch_price_kis(code, cfg, token, mrkt="J"):
         return None
 
 
+# 한국 대표 지수(KIS 업종지수 inquire-index-price, MRKT=U).
+KR_INDEX_LIST = [("코스피", "KOSPI", "0001"),
+                 ("코스닥", "KOSDAQ", "1001"),
+                 ("코스피200", "KOSPI200", "2001")]
+
+
+def fetch_kr_indices(cfg, token):
+    """KIS 로 코스피·코스닥·코스피200 현재지수·등락률 조회(각 1회 재시도). 실패 종목은 제외."""
+    out = []
+    for name, sym, iscd in KR_INDEX_LIST:
+        params = urllib.parse.urlencode({"FID_COND_MRKT_DIV_CODE": "U",
+                                         "FID_INPUT_ISCD": iscd})
+        req = urllib.request.Request(
+            f"{KIS_BASE}/uapi/domestic-stock/v1/quotations/inquire-index-price?{params}",
+            headers={
+                "Authorization": f"Bearer {token}",
+                "appkey": cfg["app_key"],
+                "appsecret": cfg["app_secret"],
+                "tr_id": "FHPUP02100000",
+                "custtype": "P",
+            },
+        )
+        for attempt in range(2):  # 일시적 유량초과 대비 1회 재시도
+            time.sleep(KIS_CALL_GAP)
+            try:
+                with urllib.request.urlopen(req, timeout=10) as r:
+                    data = json.load(r)
+                o = data.get("output", {})
+                p = o.get("bstp_nmix_prpr")
+                c = o.get("bstp_nmix_prdy_ctrt")
+                if p:
+                    out.append({"name": name, "symbol": sym,
+                                "price": round(float(p), 2),
+                                "change_pct": round(float(c), 2) if c else 0.0})
+                    break
+            except Exception:
+                pass
+    return out
+
+
 def _get_json(url, headers=None):
     h = {"User-Agent": UA}
     if headers:
@@ -332,6 +372,23 @@ def main():
             item["price"] = price
             if ext is not None:
                 item["ext"] = ext
+
+    # 한국 지수(코스피·코스닥·코스피200) 갱신 — 장중/장외 동안 실시간.
+    cfg, token = _ensure_kis()
+    if cfg and token:
+        idxs = fetch_kr_indices(cfg, token)
+        if idxs:
+            # 이번에 못 받은 지수는 직전 값을 유지(누락으로 사라지지 않게).
+            old_list = (feed.get("kr_context") or {}).get("indices") or []
+            old_by = {x.get("symbol"): x for x in old_list}
+            new_by = {x["symbol"]: x for x in idxs}
+            merged = [new_by.get(sym) or old_by.get(sym)
+                      for _, sym, _ in KR_INDEX_LIST]
+            merged = [m for m in merged if m]
+            if old_list != merged:
+                changed += 1
+            feed["kr_context"] = {"asof": now_iso, "basis": "한국 지수(KIS 실측)",
+                                  "session": session_key, "indices": merged}
 
     src_log = " ".join(f"{s}:{n}" for s, n in src_count.items()) or "없음"
     if miss:
