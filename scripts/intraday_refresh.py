@@ -1,24 +1,31 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-장중 경량 시세 갱신 — feed.json 의 신호/관찰 종목 현재가만 야후에서 다시 받아 갱신.
+장중·장외 경량 시세 갱신 — feed.json 의 신호/관찰 종목 현재가를 KIS 통합(NXT) 시세로 갱신.
 
 - 신규 종목 발굴(풀 스캔)은 하지 않는다(그건 아침 풀 발굴 1회가 담당). 여기서는
-  이미 선정된 종목의 price/asof 만 실측으로 최신화한다(수치 날조 없음).
-- 한국 개장일·시간 가드: 주말·공휴일·연말휴장 제외, 07:30~18:30 KST 에서만 동작.
+  이미 선정된 종목의 price/ext/asof 만 실측으로 최신화한다(수치 날조 없음).
+- **NXT(넥스트레이드) 연장거래 반영**: 한국 대체거래소 NXT 는 08:00~20:00 거래.
+  KIS `UN`(KRX+NXT 통합) 시세를 현재가(price)로, `J`(정규장) 종가를 기준(ref_close)으로
+  하여 시간외 등락(ext.delta_pct)을 계산한다. 프리/정규/애프터 세션도 함께 표기.
+- 한국 개장일·시간 가드: 주말·공휴일·연말휴장 제외, **08:00~20:00 KST** 에서만 동작.
 - 값이 바뀐 게 없으면 파일을 건드리지 않는다(워크플로가 변경 없을 때 커밋 생략).
 
-GitHub Actions(.github/workflows/intraday-refresh.yml)가 30분마다 호출한다.
+GitHub Actions(.github/workflows/intraday-refresh.yml)가 10분마다 호출한다.
 로컬 점검: `python scripts/intraday_refresh.py --force`(시간 가드 무시).
 """
 import datetime
 import json
 import os
 import sys
+import time
 import urllib.parse
 import urllib.request
 from pathlib import Path
 from zoneinfo import ZoneInfo
+
+# KIS 초당 호출 제한(유량초과) 회피용 호출 간 최소 간격(초).
+KIS_CALL_GAP = 0.25
 
 KST = ZoneInfo("Asia/Seoul")
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -30,6 +37,24 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
 HOSTS = ["query1.finance.yahoo.com", "query2.finance.yahoo.com"]
 NAVER_POLL = "https://polling.finance.naver.com/api/realtime/domestic/stock/{code}"
 KIS_BASE = "https://openapi.koreainvestment.com:9443"
+
+# NXT 연장거래 운영시간(KST, 분 단위). 프리 08:00~09:00 / 정규 09:00~15:30 / 애프터 15:30~20:00.
+WINDOW_OPEN = 8 * 60          # 08:00
+WINDOW_CLOSE = 20 * 60        # 20:00
+REGULAR_OPEN = 9 * 60         # 09:00
+REGULAR_CLOSE = 15 * 60 + 30  # 15:30
+
+
+def session_of(now_kst):
+    """현재 KST 시각 → (session_key, 한글라벨). 창 밖이면 ('closed','마감')."""
+    m = now_kst.hour * 60 + now_kst.minute
+    if WINDOW_OPEN <= m < REGULAR_OPEN:
+        return "pre", "프리마켓"
+    if REGULAR_OPEN <= m <= REGULAR_CLOSE:
+        return "regular", "정규장"
+    if REGULAR_CLOSE < m <= WINDOW_CLOSE:
+        return "after", "애프터마켓"
+    return "closed", "마감"
 
 
 def _load_kis_config():
@@ -83,11 +108,14 @@ def _get_kis_token(cfg):
     return token
 
 
-def fetch_price_kis(code, cfg, token):
-    """KIS OpenAPI 로 국내 종목 현재가 조회. 실패 시 None."""
+def fetch_price_kis(code, cfg, token, mrkt="J"):
+    """KIS OpenAPI 로 국내 종목 현재가 조회.
+    mrkt: 'J'=정규장(KRX), 'NX'=NXT, 'UN'=KRX+NXT 통합. 실패 시 None.
+    """
     tr_id = "FHKST01010100" if cfg.get("account_type") == "real" else "VHKST01010100"
+    time.sleep(KIS_CALL_GAP)  # 초당 호출 제한 회피
     params = urllib.parse.urlencode({
-        "FID_COND_MRKT_DIV_CODE": "J",
+        "FID_COND_MRKT_DIV_CODE": mrkt,
         "FID_INPUT_ISCD": code,
     })
     req = urllib.request.Request(
@@ -119,7 +147,7 @@ def _get_json(url, headers=None):
 
 
 def is_trading_now(now_kst):
-    """(개장일·시간) → (bool, 사유). 주말·공휴일·연말휴장·시간외 제외."""
+    """(개장일·시간) → (bool, 사유). 주말·공휴일·연말휴장 제외, 08:00~20:00(NXT 연장창)."""
     if now_kst.weekday() >= 5:
         return False, "weekend"
     if (now_kst.month, now_kst.day) == (12, 31):
@@ -131,7 +159,7 @@ def is_trading_now(now_kst):
     except Exception:
         pass  # holidays 미설치/실패 시 주말·변경가드로만 동작
     minutes = now_kst.hour * 60 + now_kst.minute
-    if minutes < 7 * 60 + 30 or minutes > 18 * 60 + 30:
+    if minutes < WINDOW_OPEN or minutes > WINDOW_CLOSE:
         return False, "outside-window"
     return True, "ok"
 
@@ -171,11 +199,7 @@ def resolve_symbol(code, market):
 
 
 def fetch_price_naver(code):
-    """네이버 polling API 로 국내 종목 현재가 조회. 실패 시 None.
-
-    응답: {"datas":[{"closePrice":"335,000", ...}]} — closePrice 는 장중엔 현재가,
-    장 마감 후엔 종가다(콤마 포함 문자열).
-    """
+    """네이버 polling API 로 국내 종목 현재가 조회(정규장 기준). 실패 시 None."""
     code = (code or "").strip()
     if not code:
         return None
@@ -215,39 +239,59 @@ _kis_cfg = None    # 모듈 레벨 캐시
 _kis_token = None
 
 
-def fetch_price(code, market):
-    """현재가 조회 → (price, source).
-    KR: KIS 1차 → 네이버 2차 → Yahoo 백업.
-    미국 등: Yahoo 단독.
-    """
+def _ensure_kis():
+    """KIS 설정/토큰 준비 → (cfg, token) 또는 (None, None)."""
     global _kis_cfg, _kis_token
+    if _kis_cfg is None:
+        _kis_cfg = _load_kis_config()
+    if _kis_cfg and _kis_token is None:
+        try:
+            _kis_token = _get_kis_token(_kis_cfg)
+        except Exception as e:
+            print(f"[KIS] 토큰 발급 실패: {e}")
+            _kis_token = False  # 이번 실행은 KIS 건너뜀
+    if _kis_cfg and _kis_token:
+        return _kis_cfg, _kis_token
+    return None, None
+
+
+def fetch_quote(code, market, session_key, session_label, now_iso):
+    """현재가 조회 → (price, source, ext).
+    KR: KIS 통합(UN)=현재가 + 정규장(J)=기준종가로 ext 생성 → 네이버/야후 백업(ext 없음).
+    미국 등: Yahoo 단독(ext 없음).
+    ext 는 NXT 연장 시세 정보 dict(없으면 None).
+    """
     market = (market or "KR").upper()
     if market == "KR":
-        # KIS 1차
-        if _kis_cfg is None:
-            _kis_cfg = _load_kis_config()
-        if _kis_cfg and _kis_token is None:
-            try:
-                _kis_token = _get_kis_token(_kis_cfg)
-            except Exception as e:
-                print(f"[KIS] 토큰 발급 실패: {e}")
-                _kis_token = False  # 이번 실행은 KIS 건너뜀
-        if _kis_cfg and _kis_token:
-            p = fetch_price_kis(code, _kis_cfg, _kis_token)
-            if p is not None:
-                return p, "kis"
-        # 네이버 2차
+        cfg, token = _ensure_kis()
+        if cfg and token:
+            un = fetch_price_kis(code, cfg, token, "UN")   # 통합(KRX+NXT) 현재가
+            reg = fetch_price_kis(code, cfg, token, "J")   # 정규장 종가(기준)
+            if un is not None:
+                ext = {
+                    "venue": "NXT",
+                    "label": f"{session_label}(NXT)",
+                    "session": session_key,
+                    "price": float(un),
+                    "asof": now_iso,
+                    "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+                }
+                if reg:
+                    ext["ref_close"] = float(reg)
+                    ext["delta_pct"] = round((un - reg) / reg * 100, 2)
+                return float(un), "kis-nxt", ext
+        # 네이버 2차(정규장 현재가, ext 없음)
         p = fetch_price_naver(code)
         if p is not None:
-            return p, "naver"
+            return p, "naver", None
         # Yahoo 백업
         sym = resolve_symbol(code, market)
         p = fetch_price_yahoo(sym) if sym else None
-        return (p, "yahoo") if p is not None else (None, None)
+        return (p, "yahoo", None) if p is not None else (None, None, None)
     # 미국 등: Yahoo 단독
     sym = resolve_symbol(code, market)
     p = fetch_price_yahoo(sym) if sym else None
-    return (p, "yahoo") if p is not None else (None, None)
+    return (p, "yahoo", None) if p is not None else (None, None, None)
 
 
 def main():
@@ -258,21 +302,25 @@ def main():
         print(f"[intraday] skip ({reason}) @ {now.isoformat()}")
         return 0
 
+    now_iso = now.replace(microsecond=0, second=0).isoformat()
+    session_key, session_label = session_of(now)
+
     feed = json.loads(FEED_PATH.read_text(encoding="utf-8-sig"))
     changed = 0
     src_count = {}  # source → 조회 성공 건수(로그용)
     miss = []       # 시세 미확보 종목(로그용)
-    seen = {}       # code+market → price 캐시(중복 종목 1회만 조회)
+    seen = {}       # code+market → (price, ext) 캐시(중복 종목 1회만 조회)
     for section in ("signals", "observations"):
         for item in feed.get(section, []):
             code = item.get("code", "")
             market = item.get("market", "KR")
             key = f"{market}:{code}"
             if key in seen:
-                price = seen[key]
+                price, ext = seen[key]
             else:
-                price, source = fetch_price(code, market)
-                seen[key] = price
+                price, source, ext = fetch_quote(
+                    code, market, session_key, session_label, now_iso)
+                seen[key] = (price, ext)
                 if price is not None:
                     src_count[source] = src_count.get(source, 0) + 1
                 else:
@@ -280,39 +328,37 @@ def main():
             if price is None:
                 continue
             if item.get("price") != price:
-                item["price"] = price
                 changed += 1
+            item["price"] = price
+            if ext is not None:
+                item["ext"] = ext
 
     src_log = " ".join(f"{s}:{n}" for s, n in src_count.items()) or "없음"
     if miss:
         print(f"[intraday] 시세 미확보: {', '.join(miss)}")
     if changed == 0:
-        print(f"[intraday] 변경 없음 @ {now.isoformat()} "
-              f"(force={force}, 소스 {src_log})")
+        print(f"[intraday] 변경 없음 @ {now_iso} (force={force}, 소스 {src_log})")
         return 0
 
     # 변경 있을 때만 시각·시장상태 갱신.
-    now_iso = now.replace(microsecond=0, second=0).isoformat()
-    mt = now.hour * 60 + now.minute
     korea = feed.setdefault("market_state", {}).setdefault("korea", {})
-    if 7 * 60 + 30 <= mt < 9 * 60:
-        korea["status"] = "pre"
-        korea["basis"] = "장전 시간외(30분 자동갱신)"
-    elif 9 * 60 <= mt <= 15 * 60 + 30:
-        korea["status"] = "open"
-        korea["basis"] = "장중 실시간(30분 자동갱신)"
-    elif 15 * 60 + 30 < mt <= 18 * 60:
-        korea["status"] = "post"
-        korea["basis"] = "장후 시간외(30분 자동갱신)"
-    else:
-        korea["status"] = "closed"
-        korea["basis"] = "전일 종가(장 마감)"
+    basis_by_session = {
+        "pre": "장전 NXT 프리마켓(08:00~09:00, 10분 자동갱신)",
+        "regular": "정규장 실시간(10분 자동갱신)",
+        "after": "장후 NXT 애프터마켓(15:30~20:00, 10분 자동갱신)",
+        "closed": "전일 종가(장 마감)",
+    }
+    status_by_session = {"pre": "pre", "regular": "open", "after": "post", "closed": "closed"}
+    korea["status"] = status_by_session.get(session_key, "closed")
+    korea["basis"] = basis_by_session.get(session_key, "")
+    korea["session"] = session_key
     korea["asof"] = now_iso
     feed["generated_at"] = now_iso
 
     FEED_PATH.write_text(
         json.dumps(feed, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"[intraday] {changed}개 종목 시세 갱신 @ {now_iso} (소스 {src_log})")
+    print(f"[intraday] {changed}개 종목 시세 갱신 @ {now_iso} "
+          f"[{session_label}] (소스 {src_log})")
     return 0
 
 

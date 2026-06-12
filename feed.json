@@ -1,14 +1,15 @@
 {
   "schema_version": "1.0",
   "date": "2026-06-12",
-  "generated_at": "2026-06-12T21:58:00+09:00",
+  "generated_at": "2026-06-12T22:34:00+09:00",
   "horizon_hours": 48,
-  "data_source": "KIS OpenAPI(한국투자증권) + 네이버 증권 확정종가 교차검증(괴리 0.0%). 파생지표(ATR/MA)는 yfinance 일봉.",
+  "data_source": "KIS OpenAPI(한국투자증권) + 네이버 증권 확정종가 교차검증(괴리 0.0%). 파생지표(ATR/MA)는 yfinance 일봉. 시간외(NXT) 연장 시세 KIS NX 추가.",
   "market_state": {
     "korea": {
       "status": "closed",
-      "basis": "6/12(금) 확정종가, 다음 거래일 6/15(월)",
-      "asof": "2026-06-12T15:30:00+09:00"
+      "basis": "전일 종가(장 마감)",
+      "asof": "2026-06-12T22:34:00+09:00",
+      "session": "closed"
     },
     "us": {
       "status": "closed",
@@ -31,7 +32,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 1078000.0,
+      "price": 1092000.0,
       "currency": "KRW",
       "entry": 1105000.0,
       "entry_type": "breakout",
@@ -55,7 +56,17 @@
         "돌파대기",
         "기술주도",
         "합의2"
-      ]
+      ],
+      "ext": {
+        "venue": "NXT",
+        "label": "마감(NXT)",
+        "session": "closed",
+        "price": 1092000.0,
+        "asof": "2026-06-12T22:34:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 1078000.0,
+        "delta_pct": 1.3
+      }
     },
     {
       "rank": 2,
@@ -64,7 +75,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 322500.0,
+      "price": 324500.0,
       "currency": "KRW",
       "entry": 339000.0,
       "entry_type": "breakout",
@@ -89,7 +100,17 @@
         "분배캔들주의",
         "돌파확인",
         "합의1"
-      ]
+      ],
+      "ext": {
+        "venue": "NXT",
+        "label": "마감(NXT)",
+        "session": "closed",
+        "price": 324500.0,
+        "asof": "2026-06-12T22:34:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 322500.0,
+        "delta_pct": 0.62
+      }
     },
     {
       "rank": 3,
@@ -98,7 +119,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 247000.0,
+      "price": 242500.0,
       "currency": "KRW",
       "entry": 238000.0,
       "entry_type": "pullback",
@@ -123,7 +144,17 @@
         "눌림분할",
         "추격금지",
         "합의2"
-      ]
+      ],
+      "ext": {
+        "venue": "NXT",
+        "label": "마감(NXT)",
+        "session": "closed",
+        "price": 242500.0,
+        "asof": "2026-06-12T22:34:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 247000.0,
+        "delta_pct": -1.82
+      }
     }
   ],
   "observations": [
@@ -131,37 +162,77 @@
       "name": "SK하이닉스",
       "code": "000660",
       "market": "KR",
-      "price": 2150000.0,
+      "price": 2162000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "reason": "보류(관망) — 최악의 당일 캔들 — 시가 2,281k·고가 2,304k에서 종가 2,150k가 정확히 당일 저가(closePos 0%, 윗꼬리 100%). 강한 분배/실망 매물. catalyst mid(노무라 목표 400만)지만 6/12 음봉. 2,304,000 회복 돌파 전 진입 금지. 반도체 과집중 회피 차원에서도 삼성 신호와 양자택일."
+      "reason": "보류(관망) — 최악의 당일 캔들 — 시가 2,281k·고가 2,304k에서 종가 2,150k가 정확히 당일 저가(closePos 0%, 윗꼬리 100%). 강한 분배/실망 매물. catalyst mid(노무라 목표 400만)지만 6/12 음봉. 2,304,000 회복 돌파 전 진입 금지. 반도체 과집중 회피 차원에서도 삼성 신호와 양자택일.",
+      "ext": {
+        "venue": "NXT",
+        "label": "마감(NXT)",
+        "session": "closed",
+        "price": 2162000.0,
+        "asof": "2026-06-12T22:34:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 2150000.0,
+        "delta_pct": 0.56
+      }
     },
     {
       "name": "두산에너빌리티",
       "code": "034020",
       "market": "KR",
-      "price": 93100.0,
+      "price": 94700.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "reason": "관망(돌파확인) — 원전·SMR·가스터빈 수주 모멘텀(catalyst mid)이나 48h 임박 D-day 부재. 기술 tech_score 48 역배열(MA20 102.6k 아래), 거래량 0.92x로 확신 부족. 95,000 돌파+거래량 동반 시에만 재평가."
+      "reason": "관망(돌파확인) — 원전·SMR·가스터빈 수주 모멘텀(catalyst mid)이나 48h 임박 D-day 부재. 기술 tech_score 48 역배열(MA20 102.6k 아래), 거래량 0.92x로 확신 부족. 95,000 돌파+거래량 동반 시에만 재평가.",
+      "ext": {
+        "venue": "NXT",
+        "label": "마감(NXT)",
+        "session": "closed",
+        "price": 94700.0,
+        "asof": "2026-06-12T22:34:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 93100.0,
+        "delta_pct": 1.72
+      }
     },
     {
       "name": "LG에너지솔루션",
       "code": "373220",
       "market": "KR",
-      "price": 400000.0,
+      "price": 401000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "reason": "관망(수급빈약) — ESS/AI데이터센터 구조적 테마(catalyst weak/unverified, 48h 촉매 미확인). 기술 tech_score 33, 거래량 0.77x 7종 최저, 역배열(MA20 411k 아래). 414,000 회복 돌파+거래량 전 관망."
+      "reason": "관망(수급빈약) — ESS/AI데이터센터 구조적 테마(catalyst weak/unverified, 48h 촉매 미확인). 기술 tech_score 33, 거래량 0.77x 7종 최저, 역배열(MA20 411k 아래). 414,000 회복 돌파+거래량 전 관망.",
+      "ext": {
+        "venue": "NXT",
+        "label": "마감(NXT)",
+        "session": "closed",
+        "price": 401000.0,
+        "asof": "2026-06-12T22:34:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 400000.0,
+        "delta_pct": 0.25
+      }
     },
     {
       "name": "현대자동차",
       "code": "005380",
       "market": "KR",
-      "price": 607000.0,
+      "price": 615000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "reason": "회피 — 촉매 부재 + 6/29 배당락 임박(부정 이벤트). 기술 tech_score 25 7종 최약 — 종가 일중 8%(윗꼬리 92%) 분배, 역배열(MA5·MA20 모두 하회), 거래량 0.87x. 48h 매수 부적합."
+      "reason": "회피 — 촉매 부재 + 6/29 배당락 임박(부정 이벤트). 기술 tech_score 25 7종 최약 — 종가 일중 8%(윗꼬리 92%) 분배, 역배열(MA5·MA20 모두 하회), 거래량 0.87x. 48h 매수 부적합.",
+      "ext": {
+        "venue": "NXT",
+        "label": "마감(NXT)",
+        "session": "closed",
+        "price": 615000.0,
+        "asof": "2026-06-12T22:34:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 607000.0,
+        "delta_pct": 1.32
+      }
     }
   ],
   "positions": [],
