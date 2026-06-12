@@ -9,7 +9,8 @@
       "KOSPI",
       "KOSDAQ"
     ],
-    "hold_cap_hours": 48
+    "hold_cap_hours": 48,
+    "morning_time_kst": "07:00"
   },
   "robot": {
     "interval_min": 10,
@@ -63,5 +64,6 @@
       "market": "KR"
     }
   ],
-  "run_requested_at": "2026-06-13T03:39:30+09:00"
+  "run_requested_at": "2026-06-13T03:39:30+09:00",
+  "_comment": "분석 설정. 앱(분석 설정 화면) 또는 PC가 수정. engine.morning_time_kst는 아침 자동분석 시각(표시용·routine cron과 동기 유지)."
 }
