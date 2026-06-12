@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0",
-  "date": "2026-06-12",
-  "generated_at": "2026-06-12T23:26:00+09:00",
+  "date": "2026-06-13",
+  "generated_at": "2026-06-13T03:41:00+09:00",
   "horizon_hours": 48,
-  "data_source": "KIS OpenAPI(한국투자증권) + 네이버 증권 확정종가 교차검증(괴리 0.0%). 파생지표(ATR/MA)는 yfinance 일봉. 시간외(NXT) 연장 시세 KIS NX 추가.",
+  "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표). 뉴스/촉매 미반영.",
   "market_state": {
     "korea": {
       "status": "closed",
@@ -18,15 +18,79 @@
     }
   },
   "summary": {
-    "signal_count": 3,
+    "signal_count": 5,
     "observation_count": 4,
     "position_count": 0,
-    "top_signal": "한화에어로스페이스",
-    "headline": "반도체(삼성전자 HBM4 세계최초 양산)·AI(네이버 NVIDIA 협력)·방산(한화에어로) 강세장이나 VKOSPI 91 사상최대 극단변동성. 7종 중 5종이 윗꼬리 분배형 캔들 — 즉시진입 0개, 전 신호 조건부(돌파/눌림 확인). 확신 낮아 한화 1종부터 시작 권장."
+    "top_signal": "네이버",
+    "headline": "기술 분석 갱신(06-13 03:41 KST) — 차트·거래량·변동성 기준 5개 신호. 뉴스 미반영이니 진입 전 재료 확인."
   },
   "signals": [
     {
       "rank": 1,
+      "name": "네이버",
+      "code": "035420",
+      "market": "KR",
+      "direction": "long",
+      "confidence": "mid",
+      "price": 242500.0,
+      "currency": "KRW",
+      "entry": 242500.0,
+      "entry_type": "now",
+      "entry_note": "기술 점수 상위·돌파 상회. 현재가(242,500) 부근 즉시 진입 가능, 거래량 확인.",
+      "stop": 218500,
+      "target1": 290500,
+      "target2": 314500,
+      "rr": 2.0,
+      "atr_pct": 12.37,
+      "hold_cap_hours": 48,
+      "weight_pct": 5,
+      "catalyst_verified": false,
+      "change_pct": 8.26,
+      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), RSI 61.0(상승), 변동성 돌파 상회. ATR 12.37%·5일모멘텀 -3.33%.",
+      "risk_notes": [
+        "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
+        "ATR 12.37% 변동성 — 손절폭·비중 유의."
+      ],
+      "tags": [
+        "기술분석",
+        "온디맨드",
+        "즉시진입"
+      ]
+    },
+    {
+      "rank": 2,
+      "name": "한전기술",
+      "code": "052690",
+      "market": "KR",
+      "direction": "long",
+      "confidence": "mid",
+      "price": 151300.0,
+      "currency": "KRW",
+      "entry": 151300.0,
+      "entry_type": "now",
+      "entry_note": "기술 점수 상위·돌파 상회. 현재가(151,300) 부근 즉시 진입 가능, 거래량 확인.",
+      "stop": 135500,
+      "target1": 182900,
+      "target2": 198700,
+      "rr": 2.0,
+      "atr_pct": 6.97,
+      "hold_cap_hours": 48,
+      "weight_pct": 6,
+      "catalyst_verified": false,
+      "change_pct": null,
+      "evidence": "기술 분석(뉴스 미확인) — 거래량 급증 1.75x, 강세 마감(종가위치 100.0%), RSI 55.2(상승), 변동성 돌파 상회. ATR 6.97%·5일모멘텀 18.85%.",
+      "risk_notes": [
+        "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
+        "ATR 6.97% 변동성 — 손절폭·비중 유의."
+      ],
+      "tags": [
+        "기술분석",
+        "온디맨드",
+        "즉시진입"
+      ]
+    },
+    {
+      "rank": 3,
       "name": "한화에어로스페이스",
       "code": "012450",
       "market": "KR",
@@ -34,153 +98,95 @@
       "confidence": "mid",
       "price": 1092000.0,
       "currency": "KRW",
-      "entry": 1105000.0,
-      "entry_type": "breakout",
-      "entry_note": "당일 고가 1,105,000 돌파 + 거래량 동반 확인 후 진입(돌파 실패 시 미진입). 추격금지.",
-      "stop": 1060000,
-      "target1": 1178000,
-      "target2": 1221000,
-      "rr": 1.61,
+      "entry": 1092000.0,
+      "entry_type": "now",
+      "entry_note": "기술 점수 상위·돌파 상회. 현재가(1,092,000) 부근 즉시 진입 가능, 거래량 확인.",
+      "stop": 983000,
+      "target1": 1310000,
+      "target2": 1419000,
+      "rr": 2.0,
       "atr_pct": 6.74,
       "hold_cap_hours": 48,
-      "weight_pct": 7,
+      "weight_pct": 6,
       "catalyst_verified": false,
-      "evidence": "방산 수주잔고 38조·하반기 실적 집중 모멘텀(하나증권 목표가 186만, 6/4). 단 48h 내 특정 신규 공시 D-day는 미확인(낙폭과대 기술 반등 성격). | technical-scout tech_score 62(7종 1위): 종가가 일중 65% 고가권 마감(윗꼬리 35%) — watchlist 중 유일하게 분배 회피, MA5(1,029k) 위 정배열. quotes 실측 close 1,078,000 / day_high 1,105,000 / ATR 6.74%. 스카우트 합의(촉매 weak+기술 1위) → 기술 주도 신호.",
+      "change_pct": 7.69,
+      "evidence": "기술 분석(뉴스 미확인) — 강세 마감(종가위치 64.9%), 변동성 돌파 상회. ATR 6.74%·5일모멘텀 2.76%.",
       "risk_notes": [
-        "MA20(1,156,550) 아래라 중기 회복 미완. 촉매 unverified(분기 단위)라 돌파 미발생 시 진입 보류. ATR 절댓값 큼(72.6k) → 비중 절제."
+        "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
+        "ATR 6.74% 변동성 — 손절폭·비중 유의."
       ],
       "tags": [
-        "방산",
-        "정배열",
-        "고가권마감",
-        "돌파대기",
-        "기술주도",
-        "합의2"
-      ],
-      "ext": {
-        "venue": "NXT",
-        "label": "마감(NXT)",
-        "session": "closed",
-        "price": 1092000.0,
-        "asof": "2026-06-12T23:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 1078000.0,
-        "delta_pct": 1.3
-      },
-      "change_pct": 7.69
+        "기술분석",
+        "온디맨드",
+        "즉시진입"
+      ]
     },
     {
-      "rank": 2,
+      "rank": 4,
+      "name": "SK하이닉스",
+      "code": "000660",
+      "market": "KR",
+      "direction": "long",
+      "confidence": "low",
+      "price": 2162000.0,
+      "currency": "KRW",
+      "entry": 2382000.0,
+      "entry_type": "breakout",
+      "entry_note": "2,382,000 돌파 + 거래량 동반 시 진입(미돌파 시 미진입). 추격금지.",
+      "stop": 2117000,
+      "target1": 2912000,
+      "target2": 3177000,
+      "rr": 2.0,
+      "atr_pct": 8.22,
+      "hold_cap_hours": 48,
+      "weight_pct": 6,
+      "catalyst_verified": false,
+      "change_pct": 2.9,
+      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 윗꼬리/분배(종가위치 0.0%), RSI 57.3(상승). ATR 8.22%·5일모멘텀 3.86%.",
+      "risk_notes": [
+        "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
+        "ATR 8.22% 변동성 — 손절폭·비중 유의."
+      ],
+      "tags": [
+        "기술분석",
+        "온디맨드",
+        "돌파대기"
+      ]
+    },
+    {
+      "rank": 5,
       "name": "삼성전자",
       "code": "005930",
       "market": "KR",
       "direction": "long",
-      "confidence": "mid",
+      "confidence": "low",
       "price": 324500.0,
       "currency": "KRW",
       "entry": 339000.0,
       "entry_type": "breakout",
-      "entry_note": "당일 고가 339,000 회복 돌파 확인 후에만 진입. 분배캔들(윗꼬리 87%)이라 즉시진입 금지 — 월요일 갭다운/추가조정 시 미진입.",
-      "stop": 320000,
-      "target1": 378000,
-      "target2": 400000,
-      "rr": 2.06,
+      "entry_note": "339,000 돌파 + 거래량 동반 시 진입(미돌파 시 미진입). 추격금지.",
+      "stop": 302500,
+      "target1": 412000,
+      "target2": 448500,
+      "rr": 2.0,
       "atr_pct": 7.57,
       "hold_cap_hours": 48,
       "weight_pct": 6,
-      "catalyst_verified": true,
-      "evidence": "6/12 HBM4 세계 최초 양산 출하 발표(일정 1주 앞당김). 다수 증권사 목표가 대폭 상향(37만→57만, 노무라 59만). 1Q 영업익 57조 사상최대. AI 반도체 테마 대장. 모멘텀 48h 지속 가능. | catalyst strong+verified. 단 technical-scout tech_score 40(weak/관망): 시가 326k·고가 339k 후 종가 322.5k(일중 13% 위치, 윗꼬리 87%) 전형적 일중 분배. quotes 실측 close 322,500 / day_high 339,000 / ATR 7.57%. → 촉매는 강하나 추격 부적합 → 돌파확인 조건부.",
+      "catalyst_verified": false,
+      "change_pct": 8.53,
+      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 윗꼬리/분배(종가위치 13.2%), RSI 55.0(상승). ATR 7.57%·5일모멘텀 -1.98%.",
       "risk_notes": [
-        "분배캔들로 월요일 약세출발 위험. 반도체(삼성·SK) 동시진입 금지 — 본 신호 채택 시 SK하이닉스 동반 진입 회피. 339k 미회복 시 신호 무효."
+        "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
+        "ATR 7.57% 변동성 — 손절폭·비중 유의."
       ],
       "tags": [
-        "HBM4",
-        "AI반도체",
-        "실적서프라이즈",
-        "목표가상향",
-        "분배캔들주의",
-        "돌파확인",
-        "합의1"
-      ],
-      "ext": {
-        "venue": "NXT",
-        "label": "마감(NXT)",
-        "session": "closed",
-        "price": 324500.0,
-        "asof": "2026-06-12T23:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 322500.0,
-        "delta_pct": 0.62
-      },
-      "change_pct": 8.53
-    },
-    {
-      "rank": 3,
-      "name": "네이버",
-      "code": "035420",
-      "market": "KR",
-      "direction": "long",
-      "confidence": "low",
-      "price": 242500.0,
-      "currency": "KRW",
-      "entry": 238000.0,
-      "entry_type": "pullback",
-      "entry_note": "231,000~240,000 눌림 지지 확인 후 소액 분할만. 추격금지(즉시·고가진입 금지). 재가속 추종은 263,000(당일고) 돌파 시 별도 판단.",
-      "stop": 230000,
-      "target1": 275000,
-      "target2": 299000,
-      "rr": 4.58,
-      "atr_pct": 12.37,
-      "hold_cap_hours": 48,
-      "weight_pct": 5,
-      "catalyst_verified": true,
-      "evidence": "NVIDIA NeoCLOUD 파트너십 기대(젠슨 황 방한)·하나증권 목표가 35만→40만 상향. AI 광고 수익화 3~4Q·두나무 편입 9월 가시화. 장중 +14% VI. | 스카우트 합의(촉매 strong+verified / 기술 tech_score 55, 7종 중 거래량 1.47x 최고 활성, 종가 일중 50%로 완전분배 아님). quotes 실측 close 247,000 / day_low 231,000 / ATR 12.37%. RR은 높으나 손절폭이 ATR 과대에서 비롯 → 비중·확신 보수화.",
-      "risk_notes": [
-        "ATR 12.37% 극단 변동성 → 손절폭 과대, 비중 일괄 축소·분할 필수. 추격 진입 위험 큼. 눌림 미형성(갭상승 지속) 시 진입 보류가 정석."
-      ],
-      "tags": [
-        "NVIDIA협력",
-        "AI광고수익화",
-        "두나무편입",
-        "고변동성",
-        "눌림분할",
-        "추격금지",
-        "합의2"
-      ],
-      "ext": {
-        "venue": "NXT",
-        "label": "마감(NXT)",
-        "session": "closed",
-        "price": 242500.0,
-        "asof": "2026-06-12T23:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 247000.0,
-        "delta_pct": -1.82
-      },
-      "change_pct": 8.26
+        "기술분석",
+        "온디맨드",
+        "돌파대기"
+      ]
     }
   ],
   "observations": [
-    {
-      "name": "SK하이닉스",
-      "code": "000660",
-      "market": "KR",
-      "price": 2162000.0,
-      "currency": "KRW",
-      "watch_trigger": null,
-      "reason": "보류(관망) — 최악의 당일 캔들 — 시가 2,281k·고가 2,304k에서 종가 2,150k가 정확히 당일 저가(closePos 0%, 윗꼬리 100%). 강한 분배/실망 매물. catalyst mid(노무라 목표 400만)지만 6/12 음봉. 2,304,000 회복 돌파 전 진입 금지. 반도체 과집중 회피 차원에서도 삼성 신호와 양자택일.",
-      "ext": {
-        "venue": "NXT",
-        "label": "마감(NXT)",
-        "session": "closed",
-        "price": 2162000.0,
-        "asof": "2026-06-12T23:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 2150000.0,
-        "delta_pct": 0.56
-      },
-      "change_pct": 2.9
-    },
     {
       "name": "두산에너빌리티",
       "code": "034020",
@@ -188,18 +194,8 @@
       "price": 94700.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "reason": "관망(돌파확인) — 원전·SMR·가스터빈 수주 모멘텀(catalyst mid)이나 48h 임박 D-day 부재. 기술 tech_score 48 역배열(MA20 102.6k 아래), 거래량 0.92x로 확신 부족. 95,000 돌파+거래량 동반 시에만 재평가.",
-      "ext": {
-        "venue": "NXT",
-        "label": "마감(NXT)",
-        "session": "closed",
-        "price": 94700.0,
-        "asof": "2026-06-12T23:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 93100.0,
-        "delta_pct": 1.72
-      },
-      "change_pct": 6.88
+      "change_pct": 6.88,
+      "reason": "기술 점수 46/100 — 조건 미충족(관망). 뚜렷한 강세 신호 부족. ATR 7.47%."
     },
     {
       "name": "LG에너지솔루션",
@@ -208,18 +204,8 @@
       "price": 401000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "reason": "관망(수급빈약) — ESS/AI데이터센터 구조적 테마(catalyst weak/unverified, 48h 촉매 미확인). 기술 tech_score 33, 거래량 0.77x 7종 최저, 역배열(MA20 411k 아래). 414,000 회복 돌파+거래량 전 관망.",
-      "ext": {
-        "venue": "NXT",
-        "label": "마감(NXT)",
-        "session": "closed",
-        "price": 401000.0,
-        "asof": "2026-06-12T23:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 400000.0,
-        "delta_pct": 0.25
-      },
-      "change_pct": 4.29
+      "change_pct": 4.29,
+      "reason": "기술 점수 42/100 — 조건 미충족(관망). 뚜렷한 강세 신호 부족. ATR 8.01%."
     },
     {
       "name": "현대자동차",
@@ -228,16 +214,18 @@
       "price": 615000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "reason": "회피 — 촉매 부재 + 6/29 배당락 임박(부정 이벤트). 기술 tech_score 25 7종 최약 — 종가 일중 8%(윗꼬리 92%) 분배, 역배열(MA5·MA20 모두 하회), 거래량 0.87x. 48h 매수 부적합.",
-      "ext": {
-        "venue": "NXT",
-        "label": "마감(NXT)",
-        "session": "closed",
-        "price": 615000.0,
-        "asof": "2026-06-12T23:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비"
-      },
-      "change_pct": 3.02
+      "change_pct": 3.02,
+      "reason": "기술 점수 30/100 — 조건 미충족(관망). 윗꼬리/분배(종가위치 7.5%). ATR 8.68%."
+    },
+    {
+      "name": "LG전자",
+      "code": "066570",
+      "market": "KR",
+      "price": 228000.0,
+      "currency": "KRW",
+      "watch_trigger": null,
+      "change_pct": 0.88,
+      "reason": "기술 점수 30/100 — 조건 미충족(관망). 윗꼬리/분배(종가위치 10.2%). ATR 19.96%."
     }
   ],
   "positions": [],
@@ -254,14 +242,9 @@
     "tax_pct_us": 0.0
   },
   "risk_notes": [
-    "미국 야간(실측): SOX +1.50%·엔비디아 +0.38%·마이크론 +1.25% → 반도체(삼성전자·SK하이닉스) 우호적 — 미 반도체 강세 동조 기대.",
-    "VKOSPI 91 사상최대 — 극단 변동성·위험회피 국면. 총 진입 비중 보수적(3신호 합산 ≤18% 권고), 익절 타이트·48h 시간청산 엄수. 급등 후 차익실현 변동성 큼.",
-    "반도체 과집중 경고: 삼성전자·SK하이닉스 동시진입 금지. 본 신호셋은 삼성만 조건부 채택, SK는 보류 — 둘 다 진입 금지.",
-    "watchlist 7종 중 5종(삼성·SK·현대·LG엔솔·두산)이 6/12 큰 윗꼬리(분배형 캔들) — 월요일 갭다운/추가조정 리스크. 신규 진입은 '당일 고가 회복 돌파+거래량 동반' 확인 후로 한정.",
-    "전 신호 즉시(now) 진입 없음 — 한화/삼성=돌파확인, 네이버=눌림분할. 조건 미충족 시 미진입이 정석(억지 추천 금지).",
-    "네이버 ATR 12.37% 극단 변동성 → 비중 최소·분할 필수. 손절폭 과대 인지.",
-    "동시 보유 한도: 최대 3종, 동일 테마(AI반도체) 1종 초과 금지. 확신 낮으면 한화 1종만으로 시작 권장.",
-    "본 신호는 투자 참고용이며 매수·매도를 보장하지 않는다. 실주문은 사용자가 직접 판단·실행한다(자동주문 없음)."
+    "온디맨드 기술 분석 — 뉴스/촉매 미반영(catalyst_verified=false). 진입 전 재료·공시 직접 확인.",
+    "지표는 KIS 현재가 + yfinance 일봉 실측(날조 없음). 변동성 장세 보수적 대응.",
+    "본 신호는 투자 참고용이며 매수·매도를 보장하지 않는다. 실주문은 본인 판단·실행."
   ],
   "disclaimer": "본 산출물은 투자 참고용이며 매수·매도를 보장하지 않습니다. 실주문은 사용자가 증권사 앱에서 직접 판단·실행합니다(자동주문 없음). 수치 날조 없이 실측·발간 시점 기준이며, 시세 미확보 종목은 관망 처리합니다. 투자 손실에 대한 책임은 투자자 본인에게 있습니다.",
   "us_context": {
