@@ -295,9 +295,18 @@ def main():
     now_iso = now.replace(microsecond=0, second=0).isoformat()
     mt = now.hour * 60 + now.minute
     korea = feed.setdefault("market_state", {}).setdefault("korea", {})
-    is_open = 9 * 60 <= mt <= 15 * 60 + 30
-    korea["status"] = "open" if is_open else "closed"
-    korea["basis"] = "장중 실시간(30분 자동갱신)" if is_open else "전일 종가(장 마감)"
+    if 7 * 60 + 30 <= mt < 9 * 60:
+        korea["status"] = "pre"
+        korea["basis"] = "장전 시간외(30분 자동갱신)"
+    elif 9 * 60 <= mt <= 15 * 60 + 30:
+        korea["status"] = "open"
+        korea["basis"] = "장중 실시간(30분 자동갱신)"
+    elif 15 * 60 + 30 < mt <= 18 * 60:
+        korea["status"] = "post"
+        korea["basis"] = "장후 시간외(30분 자동갱신)"
+    else:
+        korea["status"] = "closed"
+        korea["basis"] = "전일 종가(장 마감)"
     korea["asof"] = now_iso
     feed["generated_at"] = now_iso
 
