@@ -11,7 +11,12 @@ on:
     - cron: "*/10 23 * * *"      # 08:00~08:50 KST (전일 UTC 23시)
     - cron: "*/10 0-10 * * *"    # 09:00~19:50 KST
     - cron: "0 11 * * *"         # 20:00 KST (마감 직전 1회)
-  workflow_dispatch: {}           # 수동 실행(테스트)
+  workflow_dispatch:              # 수동 실행(테스트)
+    inputs:
+      force:
+        description: "시간 가드 무시하고 강제 실행(주말·장외 테스트용)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -37,7 +42,7 @@ jobs:
         env:
           KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
           KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
-        run: python scripts/intraday_refresh.py
+        run: python scripts/intraday_refresh.py ${{ inputs.force && '--force' || '' }}
 
       - name: Commit & push if changed
         run: |
