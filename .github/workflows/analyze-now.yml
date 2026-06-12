@@ -1,0 +1,47 @@
+name: analyze-now
+
+# 폰(분석 설정 → 지금 분석) 또는 수동으로 호출하는 온디맨드 기술 분석.
+# 뉴스/촉매 없이 차트·거래량·변동성 지표만으로 관심종목(control.json)을 재분석해 feed.json 갱신.
+# LLM 미사용·무료. KIS 현재가 + yfinance 일봉 실측.
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: analyze-now
+  cancel-in-progress: false
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: pip install --quiet yfinance pandas tzdata
+
+      - name: Run technical analysis
+        env:
+          KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
+          KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
+        run: python scripts/analyze_technical.py
+
+      - name: Commit & push if changed
+        run: |
+          if [ -n "$(git status --porcelain feed.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add feed.json
+            git commit -m "analyze: 온디맨드 기술 분석 ($(TZ=Asia/Seoul date '+%m-%d %H:%M KST'))"
+            git push
+            echo "pushed"
+          else
+            echo "no change"
+          fi
