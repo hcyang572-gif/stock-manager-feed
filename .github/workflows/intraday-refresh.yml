@@ -29,7 +29,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install deps
-        run: pip install --quiet holidays
+        run: pip install --quiet holidays tzdata
 
       - name: Refresh quotes
         run: python scripts/intraday_refresh.py

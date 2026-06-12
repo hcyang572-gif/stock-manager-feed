@@ -24,10 +24,16 @@ FEED_PATH = Path(__file__).resolve().parent.parent / "feed.json"
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
 HOSTS = ["query1.finance.yahoo.com", "query2.finance.yahoo.com"]
+# 네이버 실시간 polling API — 국내 종목 현재가. Yahoo 와 달리 데이터센터(클라우드)
+# IP 를 차단하지 않아 GitHub Actions 에서 안정적이다(한국 종목 1차 소스).
+NAVER_POLL = "https://polling.finance.naver.com/api/realtime/domestic/stock/{code}"
 
 
-def _get_json(url):
-    req = urllib.request.Request(url, headers={"User-Agent": UA})
+def _get_json(url, headers=None):
+    h = {"User-Agent": UA}
+    if headers:
+        h.update(headers)
+    req = urllib.request.Request(url, headers=h)
     with urllib.request.urlopen(req, timeout=12) as r:
         return json.load(r)
 
@@ -84,8 +90,34 @@ def resolve_symbol(code, market):
     return fallback
 
 
-def fetch_price(symbol):
-    """현재가 조회. 실패 시 None."""
+def fetch_price_naver(code):
+    """네이버 polling API 로 국내 종목 현재가 조회. 실패 시 None.
+
+    응답: {"datas":[{"closePrice":"335,000", ...}]} — closePrice 는 장중엔 현재가,
+    장 마감 후엔 종가다(콤마 포함 문자열).
+    """
+    code = (code or "").strip()
+    if not code:
+        return None
+    try:
+        d = _get_json(NAVER_POLL.format(code=code),
+                      headers={"Referer": "https://m.stock.naver.com/"})
+    except Exception:
+        return None
+    datas = d.get("datas") or []
+    if not datas:
+        return None
+    raw = str(datas[0].get("closePrice", "")).replace(",", "").strip()
+    try:
+        return float(raw) if raw else None
+    except ValueError:
+        return None
+
+
+def fetch_price_yahoo(symbol):
+    """Yahoo chart API 로 현재가 조회. 실패 시 None(클라우드 IP 는 403 가능)."""
+    if not symbol:
+        return None
     for host in HOSTS:
         try:
             d = _get_json(
@@ -99,6 +131,26 @@ def fetch_price(symbol):
     return None
 
 
+def fetch_price(code, market):
+    """현재가 조회 → (price, source). 한국=네이버 1차·Yahoo 백업, 그 외=Yahoo.
+
+    네이버는 클라우드 IP 차단이 없어 GitHub Actions 에서 안정적이다. 네이버가
+    실패할 때만 Yahoo 로 폴백한다(symbol 해석 비용은 그때만 발생).
+    """
+    market = (market or "KR").upper()
+    if market == "KR":
+        p = fetch_price_naver(code)
+        if p is not None:
+            return p, "naver"
+        sym = resolve_symbol(code, market)
+        p = fetch_price_yahoo(sym) if sym else None
+        return (p, "yahoo") if p is not None else (None, None)
+    # 미국 등: Yahoo 단독
+    sym = resolve_symbol(code, market)
+    p = fetch_price_yahoo(sym) if sym else None
+    return (p, "yahoo") if p is not None else (None, None)
+
+
 def main():
     force = "--force" in sys.argv[1:]
     now = datetime.datetime.now(KST)
@@ -109,7 +161,9 @@ def main():
 
     feed = json.loads(FEED_PATH.read_text(encoding="utf-8"))
     changed = 0
-    seen = {}  # code+market → price 캐시(중복 종목 1회만 조회)
+    src_count = {}  # source → 조회 성공 건수(로그용)
+    miss = []       # 시세 미확보 종목(로그용)
+    seen = {}       # code+market → price 캐시(중복 종목 1회만 조회)
     for section in ("signals", "observations"):
         for item in feed.get(section, []):
             code = item.get("code", "")
@@ -118,17 +172,24 @@ def main():
             if key in seen:
                 price = seen[key]
             else:
-                sym = resolve_symbol(code, market)
-                price = fetch_price(sym) if sym else None
+                price, source = fetch_price(code, market)
                 seen[key] = price
+                if price is not None:
+                    src_count[source] = src_count.get(source, 0) + 1
+                else:
+                    miss.append(item.get("name", code))
             if price is None:
                 continue
             if item.get("price") != price:
                 item["price"] = price
                 changed += 1
 
+    src_log = " ".join(f"{s}:{n}" for s, n in src_count.items()) or "없음"
+    if miss:
+        print(f"[intraday] 시세 미확보: {', '.join(miss)}")
     if changed == 0:
-        print(f"[intraday] 변경 없음 @ {now.isoformat()} (force={force})")
+        print(f"[intraday] 변경 없음 @ {now.isoformat()} "
+              f"(force={force}, 소스 {src_log})")
         return 0
 
     # 변경 있을 때만 시각·시장상태 갱신.
@@ -142,7 +203,7 @@ def main():
 
     FEED_PATH.write_text(
         json.dumps(feed, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"[intraday] {changed}개 종목 시세 갱신 @ {now_iso}")
+    print(f"[intraday] {changed}개 종목 시세 갱신 @ {now_iso} (소스 {src_log})")
     return 0
 
 
