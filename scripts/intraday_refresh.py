@@ -131,10 +131,14 @@ def fetch_price_kis(code, cfg, token, mrkt="J"):
     try:
         with urllib.request.urlopen(req, timeout=10) as r:
             data = json.load(r)
-        price_str = data.get("output", {}).get("stck_prpr", "").replace(",", "")
-        return float(price_str) if price_str else None
+        o = data.get("output", {})
+        price_str = str(o.get("stck_prpr", "")).replace(",", "")
+        chg_str = str(o.get("prdy_ctrt", "")).replace(",", "")  # 전일대비 등락률(%)
+        price = float(price_str) if price_str else None
+        chg = float(chg_str) if chg_str not in ("", "None") else None
+        return price, chg
     except Exception:
-        return None
+        return None, None
 
 
 # 한국 대표 지수(KIS 업종지수 inquire-index-price, MRKT=U).
@@ -296,17 +300,17 @@ def _ensure_kis():
 
 
 def fetch_quote(code, market, session_key, session_label, now_iso):
-    """현재가 조회 → (price, source, ext).
+    """현재가 조회 → (price, source, ext, change_pct).
     KR: KIS 통합(UN)=현재가 + 정규장(J)=기준종가로 ext 생성 → 네이버/야후 백업(ext 없음).
     미국 등: Yahoo 단독(ext 없음).
-    ext 는 NXT 연장 시세 정보 dict(없으면 None).
+    ext 는 NXT 연장 시세 정보 dict(없으면 None). change_pct 는 전일대비 등락률(없으면 None).
     """
     market = (market or "KR").upper()
     if market == "KR":
         cfg, token = _ensure_kis()
         if cfg and token:
-            un = fetch_price_kis(code, cfg, token, "UN")   # 통합(KRX+NXT) 현재가
-            reg = fetch_price_kis(code, cfg, token, "J")   # 정규장 종가(기준)
+            un, un_chg = fetch_price_kis(code, cfg, token, "UN")  # 통합(KRX+NXT) 현재가·등락률
+            reg, _ = fetch_price_kis(code, cfg, token, "J")       # 정규장 종가(기준)
             if un is not None:
                 ext = {
                     "venue": "NXT",
@@ -319,19 +323,19 @@ def fetch_quote(code, market, session_key, session_label, now_iso):
                 if reg:
                     ext["ref_close"] = float(reg)
                     ext["delta_pct"] = round((un - reg) / reg * 100, 2)
-                return float(un), "kis-nxt", ext
+                return float(un), "kis-nxt", ext, un_chg
         # 네이버 2차(정규장 현재가, ext 없음)
         p = fetch_price_naver(code)
         if p is not None:
-            return p, "naver", None
+            return p, "naver", None, None
         # Yahoo 백업
         sym = resolve_symbol(code, market)
         p = fetch_price_yahoo(sym) if sym else None
-        return (p, "yahoo", None) if p is not None else (None, None, None)
+        return (p, "yahoo", None, None) if p is not None else (None, None, None, None)
     # 미국 등: Yahoo 단독
     sym = resolve_symbol(code, market)
     p = fetch_price_yahoo(sym) if sym else None
-    return (p, "yahoo", None) if p is not None else (None, None, None)
+    return (p, "yahoo", None, None) if p is not None else (None, None, None, None)
 
 
 def main():
@@ -349,18 +353,18 @@ def main():
     changed = 0
     src_count = {}  # source → 조회 성공 건수(로그용)
     miss = []       # 시세 미확보 종목(로그용)
-    seen = {}       # code+market → (price, ext) 캐시(중복 종목 1회만 조회)
+    seen = {}       # code+market → (price, ext, change_pct) 캐시(중복 종목 1회만 조회)
     for section in ("signals", "observations"):
         for item in feed.get(section, []):
             code = item.get("code", "")
             market = item.get("market", "KR")
             key = f"{market}:{code}"
             if key in seen:
-                price, ext = seen[key]
+                price, ext, chg = seen[key]
             else:
-                price, source, ext = fetch_quote(
+                price, source, ext, chg = fetch_quote(
                     code, market, session_key, session_label, now_iso)
-                seen[key] = (price, ext)
+                seen[key] = (price, ext, chg)
                 if price is not None:
                     src_count[source] = src_count.get(source, 0) + 1
                 else:
@@ -372,6 +376,8 @@ def main():
             item["price"] = price
             if ext is not None:
                 item["ext"] = ext
+            if chg is not None:
+                item["change_pct"] = round(chg, 2)
 
     # 한국 지수(코스피·코스닥·코스피200) 갱신 — 장중/장외 동안 실시간.
     cfg, token = _ensure_kis()
