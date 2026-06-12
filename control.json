@@ -1,10 +1,12 @@
 {
-  "version": 1,
-  "updated_at": "2026-06-13T02:33:51+09:00",
-  "updated_by": "app",
+  "_comment": "분석 설정. 앱(분석 설정 화면) 또는 PC가 이 파일을 수정하면, 아침 분석(오케스트레이터)과 장중 시세로봇(intraday_refresh.py)이 이 값을 읽어 동작한다.",
+  "version": 2,
+  "updated_at": "2026-06-13T02:40:00+09:00",
+  "updated_by": "system",
   "engine": {
-    "discovery_enabled": true,
-    "full_market_discovery": false,
+    "analysis_enabled": true,
+    "analysis_scope": "watchlist",
+    "market_targets": ["KOSPI", "KOSDAQ"],
     "hold_cap_hours": 48
   },
   "robot": {
@@ -13,40 +15,12 @@
     "window_end": "20:00"
   },
   "watchlist": [
-    {
-      "code": "000660",
-      "name": "SK하이닉스",
-      "market": "KR"
-    },
-    {
-      "code": "005930",
-      "name": "삼성전자",
-      "market": "KR"
-    },
-    {
-      "code": "005380",
-      "name": "현대자동차",
-      "market": "KR"
-    },
-    {
-      "code": "035420",
-      "name": "네이버",
-      "market": "KR"
-    },
-    {
-      "code": "373220",
-      "name": "LG에너지솔루션",
-      "market": "KR"
-    },
-    {
-      "code": "012450",
-      "name": "한화에어로스페이스",
-      "market": "KR"
-    },
-    {
-      "code": "034020",
-      "name": "두산에너빌리티",
-      "market": "KR"
-    }
+    { "code": "000660", "name": "SK하이닉스", "market": "KR" },
+    { "code": "005930", "name": "삼성전자", "market": "KR" },
+    { "code": "005380", "name": "현대자동차", "market": "KR" },
+    { "code": "035420", "name": "네이버", "market": "KR" },
+    { "code": "373220", "name": "LG에너지솔루션", "market": "KR" },
+    { "code": "012450", "name": "한화에어로스페이스", "market": "KR" },
+    { "code": "034020", "name": "두산에너빌리티", "market": "KR" }
   ]
 }
