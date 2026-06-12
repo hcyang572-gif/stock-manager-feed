@@ -30,6 +30,7 @@ KIS_CALL_GAP = 0.25
 KST = ZoneInfo("Asia/Seoul")
 REPO_ROOT = Path(__file__).resolve().parent.parent
 FEED_PATH = REPO_ROOT / "feed.json"
+CONTROL_PATH = REPO_ROOT / "control.json"
 KIS_CONFIG_PATH = REPO_ROOT / "config" / "kis_config.json"
 KIS_TOKEN_PATH = REPO_ROOT / "config" / ".kis_token.json"
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -39,10 +40,39 @@ NAVER_POLL = "https://polling.finance.naver.com/api/realtime/domestic/stock/{cod
 KIS_BASE = "https://openapi.koreainvestment.com:9443"
 
 # NXT 연장거래 운영시간(KST, 분 단위). 프리 08:00~09:00 / 정규 09:00~15:30 / 애프터 15:30~20:00.
+# 기본값 — control.json(robot.window_start/end·interval_min)이 있으면 그 값으로 덮어쓴다.
 WINDOW_OPEN = 8 * 60          # 08:00
 WINDOW_CLOSE = 20 * 60        # 20:00
 REGULAR_OPEN = 9 * 60         # 09:00
 REGULAR_CLOSE = 15 * 60 + 30  # 15:30
+INTERVAL_MIN = 10             # 갱신 간격(분) — 이 배수의 분에만 동작
+
+
+def _hhmm_to_min(s, default):
+    """'HH:MM' → 분. 실패 시 default."""
+    try:
+        h, m = str(s).split(":")
+        return int(h) * 60 + int(m)
+    except Exception:
+        return default
+
+
+def load_control():
+    """control.json(앱·PC가 설정) 로드 → 로봇 운영값 반영. 없으면 기본값.
+    반환: (window_open, window_close, interval_min)."""
+    wo, wc, iv = WINDOW_OPEN, WINDOW_CLOSE, INTERVAL_MIN
+    try:
+        if CONTROL_PATH.exists():
+            c = json.loads(CONTROL_PATH.read_text(encoding="utf-8-sig"))
+            r = c.get("robot", {}) or {}
+            wo = _hhmm_to_min(r.get("window_start"), WINDOW_OPEN)
+            wc = _hhmm_to_min(r.get("window_end"), WINDOW_CLOSE)
+            iv = int(r.get("interval_min", INTERVAL_MIN) or INTERVAL_MIN)
+            if iv < 1:
+                iv = INTERVAL_MIN
+    except Exception as e:
+        print(f"[control] 읽기 실패, 기본값 사용: {e}")
+    return wo, wc, iv
 
 
 def session_of(now_kst):
@@ -339,8 +369,17 @@ def fetch_quote(code, market, session_key, session_label, now_iso):
 
 
 def main():
+    global WINDOW_OPEN, WINDOW_CLOSE
     force = "--force" in sys.argv[1:]
     now = datetime.datetime.now(KST)
+
+    # control.json(앱·PC 설정) 반영 — 운영창·갱신간격.
+    WINDOW_OPEN, WINDOW_CLOSE, interval_min = load_control()
+    # 갱신 간격: cron 은 10분마다 깨우지만, interval_min 배수 분에만 실제 동작.
+    if not force and (now.hour * 60 + now.minute) % interval_min != 0:
+        print(f"[intraday] skip (off-interval {interval_min}m) @ {now.isoformat()}")
+        return 0
+
     ok, reason = is_trading_now(now)
     if not ok and not force:
         print(f"[intraday] skip ({reason}) @ {now.isoformat()}")
