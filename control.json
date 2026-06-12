@@ -1,12 +1,11 @@
 {
-  "_comment": "신호엔진 운영 설정. 앱(설정 화면) 또는 PC가 이 파일을 수정하면, 아침 풀발굴(오케스트레이터)과 장중 시세로봇(intraday_refresh.py)이 이 값을 읽어 동작한다. 수치 외 의미는 README 참조.",
   "version": 1,
-  "updated_at": "2026-06-13T02:03:00+09:00",
-  "updated_by": "token-verify",
+  "updated_at": "2026-06-13T02:24:29+09:00",
+  "updated_by": "app",
   "engine": {
     "discovery_enabled": true,
     "full_market_discovery": false,
-    "hold_cap_hours": 48
+    "hold_cap_hours": 60
   },
   "robot": {
     "interval_min": 10,
