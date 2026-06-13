@@ -270,8 +270,18 @@ def main():
     if not watchlist:
         print("[analyze] watchlist 비어있음 — 중단")
         return 0
+    # KIS 현재가는 '있으면 더 정확' 한 보조값일 뿐 — 토큰 발급/조회가 실패해도
+    # 절대 중단하지 않고 yfinance(일봉 종가·지표)로 폴백한다. KIS 는 토큰 발급을
+    # 1분당 1회로 제한(EGW00133)하므로, 버튼 연타 등으로 실패하면 token=None 으로
+    # 둬서 yfinance 만으로 분석을 계속한다(로컬·키 없을 때와 동일 경로).
     cfg = _kis_cfg()
-    token = _kis_token(cfg) if cfg else None
+    token = None
+    if cfg:
+        try:
+            token = _kis_token(cfg)
+        except Exception as ex:
+            print(f"[analyze] KIS 토큰 실패 — yfinance 일봉으로 폴백: {ex}")
+            token = None
 
     cand = []  # (item, price, change, ind, score)
     for item in watchlist:
