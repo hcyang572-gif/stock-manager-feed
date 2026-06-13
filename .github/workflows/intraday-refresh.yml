@@ -38,6 +38,19 @@ jobs:
       - name: Install deps
         run: pip install --quiet holidays tzdata
 
+      # KIS 접근 토큰은 24h 유효 — '1일 1회 발급' 원칙 준수를 위해 KST 날짜 키로
+      # 캐시해 하루 동안 모든 실행(10분마다)이 같은 토큰을 재사용한다. analyze-now 와
+      # 같은 키를 써 두 워크플로가 토큰을 공유한다(중복 발급 방지).
+      - name: KIS token date (KST)
+        id: kisdate
+        run: echo "d=$(TZ=Asia/Seoul date +%F)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache KIS access token (1일 1회 발급)
+        uses: actions/cache@v4
+        with:
+          path: config/.kis_token.json
+          key: kis-token-${{ steps.kisdate.outputs.d }}
+
       - name: Refresh quotes
         env:
           KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
