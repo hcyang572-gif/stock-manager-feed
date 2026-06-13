@@ -53,7 +53,7 @@ jobs:
                           then ($d|map(tostring)|join(",")) else "1,2,3,4,5" end' control.json)
           case ",$days," in *",$dow,"*) day_ok=true;; *) day_ok=false;; esac
 
-          run=false; reason="skip"
+          run=false; reason="skip"; notify=false
           if [ "$enabled" != "true" ]; then
             reason="analysis disabled"
           else
@@ -62,13 +62,15 @@ jobs:
               run=true; reason="market-hours periodic"
             fi
             # (2) 예약 분석 — 선택 요일 + morning_time ±7분(주말·휴장일 포함).
+            #     이 경우에만 백그라운드 푸시(notify) — 장중 10분 주기는 스팸 방지로 제외.
             diff=$(( nowmin - mtmin )); [ "$diff" -lt 0 ] && diff=$(( -diff ))
             if [ "$day_ok" = "true" ] && [ "$diff" -le 7 ]; then
-              run=true; reason="scheduled ($mt dow=$dow)"
+              run=true; reason="scheduled ($mt dow=$dow)"; notify=true
             fi
           fi
           echo "run=$run" >> "$GITHUB_OUTPUT"
-          echo "gate: dow=$dow now=$nowmin morning=$mt days=$days day_ok=$day_ok → run=$run ($reason)"
+          echo "notify=$notify" >> "$GITHUB_OUTPUT"
+          echo "gate: dow=$dow now=$nowmin morning=$mt days=$days day_ok=$day_ok → run=$run notify=$notify ($reason)"
 
       - uses: actions/setup-python@v5
         if: steps.gate.outputs.run == 'true'
@@ -77,8 +79,8 @@ jobs:
 
       - name: Install deps
         if: steps.gate.outputs.run == 'true'
-        # pykrx: 전체종목(scope=market) 스캔 시 KRX 거래대금 상위 유니버스 구성용.
-        run: pip install --quiet yfinance pandas tzdata pykrx
+        # pykrx: 전체종목 유니버스, google-auth: FCM 푸시 발송용.
+        run: pip install --quiet yfinance pandas tzdata pykrx google-auth
 
       # KIS 토큰 '1일 1회 발급' — KST 날짜 키로 캐시(analyze-now 와 동일 키).
       - name: KIS token date (KST)
@@ -101,6 +103,7 @@ jobs:
         run: python scripts/analyze_technical.py
 
       - name: Commit & push if changed
+        id: commit
         if: steps.gate.outputs.run == 'true'
         run: |
           git add feed.json signals_log.json 2>/dev/null || git add feed.json
@@ -109,7 +112,15 @@ jobs:
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git commit -m "analyze: 자동 기술 분석 ($(TZ=Asia/Seoul date '+%m-%d %H:%M KST'))"
             git push
-            echo "pushed"
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
           else
-            echo "no change"
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
           fi
+
+      # 백그라운드 푸시 — '예약(아침) 분석'이 새 결과를 냈을 때만(장중 10분 주기 제외).
+      # FCM_SERVICE_ACCOUNT 시크릿 없으면 fcm_notify.py 가 조용히 건너뜀.
+      - name: FCM 분석완료 알림
+        if: steps.gate.outputs.run == 'true' && steps.gate.outputs.notify == 'true' && steps.commit.outputs.pushed == 'true'
+        env:
+          FCM_SERVICE_ACCOUNT: ${{ secrets.FCM_SERVICE_ACCOUNT }}
+        run: python scripts/fcm_notify.py --title "☀️ 오늘의 분석 완료" --body "호창이가 새 매수 신호를 올렸어요. 탭해서 확인하세요."
