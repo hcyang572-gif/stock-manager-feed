@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-06-13T21:00:53+09:00",
+  "backtest": {
+    "period_days": 240,
+    "universe": "관심종목",
+    "universe_count": 7,
+    "hold_bars": 2,
+    "score_cutoff": 55,
+    "overall": {
+      "signals": 1267,
+      "filled": 843,
+      "no_fill": 424,
+      "hit_target1": 28,
+      "hit_target2": 13,
+      "hit_stop": 104,
+      "timecut": 698,
+      "win_rate": 53.7,
+      "avg_r": 0.13
+    },
+    "by_score": {
+      "55-64": {
+        "signals": 155,
+        "filled": 99,
+        "no_fill": 56,
+        "hit_target1": 3,
+        "hit_target2": 2,
+        "hit_stop": 14,
+        "timecut": 80,
+        "win_rate": 46.5,
+        "avg_r": 0.02
+      },
+      "65-74": {
+        "signals": 164,
+        "filled": 97,
+        "no_fill": 67,
+        "hit_target1": 3,
+        "hit_target2": 3,
+        "hit_stop": 16,
+        "timecut": 75,
+        "win_rate": 51.5,
+        "avg_r": 0.13
+      },
+      "75+": {
+        "signals": 948,
+        "filled": 647,
+        "no_fill": 301,
+        "hit_target1": 22,
+        "hit_target2": 8,
+        "hit_stop": 74,
+        "timecut": 543,
+        "win_rate": 55.2,
+        "avg_r": 0.15
+      }
+    },
+    "by_entry_type": {
+      "now": {
+        "signals": 375,
+        "filled": 375,
+        "no_fill": 0,
+        "hit_target1": 12,
+        "hit_target2": 7,
+        "hit_stop": 54,
+        "timecut": 302,
+        "win_rate": 53.1,
+        "avg_r": 0.13
+      },
+      "breakout": {
+        "signals": 892,
+        "filled": 468,
+        "no_fill": 424,
+        "hit_target1": 16,
+        "hit_target2": 6,
+        "hit_stop": 50,
+        "timecut": 396,
+        "win_rate": 54.3,
+        "avg_r": 0.13
+      }
+    },
+    "diagnostics": [
+      "시간청산이 83%로 많아요 — 목표가가 멀거나 보유 기간이 짧을 수 있어요."
+    ],
+    "note": "과거 일봉에 현 규칙을 적용한 백테스트(미국증시 환경 보정 제외). 한 봉 내 손절을 목표보다 먼저 보는 보수적 판정. 실측 가격만 사용."
+  },
+  "tuning": {
+    "current": {
+      "stop_mult": 1.5,
+      "target1_mult": 2.0,
+      "target2_mult": 3.0,
+      "score_cutoff": 55
+    },
+    "suggestion": null,
+    "method": "train 70% / val 30% 시간 분할 · val 평균 R 최대 + 현재 대비 +0.10R 이상일 때만 제안(과최적화 방지). 적용은 사용자 승인.",
+    "note": "지금 설정이 검증구간에서 가장 무난해요 — 바꿀 만한 보정안이 없어요."
+  },
+  "applied_tuning": {
+    "stop_mult": 1.5,
+    "target1_mult": 2.0,
+    "target2_mult": 3.0,
+    "score_cutoff": 55
+  },
+  "forward": {
+    "status": "ok",
+    "matured": 0,
+    "logged": 5,
+    "agg": {
+      "signals": 0,
+      "filled": 0,
+      "no_fill": 0,
+      "hit_target1": 0,
+      "hit_target2": 0,
+      "hit_stop": 0,
+      "timecut": 0,
+      "win_rate": null,
+      "avg_r": null
+    }
+  },
+  "disclaimer": "통계는 과거·실거래 실측 기반 참고용이며 미래 수익을 보장하지 않습니다."
+}
