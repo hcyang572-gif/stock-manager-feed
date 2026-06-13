@@ -317,6 +317,57 @@ def build_signal(rank, item, price, change_pct, ind, hold_cap):
     }
 
 
+# ── 시장 환경(거시) 보정 — 측정 가능한 미국증시만 ───────────────────────────
+def fetch_us_regime():
+    """전일 미국 증시 등락으로 **시장 환경 보정치**를 계산한다(측정 가능한 거시만).
+
+    한국 개장은 전일 미국장에 강하게 동조하므로, S&P500·나스닥·**SOX(반도체,
+    KR 영향 큼)** 전일 등락률의 가중평균을 점수 보정(-8~+8)으로 환산한다. 금리·
+    지정학 등 정성적 거시는 **수치 날조 위험**이 있어 점수에 넣지 않고 뉴스 종합분석의
+    정성 판단/리스크 노트에 맡긴다. yfinance 실패 시 None(보정 없이 진행).
+
+    반환: {'sp','nasdaq','sox'(각 %), 'regime_pct'(가중평균%), 'adj'(-8~+8)} 또는 None.
+    """
+    try:
+        import yfinance as yf
+    except Exception:
+        return None
+    syms = {"sp": "^GSPC", "nasdaq": "^IXIC", "sox": "^SOX"}
+    weights = {"sp": 0.30, "nasdaq": 0.30, "sox": 0.40}
+    chg = {}
+    for k, sym in syms.items():
+        try:
+            h = yf.Ticker(sym).history(period="6d", auto_adjust=False)
+            closes = [float(x) for x in h["Close"].dropna()]
+            if len(closes) >= 2 and closes[-2]:
+                chg[k] = (closes[-1] / closes[-2] - 1) * 100
+        except Exception:
+            continue
+    if not chg:
+        return None
+    den = sum(weights[k] for k in chg)
+    regime_pct = sum(chg[k] * weights[k] for k in chg) / den if den else 0.0
+    # 전일 미국장 +2% ≈ +5점, ±8 클램프(기술 신호를 압도하지 않는 보조 보정).
+    adj = max(-8.0, min(8.0, regime_pct * 2.5))
+    out = {k: round(v, 2) for k, v in chg.items()}
+    out["regime_pct"] = round(regime_pct, 2)
+    out["adj"] = round(adj, 1)
+    return out
+
+
+def apply_regime(score, why, regime):
+    """기술 점수에 시장 환경 보정(adj)을 더해 0~100 으로 클램프하고 근거를 남긴다."""
+    if not regime or not regime.get("adj"):
+        return score
+    adj = regime["adj"]
+    parts = []
+    for k, lbl in (("sp", "S&P"), ("nasdaq", "나스닥"), ("sox", "SOX")):
+        if k in regime:
+            parts.append(f"{lbl}{regime[k]:+g}%")
+    why.append(f"미국증시 환경 {adj:+g} (전일 {'·'.join(parts)})")
+    return max(0, min(100, round(score + adj)))
+
+
 def load_control():
     wl, scope, mkts, cap = [], "watchlist", ["KOSPI", "KOSDAQ"], 48
     if CONTROL_PATH.exists():
@@ -352,6 +403,13 @@ def main():
     # 분석 대상 구성. scope=='market' 이면 watchlist(시드) + KRX 거래대금 상위
     # 유니버스를 합쳐 **전체종목**을 차트로 스캔한다. 유니버스 확보 실패 시
     # 관심종목만으로 안전하게 폴백한다(중단 없음).
+    # 시장 환경(미국 전일) 보정치 — 1회 계산해 모든 종목 점수에 동일 적용.
+    regime = fetch_us_regime()
+    if regime:
+        print(f"[analyze] 시장환경: 전일 미국 가중 {regime['regime_pct']:+g}% → "
+              f"보정 {regime['adj']:+g} (S&P{regime.get('sp', 0):+g}·"
+              f"나스닥{regime.get('nasdaq', 0):+g}·SOX{regime.get('sox', 0):+g})")
+
     targets = [dict(w) for w in watchlist]
     use_batch = False
     if scope == "market":
@@ -385,6 +443,7 @@ def main():
                 continue
             price = ind["yf_close"]
             sc, why = score_stock(price, ind)
+            sc = apply_regime(sc, why, regime)
             ind["_why"] = why
             cand.append((t, price, ind.get("change"), ind, sc))
     else:
@@ -412,6 +471,7 @@ def main():
                 print(f"[analyze] 시세/지표 미확보 제외: {item.get('name', code)}")
                 continue
             sc, why = score_stock(price, ind)
+            sc = apply_regime(sc, why, regime)
             ind["_why"] = why
             cand.append((item, price, change, ind, sc))
 
@@ -450,13 +510,21 @@ def main():
             feed = {}
 
     top = signals[0]["name"] if signals else (observations[0]["name"] if observations else None)
+    regime_note = None
+    if regime:
+        regime_note = (f"시장 환경 보정: 전일 미국증시 가중 {regime['regime_pct']:+g}% "
+                       f"(S&P {regime.get('sp', 0):+g}%·나스닥 {regime.get('nasdaq', 0):+g}%·"
+                       f"SOX {regime.get('sox', 0):+g}%) → 모든 종목 점수 {regime['adj']:+g}점 반영. "
+                       f"금리·지정학은 숫자 보정 없이 뉴스 종합분석의 정성 판단으로만 반영.")
     feed.update({
         "schema_version": "1.0",
         "date": now.strftime("%Y-%m-%d"),
         "generated_at": now_iso,
         "horizon_hours": hold_cap,
-        "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표). 뉴스/촉매 미반영.",
+        "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 미국증시 전일 환경 보정. 뉴스/촉매 미반영.",
         "market_state": feed.get("market_state", {"korea": {"status": "closed"}, "us": {"status": "closed"}}),
+        # 시장 환경 보정(측정 가능한 미국증시만) — 앱이 방법론·투명성 표기에 쓸 수 있다.
+        "market_regime": regime,
         "summary": {
             "signal_count": len(signals), "observation_count": len(observations),
             "position_count": len(feed.get("positions", [])),
@@ -469,6 +537,7 @@ def main():
         "risk_notes": [
             "온디맨드 기술 분석 — 뉴스/촉매 미반영(catalyst_verified=false). 진입 전 재료·공시 직접 확인.",
             "지표는 KIS 현재가 + yfinance 일봉 실측(날조 없음). 변동성 장세 보수적 대응.",
+            regime_note or "시장 환경 보정 미적용(미국증시 데이터 일시 미확보).",
             "본 신호는 투자 참고용이며 매수·매도를 보장하지 않는다. 실주문은 본인 판단·실행.",
         ],
         "disclaimer": feed.get("disclaimer",
