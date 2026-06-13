@@ -1,0 +1,105 @@
+name: analyze-news
+
+# 뉴스 종합분석 — 앱(설정 → 지금 바로 분석 → 전체종목 → 뉴스도 함께)이 control.json 의
+# news_requested_at 을 갱신·push 하면 실행된다. 차트(기술) 분석을 먼저 돌려 신호를
+# 만든 뒤, Claude API + 웹검색으로 그 종목들의 48h 촉매/뉴스를 조사해 feed.json 에
+# 병합한다(catalyst_verified=true + 미국 한줄평 갱신).
+#
+# 과거의 '크롬으로 Claude 예약 루틴 열기(Run now 수동)' 방식을 대체한다 — 앱이 직접
+# 트리거하므로 사용자가 별도 버튼을 누를 필요가 없다.
+#
+# 필요 시크릿: ANTHROPIC_API_KEY (없으면 analyze_news.py 가 차트 feed 만 남기고 종료).
+#             KIS_APP_KEY/SECRET(선택, 차트 현재가 정밀도), FCM_SERVICE_ACCOUNT(선택, 완료 푸시).
+
+on:
+  workflow_dispatch: {}
+  push:
+    paths:
+      - control.json
+
+permissions:
+  contents: write
+
+concurrency:
+  group: analyze-now # analyze-now(차트)와 직렬화 — feed.json 동시 push 충돌 방지.
+  cancel-in-progress: false
+
+jobs:
+  news:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      # news_requested_at 이 이번 push 로 바뀌었을 때만 진행(수동 실행은 항상 진행).
+      - name: Gate (news requested?)
+        id: gate
+        run: |
+          nbefore=$(git show HEAD~1:control.json 2>/dev/null | jq -r '.news_requested_at // ""' 2>/dev/null || echo "")
+          nafter=$(jq -r '.news_requested_at // ""' control.json)
+          run=false
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then run=true; fi
+          if [ "$nbefore" != "$nafter" ] && [ -n "$nafter" ]; then run=true; fi
+          echo "run=$run" >> "$GITHUB_OUTPUT"
+          echo "gate: news before=$nbefore after=$nafter event=${{ github.event_name }} → run=$run"
+
+      - uses: actions/setup-python@v5
+        if: steps.gate.outputs.run == 'true'
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        if: steps.gate.outputs.run == 'true'
+        # anthropic: 뉴스 촉매 조사(웹검색 서버툴). pykrx: 전체종목 차트 스캔.
+        run: pip install --quiet yfinance pandas tzdata pykrx google-auth anthropic
+
+      - name: KIS token date (KST)
+        if: steps.gate.outputs.run == 'true'
+        id: kisdate
+        run: echo "d=$(TZ=Asia/Seoul date +%F)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache KIS access token (1일 1회 발급)
+        if: steps.gate.outputs.run == 'true'
+        uses: actions/cache@v4
+        with:
+          path: config/.kis_token.json
+          key: kis-token-${{ steps.kisdate.outputs.d }}
+
+      # 1) 차트(기술) 분석 — 신호/관찰을 먼저 만든다(미국 컨텍스트도 갱신).
+      - name: Run technical analysis
+        if: steps.gate.outputs.run == 'true'
+        env:
+          KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
+          KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
+        run: python scripts/analyze_technical.py
+
+      # 2) 뉴스 촉매 분석 — 신호 종목의 48h 촉매/뉴스를 웹검색해 feed 에 병합.
+      #    ANTHROPIC_API_KEY 없으면 스크립트가 안내 후 종료(차트 feed 유지).
+      - name: Run news catalyst analysis
+        if: steps.gate.outputs.run == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL }}
+        run: python scripts/analyze_news.py
+
+      - name: Commit & push if changed
+        id: commit
+        if: steps.gate.outputs.run == 'true'
+        run: |
+          git add feed.json signals_log.json 2>/dev/null || git add feed.json
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git commit -m "analyze: 뉴스 종합분석 ($(TZ=Asia/Seoul date '+%m-%d %H:%M KST'))"
+            git push
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: FCM 종합분석 완료 알림
+        if: steps.gate.outputs.run == 'true' && steps.commit.outputs.pushed == 'true'
+        env:
+          FCM_SERVICE_ACCOUNT: ${{ secrets.FCM_SERVICE_ACCOUNT }}
+        run: python scripts/fcm_notify.py --title "📰 종합분석 완료" --body "뉴스·촉매까지 본 분석이 끝났어요. 탭해서 확인하세요."

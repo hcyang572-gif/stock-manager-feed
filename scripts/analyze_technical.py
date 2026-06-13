@@ -388,6 +388,96 @@ def apply_regime(score, why, regime):
     return max(0, min(100, round(score + adj)))
 
 
+# ── 미국 야간 컨텍스트(지수·빅테크·한줄평) 실측 갱신 ───────────────────────────
+US_INDICES = [("나스닥", "^IXIC"), ("S&P500", "^GSPC"),
+              ("다우", "^DJI"), ("필라델피아반도체(SOX)", "^SOX")]
+US_BIGTECH = [("엔비디아", "NVDA"), ("마이크론", "MU"), ("브로드컴", "AVGO"),
+              ("애플", "AAPL"), ("마이크로소프트", "MSFT"), ("알파벳", "GOOGL"),
+              ("아마존", "AMZN"), ("메타", "META"), ("테슬라", "TSLA")]
+
+
+def fetch_us_context():
+    """미국 지수·빅테크 전일(또는 실시간) 종가·등락률을 yfinance 로 실측해 us_context
+    dict 를 만든다. 한줄평·한국영향은 **측정된 수치에서 결정적으로 생성**(날조 없음).
+    실패 시 None(호출 측이 기존 us_context 보존). 차트 엔진이 매 실행 갱신하므로
+    미국 카드가 더 이상 옛 날짜에 멈추지 않는다."""
+    try:
+        import yfinance as yf
+    except Exception:
+        return None
+    syms = [s for _, s in US_INDICES + US_BIGTECH]
+    try:
+        data = yf.download(syms, period="6d", auto_adjust=False,
+                           group_by="ticker", threads=True, progress=False)
+    except Exception as ex:
+        print(f"[analyze] 미국 컨텍스트 다운로드 실패: {ex}")
+        return None
+
+    asof = None
+
+    def one(sym):
+        nonlocal asof
+        try:
+            sub = data[sym].dropna(subset=["Close"])
+            closes = [float(x) for x in sub["Close"]]
+            if len(closes) < 2 or closes[-2] == 0:
+                return None
+            chg = (closes[-1] / closes[-2] - 1) * 100
+            try:
+                asof = sub.index[-1].strftime("%Y-%m-%d")
+            except Exception:
+                pass
+            return {"price": round(closes[-1], 2), "change_pct": round(chg, 2)}
+        except Exception:
+            return None
+
+    indices, bigtech = [], []
+    for name, sym in US_INDICES:
+        q = one(sym)
+        if q:
+            indices.append({"name": name, "symbol": sym, **q, "asof": asof})
+    for name, sym in US_BIGTECH:
+        q = one(sym)
+        if q:
+            bigtech.append({"name": name, "symbol": sym, **q, "asof": asof})
+    if not indices and not bigtech:
+        return None
+
+    # 한줄평·한국영향 — 측정값에서 결정적으로 생성(추측 없음).
+    sox = next((i for i in indices if "SOX" in i["symbol"]), None)
+    sp = next((i for i in indices if i["symbol"] == "^GSPC"), None)
+    nq = next((i for i in indices if i["symbol"] == "^IXIC"), None)
+    up = sum(1 for b in bigtech if b["change_pct"] > 0)
+    down = sum(1 for b in bigtech if b["change_pct"] < 0)
+    parts = []
+    if sp:
+        parts.append(f"S&P {sp['change_pct']:+g}%")
+    if nq:
+        parts.append(f"나스닥 {nq['change_pct']:+g}%")
+    if sox:
+        parts.append(f"SOX {sox['change_pct']:+g}%")
+    summary = (("미국 " + ", ".join(parts) + ". ") if parts else "") + \
+        f"빅테크 상승 {up}·하락 {down}."
+    if sox:
+        if sox["change_pct"] >= 0.5:
+            kr_impl = f"미 반도체 강세(SOX {sox['change_pct']:+g}%) — 삼성전자·SK하이닉스 등 반도체 우호적."
+        elif sox["change_pct"] <= -0.5:
+            kr_impl = f"미 반도체 약세(SOX {sox['change_pct']:+g}%) — 반도체 단기 부담."
+        else:
+            kr_impl = f"미 반도체 보합(SOX {sox['change_pct']:+g}%) — 반도체 영향 중립."
+    else:
+        kr_impl = "미국 반도체(SOX) 데이터 미확보 — 한국 영향 판단 보류."
+    return {
+        "asof": asof or datetime.datetime.now(KST).strftime("%Y-%m-%d"),
+        "basis": "미국 정규장 종가(야후 실측)",
+        "session": "closed",
+        "summary": summary,
+        "kr_implication": kr_impl,
+        "indices": indices,
+        "bigtech": bigtech,
+    }
+
+
 SIGNALS_LOG_PATH = REPO_ROOT / "signals_log.json"
 
 
@@ -425,6 +515,58 @@ def append_signal_log(signals, now_iso, date_str, hold_cap):
         print(f"[analyze] 신호 로그 +{added} (총 {len(log)})")
     except Exception as ex:
         print(f"[analyze] 신호 로그 저장 실패: {ex}")
+
+
+CATALYST_FRESH_HOURS = 18  # 이 시간 이내의 뉴스 촉매는 차트 재분석에도 보존.
+
+
+def reapply_fresh_catalyst(feed, prev_catalyst, now):
+    """직전 feed 의 catalyst 블록이 신선(<CATALYST_FRESH_HOURS)하면 보존하고, 이번
+    차트 신호에 다시 입힌다. 차트 엔진이 자주 돌며 뉴스(촉매)를 'catalyst_verified=false'
+    로 덮어쓰는 것을 막는다(뉴스 분석은 가끔만 도므로). 신선하지 않으면 아무것도 안 함."""
+    if not isinstance(prev_catalyst, dict):
+        return 0
+    asof = prev_catalyst.get("asof")
+    try:
+        dt = datetime.datetime.fromisoformat(str(asof))
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=KST)
+        age_h = (now - dt).total_seconds() / 3600.0
+    except Exception:
+        return 0
+    if age_h < 0 or age_h > CATALYST_FRESH_HOURS:
+        return 0  # 오래됐으면 보존하지 않음(catalyst 블록은 새 feed 에서 빠진다).
+    items = prev_catalyst.get("items", {}) if isinstance(
+        prev_catalyst.get("items"), dict) else {}
+    feed["catalyst"] = prev_catalyst  # 블록 유지.
+    cnt = 0
+    for s in feed.get("signals", []):
+        info = items.get(str(s.get("code", "")).strip())
+        if not info:
+            continue
+        headline = str(info.get("headline", "")).strip()
+        detail = str(info.get("detail", "")).strip()
+        if headline:
+            s["catalyst"] = (headline + (" — " + detail if detail else "")).strip()
+        if info.get("sources"):
+            s["catalyst_verified"] = True
+            cnt += 1
+            s["evidence"] = (f"촉매: {headline}. " + s.get("evidence", "")).strip()
+            tags = [t for t in s.get("tags", []) if "미검증" not in t]
+            if "촉매검증" not in tags:
+                tags = ["촉매검증"] + tags
+            s["tags"] = tags
+    if cnt:
+        ah = int(round(age_h))
+        feed["data_source"] = feed.get("data_source", "") + \
+            f" (뉴스/촉매 {ah}h 전 반영 보존)"
+        rn = feed.get("risk_notes", [])
+        rn = [x for x in rn if "catalyst_verified=false" not in x
+              and "뉴스/촉매 미반영" not in x]
+        feed["risk_notes"] = [
+            f"뉴스/촉매 분석 결과를 보존 반영(약 {ah}시간 전). 시점에 따라 정정될 수 있으니 진입 전 원문 확인."
+        ] + rn
+    return cnt
 
 
 def load_control():
@@ -578,6 +720,9 @@ def main():
             feed = json.loads(FEED_PATH.read_text(encoding="utf-8-sig"))
         except Exception:
             feed = {}
+    # 신선한 뉴스 촉매 블록은 차트 재작성에도 보존한다(아래 reapply).
+    prev_catalyst = feed.get("catalyst")
+    feed.pop("catalyst", None)  # 일단 제거 후, 신선하면 reapply 가 되살린다.
 
     top = signals[0]["name"] if signals else (observations[0]["name"] if observations else None)
     regime_note = None
@@ -613,9 +758,20 @@ def main():
         "disclaimer": feed.get("disclaimer",
                                "본 산출물은 투자 참고용이며 매수·매도를 보장하지 않습니다. 실주문은 사용자가 직접 판단·실행합니다."),
     })
+    # 미국 야간 컨텍스트(지수·빅테크·한줄평) 실측 갱신 — 매 실행 새로고침해 옛 날짜 고정 해소.
+    usc = fetch_us_context()
+    if usc:
+        feed["us_context"] = usc
+        print(f"[analyze] 미국 컨텍스트 갱신: {usc['summary']}")
+
     feed.setdefault("positions", feed.get("positions", []))
     feed.setdefault("portfolio", feed.get("portfolio", {"total_unrealized": 0, "count": 0, "to_close": 0}))
     feed.setdefault("assumptions", feed.get("assumptions", {"fee_pct": 0.015, "tax_pct_kr": 0.18, "tax_pct_us": 0.0}))
+
+    # 신선한 뉴스 촉매가 있으면 이번 차트 신호에 다시 입힌다(뉴스 덮어쓰기 방지).
+    kept = reapply_fresh_catalyst(feed, prev_catalyst, now)
+    if kept:
+        print(f"[analyze] 뉴스 촉매 보존 반영: {kept}건")
 
     FEED_PATH.write_text(json.dumps(feed, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     # 전향 추적용 — 이번 발행 신호를 로그에 누적(통계 탭 forward 평가용).
