@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "updated_at": "2026-06-13T18:19:36+09:00",
-  "updated_by": "agent",
+  "updated_at": "2026-06-14T05:16:26+09:00",
+  "updated_by": "app",
   "engine": {
     "analysis_enabled": true,
-    "analysis_scope": "watchlist",
+    "analysis_scope": "market",
     "market_targets": [
       "KOSPI"
     ],
@@ -67,5 +67,16 @@
       "market": "KR"
     }
   ],
-  "run_requested_at": "2026-06-13T18:19:36+09:00"
+  "run_requested_at": "2026-06-13T18:19:36+09:00",
+  "news_requested_at": "2026-06-14T05:16:26+09:00",
+  "alerts": {
+    "price_enabled": true,
+    "lv_entry": true,
+    "lv_stop": true,
+    "lv_target1": true,
+    "lv_target2": true,
+    "surge_enabled": true,
+    "surge_threshold": 3.0,
+    "surge_window": 10
+  }
 }
