@@ -92,8 +92,11 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git commit -m "analyze: 뉴스 종합분석 ($(TZ=Asia/Seoul date '+%m-%d %H:%M KST'))"
-            git push
-            echo "pushed=true" >> "$GITHUB_OUTPUT"
+            ok=false
+            for i in 1 2 3; do
+              git pull --rebase origin main && git push && { ok=true; break; } || sleep 5
+            done
+            echo "pushed=$ok" >> "$GITHUB_OUTPUT"
           else
             echo "pushed=false" >> "$GITHUB_OUTPUT"
           fi
