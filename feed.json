@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "date": "2026-06-13",
-  "generated_at": "2026-06-13T16:10:00+09:00",
+  "generated_at": "2026-06-13T16:17:00+09:00",
   "horizon_hours": 48,
   "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표). 뉴스/촉매 미반영.",
   "market_state": {
@@ -18,47 +18,15 @@
     }
   },
   "summary": {
-    "signal_count": 4,
-    "observation_count": 3,
+    "signal_count": 2,
+    "observation_count": 0,
     "position_count": 0,
-    "top_signal": "네이버",
-    "headline": "기술 분석 갱신(06-13 16:10 KST) — 차트·거래량·변동성 기준 4개 신호. 뉴스 미반영이니 진입 전 재료 확인."
+    "top_signal": "한화에어로스페이스",
+    "headline": "기술 분석 갱신(06-13 16:17 KST) — 차트·거래량·변동성 기준 2개 신호. 뉴스 미반영이니 진입 전 재료 확인."
   },
   "signals": [
     {
       "rank": 1,
-      "name": "네이버",
-      "code": "035420",
-      "market": "KR",
-      "direction": "long",
-      "confidence": "mid",
-      "price": 242500.0,
-      "currency": "KRW",
-      "entry": 242500.0,
-      "entry_type": "now",
-      "entry_note": "기술 점수 상위·돌파 상회. 현재가(242,500) 부근 즉시 진입 가능, 거래량 확인.",
-      "stop": 218500,
-      "target1": 290500,
-      "target2": 314500,
-      "rr": 2.0,
-      "atr_pct": 12.37,
-      "hold_cap_hours": 48,
-      "weight_pct": 5,
-      "catalyst_verified": false,
-      "change_pct": 8.26,
-      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), RSI 61.0(상승), 변동성 돌파 상회. ATR 12.37%·5일모멘텀 -3.33%.",
-      "risk_notes": [
-        "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
-        "ATR 12.37% 변동성 — 손절폭·비중 유의."
-      ],
-      "tags": [
-        "기술분석",
-        "온디맨드",
-        "즉시진입"
-      ]
-    },
-    {
-      "rank": 2,
       "name": "한화에어로스페이스",
       "code": "012450",
       "market": "KR",
@@ -90,39 +58,7 @@
       ]
     },
     {
-      "rank": 3,
-      "name": "SK하이닉스",
-      "code": "000660",
-      "market": "KR",
-      "direction": "long",
-      "confidence": "low",
-      "price": 2162000.0,
-      "currency": "KRW",
-      "entry": 2382000.0,
-      "entry_type": "breakout",
-      "entry_note": "2,382,000 돌파 + 거래량 동반 시 진입(미돌파 시 미진입). 추격금지.",
-      "stop": 2007000,
-      "target1": 3132000,
-      "target2": 3507000,
-      "rr": 2.0,
-      "atr_pct": 8.22,
-      "hold_cap_hours": 48,
-      "weight_pct": 6,
-      "catalyst_verified": false,
-      "change_pct": 2.9,
-      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 윗꼬리/분배(종가위치 0.0%), RSI 57.3(상승). ATR 8.22%·5일모멘텀 3.86%.",
-      "risk_notes": [
-        "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
-        "ATR 8.22% 변동성 — 손절폭·비중 유의."
-      ],
-      "tags": [
-        "기술분석",
-        "온디맨드",
-        "돌파대기"
-      ]
-    },
-    {
-      "rank": 4,
+      "rank": 2,
       "name": "삼성전자",
       "code": "005930",
       "market": "KR",
@@ -154,38 +90,7 @@
       ]
     }
   ],
-  "observations": [
-    {
-      "name": "두산에너빌리티",
-      "code": "034020",
-      "market": "KR",
-      "price": 94700.0,
-      "currency": "KRW",
-      "watch_trigger": null,
-      "change_pct": 6.88,
-      "reason": "기술 점수 46/100 — 조건 미충족(관망). 뚜렷한 강세 신호 부족. ATR 7.47%."
-    },
-    {
-      "name": "LG에너지솔루션",
-      "code": "373220",
-      "market": "KR",
-      "price": 401000.0,
-      "currency": "KRW",
-      "watch_trigger": null,
-      "change_pct": 4.29,
-      "reason": "기술 점수 42/100 — 조건 미충족(관망). 뚜렷한 강세 신호 부족. ATR 8.01%."
-    },
-    {
-      "name": "현대자동차",
-      "code": "005380",
-      "market": "KR",
-      "price": 615000.0,
-      "currency": "KRW",
-      "watch_trigger": null,
-      "change_pct": 3.02,
-      "reason": "기술 점수 30/100 — 조건 미충족(관망). 윗꼬리/분배(종가위치 7.5%). ATR 8.68%."
-    }
-  ],
+  "observations": [],
   "positions": [],
   "portfolio": {
     "total_unrealized": 0,
