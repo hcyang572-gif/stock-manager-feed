@@ -1,0 +1,43 @@
+name: backtest
+
+# 신호 적중률 통계(stats.json) 갱신 — 과거 일봉 백테스트 + 발행 신호 전향 추적.
+# 앱 '통계' 탭이 stats.json 을 읽어 적중률·평균R·보완점을 보여준다.
+# 무겁고(종목별 일봉 다운로드) 매일 1회면 충분하므로 하루 한 번 + 수동 실행.
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    # 매일 KST 06:20 (= UTC 21:20) — 아침 분석(07:00) 직전, 전일 결과 반영.
+    - cron: "20 21 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: backtest
+  cancel-in-progress: false
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps
+        run: pip install --quiet yfinance pandas tzdata
+      - name: Run backtest
+        run: python scripts/backtest.py
+      - name: Commit & push if changed
+        run: |
+          if [ -n "$(git status --porcelain stats.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add stats.json
+            git commit -m "backtest: 통계 갱신 ($(TZ=Asia/Seoul date '+%m-%d %H:%M KST'))"
+            git push
+            echo "pushed"
+          else
+            echo "no change"
+          fi

@@ -368,6 +368,45 @@ def apply_regime(score, why, regime):
     return max(0, min(100, round(score + adj)))
 
 
+SIGNALS_LOG_PATH = REPO_ROOT / "signals_log.json"
+
+
+def append_signal_log(signals, now_iso, date_str, hold_cap):
+    """발행 신호를 signals_log.json 에 누적(전향 추적용). 같은 (code,date)는 1회만.
+    backtest.py 가 보유창 경과분을 평가한다. 최대 1000건 유지."""
+    log = []
+    if SIGNALS_LOG_PATH.exists():
+        try:
+            data = json.loads(SIGNALS_LOG_PATH.read_text(encoding="utf-8-sig"))
+            log = data if isinstance(data, list) else data.get("signals", [])
+        except Exception:
+            log = []
+    seen = {(e.get("code"), e.get("date")) for e in log}
+    added = 0
+    for s in signals:
+        key = (s["code"], date_str)
+        if key in seen:
+            continue
+        seen.add(key)
+        log.append({
+            "code": s["code"], "name": s["name"], "date": date_str,
+            "issued_at": now_iso, "entry": s["entry"], "stop": s["stop"],
+            "target1": s["target1"], "target2": s["target2"],
+            "entry_type": s["entry_type"], "hold_cap_hours": hold_cap,
+        })
+        added += 1
+    if added == 0:
+        return
+    if len(log) > 1000:
+        log = log[-1000:]
+    try:
+        SIGNALS_LOG_PATH.write_text(
+            json.dumps(log, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        print(f"[analyze] 신호 로그 +{added} (총 {len(log)})")
+    except Exception as ex:
+        print(f"[analyze] 신호 로그 저장 실패: {ex}")
+
+
 def load_control():
     wl, scope, mkts, cap = [], "watchlist", ["KOSPI", "KOSDAQ"], 48
     if CONTROL_PATH.exists():
@@ -548,6 +587,8 @@ def main():
     feed.setdefault("assumptions", feed.get("assumptions", {"fee_pct": 0.015, "tax_pct_kr": 0.18, "tax_pct_us": 0.0}))
 
     FEED_PATH.write_text(json.dumps(feed, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    # 전향 추적용 — 이번 발행 신호를 로그에 누적(통계 탭 forward 평가용).
+    append_signal_log(feed["signals"], now_iso, now.strftime("%Y-%m-%d"), hold_cap)
     print(f"[analyze] 완료 @ {now_iso} — 신호 {len(signals)} / 관찰 {len(observations)} "
           f"(top {top}, scope {scope})")
     return 0
