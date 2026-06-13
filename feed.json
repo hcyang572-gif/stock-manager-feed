@@ -18,15 +18,47 @@
     }
   },
   "summary": {
-    "signal_count": 1,
+    "signal_count": 2,
     "observation_count": 0,
     "position_count": 0,
-    "top_signal": "삼성전자",
-    "headline": "기술 분석 갱신(06-13 20:41 KST) — 차트·거래량·변동성 기준 1개 신호. 뉴스 미반영이니 진입 전 재료 확인."
+    "top_signal": "SK하이닉스",
+    "headline": "기술 분석 갱신(06-13 20:41 KST) — 차트·거래량·변동성 기준 2개 신호. 뉴스 미반영이니 진입 전 재료 확인."
   },
   "signals": [
     {
       "rank": 1,
+      "name": "SK하이닉스",
+      "code": "000660",
+      "market": "KR",
+      "direction": "long",
+      "confidence": "low",
+      "price": 2162000.0,
+      "currency": "KRW",
+      "entry": 2382000.0,
+      "entry_type": "breakout",
+      "entry_note": "2,382,000 돌파 + 거래량 동반 시 진입(미돌파 시 미진입). 추격금지.",
+      "stop": 2007000,
+      "target1": 3132000,
+      "target2": 3507000,
+      "rr": 2.0,
+      "atr_pct": 8.22,
+      "hold_cap_hours": 48,
+      "weight_pct": 6,
+      "catalyst_verified": false,
+      "change_pct": 2.9,
+      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 윗꼬리/분배(종가위치 0.0%), RSI 57.3(상승), 미국증시 환경 +2.1 (전일 S&P+0.5%·나스닥+0.31%·SOX+1.52%). ATR 8.22%·5일모멘텀 3.86%.",
+      "risk_notes": [
+        "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
+        "ATR 8.22% 변동성 — 손절폭·비중 유의."
+      ],
+      "tags": [
+        "기술분석",
+        "온디맨드",
+        "돌파대기"
+      ]
+    },
+    {
+      "rank": 2,
       "name": "삼성전자",
       "code": "005930",
       "market": "KR",
