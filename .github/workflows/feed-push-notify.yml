@@ -1,0 +1,41 @@
+name: feed-push-notify
+
+# 뉴스 종합분석(클로드 예약 루틴)이 feed.json 을 새로 올리면 '종합분석 완료' 푸시.
+# 앱이 꺼져 있어도 알 수 있게 토픽 'analysis' 로 백그라운드 알림을 보낸다.
+#
+# 중복 방지:
+#  · 차트 로봇(scheduled-analyze / analyze-now)은 GITHUB_TOKEN 으로 push 하므로
+#    이 워크플로를 재트리거하지 않는다(GitHub 기본 동작) + 자체적으로 이미 푸시함.
+#  · 만약을 위해 아래 if 로 봇 커밋·'기술 분석' 메시지 커밋은 건너뛴다.
+#  → 따라서 외부(클로드 루틴 PAT)에서 올린 feed.json 변경에만 푸시가 나간다.
+
+on:
+  push:
+    paths:
+      - feed.json
+
+permissions:
+  contents: read
+
+concurrency:
+  group: feed-push-notify
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    # 차트 로봇(github-actions[bot]) 커밋·기술분석 커밋은 제외 — 이미 자체 푸시함.
+    if: >-
+      ${{ github.event.head_commit.author.email != 'github-actions[bot]@users.noreply.github.com'
+          && !contains(github.event.head_commit.message, '기술 분석') }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps
+        run: pip install --quiet google-auth
+      - name: FCM 종합분석 완료 알림
+        env:
+          FCM_SERVICE_ACCOUNT: ${{ secrets.FCM_SERVICE_ACCOUNT }}
+        run: python scripts/fcm_notify.py --title "📰 종합분석 완료" --body "오늘의 뉴스·촉매 종합분석이 올라왔어요. 탭해서 새 신호를 확인하세요."
