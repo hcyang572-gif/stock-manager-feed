@@ -1,11 +1,18 @@
 name: analyze-now
 
-# 폰(분석 설정 → 지금 분석) 또는 수동으로 호출하는 온디맨드 기술 분석.
+# 폰(신호 화면 → 지금 기술분석 실행) 또는 수동으로 호출하는 온디맨드 기술 분석.
 # 뉴스/촉매 없이 차트·거래량·변동성 지표만으로 관심종목(control.json)을 재분석해 feed.json 갱신.
-# LLM 미사용·무료. KIS 현재가 + yfinance 일봉 실측.
+# LLM 미사용·무료. KIS 현재가 + yfinance 일봉 실측. 휴장일·주말 포함 언제나 실행(직전 거래일 일봉).
+#
+# 트리거: control.json 이 바뀌어 push 될 때 자동 실행(앱이 run_requested_at·watchlist 수정·저장
+# 시 발생). 앱 토큰은 contents:write 만으로 충분 — Actions 권한 불필요(과거 workflow_dispatch
+# 403 해소). 수동 실행을 위해 workflow_dispatch 도 유지한다.
 
 on:
   workflow_dispatch: {}
+  push:
+    paths:
+      - control.json
 
 permissions:
   contents: write
