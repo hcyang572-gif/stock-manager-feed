@@ -31,13 +31,16 @@ jobs:
         run: python scripts/backtest.py
       - name: Commit & push if changed
         run: |
-          if [ -n "$(git status --porcelain stats.json)" ]; then
+          if [ -n "$(git status --porcelain stats.json stats_history.json)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add stats.json
+            git add stats.json stats_history.json
             git commit -m "backtest: 통계 갱신 ($(TZ=Asia/Seoul date '+%m-%d %H:%M KST'))"
-            git push
-            echo "pushed"
+            ok=false
+            for i in 1 2 3; do
+              git pull --rebase origin main && git push && { ok=true; break; } || sleep 5
+            done
+            echo "pushed=$ok"
           else
             echo "no change"
           fi

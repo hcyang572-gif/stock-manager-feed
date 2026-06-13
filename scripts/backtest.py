@@ -301,6 +301,39 @@ def _forward_section():
             "agg": _finalize(agg)}
 
 
+STATS_HISTORY_PATH = REPO_ROOT / "stats_history.json"
+
+
+def _append_history(stats, now):
+    """일자별 승률·평균R·신호수를 stats_history.json 에 누적(같은 날 1레코드, 최근 90개).
+    앱 통계 탭이 이 이력을 꺾은선 그래프로 보여준다(추세). 실측 backtest 값만."""
+    ov = stats.get("backtest", {}).get("overall", {})
+    fw = stats.get("forward", {})
+    date = now.strftime("%Y-%m-%d")
+    rec = {
+        "date": date,
+        "win_rate": ov.get("win_rate"),
+        "avg_r": ov.get("avg_r"),
+        "signals": ov.get("signals"),
+        "forward_win_rate": fw.get("agg", {}).get("win_rate"),
+        "forward_matured": fw.get("matured"),
+    }
+    hist = []
+    if STATS_HISTORY_PATH.exists():
+        try:
+            data = json.loads(STATS_HISTORY_PATH.read_text(encoding="utf-8-sig"))
+            hist = data if isinstance(data, list) else []
+        except Exception:
+            hist = []
+    hist = [h for h in hist if h.get("date") != date]  # 같은 날짜 갱신
+    hist.append(rec)
+    hist.sort(key=lambda h: h.get("date", ""))
+    hist = hist[-90:]
+    STATS_HISTORY_PATH.write_text(
+        json.dumps(hist, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"[backtest] 이력 누적 → stats_history.json ({len(hist)}일)")
+
+
 def main():
     try:
         sys.stdout.reconfigure(encoding="utf-8")
@@ -338,6 +371,7 @@ def main():
     }
     STATS_PATH.write_text(json.dumps(stats, ensure_ascii=False, indent=2) + "\n",
                           encoding="utf-8")
+    _append_history(stats, now)
     ov = stats["backtest"]["overall"]
     print(f"[backtest] 완료 @ {now.isoformat()} — 신호 {ov['signals']} · "
           f"승률 {ov['win_rate']} · 평균R {ov['avg_r']} · forward {stats['forward'].get('matured', 0)}건")
