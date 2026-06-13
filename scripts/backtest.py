@@ -23,7 +23,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from analyze_technical import (
-    _calc_indicators, build_signal, score_stock, load_control,
+    _calc_indicators, score_stock, load_control, levels, DEFAULT_TUNING,
 )
 
 KST = ZoneInfo("Asia/Seoul")
@@ -147,11 +147,10 @@ def _diagnostics(agg, by_type):
     return out
 
 
-def _run_signals(items):
-    """[{code,name,...}] 의 과거 일봉에 현 규칙 적용 → (전체agg, 점수버킷별, 진입유형별)."""
-    agg = _blank_agg()
-    by_bucket = {"55-64": _blank_agg(), "65-74": _blank_agg(), "75+": _blank_agg()}
-    by_type = {"now": _blank_agg(), "breakout": _blank_agg()}
+def _collect_samples(items):
+    """과거 일봉에서 점수≥컷오프인 가상 진입 표본을 모은다.
+    표본 = (price, ind, fwd, score) — 이후 임의 파라미터로 재평가(스윕)할 수 있게 raw 보관."""
+    samples = []
     for it in items:
         code = it.get("code", "")
         if not code:
@@ -173,16 +172,93 @@ def _run_signals(items):
             sc, _ = score_stock(price, ind)
             if sc < SCORE_CUTOFF:
                 continue
-            sig = build_signal(1, it, price, ind.get("change"), ind, 48)
             fwd = [(b[1], b[2], b[3], b[4]) for b in bars[i + 1:i + 1 + HOLD_BARS]]
-            outcome, r = _evaluate(sig["entry"], sig["stop"], sig["target1"],
-                                   sig["target2"], sig["entry_type"], fwd)
-            if outcome == "invalid":
-                continue
-            _record(agg, outcome, r)
-            _record(by_bucket[_bucket(sc)], outcome, r)
-            _record(by_type[sig["entry_type"]], outcome, r)
+            samples.append((price, ind, fwd, sc))
+    return samples
+
+
+def _eval_sample(price, ind, fwd, sm, t1m, t2m):
+    """표본을 주어진 손절·목표 배수로 평가 → (outcome, r, etype)."""
+    lv = levels(price, ind, 48, sm, t1m, t2m)
+    outcome, r = _evaluate(lv["entry"], lv["stop"], lv["target1"], lv["target2"],
+                           lv["etype"], fwd)
+    return outcome, r, lv["etype"]
+
+
+def _aggregate(samples):
+    """기본 파라미터(현 규칙)로 표본을 집계 → (전체, 점수버킷별, 진입유형별)."""
+    agg = _blank_agg()
+    by_bucket = {"55-64": _blank_agg(), "65-74": _blank_agg(), "75+": _blank_agg()}
+    by_type = {"now": _blank_agg(), "breakout": _blank_agg()}
+    sm = DEFAULT_TUNING["stop_mult"]
+    t1 = DEFAULT_TUNING["target1_mult"]
+    t2 = DEFAULT_TUNING["target2_mult"]
+    for (price, ind, fwd, sc) in samples:
+        outcome, r, et = _eval_sample(price, ind, fwd, sm, t1, t2)
+        if outcome == "invalid":
+            continue
+        _record(agg, outcome, r)
+        _record(by_bucket[_bucket(sc)], outcome, r)
+        _record(by_type[et], outcome, r)
     return agg, by_bucket, by_type
+
+
+def _avg_r(subset, sm, t1, t2):
+    """subset 표본을 주어진 배수로 평가한 평균 R·체결 수."""
+    rs = []
+    for (price, ind, fwd, sc) in subset:
+        _, r, _ = _eval_sample(price, ind, fwd, sm, t1, t2)
+        if r is not None:
+            rs.append(r)
+    return (sum(rs) / len(rs), len(rs)) if rs else (None, 0)
+
+
+def _tune(samples):
+    """손절·목표 배수 그리드를 train(70%)/val(30%)로 검증해 보정안을 제안한다.
+    **과최적화 방지**: val 평균 R 이 현재 대비 +0.10 이상 좋고 train 도 개선될 때만 제안.
+    승인은 앱(통계 탭)에서 사용자가 한다(자동 적용 안 함)."""
+    cur = {"stop_mult": DEFAULT_TUNING["stop_mult"],
+           "target1_mult": DEFAULT_TUNING["target1_mult"],
+           "target2_mult": DEFAULT_TUNING["target2_mult"],
+           "score_cutoff": SCORE_CUTOFF}
+    block = {"current": cur, "suggestion": None,
+             "method": "train 70% / val 30% 시간 분할 · val 평균 R 최대 + 현재 대비 "
+                       "+0.10R 이상일 때만 제안(과최적화 방지). 적용은 사용자 승인."}
+    n = len(samples)
+    if n < 40:
+        block["note"] = "표본이 적어 보정안을 내지 않아요(40건 이상 필요)."
+        return block
+    cut = int(n * 0.7)
+    train, val = samples[:cut], samples[cut:]
+    cur_train, _ = _avg_r(train, cur["stop_mult"], cur["target1_mult"], cur["target2_mult"])
+    cur_val, _ = _avg_r(val, cur["stop_mult"], cur["target1_mult"], cur["target2_mult"])
+    if cur_train is None or cur_val is None:
+        return block
+    best = None
+    for sm in (1.2, 1.5, 1.8, 2.1):
+        for t1 in (1.5, 2.0, 2.5):
+            t2 = t1 + 1.0
+            tr, _ = _avg_r(train, sm, t1, t2)
+            vl, nf = _avg_r(val, sm, t1, t2)
+            if tr is None or vl is None:
+                continue
+            if best is None or vl > best["valid_avg_r"]:
+                best = {"stop_mult": sm, "target1_mult": t1, "target2_mult": t2,
+                        "score_cutoff": SCORE_CUTOFF,
+                        "train_avg_r": round(tr, 2), "valid_avg_r": round(vl, 2)}
+    if best and best["valid_avg_r"] >= cur_val + 0.10 and \
+            best["train_avg_r"] >= round(cur_train, 2) and \
+            (best["stop_mult"] != cur["stop_mult"] or
+             best["target1_mult"] != cur["target1_mult"]):
+        best["current_valid_avg_r"] = round(cur_val, 2)
+        best["basis"] = (
+            f"손절 배수 {cur['stop_mult']}→{best['stop_mult']}, 목표1 배수 "
+            f"{cur['target1_mult']}→{best['target1_mult']} 로 바꾸면 검증구간 평균 R 이 "
+            f"{round(cur_val, 2)}→{best['valid_avg_r']} 로 개선돼요.")
+        block["suggestion"] = best
+    else:
+        block["note"] = "지금 설정이 검증구간에서 가장 무난해요 — 바꿀 만한 보정안이 없어요."
+    return block
 
 
 def _forward_section():
@@ -230,12 +306,13 @@ def main():
         sys.stdout.reconfigure(encoding="utf-8")
     except Exception:
         pass
-    watchlist, scope, mkts, hold_cap = load_control()
+    watchlist, scope, mkts, hold_cap, tuning = load_control()
     if not watchlist:
         print("[backtest] watchlist 비어있음 — 중단")
         return 0
     now = datetime.datetime.now(KST).replace(microsecond=0)
-    agg, by_bucket, by_type = _run_signals(watchlist)
+    samples = _collect_samples(watchlist)
+    agg, by_bucket, by_type = _aggregate(samples)
 
     stats = {
         "schema_version": "1.0",
@@ -253,6 +330,9 @@ def main():
             "note": "과거 일봉에 현 규칙을 적용한 백테스트(미국증시 환경 보정 제외). "
                     "한 봉 내 손절을 목표보다 먼저 보는 보수적 판정. 실측 가격만 사용.",
         },
+        # 학습 보정안(승인제) — 손절·목표 배수 그리드를 train/val 로 검증해 제안.
+        "tuning": _tune(samples),
+        "applied_tuning": tuning,
         "forward": _forward_section(),
         "disclaimer": "통계는 과거·실거래 실측 기반 참고용이며 미래 수익을 보장하지 않습니다.",
     }

@@ -277,28 +277,48 @@ def score_stock(price, ind):
     return max(0, min(100, round(s))), why
 
 
-def build_signal(rank, item, price, change_pct, ind, hold_cap):
-    """기술 점수 통과 종목 → 매매계획 신호 dict."""
+# 매매계획 보정 파라미터 기본값(통계 탭 학습으로 조정 가능). control.json engine.tuning.
+DEFAULT_TUNING = {
+    "stop_mult": 1.5,      # 손절폭 = stop_mult × hf × ATR
+    "target1_mult": 2.0,   # 목표1 = 진입 + target1_mult × 위험
+    "target2_mult": 3.0,   # 목표2 = 진입 + target2_mult × 위험
+    "score_cutoff": 55,    # 신호 채택 점수 임계
+}
+
+
+def levels(price, ind, hold_cap, stop_mult=1.5, target1_mult=2.0, target2_mult=3.0):
+    """진입/손절/목표 레벨 계산(매매계획·백테스트 공용). 반환 dict.
+    stop_mult·targetN_mult 로 손절·목표 폭을 조정한다(학습 보정 적용 지점)."""
     atr = ind["atr"]
     breakout = ind["breakout"]
-    # 진입: 돌파+강세마감이면 즉시, 아니면 돌파 대기.
     if price >= breakout and ind["close_pos"] >= 50:
         entry = round_tick(price)
         etype = "now"
-        enote = f"기술 점수 상위·돌파 상회. 현재가({entry:,}) 부근 즉시 진입 가능, 거래량 확인."
     else:
         entry = round_tick(max(breakout, ind["day_high"]))
         etype = "breakout"
-        enote = f"{entry:,} 돌파 + 거래량 동반 시 진입(미돌파 시 미진입). 추격금지."
-    # 보유 캡(시간)에 따라 손절·목표 폭을 조정한다 — 가격 변동성은 √시간에 비례하므로
-    # 24h 를 기준(hf=1)으로 짧으면 타이트(hf↓)하게, 길면 넓게(hf↑) 잡는다(0.6~1.8 클램프).
     hf = max(0.6, min(1.8, math.sqrt(hold_cap / 24.0)))
-    stop = round_tick(max(entry - 1.5 * hf * atr, ind["recent_low5"]))
+    stop = round_tick(max(entry - stop_mult * hf * atr, ind["recent_low5"]))
     if stop >= entry:
         stop = round_tick(entry * (1 - 0.02 * hf))
     risk = entry - stop
-    target1 = round_tick(entry + 2 * risk)
-    target2 = round_tick(entry + 3 * risk)
+    target1 = round_tick(entry + target1_mult * risk)
+    target2 = round_tick(entry + target2_mult * risk)
+    return {"entry": entry, "stop": stop, "target1": target1,
+            "target2": target2, "etype": etype, "risk": risk}
+
+
+def build_signal(rank, item, price, change_pct, ind, hold_cap, tuning=None):
+    """기술 점수 통과 종목 → 매매계획 신호 dict. tuning(없으면 기본)로 손절·목표 조정."""
+    t = {**DEFAULT_TUNING, **(tuning or {})}
+    lv = levels(price, ind, hold_cap, t["stop_mult"], t["target1_mult"],
+                t["target2_mult"])
+    entry, stop, etype, risk = lv["entry"], lv["stop"], lv["etype"], lv["risk"]
+    target1, target2 = lv["target1"], lv["target2"]
+    if etype == "now":
+        enote = f"기술 점수 상위·돌파 상회. 현재가({entry:,}) 부근 즉시 진입 가능, 거래량 확인."
+    else:
+        enote = f"{entry:,} 돌파 + 거래량 동반 시 진입(미돌파 시 미진입). 추격금지."
     rr = round((target1 - entry) / risk, 2) if risk > 0 else 0
     weight = int(max(3, min(8, round(8 - ind["atr_pct"] * 0.25))))
     return {
@@ -408,7 +428,10 @@ def append_signal_log(signals, now_iso, date_str, hold_cap):
 
 
 def load_control():
+    """control.json 파싱. 반환: (watchlist, scope, market_targets, hold_cap, tuning).
+    tuning 은 engine.tuning(없으면 DEFAULT_TUNING) — 통계 탭 학습 보정 적용 지점."""
     wl, scope, mkts, cap = [], "watchlist", ["KOSPI", "KOSDAQ"], 48
+    tuning = dict(DEFAULT_TUNING)
     if CONTROL_PATH.exists():
         try:
             c = json.loads(CONTROL_PATH.read_text(encoding="utf-8-sig"))
@@ -417,9 +440,14 @@ def load_control():
             mkts = e.get("market_targets", mkts) or mkts
             cap = int(e.get("hold_cap_hours", cap) or cap)
             wl = c.get("watchlist", []) or []
+            t = e.get("tuning")
+            if isinstance(t, dict):
+                for k in DEFAULT_TUNING:
+                    if k in t and isinstance(t[k], (int, float)):
+                        tuning[k] = float(t[k])
         except Exception as ex:
             print(f"[analyze] control 읽기 실패: {ex}")
-    return wl, scope, mkts, cap
+    return wl, scope, mkts, cap, tuning
 
 
 def yahoo_symbol(code):
@@ -434,7 +462,10 @@ def main():
         pass
     now = datetime.datetime.now(KST)
     now_iso = now.replace(microsecond=0, second=0).isoformat()
-    watchlist, scope, mkts, hold_cap = load_control()
+    watchlist, scope, mkts, hold_cap, tuning = load_control()
+    cutoff = int(tuning.get("score_cutoff", 55))
+    if tuning != DEFAULT_TUNING:
+        print(f"[analyze] 학습 보정 적용: {tuning}")
     if not watchlist and scope != "market":
         print("[analyze] watchlist 비어있음 — 중단")
         return 0
@@ -525,9 +556,9 @@ def main():
     signals, observations = [], []
     rank = 0
     for item, price, change, ind, sc in cand:
-        if sc >= 55 and rank < 5:
+        if sc >= cutoff and rank < 5:
             rank += 1
-            sig = build_signal(rank, item, price, change, ind, hold_cap)
+            sig = build_signal(rank, item, price, change, ind, hold_cap, tuning)
             sig["_score"] = sc
             signals.append(sig)
         elif len(observations) < obs_cap:
