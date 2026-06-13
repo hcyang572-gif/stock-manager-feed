@@ -25,7 +25,25 @@ jobs:
   analyze:
     runs-on: ubuntu-latest
     steps:
+      # fetch-depth: 2 — 직전 커밋의 control.json 과 비교해 '분석 요청' 여부 판정용.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      # 이번 push 가 '사용자의 분석 요청'(run_requested_at 변경)인지 판정한다.
+      # 관심종목 추가/삭제·설정 저장만으로도 control.json 이 push 되지만, 그때는
+      # run_requested_at 이 그대로라 알림을 보내지 않는다(불필요 푸시 방지).
+      - name: Detect analysis request
+        id: req
+        run: |
+          before=$(git show HEAD~1:control.json 2>/dev/null | jq -r '.engine.run_requested_at // .run_requested_at // ""' 2>/dev/null || echo "")
+          after=$(jq -r '.engine.run_requested_at // .run_requested_at // ""' control.json)
+          if [ "$before" != "$after" ] && [ -n "$after" ]; then
+            echo "requested=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "requested=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "req: before=$before after=$after"
 
       - uses: actions/setup-python@v5
         with:
@@ -33,7 +51,8 @@ jobs:
 
       - name: Install deps
         # pykrx: 전체종목(scope=market) 스캔 시 KRX 거래대금 상위 유니버스 구성용.
-        run: pip install --quiet yfinance pandas tzdata pykrx
+        # google-auth: 분석 완료 FCM 푸시 발송용.
+        run: pip install --quiet yfinance pandas tzdata pykrx google-auth
 
       # KIS 접근 토큰은 24h 유효 — '1일 1회 발급' 원칙을 지키기 위해 발급한 토큰을
       # KST 날짜 키로 캐시해 하루 동안 모든 실행이 재사용한다(매 실행 재발급 방지).
@@ -54,6 +73,7 @@ jobs:
         run: python scripts/analyze_technical.py
 
       - name: Commit & push if changed
+        id: commit
         run: |
           git add feed.json signals_log.json 2>/dev/null || git add feed.json
           if [ -n "$(git status --porcelain)" ]; then
@@ -61,7 +81,16 @@ jobs:
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git commit -m "analyze: 온디맨드 기술 분석 ($(TZ=Asia/Seoul date '+%m-%d %H:%M KST'))"
             git push
-            echo "pushed"
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
           else
-            echo "no change"
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
           fi
+
+      # 분석 완료 푸시 — '사용자가 요청한 분석'이고(run_requested_at 변경) 새 결과가
+      # 나왔을 때(pushed)만. 앱이 꺼져 있어도 '요청한 분석 완료' 알림이 도착한다.
+      # FCM_SERVICE_ACCOUNT 시크릿 없으면 fcm_notify.py 가 조용히 건너뜀.
+      - name: FCM 분석완료 알림
+        if: steps.req.outputs.requested == 'true' && steps.commit.outputs.pushed == 'true'
+        env:
+          FCM_SERVICE_ACCOUNT: ${{ secrets.FCM_SERVICE_ACCOUNT }}
+        run: python scripts/fcm_notify.py --title "✅ 분석 완료" --body "요청하신 분석이 끝났어요. 탭해서 새 신호를 확인하세요."
