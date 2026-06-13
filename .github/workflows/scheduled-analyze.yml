@@ -77,7 +77,8 @@ jobs:
 
       - name: Install deps
         if: steps.gate.outputs.run == 'true'
-        run: pip install --quiet yfinance pandas tzdata
+        # pykrx: 전체종목(scope=market) 스캔 시 KRX 거래대금 상위 유니버스 구성용.
+        run: pip install --quiet yfinance pandas tzdata pykrx
 
       # KIS 토큰 '1일 1회 발급' — KST 날짜 키로 캐시(analyze-now 와 동일 키).
       - name: KIS token date (KST)

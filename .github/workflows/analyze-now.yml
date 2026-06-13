@@ -32,7 +32,8 @@ jobs:
           python-version: "3.12"
 
       - name: Install deps
-        run: pip install --quiet yfinance pandas tzdata
+        # pykrx: 전체종목(scope=market) 스캔 시 KRX 거래대금 상위 유니버스 구성용.
+        run: pip install --quiet yfinance pandas tzdata pykrx
 
       # KIS 접근 토큰은 24h 유효 — '1일 1회 발급' 원칙을 지키기 위해 발급한 토큰을
       # KST 날짜 키로 캐시해 하루 동안 모든 실행이 재사용한다(매 실행 재발급 방지).

@@ -112,56 +112,131 @@ def round_tick(p):
 
 
 # ── 일봉 지표(yfinance) ─────────────────────────────────────────────────────
+def _calc_indicators(closes, highs, lows, vols, opens):
+    """OHLCV 시계열(과거→현재)로 기술 지표 dict. 데이터 부족 시 None."""
+    n = len(closes)
+    if n < 25:
+        return None
+    ma5 = sum(closes[-5:]) / 5
+    ma20 = sum(closes[-20:]) / 20
+    # ATR14
+    trs = []
+    for i in range(1, n):
+        tr = max(highs[i] - lows[i], abs(highs[i] - closes[i - 1]),
+                 abs(lows[i] - closes[i - 1]))
+        trs.append(tr)
+    atr = sum(trs[-14:]) / 14
+    atr_pct = atr / closes[-1] * 100 if closes[-1] else 0
+    vol_avg20 = sum(vols[-20:]) / 20 if sum(vols[-20:]) else 0
+    vol_surge = (vols[-1] / vol_avg20) if vol_avg20 else 0
+    # RSI14 (Wilder 근사)
+    gains = []
+    losses = []
+    for i in range(n - 14, n):
+        d = closes[i] - closes[i - 1]
+        gains.append(max(d, 0))
+        losses.append(max(-d, 0))
+    ag = sum(gains) / 14
+    al = sum(losses) / 14
+    rsi = 100.0 if al == 0 else 100 - 100 / (1 + ag / al)
+    day_hi, day_lo, day_op = highs[-1], lows[-1], opens[-1]
+    close_pos = ((closes[-1] - day_lo) / (day_hi - day_lo) * 100) if day_hi > day_lo else 50
+    # 변동성 돌파(당일 시가 + 0.5*(전일 고-저))
+    breakout = day_op + 0.5 * (highs[-2] - lows[-2])
+    mom5 = (closes[-1] / closes[-6] - 1) * 100 if n >= 6 else 0
+    recent_low5 = min(lows[-5:])
+    prev = closes[-2] if n >= 2 else closes[-1]
+    change = round((closes[-1] / prev - 1) * 100, 2) if prev else None
+    return {
+        "ma5": ma5, "ma20": ma20, "atr": atr, "atr_pct": round(atr_pct, 2),
+        "vol_surge": round(vol_surge, 2), "rsi": round(rsi, 1),
+        "close_pos": round(close_pos, 1), "breakout": breakout,
+        "mom5": round(mom5, 2), "day_high": day_hi, "recent_low5": recent_low5,
+        "yf_close": closes[-1], "change": change,
+    }
+
+
 def daily_indicators(yahoo):
-    """yfinance 일봉으로 지표 dict. 실패 시 None."""
+    """yfinance 일봉(개별 호출)으로 지표 dict. 실패 시 None."""
     try:
         import yfinance as yf
         h = yf.Ticker(yahoo).history(period="80d", auto_adjust=False)
         if len(h) < 25:
             return None
-        closes = [float(x) for x in h["Close"]]
-        highs = [float(x) for x in h["High"]]
-        lows = [float(x) for x in h["Low"]]
-        vols = [float(x) for x in h["Volume"]]
-        opens = [float(x) for x in h["Open"]]
-        n = len(closes)
-        ma5 = sum(closes[-5:]) / 5
-        ma20 = sum(closes[-20:]) / 20
-        # ATR14
-        trs = []
-        for i in range(1, n):
-            tr = max(highs[i] - lows[i], abs(highs[i] - closes[i - 1]),
-                     abs(lows[i] - closes[i - 1]))
-            trs.append(tr)
-        atr = sum(trs[-14:]) / 14
-        atr_pct = atr / closes[-1] * 100 if closes[-1] else 0
-        vol_avg20 = sum(vols[-20:]) / 20 if sum(vols[-20:]) else 0
-        vol_surge = (vols[-1] / vol_avg20) if vol_avg20 else 0
-        # RSI14 (Wilder 근사)
-        gains = []
-        losses = []
-        for i in range(n - 14, n):
-            d = closes[i] - closes[i - 1]
-            gains.append(max(d, 0))
-            losses.append(max(-d, 0))
-        ag = sum(gains) / 14
-        al = sum(losses) / 14
-        rsi = 100.0 if al == 0 else 100 - 100 / (1 + ag / al)
-        day_hi, day_lo, day_op = highs[-1], lows[-1], opens[-1]
-        close_pos = ((closes[-1] - day_lo) / (day_hi - day_lo) * 100) if day_hi > day_lo else 50
-        # 변동성 돌파(당일 시가 + 0.5*(전일 고-저))
-        breakout = day_op + 0.5 * (highs[-2] - lows[-2])
-        mom5 = (closes[-1] / closes[-6] - 1) * 100 if n >= 6 else 0
-        recent_low5 = min(lows[-5:])
-        return {
-            "ma5": ma5, "ma20": ma20, "atr": atr, "atr_pct": round(atr_pct, 2),
-            "vol_surge": round(vol_surge, 2), "rsi": round(rsi, 1),
-            "close_pos": round(close_pos, 1), "breakout": breakout,
-            "mom5": round(mom5, 2), "day_high": day_hi, "recent_low5": recent_low5,
-            "yf_close": closes[-1],
-        }
+        return _calc_indicators(
+            [float(x) for x in h["Close"]], [float(x) for x in h["High"]],
+            [float(x) for x in h["Low"]], [float(x) for x in h["Volume"]],
+            [float(x) for x in h["Open"]])
     except Exception:
         return None
+
+
+def daily_indicators_batch(symbols):
+    """야후 심볼 리스트 → {symbol: ind}. 한 번의 yf.download 로 일괄 수집(전체종목 스캔용).
+    개별 Ticker 호출(수백 회)보다 빠르고 레이트리밋에 강하다. 실패는 흡수(빈 dict)."""
+    out = {}
+    syms = [s for s in symbols if s]
+    if not syms:
+        return out
+    try:
+        import yfinance as yf
+        data = yf.download(syms, period="80d", auto_adjust=False,
+                           group_by="ticker", threads=True, progress=False)
+    except Exception as ex:
+        print(f"[analyze] 배치 다운로드 실패: {ex}")
+        return out
+    single = len(syms) == 1
+    for sym in syms:
+        try:
+            sub = (data if single else data[sym]).dropna(subset=["Close"])
+            if len(sub) < 25:
+                continue
+            ind = _calc_indicators(
+                [float(x) for x in sub["Close"]], [float(x) for x in sub["High"]],
+                [float(x) for x in sub["Low"]], [float(x) for x in sub["Volume"]],
+                [float(x) for x in sub["Open"]])
+            if ind:
+                out[sym] = ind
+        except Exception:
+            continue
+    return out
+
+
+def build_universe(market_targets, top_per_market=60):
+    """pykrx 로 시장별 **거래대금 상위** 종목을 가져와 [{code,name,market,_mk}] 반환.
+    종목 코드·이름을 KRX 에서 실측으로 받아 정합성을 지킨다(하드코딩·날조 없음).
+    pykrx 미설치/네트워크 실패 시 빈 리스트 → 호출 측이 관심종목만으로 폴백."""
+    out = []
+    try:
+        from pykrx import stock
+    except Exception as ex:
+        print(f"[analyze] pykrx 없음 — 유니버스 생략(관심종목만): {ex}")
+        return []
+    now = datetime.datetime.now(KST)
+    today = now.strftime("%Y%m%d")
+    weekago = (now - datetime.timedelta(days=12)).strftime("%Y%m%d")
+    valid = {"KOSPI", "KOSDAQ"}
+    for mk in [m.upper() for m in market_targets if m.upper() in valid]:
+        try:
+            df = stock.get_market_price_change(weekago, today, market=mk)
+        except Exception as ex:
+            print(f"[analyze] pykrx {mk} 조회 실패: {ex}")
+            continue
+        if df is None or len(df) == 0:
+            continue
+        if "거래대금" in df.columns:
+            df = df.sort_values("거래대금", ascending=False)
+        cnt = 0
+        for code, row in df.iterrows():
+            name = str(row.get("종목명", "")).strip()
+            if not name:
+                continue
+            out.append({"code": str(code).zfill(6), "name": name,
+                        "market": "KR", "_mk": mk})
+            cnt += 1
+            if cnt >= top_per_market:
+                break
+    return out
 
 
 def score_stock(price, ind):
@@ -270,47 +345,84 @@ def main():
     now = datetime.datetime.now(KST)
     now_iso = now.replace(microsecond=0, second=0).isoformat()
     watchlist, scope, mkts, hold_cap = load_control()
-    if not watchlist:
+    if not watchlist and scope != "market":
         print("[analyze] watchlist 비어있음 — 중단")
         return 0
-    # KIS 현재가는 '있으면 더 정확' 한 보조값일 뿐 — 토큰 발급/조회가 실패해도
-    # 절대 중단하지 않고 yfinance(일봉 종가·지표)로 폴백한다. KIS 는 토큰 발급을
-    # 1분당 1회로 제한(EGW00133)하므로, 버튼 연타 등으로 실패하면 token=None 으로
-    # 둬서 yfinance 만으로 분석을 계속한다(로컬·키 없을 때와 동일 경로).
-    cfg = _kis_cfg()
-    token = None
-    if cfg:
-        try:
-            token = _kis_token(cfg)
-        except Exception as ex:
-            print(f"[analyze] KIS 토큰 실패 — yfinance 일봉으로 폴백: {ex}")
-            token = None
+
+    # 분석 대상 구성. scope=='market' 이면 watchlist(시드) + KRX 거래대금 상위
+    # 유니버스를 합쳐 **전체종목**을 차트로 스캔한다. 유니버스 확보 실패 시
+    # 관심종목만으로 안전하게 폴백한다(중단 없음).
+    targets = [dict(w) for w in watchlist]
+    use_batch = False
+    if scope == "market":
+        uni = build_universe(mkts)
+        if uni:
+            seen = {t.get("code") for t in targets}
+            for u in uni:
+                if u["code"] not in seen:
+                    targets.append(u)
+                    seen.add(u["code"])
+            use_batch = True
+            print(f"[analyze] 전체종목 스캔: watchlist {len(watchlist)} + "
+                  f"유니버스 {len(uni)} → 대상 {len(targets)} (markets={mkts})")
+        else:
+            print("[analyze] 유니버스 미확보 — 관심종목만 분석으로 폴백")
 
     cand = []  # (item, price, change, ind, score)
-    for item in watchlist:
-        code = item.get("code", "")
-        if not code:
-            continue
-        price, change = (None, None)
-        if cfg and token:
-            price, change = kis_quote(code, cfg, token, "UN")
-        # 일봉 지표(.KS → .KQ 폴백)
-        ind = daily_indicators(code + ".KS") or daily_indicators(code + ".KQ")
-        if price is None and ind is not None:
+    if use_batch:
+        # 전체종목 — 야후 배치 다운로드(시장별 접미사). 수백 종목이라 KIS 현재가는
+        # 생략하고 yfinance 일봉 종가/등락을 쓴다(정합성 유지·속도 확보).
+        sym_for = {t["code"]: t["code"] + (".KQ" if t.get("_mk") == "KOSDAQ" else ".KS")
+                   for t in targets}
+        inds = daily_indicators_batch(list(sym_for.values()))
+        for t in targets:
+            code = t["code"]
+            ind = inds.get(sym_for[code])
+            # watchlist 시드는 시장 정보가 없을 수 있어 개별 .KS/.KQ 폴백.
+            if ind is None and not t.get("_mk"):
+                ind = daily_indicators(code + ".KS") or daily_indicators(code + ".KQ")
+            if ind is None:
+                continue
             price = ind["yf_close"]
-        if price is None or ind is None:
-            print(f"[analyze] 시세/지표 미확보 제외: {item.get('name', code)}")
-            continue
-        sc, why = score_stock(price, ind)
-        ind["_why"] = why
-        cand.append((item, price, change, ind, sc))
+            sc, why = score_stock(price, ind)
+            ind["_why"] = why
+            cand.append((t, price, ind.get("change"), ind, sc))
+    else:
+        # 관심종목만 — KIS 현재가(있으면 더 정확) + yfinance 일봉. KIS 토큰 발급/조회
+        # 실패해도 절대 중단하지 않고 yfinance 로 폴백(1분당 1회 발급 제한 EGW00133).
+        cfg = _kis_cfg()
+        token = None
+        if cfg:
+            try:
+                token = _kis_token(cfg)
+            except Exception as ex:
+                print(f"[analyze] KIS 토큰 실패 — yfinance 일봉으로 폴백: {ex}")
+                token = None
+        for item in watchlist:
+            code = item.get("code", "")
+            if not code:
+                continue
+            price, change = (None, None)
+            if cfg and token:
+                price, change = kis_quote(code, cfg, token, "UN")
+            ind = daily_indicators(code + ".KS") or daily_indicators(code + ".KQ")
+            if price is None and ind is not None:
+                price = ind["yf_close"]
+            if price is None or ind is None:
+                print(f"[analyze] 시세/지표 미확보 제외: {item.get('name', code)}")
+                continue
+            sc, why = score_stock(price, ind)
+            ind["_why"] = why
+            cand.append((item, price, change, ind, sc))
 
     if not cand:
         print("[analyze] 분석 가능한 종목 없음 — feed 미변경")
         return 0
 
     cand.sort(key=lambda x: x[4], reverse=True)
-    # 점수 55 이상을 신호(최대 5), 나머지 관찰.
+    # 점수 55 이상을 신호(최대 5), 나머지 관찰. 전체종목 스캔은 후보가 수백 개라
+    # 관찰을 점수 상위 일부(OBS_CAP)로 제한해 feed·앱이 비대해지지 않게 한다.
+    obs_cap = 40
     signals, observations = [], []
     rank = 0
     for item, price, change, ind, sc in cand:
@@ -319,7 +431,7 @@ def main():
             sig = build_signal(rank, item, price, change, ind, hold_cap)
             sig["_score"] = sc
             signals.append(sig)
-        else:
+        elif len(observations) < obs_cap:
             observations.append({
                 "name": item["name"], "code": item["code"], "market": "KR",
                 "price": float(price), "currency": "KRW", "watch_trigger": None,
