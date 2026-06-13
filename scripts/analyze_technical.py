@@ -215,9 +215,12 @@ def build_signal(rank, item, price, change_pct, ind, hold_cap):
         entry = round_tick(max(breakout, ind["day_high"]))
         etype = "breakout"
         enote = f"{entry:,} 돌파 + 거래량 동반 시 진입(미돌파 시 미진입). 추격금지."
-    stop = round_tick(max(entry - 1.5 * atr, ind["recent_low5"]))
+    # 보유 캡(시간)에 따라 손절·목표 폭을 조정한다 — 가격 변동성은 √시간에 비례하므로
+    # 24h 를 기준(hf=1)으로 짧으면 타이트(hf↓)하게, 길면 넓게(hf↑) 잡는다(0.6~1.8 클램프).
+    hf = max(0.6, min(1.8, math.sqrt(hold_cap / 24.0)))
+    stop = round_tick(max(entry - 1.5 * hf * atr, ind["recent_low5"]))
     if stop >= entry:
-        stop = round_tick(entry * 0.97)
+        stop = round_tick(entry * (1 - 0.02 * hf))
     risk = entry - stop
     target1 = round_tick(entry + 2 * risk)
     target2 = round_tick(entry + 3 * risk)
