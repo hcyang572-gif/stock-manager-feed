@@ -1,0 +1,98 @@
+name: price-alert-watch
+
+# 백그라운드 가격 도달·급등락 감시 → FCM 푸시(앱 종료 중에도).
+# 5분 주기로 깨우되, gate 가 평일 + control.robot 운영창(기본 08:00~20:00, 시간외 NXT
+# 포함) 안에서만 실제 실행한다. 신호 레벨(진입/손절/목표) 도달과 관심종목 급등/급락을
+# KIS 통합(NXT) 실측가로 감지해 토픽 'analysis' 로 알린다.
+#
+# 한계(정직): GitHub Actions cron 은 최소 5분·베스트에포트(수 분 지연 가능)라
+# 실시간(초)은 아니다. 빠르게 찍고 되돌아오는 움직임은 놓칠 수 있다.
+#
+# 상태(중복방지·급등락 표본)는 actions/cache 로 실행 간 보존(레포 커밋 없음).
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "*/5 * * * *"   # 매 5분(24h). gate 가 평일·운영창으로 정밀 필터.
+
+permissions:
+  contents: read
+
+concurrency:
+  group: price-alert-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 실행 여부 판정 — 평일 + control.robot 운영창 + 알람 1개라도 ON.
+      - name: Gate
+        id: gate
+        run: |
+          dow=$(TZ=Asia/Seoul date +%u)                       # 1=Mon … 7=Sun
+          nowmin=$(( $(TZ=Asia/Seoul date +%-H) * 60 + $(TZ=Asia/Seoul date +%-M) ))
+          ws=$(jq -r '.robot.window_start // "08:00"' control.json)
+          we=$(jq -r '.robot.window_end // "20:00"' control.json)
+          wsmin=$(( 10#${ws%%:*} * 60 + 10#${ws##*:} ))
+          wemin=$(( 10#${we%%:*} * 60 + 10#${we##*:} ))
+          pen=$(jq -r '(.alerts.price_enabled // true)' control.json)
+          sen=$(jq -r '(.alerts.surge_enabled // true)' control.json)
+          run=false
+          if [ "$dow" -le 5 ] && [ "$nowmin" -ge "$wsmin" ] && [ "$nowmin" -le "$wemin" ] \
+             && { [ "$pen" = "true" ] || [ "$sen" = "true" ]; }; then
+            run=true
+          fi
+          echo "run=$run" >> "$GITHUB_OUTPUT"
+          echo "gate: dow=$dow now=$nowmin win=$wsmin-$wemin price=$pen surge=$sen → run=$run"
+
+      - uses: actions/setup-python@v5
+        if: steps.gate.outputs.run == 'true'
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        if: steps.gate.outputs.run == 'true'
+        # google-auth: FCM 발송 · holidays/tzdata: 개장·시간 판정.
+        run: pip install --quiet google-auth holidays tzdata
+
+      # KIS 토큰 '1일 1회 발급' — 다른 워크플로와 동일 키로 공유(재발급 방지).
+      - name: KIS token date (KST)
+        if: steps.gate.outputs.run == 'true'
+        id: kisdate
+        run: echo "d=$(TZ=Asia/Seoul date +%F)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache KIS access token (1일 1회 발급)
+        if: steps.gate.outputs.run == 'true'
+        uses: actions/cache@v4
+        with:
+          path: config/.kis_token.json
+          key: kis-token-${{ steps.kisdate.outputs.d }}
+
+      # 알람 상태(발사기록·급등락 표본) — 실행 간 보존(커밋 대신 캐시).
+      # 매 실행 고유 키로 저장하고, restore-keys 로 가장 최근 것을 복원한다.
+      - name: Restore alert state
+        if: steps.gate.outputs.run == 'true'
+        uses: actions/cache/restore@v4
+        with:
+          path: config/.alert_state.json
+          key: alert-state-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            alert-state-
+
+      - name: Run price/surge watch
+        if: steps.gate.outputs.run == 'true'
+        env:
+          KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
+          KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
+          FCM_SERVICE_ACCOUNT: ${{ secrets.FCM_SERVICE_ACCOUNT }}
+        run: python scripts/price_alert_watch.py
+
+      - name: Save alert state
+        if: steps.gate.outputs.run == 'true' && always()
+        uses: actions/cache/save@v4
+        with:
+          path: config/.alert_state.json
+          key: alert-state-${{ github.run_id }}-${{ github.run_attempt }}
