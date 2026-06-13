@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "date": "2026-06-13",
-  "generated_at": "2026-06-13T20:41:00+09:00",
+  "generated_at": "2026-06-13T20:43:00+09:00",
   "horizon_hours": 48,
   "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 미국증시 전일 환경 보정. 뉴스/촉매 미반영.",
   "market_state": {
@@ -18,15 +18,47 @@
     }
   },
   "summary": {
-    "signal_count": 2,
+    "signal_count": 3,
     "observation_count": 0,
     "position_count": 0,
-    "top_signal": "SK하이닉스",
-    "headline": "기술 분석 갱신(06-13 20:41 KST) — 차트·거래량·변동성 기준 2개 신호. 뉴스 미반영이니 진입 전 재료 확인."
+    "top_signal": "NAVER",
+    "headline": "기술 분석 갱신(06-13 20:43 KST) — 차트·거래량·변동성 기준 3개 신호. 뉴스 미반영이니 진입 전 재료 확인."
   },
   "signals": [
     {
       "rank": 1,
+      "name": "NAVER",
+      "code": "035420",
+      "market": "KR",
+      "direction": "long",
+      "confidence": "mid",
+      "price": 242500.0,
+      "currency": "KRW",
+      "entry": 242500.0,
+      "entry_type": "now",
+      "entry_note": "기술 점수 상위·돌파 상회. 현재가(242,500) 부근 즉시 진입 가능, 거래량 확인.",
+      "stop": 218500,
+      "target1": 290500,
+      "target2": 314500,
+      "rr": 2.0,
+      "atr_pct": 12.37,
+      "hold_cap_hours": 48,
+      "weight_pct": 5,
+      "catalyst_verified": false,
+      "change_pct": 8.26,
+      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), RSI 61.0(상승), 변동성 돌파 상회, 미국증시 환경 +2.1 (전일 S&P+0.5%·나스닥+0.31%·SOX+1.52%). ATR 12.37%·5일모멘텀 -3.33%.",
+      "risk_notes": [
+        "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
+        "ATR 12.37% 변동성 — 손절폭·비중 유의."
+      ],
+      "tags": [
+        "기술분석",
+        "온디맨드",
+        "즉시진입"
+      ]
+    },
+    {
+      "rank": 2,
       "name": "SK하이닉스",
       "code": "000660",
       "market": "KR",
@@ -58,7 +90,7 @@
       ]
     },
     {
-      "rank": 2,
+      "rank": 3,
       "name": "삼성전자",
       "code": "005930",
       "market": "KR",
