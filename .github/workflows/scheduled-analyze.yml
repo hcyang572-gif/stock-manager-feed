@@ -2,20 +2,23 @@ name: scheduled-analyze
 
 # 버튼을 누르지 않아도 클라우드가 **자동으로** 기술 분석을 다시 돌려 feed.json 의
 # 신호값(진입/손절/목표·점수)을 갱신한다. 두 가지 시점에 동작한다:
-#   (1) 아침 분석 — control.json 의 engine.morning_time_kst(앱에서 선택) 시각에 1회.
-#   (2) 장중 주기 갱신 — KST 정규장(09:00~15:30, 월~금) 동안 30분마다.
+#   (1) 예약 분석 — control.json 의 engine.morning_time_kst(시각) + morning_days(요일,
+#       앱에서 선택)에 맞춰 1회. **주말·공휴일 요일을 골라도 그 시각에 실행**한다
+#       (장이 안 열려도 직전 거래일 일봉으로 분석).
+#   (2) 장중 주기 갱신 — KST 정규장(09:00~15:30, 월~금) 동안 주기적으로.
 # analyze_technical.py 는 뉴스/촉매 없이 차트·거래량·변동성만 보는 무료 기술 분석이다
-# (LLM 미사용). 종합(뉴스+촉매) 아침 분석은 별도 클라우드 예약 루틴이 담당한다.
+# (LLM 미사용). 종합(뉴스+촉매) 분석은 별도 클라우드 예약 루틴이 담당한다.
 #
-# cron 은 넉넉히 자주 깨우고, 아래 'gate' 스텝이 KST 요일·시각과 morning_time_kst 를
-# 보고 실제 실행 여부를 정확히 판정한다(불필요 실행은 즉시 종료).
+# 사용자가 임의 요일·시각을 고를 수 있어야 하므로 cron 은 24시간 내내 자주 깨우고,
+# 아래 'gate' 스텝이 KST 요일·시각과 morning_time_kst·morning_days 를 보고 실제 실행
+# 여부를 정확히 판정한다(불필요 실행은 즉시 종료 — 공개 레포라 Actions 분 무제한).
 
 on:
   workflow_dispatch: {}
   schedule:
-    # UTC. KST = UTC+9. gate 스텝이 정밀 필터링하므로 창은 넉넉히 잡는다.
-    - cron: "*/15 21-23 * * *"   # KST 06:00~08:59 — 아침 분석 시각 후보 창
-    - cron: "*/30 0-6 * * *"     # KST 09:00~15:59 — 장중 주기 갱신 창
+    # 매 10분, 24시간·매일. gate 가 요일·시각으로 정밀 필터링하므로 임의 예약 시각도
+    # 가장 가까운 tick(≤5분)에서 morning_time ±7분 창에 걸려 빠짐없이 실행된다.
+    - cron: "*/10 * * * *"
 
 permissions:
   contents: write
@@ -30,33 +33,42 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # 실행 여부 판정 — KST 요일/시각 + morning_time_kst 기준.
-      #  · 주말(토·일)은 건너뜀.
-      #  · 장중(09:00~15:30)이면 항상 실행(주기 갱신).
-      #  · 그 외엔 morning_time_kst ±7분 이내일 때만 실행(아침 분석).
+      # 실행 여부 판정 — KST 요일/시각 + morning_time_kst + morning_days 기준.
+      #  · 예약(아침) 분석: 오늘 요일이 morning_days 에 있고 morning_time ±7분이면 실행
+      #    (주말·공휴일 요일을 골랐어도 실행 — 직전 거래일 일봉으로 분석).
+      #  · 장중 주기 갱신: 평일(월~금) 09:00~15:30 이면 실행(주말 휴장은 제외).
+      #  · 그 외엔 즉시 종료.
       - name: Gate (decide whether to analyze)
         id: gate
         run: |
           enabled=$(jq -r '.engine.analysis_enabled // true' control.json)
-          dow=$(TZ=Asia/Seoul date +%u)          # 1=Mon ... 7=Sun
-          now=$(TZ=Asia/Seoul date +%-H*60+%-M)  # 분(자정 기준) 산술식
-          nowmin=$(( now ))
+          dow=$(TZ=Asia/Seoul date +%u)                              # 1=Mon ... 7=Sun
+          nowmin=$(( $(TZ=Asia/Seoul date +%-H) * 60 + $(TZ=Asia/Seoul date +%-M) ))
           mt=$(jq -r '.engine.morning_time_kst // "07:00"' control.json)
           mh=${mt%%:*}; mm=${mt##*:}
           mtmin=$(( 10#$mh * 60 + 10#$mm ))
+          # 예약 요일(기본 평일 1~5). CSV 로 뽑아 오늘 요일 멤버십을 검사.
+          days=$(jq -r '(.engine.morning_days // []) as $d
+                        | if ($d|type)=="array" and ($d|length)>0
+                          then ($d|map(tostring)|join(",")) else "1,2,3,4,5" end' control.json)
+          case ",$days," in *",$dow,"*) day_ok=true;; *) day_ok=false;; esac
+
           run=false; reason="skip"
           if [ "$enabled" != "true" ]; then
             reason="analysis disabled"
-          elif [ "$dow" -ge 6 ]; then
-            reason="weekend"
-          elif [ "$nowmin" -ge 540 ] && [ "$nowmin" -le 930 ]; then
-            run=true; reason="market-hours periodic"
           else
+            # (1) 장중 주기 갱신 — 평일 09:00~15:30.
+            if [ "$dow" -le 5 ] && [ "$nowmin" -ge 540 ] && [ "$nowmin" -le 930 ]; then
+              run=true; reason="market-hours periodic"
+            fi
+            # (2) 예약 분석 — 선택 요일 + morning_time ±7분(주말·휴장일 포함).
             diff=$(( nowmin - mtmin )); [ "$diff" -lt 0 ] && diff=$(( -diff ))
-            if [ "$diff" -le 7 ]; then run=true; reason="morning ($mt)"; fi
+            if [ "$day_ok" = "true" ] && [ "$diff" -le 7 ]; then
+              run=true; reason="scheduled ($mt dow=$dow)"
+            fi
           fi
           echo "run=$run" >> "$GITHUB_OUTPUT"
-          echo "gate: dow=$dow now=$nowmin morning=$mt → run=$run ($reason)"
+          echo "gate: dow=$dow now=$nowmin morning=$mt days=$days day_ok=$day_ok → run=$run ($reason)"
 
       - uses: actions/setup-python@v5
         if: steps.gate.outputs.run == 'true'
