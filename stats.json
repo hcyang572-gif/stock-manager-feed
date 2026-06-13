@@ -1,80 +1,80 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-06-13T21:00:53+09:00",
+  "generated_at": "2026-06-13T21:38:42+09:00",
   "backtest": {
     "period_days": 240,
     "universe": "관심종목",
-    "universe_count": 7,
+    "universe_count": 8,
     "hold_bars": 2,
     "score_cutoff": 55,
     "overall": {
-      "signals": 1267,
-      "filled": 843,
-      "no_fill": 424,
-      "hit_target1": 28,
-      "hit_target2": 13,
-      "hit_stop": 104,
-      "timecut": 698,
-      "win_rate": 53.7,
-      "avg_r": 0.13
+      "signals": 1433,
+      "filled": 944,
+      "no_fill": 489,
+      "hit_target1": 29,
+      "hit_target2": 14,
+      "hit_stop": 116,
+      "timecut": 785,
+      "win_rate": 53.0,
+      "avg_r": 0.12
     },
     "by_score": {
       "55-64": {
-        "signals": 155,
-        "filled": 99,
-        "no_fill": 56,
-        "hit_target1": 3,
-        "hit_target2": 2,
-        "hit_stop": 14,
-        "timecut": 80,
-        "win_rate": 46.5,
-        "avg_r": 0.02
-      },
-      "65-74": {
-        "signals": 164,
-        "filled": 97,
+        "signals": 177,
+        "filled": 110,
         "no_fill": 67,
         "hit_target1": 3,
-        "hit_target2": 3,
+        "hit_target2": 2,
         "hit_stop": 16,
-        "timecut": 75,
-        "win_rate": 51.5,
-        "avg_r": 0.13
+        "timecut": 89,
+        "win_rate": 46.4,
+        "avg_r": -0.0
+      },
+      "65-74": {
+        "signals": 194,
+        "filled": 114,
+        "no_fill": 80,
+        "hit_target1": 3,
+        "hit_target2": 3,
+        "hit_stop": 17,
+        "timecut": 91,
+        "win_rate": 50.9,
+        "avg_r": 0.12
       },
       "75+": {
-        "signals": 948,
-        "filled": 647,
-        "no_fill": 301,
-        "hit_target1": 22,
-        "hit_target2": 8,
-        "hit_stop": 74,
-        "timecut": 543,
-        "win_rate": 55.2,
-        "avg_r": 0.15
+        "signals": 1062,
+        "filled": 720,
+        "no_fill": 342,
+        "hit_target1": 23,
+        "hit_target2": 9,
+        "hit_stop": 83,
+        "timecut": 605,
+        "win_rate": 54.3,
+        "avg_r": 0.14
       }
     },
     "by_entry_type": {
       "now": {
-        "signals": 375,
-        "filled": 375,
+        "signals": 416,
+        "filled": 416,
         "no_fill": 0,
         "hit_target1": 12,
         "hit_target2": 7,
-        "hit_stop": 54,
-        "timecut": 302,
-        "win_rate": 53.1,
+        "hit_stop": 59,
+        "timecut": 338,
+        "win_rate": 52.6,
         "avg_r": 0.13
       },
       "breakout": {
-        "signals": 892,
-        "filled": 468,
-        "no_fill": 424,
-        "hit_target1": 16,
-        "hit_target2": 6,
-        "hit_stop": 50,
-        "timecut": 396,
-        "win_rate": 54.3,
-        "avg_r": 0.13
+        "signals": 1017,
+        "filled": 528,
+        "no_fill": 489,
+        "hit_target1": 17,
+        "hit_target2": 7,
+        "hit_stop": 57,
+        "timecut": 447,
+        "win_rate": 53.2,
+        "avg_r": 0.11
       }
     },
     "diagnostics": [
@@ -90,7 +90,7 @@
       "score_cutoff": 55
     },
     "suggestion": null,
-    "method": "train 70% / val 30% 시간 분할 · val 평균 R 최대 + 현재 대비 +0.10R 이상일 때만 제안(과최적화 방지). 적용은 사용자 승인.",
+    "method": "train 70% / val 30% 시간 분할 · val 평균 R 최대 + 현재 대비 +0.05R 이상일 때만 제안(과최적화 방지). 적용은 사용자 승인.",
     "note": "지금 설정이 검증구간에서 가장 무난해요 — 바꿀 만한 보정안이 없어요."
   },
   "applied_tuning": {
@@ -102,7 +102,7 @@
   "forward": {
     "status": "ok",
     "matured": 0,
-    "logged": 5,
+    "logged": 6,
     "agg": {
       "signals": 0,
       "filled": 0,

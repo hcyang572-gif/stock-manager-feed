@@ -223,7 +223,7 @@ def _tune(samples):
            "score_cutoff": SCORE_CUTOFF}
     block = {"current": cur, "suggestion": None,
              "method": "train 70% / val 30% 시간 분할 · val 평균 R 최대 + 현재 대비 "
-                       "+0.10R 이상일 때만 제안(과최적화 방지). 적용은 사용자 승인."}
+                       "+0.05R 이상일 때만 제안(과최적화 방지). 적용은 사용자 승인."}
     n = len(samples)
     if n < 40:
         block["note"] = "표본이 적어 보정안을 내지 않아요(40건 이상 필요)."
@@ -246,7 +246,7 @@ def _tune(samples):
                 best = {"stop_mult": sm, "target1_mult": t1, "target2_mult": t2,
                         "score_cutoff": SCORE_CUTOFF,
                         "train_avg_r": round(tr, 2), "valid_avg_r": round(vl, 2)}
-    if best and best["valid_avg_r"] >= cur_val + 0.10 and \
+    if best and best["valid_avg_r"] >= cur_val + 0.05 and \
             best["train_avg_r"] >= round(cur_train, 2) and \
             (best["stop_mult"] != cur["stop_mult"] or
              best["target1_mult"] != cur["target1_mult"]):
