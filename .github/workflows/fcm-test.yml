@@ -1,0 +1,38 @@
+name: fcm-test
+
+# 백그라운드 푸시 테스트용 — Actions 탭에서 'Run workflow' 를 누르면 토픽 'analysis' 로
+# 테스트 알림을 1건 보낸다(앱이 v0.1.49+ 설치·알림 허용·토픽 구독돼 있어야 도착).
+# FCM_SERVICE_ACCOUNT 시크릿이 없으면 fcm_notify.py 가 조용히 건너뛴다.
+
+on:
+  workflow_dispatch:
+    inputs:
+      title:
+        description: '알림 제목'
+        required: false
+        default: '🔔 테스트 알림'
+      body:
+        description: '알림 내용'
+        required: false
+        default: '백그라운드 푸시가 잘 오면 성공이에요!'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps
+        run: pip install --quiet google-auth
+      - name: Send test push
+        env:
+          FCM_SERVICE_ACCOUNT: ${{ secrets.FCM_SERVICE_ACCOUNT }}
+        run: |
+          python scripts/fcm_notify.py \
+            --title "${{ github.event.inputs.title }}" \
+            --body "${{ github.event.inputs.body }}"
