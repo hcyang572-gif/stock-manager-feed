@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updated_at": "2026-06-14T23:41:09+09:00",
+  "updated_at": "2026-06-14T23:51:38+09:00",
   "updated_by": "app",
   "engine": {
     "analysis_enabled": true,
@@ -18,34 +18,7 @@
       5,
       6,
       7
-    ],
-    "learned_weights": {
-      "base": 50.0,
-      "align_up": -8.0,
-      "above_ma20": 0.0,
-      "vol_surge": -9.0,
-      "vol_ok": -4.0,
-      "vol_dry": -16.0,
-      "strong_close": 1.0,
-      "weak_close": -6.0,
-      "rsi_up": 0.0,
-      "rsi_hot": 5.0,
-      "rsi_oversold": 1.0,
-      "breakout": -8.0,
-      "mom_up": 6.0,
-      "gap_up": 2.0,
-      "gap_down": 10.0,
-      "vol_accel": 5.0,
-      "streak_up": 9.0,
-      "near_high": 9.0,
-      "range_exp": 1.0,
-      "ma20_up": -4.0,
-      "for_buy": 18.0,
-      "for_sell": 10.0,
-      "org_buy": 15.0,
-      "org_sell": 13.0,
-      "align_down": 0.0
-    }
+    ]
   },
   "robot": {
     "interval_min": 10,
@@ -103,11 +76,11 @@
     "lv_target1": true,
     "lv_target2": true,
     "surge_enabled": true,
+    "hold_enabled": true,
+    "mom_enabled": true,
     "surge_threshold": 3.0,
     "surge_window": 10,
-    "hold_enabled": true,
     "hold_loss_pct": 3.0,
-    "mom_enabled": true,
     "mom_threshold": 1.5
   },
   "holdings_watch": [
