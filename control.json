@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updated_at": "2026-06-14T22:52:12+09:00",
+  "updated_at": "2026-06-14T23:03:02+09:00",
   "updated_by": "app",
   "engine": {
     "analysis_enabled": true,
@@ -104,6 +104,28 @@
     "lv_target2": true,
     "surge_enabled": true,
     "surge_threshold": 3.0,
-    "surge_window": 10
-  }
+    "surge_window": 10,
+    "hold_enabled": true,
+    "hold_loss_pct": 3.0
+  },
+  "holdings_watch": [
+    {
+      "code": "005930",
+      "market": "KR",
+      "name": "삼성전자",
+      "entry": 370500.0
+    },
+    {
+      "code": "000660",
+      "market": "KR",
+      "name": "SK하이닉스",
+      "entry": 1970000.0
+    },
+    {
+      "code": "034020",
+      "market": "KR",
+      "name": "두산에너빌리티",
+      "entry": 85500.0
+    }
+  ]
 }
