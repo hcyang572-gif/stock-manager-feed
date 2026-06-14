@@ -269,41 +269,57 @@ def build_universe(market_targets, top_per_market=60):
 
 
 def score_stock(price, ind):
-    """0~100 기술 점수 + 근거 리스트."""
+    """0~100 기술 점수 + (why, breakdown) 반환.
+    - why: 짧은 강세 근거(evidence 문구용, 기존과 동일).
+    - breakdown: **항목별 점수 내역**(앱 '점수 근거' 팝업용). 기본 50에서 시작해 각
+      지표 기여를 +/- 로 적는다. 합이 0~100을 넘으면 최종 점수는 0~100으로 제한된다."""
     s = 50.0
     why = []
+    bd = ["기본 점수 +50"]
     if ind["ma5"] > ind["ma20"]:
         s += 18
         why.append("정배열(MA5>MA20)")
+        bd.append("정배열(MA5>MA20) +18")
     else:
         s -= 8
+        bd.append("역배열(MA5<MA20) -8")
     if price > ind["ma20"]:
         s += 8
+        bd.append("현재가가 20일선(MA20) 위 +8")
     if ind["vol_surge"] >= 1.5:
         s += 15
         why.append(f"거래량 급증 {ind['vol_surge']}x")
+        bd.append(f"거래량 급증 {ind['vol_surge']}배 +15")
     elif ind["vol_surge"] >= 1.0:
         s += 7
+        bd.append(f"거래량 양호 {ind['vol_surge']}배 +7")
     if ind["close_pos"] >= 60:
         s += 14
         why.append(f"강세 마감(종가위치 {ind['close_pos']}%)")
+        bd.append(f"강세 마감(종가위치 {ind['close_pos']}%) +14")
     elif ind["close_pos"] < 30:
         s -= 12
         why.append(f"윗꼬리/분배(종가위치 {ind['close_pos']}%)")
+        bd.append(f"윗꼬리/분배(종가위치 {ind['close_pos']}%) -12")
     if 50 <= ind["rsi"] <= 70:
         s += 13
         why.append(f"RSI {ind['rsi']}(상승)")
+        bd.append(f"RSI {ind['rsi']} (상승 구간 50~70) +13")
     elif ind["rsi"] > 75:
         s -= 10
         why.append(f"RSI {ind['rsi']}(과열)")
+        bd.append(f"RSI {ind['rsi']} (과열 >75) -10")
     elif ind["rsi"] < 35:
         s += 4
+        bd.append(f"RSI {ind['rsi']} (침체 반등 기대 <35) +4")
     if price >= ind["breakout"]:
         s += 14
         why.append("변동성 돌파 상회")
+        bd.append("변동성 돌파선 상회 +14")
     if ind["mom5"] > 0:
         s += 8
-    return max(0, min(100, round(s))), why
+        bd.append(f"5일 모멘텀 +{ind['mom5']}% (양) +8")
+    return max(0, min(100, round(s))), why, bd
 
 
 # 매매계획 보정 파라미터 기본값(통계 탭 학습으로 조정 가능). control.json engine.tuning.
@@ -360,6 +376,8 @@ def build_signal(rank, item, price, change_pct, ind, hold_cap, tuning=None):
         "catalyst_verified": False, "change_pct": round(change_pct, 2) if change_pct is not None else None,
         "evidence": "기술 분석(뉴스 미확인) — " + ", ".join(ind["_why"]) +
                     f". ATR {ind['atr_pct']}%·5일모멘텀 {ind['mom5']}%.",
+        # 앱 '점수 근거' 팝업용 — 항목별 점수 내역(기본 50 + 각 지표 기여).
+        "score_reasons": list(ind.get("_breakdown", [])),
         "risk_notes": ["촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
                        f"ATR {ind['atr_pct']}% 변동성 — 손절폭·비중 유의."],
         "tags": ["기술분석", "온디맨드"] + (["돌파대기"] if etype == "breakout" else ["즉시진입"]),
@@ -404,8 +422,9 @@ def fetch_us_regime():
     return out
 
 
-def apply_regime(score, why, regime):
-    """기술 점수에 시장 환경 보정(adj)을 더해 0~100 으로 클램프하고 근거를 남긴다."""
+def apply_regime(score, why, breakdown, regime):
+    """기술 점수에 시장 환경 보정(adj)을 더해 0~100 으로 클램프하고 근거를 남긴다.
+    why(짧은 근거)·breakdown(항목별 내역) 양쪽에 미국증시 보정 항목을 추가한다."""
     if not regime or not regime.get("adj"):
         return score
     adj = regime["adj"]
@@ -413,7 +432,9 @@ def apply_regime(score, why, regime):
     for k, lbl in (("sp", "S&P"), ("nasdaq", "나스닥"), ("sox", "SOX")):
         if k in regime:
             parts.append(f"{lbl}{regime[k]:+g}%")
-    why.append(f"미국증시 환경 {adj:+g} (전일 {'·'.join(parts)})")
+    note = f"미국증시 환경 {adj:+g} (전일 {'·'.join(parts)})"
+    why.append(note)
+    breakdown.append(note)
     return max(0, min(100, round(score + adj)))
 
 
@@ -652,9 +673,10 @@ def score_watchlist(watchlist, regime, cutoff):
         if price is None or ind is None:
             print(f"[analyze] 시세/지표 미확보 제외: {item.get('name', code)}")
             continue
-        sc, why = score_stock(price, ind)
-        sc = apply_regime(sc, why, regime)
+        sc, why, bd = score_stock(price, ind)
+        sc = apply_regime(sc, why, bd, regime)
         ind["_why"] = why
+        ind["_breakdown"] = bd
         out.append((item, price, change, ind, sc))
     return out
 
@@ -676,9 +698,10 @@ def score_universe(uni, regime):
         if ind is None:
             continue
         price = ind["yf_close"]
-        sc, why = score_stock(price, ind)
-        sc = apply_regime(sc, why, regime)
+        sc, why, bd = score_stock(price, ind)
+        sc = apply_regime(sc, why, bd, regime)
         ind["_why"] = why
+        ind["_breakdown"] = bd
         out.append((t, price, ind.get("change"), ind, sc))
     return out
 

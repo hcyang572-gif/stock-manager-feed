@@ -169,7 +169,7 @@ def _collect_samples(items):
             if ind is None:
                 continue
             price = bars[i][4]
-            sc, _ = score_stock(price, ind)
+            sc, _, _ = score_stock(price, ind)
             if sc < SCORE_CUTOFF:
                 continue
             fwd = [(b[1], b[2], b[3], b[4]) for b in bars[i + 1:i + 1 + HOLD_BARS]]
