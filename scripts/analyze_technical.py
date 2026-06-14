@@ -619,6 +619,9 @@ DEFAULT_TUNING = {
     "risk_per_trade_pct": 1.0,  # 한 트레이드에 거는 자본 위험(%)
     "max_weight_pct": 15.0,     # 종목 최대 비중(%)
     "min_weight_pct": 3.0,      # 종목 최소 비중(%)
+    # 관리 정책(백테스트·권고 공통) — 목표1 부분익절 + 목표1 후 본전 스톱.
+    "partial_t1_frac": 0.5,     # 목표1 도달 시 청산할 비중(0=부분익절 안 함)
+    "breakeven_after_t1": 1.0,  # 목표1 후 손절을 본전으로(1=적용, 0=원손절 유지)
 }
 
 
@@ -665,13 +668,36 @@ def position_weight(entry, stop, score, cutoff, tuning):
     return round(w), round(stop_dist * 100, 1), round(est_loss, 2)
 
 
+def score_bucket(score):
+    """점수 → 구간 라벨(backtest 와 동일 경계). 구간별 차등 튜닝 적용에 사용."""
+    if score >= 75:
+        return "75+"
+    if score >= 65:
+        return "65-74"
+    return "55-64"
+
+
+def effective_mults(tuning, score):
+    """전역 tuning + (있으면) 점수구간별 by_bucket 을 합쳐 손절·목표 배수를 정한다."""
+    t = {**DEFAULT_TUNING, **(tuning or {})}
+    sm, t1, t2 = t["stop_mult"], t["target1_mult"], t["target2_mult"]
+    bb = (tuning or {}).get("by_bucket") if tuning else None
+    if isinstance(bb, dict):
+        mv = bb.get(score_bucket(score))
+        if isinstance(mv, dict):
+            sm = mv.get("stop_mult", sm)
+            t1 = mv.get("target1_mult", t1)
+            t2 = mv.get("target2_mult", t2)
+    return sm, t1, t2
+
+
 def build_signal(rank, item, price, change_pct, ind, hold_cap, tuning=None,
                  score=60, cutoff=55):
     """기술 점수 통과 종목 → 매매계획 신호 dict. tuning(없으면 기본)로 손절·목표 조정.
-    score/cutoff 로 비중을 확신도에 맞춰 가감한다(위험균등 사이징)."""
+    score 구간별 차등 배수(by_bucket)가 있으면 반영하고, 비중은 위험균등으로 산정."""
     t = {**DEFAULT_TUNING, **(tuning or {})}
-    lv = levels(price, ind, hold_cap, t["stop_mult"], t["target1_mult"],
-                t["target2_mult"])
+    sm, t1m, t2m = effective_mults(tuning, score)
+    lv = levels(price, ind, hold_cap, sm, t1m, t2m)
     entry, stop, etype, risk = lv["entry"], lv["stop"], lv["etype"], lv["risk"]
     target1, target2 = lv["target1"], lv["target2"]
     if etype == "now":
@@ -962,6 +988,19 @@ def load_control():
                 for k in DEFAULT_TUNING:
                     if k in t and isinstance(t[k], (int, float)):
                         tuning[k] = float(t[k])
+                # 점수구간별 차등 배수(by_bucket: {'55-64':{stop_mult,..}, ...}).
+                bb = t.get("by_bucket")
+                if isinstance(bb, dict):
+                    parsed = {}
+                    for bk, mv in bb.items():
+                        if isinstance(mv, dict):
+                            d = {k: float(mv[k]) for k in
+                                 ("stop_mult", "target1_mult", "target2_mult")
+                                 if k in mv and isinstance(mv[k], (int, float))}
+                            if d:
+                                parsed[str(bk)] = d
+                    if parsed:
+                        tuning["by_bucket"] = parsed
             lw = e.get("learned_weights")
             if isinstance(lw, dict):
                 parsed = {k: float(lw[k]) for k in DEFAULT_WEIGHTS

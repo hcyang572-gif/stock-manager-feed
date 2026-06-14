@@ -53,36 +53,68 @@ def _fetch_daily(yahoo, period="400d"):
         return []
 
 
-def _evaluate(entry, stop, t1, t2, etype, fwd):
+def _evaluate(entry, stop, t1, t2, etype, fwd, partial=0.5, breakeven=True):
     """진입가/손절/목표와 이후 봉(fwd: [(o,h,l,c)...])으로 결과·R 판정.
 
-    반환: (outcome, r) — outcome ∈ {no_fill, stop, target1, target2, timecut},
-    r = (청산가-진입)/(진입-손절). 손절=-1.0 기준. 미발동(no_fill)은 r=None.
+    관리 정책(권고와 동일):
+    - partial: 목표1 도달 시 청산할 비중(0이면 부분익절 안 함=목표1 미청산하고 계속).
+    - breakeven: 목표1 도달 후 손절을 본전(진입가)으로 올린다.
+    R 은 **비중가중 실현 손익**(R 단위). 손절 −1.0 기준. 미발동(no_fill)은 r=None.
+    반환: (outcome, r) — outcome ∈ {invalid,no_fill,stop,target1,target2,timecut}.
     """
     risk = entry - stop
     if risk <= 0:
         return ("invalid", None)
     filled = (etype == "now")
+    rem = 1.0          # 남은 비중
+    realized = 0.0     # 실현 R(비중가중)
+    t1_hit = False
+    t2_hit = False
+    stopped = False
+    cur_stop = stop
     last_close = None
     for (o, h, l, c) in fwd:
         last_close = c
         if not filled:
-            # 돌파대기: 고가가 진입가 이상이면 그 봉에서 체결로 본다.
-            if h >= entry:
+            if h >= entry:       # 돌파대기 체결
                 filled = True
             else:
                 continue
         # 보수적: 한 봉 안에서 손절을 목표보다 먼저 본다.
-        if l <= stop:
-            return ("stop", -1.0)
-        if h >= t2:
-            return ("target2", round((t2 - entry) / risk, 2))
-        if h >= t1:
-            return ("target1", round((t1 - entry) / risk, 2))
+        if l <= cur_stop:
+            realized += rem * (cur_stop - entry) / risk
+            rem = 0.0
+            stopped = True
+            break
+        if not t1_hit and h >= t1:
+            realized += partial * (t1 - entry) / risk
+            rem -= partial
+            t1_hit = True
+            if breakeven:
+                cur_stop = entry        # 본전 스톱
+            if rem > 1e-9 and h >= t2:  # 같은 봉에서 t2 도 닿으면 잔여 청산
+                realized += rem * (t2 - entry) / risk
+                rem = 0.0
+                t2_hit = True
+                break
+        elif t1_hit and h >= t2:
+            realized += rem * (t2 - entry) / risk
+            rem = 0.0
+            t2_hit = True
+            break
     if not filled:
         return ("no_fill", None)
-    # 보유창 종료 — 시간청산(마지막 종가 기준).
-    return ("timecut", round((last_close - entry) / risk, 2) if last_close else 0.0)
+    if rem > 1e-9:
+        realized += rem * ((last_close - entry) / risk if last_close else 0.0)
+        rem = 0.0
+    r = round(realized, 2)
+    if t2_hit:
+        return ("target2", r)
+    if t1_hit:
+        return ("target1", r)   # 목표1 부분익절 후 본전스톱/시간청산
+    if stopped:
+        return ("stop", r)
+    return ("timecut", r)
 
 
 def _bucket(score):
@@ -213,9 +245,51 @@ def _avg_r(subset, sm, t1, t2):
     return (sum(rs) / len(rs), len(rs)) if rs else (None, 0)
 
 
+_GRID_SM = (1.0, 1.2, 1.5, 1.8, 2.1, 2.5)
+_GRID_T1 = (1.2, 1.5, 2.0, 2.5, 3.0)
+
+
+def _grid_best(train, val):
+    """배수 그리드에서 val 평균 R 최대 조합을 찾는다. 반환: best dict 또는 None."""
+    best = None
+    for sm in _GRID_SM:
+        for t1 in _GRID_T1:
+            t2 = t1 + 1.0
+            tr, _ = _avg_r(train, sm, t1, t2)
+            vl, _ = _avg_r(val, sm, t1, t2)
+            if tr is None or vl is None:
+                continue
+            if best is None or vl > best["valid_avg_r"]:
+                best = {"stop_mult": sm, "target1_mult": t1, "target2_mult": t2,
+                        "train_avg_r": round(tr, 2), "valid_avg_r": round(vl, 2)}
+    return best
+
+
+def _propose(samples, cur, min_n, margin):
+    """samples(시간순)를 train70/val30 분할해 보정안을 제안(과최적화 가드).
+    반환: (suggestion 또는 None, note, cur_val)."""
+    n = len(samples)
+    if n < min_n:
+        return None, f"표본 부족({n}/{min_n})", None
+    cut = int(n * 0.7)
+    train, val = samples[:cut], samples[cut:]
+    cur_train, _ = _avg_r(train, cur["stop_mult"], cur["target1_mult"], cur["target2_mult"])
+    cur_val, _ = _avg_r(val, cur["stop_mult"], cur["target1_mult"], cur["target2_mult"])
+    if cur_train is None or cur_val is None:
+        return None, "검증 불가", None
+    best = _grid_best(train, val)
+    if best and best["valid_avg_r"] >= cur_val + margin and \
+            best["train_avg_r"] >= round(cur_train, 2) and \
+            (best["stop_mult"] != cur["stop_mult"] or
+             best["target1_mult"] != cur["target1_mult"]):
+        best["score_cutoff"] = cur.get("score_cutoff", SCORE_CUTOFF)
+        best["current_valid_avg_r"] = round(cur_val, 2)
+        return best, None, round(cur_val, 2)
+    return None, "현재 설정이 무난(개선 없음)", round(cur_val, 2)
+
+
 def _tune(samples):
-    """손절·목표 배수 그리드를 train(70%)/val(30%)로 검증해 보정안을 제안한다.
-    **과최적화 방지**: val 평균 R 이 현재 대비 +0.10 이상 좋고 train 도 개선될 때만 제안.
+    """손절·목표 배수 그리드를 train/val 로 검증해 **전체 + 점수구간별** 보정안을 제안.
     승인은 앱(통계 탭)에서 사용자가 한다(자동 적용 안 함)."""
     cur = {"stop_mult": DEFAULT_TUNING["stop_mult"],
            "target1_mult": DEFAULT_TUNING["target1_mult"],
@@ -223,41 +297,33 @@ def _tune(samples):
            "score_cutoff": SCORE_CUTOFF}
     block = {"current": cur, "suggestion": None,
              "method": "train 70% / val 30% 시간 분할 · val 평균 R 최대 + 현재 대비 "
-                       "+0.05R 이상일 때만 제안(과최적화 방지). 적용은 사용자 승인."}
-    n = len(samples)
-    if n < 40:
+                       "+0.05R(구간별 +0.08R) 이상일 때만 제안(과최적화 방지). "
+                       "관리정책(목표1 절반익절·본전스톱) 반영. 적용은 사용자 승인."}
+    if len(samples) < 40:
         block["note"] = "표본이 적어 보정안을 내지 않아요(40건 이상 필요)."
         return block
-    cut = int(n * 0.7)
-    train, val = samples[:cut], samples[cut:]
-    cur_train, _ = _avg_r(train, cur["stop_mult"], cur["target1_mult"], cur["target2_mult"])
-    cur_val, _ = _avg_r(val, cur["stop_mult"], cur["target1_mult"], cur["target2_mult"])
-    if cur_train is None or cur_val is None:
-        return block
-    best = None
-    for sm in (1.0, 1.2, 1.5, 1.8, 2.1, 2.5):
-        for t1 in (1.2, 1.5, 2.0, 2.5, 3.0):
-            t2 = t1 + 1.0
-            tr, _ = _avg_r(train, sm, t1, t2)
-            vl, nf = _avg_r(val, sm, t1, t2)
-            if tr is None or vl is None:
-                continue
-            if best is None or vl > best["valid_avg_r"]:
-                best = {"stop_mult": sm, "target1_mult": t1, "target2_mult": t2,
-                        "score_cutoff": SCORE_CUTOFF,
-                        "train_avg_r": round(tr, 2), "valid_avg_r": round(vl, 2)}
-    if best and best["valid_avg_r"] >= cur_val + 0.05 and \
-            best["train_avg_r"] >= round(cur_train, 2) and \
-            (best["stop_mult"] != cur["stop_mult"] or
-             best["target1_mult"] != cur["target1_mult"]):
-        best["current_valid_avg_r"] = round(cur_val, 2)
-        best["basis"] = (
-            f"손절 배수 {cur['stop_mult']}→{best['stop_mult']}, 목표1 배수 "
-            f"{cur['target1_mult']}→{best['target1_mult']} 로 바꾸면 검증구간 평균 R 이 "
-            f"{round(cur_val, 2)}→{best['valid_avg_r']} 로 개선돼요.")
-        block["suggestion"] = best
+    sug, note, _ = _propose(samples, cur, min_n=40, margin=0.05)
+    if sug:
+        sug["basis"] = (
+            f"손절 배수 {cur['stop_mult']}→{sug['stop_mult']}, 목표1 배수 "
+            f"{cur['target1_mult']}→{sug['target1_mult']} 로 바꾸면 검증구간 평균 R 이 "
+            f"{sug['current_valid_avg_r']}→{sug['valid_avg_r']} 로 개선돼요.")
+        block["suggestion"] = sug
     else:
         block["note"] = "지금 설정이 검증구간에서 가장 무난해요 — 바꿀 만한 보정안이 없어요."
+    # 점수구간별 차등(작은 표본 과최적화 가드: 최소 500건·+0.08R).
+    by_bucket = {}
+    for bk in ("55-64", "65-74", "75+"):
+        sub = [s for s in samples if _bucket(s[3]) == bk]
+        bsug, bnote, bcur = _propose(sub, cur, min_n=500, margin=0.08)
+        if bsug:
+            bsug["basis"] = (
+                f"[{bk}] 손절×{bsug['stop_mult']}·목표1×{bsug['target1_mult']} 로 "
+                f"검증 평균 R {bcur}→{bsug['valid_avg_r']}.")
+            by_bucket[bk] = bsug
+    block["by_bucket"] = by_bucket
+    block["by_bucket_note"] = ("점수 구간별로 손절·목표를 따로 학습한 결과입니다. "
+                               "표본이 충분하고 개선이 뚜렷한 구간만 제안돼요.")
     return block
 
 
@@ -361,6 +427,7 @@ def main():
             "by_entry_type": {k: _finalize(v) for k, v in by_type.items()},
             "diagnostics": _diagnostics(agg, by_type),
             "note": "과거 일봉에 현 규칙을 적용한 백테스트(미국증시 환경 보정 제외). "
+                    "관리정책 반영: 목표1에서 절반 익절 + 목표1 후 손절을 본전으로 이동. "
                     "한 봉 내 손절을 목표보다 먼저 보는 보수적 판정. 실측 가격만 사용.",
         },
         # 학습 보정안(승인제) — 손절·목표 배수 그리드를 train/val 로 검증해 제안.
