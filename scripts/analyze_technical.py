@@ -202,40 +202,69 @@ def daily_indicators_batch(symbols):
     return out
 
 
-def build_universe(market_targets, top_per_market=60):
-    """pykrx 로 시장별 **거래대금 상위** 종목을 가져와 [{code,name,market,_mk}] 반환.
-    종목 코드·이름을 KRX 에서 실측으로 받아 정합성을 지킨다(하드코딩·날조 없음).
-    pykrx 미설치/네트워크 실패 시 빈 리스트 → 호출 측이 관심종목만으로 폴백."""
-    out = []
-    try:
-        from pykrx import stock
-    except Exception as ex:
-        print(f"[analyze] pykrx 없음 — 유니버스 생략(관심종목만): {ex}")
-        return []
-    now = datetime.datetime.now(KST)
-    today = now.strftime("%Y%m%d")
-    weekago = (now - datetime.timedelta(days=12)).strftime("%Y%m%d")
-    valid = {"KOSPI", "KOSDAQ"}
-    for mk in [m.upper() for m in market_targets if m.upper() in valid]:
+# ── 전체종목 유니버스(네이버 거래대금 상위) ─────────────────────────────────
+# pykrx 는 최근 KRX 가 로그인/OTP 를 요구하고 GitHub Actions 클라우드 IP 를 막아
+# 빈 결과(→ 관심종목 폴백)를 내므로, 가격 폴링에서 이미 잘 쓰는 네이버 모바일
+# JSON API 로 대체한다(로그인 불필요·클라우드 동작). 시총 랭킹 응답에 당일
+# 거래대금(accumulatedTradingValueRaw)이 포함돼, 이를 기준으로 재정렬해 '거래
+# 활발한 상위' 유니버스를 만든다.
+_UNIVERSE_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                "(KHTML, like Gecko) Chrome/120 Safari/537.36")
+NAVER_RANK = ("https://m.stock.naver.com/api/stocks/marketValue/{mk}"
+              "?page={page}&pageSize=100")
+
+
+def _naver_rank_rows(mk, pages=5):
+    """네이버 모바일 시총 랭킹 API 로 {mk} 종목(여러 페이지)을 받는다. 각 항목에
+    당일 거래대금이 있어 호출 측이 거래대금 순으로 재정렬한다. 실패 시 빈 리스트."""
+    rows = []
+    for pg in range(1, pages + 1):
+        url = NAVER_RANK.format(mk=mk, page=pg)
         try:
-            df = stock.get_market_price_change(weekago, today, market=mk)
+            req = urllib.request.Request(
+                url, headers={"User-Agent": _UNIVERSE_UA,
+                              "Accept": "application/json"})
+            with urllib.request.urlopen(req, timeout=12) as r:
+                data = json.loads(r.read().decode("utf-8"))
         except Exception as ex:
-            print(f"[analyze] pykrx {mk} 조회 실패: {ex}")
-            continue
-        if df is None or len(df) == 0:
-            continue
-        if "거래대금" in df.columns:
-            df = df.sort_values("거래대금", ascending=False)
-        cnt = 0
-        for code, row in df.iterrows():
-            name = str(row.get("종목명", "")).strip()
-            if not name:
+            print(f"[analyze] 네이버 랭킹 {mk} p{pg} 실패: {ex}")
+            break
+        stocks = data.get("stocks") if isinstance(data, dict) else None
+        if not stocks:
+            break
+        rows.extend(stocks)
+    return rows
+
+
+def build_universe(market_targets, top_per_market=60):
+    """네이버 거래대금 상위로 시장별 유니버스 [{code,name,market,_mk}] 반환.
+    네이버 모바일 시총 랭킹 API(여러 페이지)에서 **보통주만** 추려 당일 거래대금
+    순으로 top_per_market 선정한다. 종목명·코드를 네이버 실측으로 받아 정합성을
+    지킨다(하드코딩·날조 없음). 네트워크 실패 시 빈 리스트 → 호출 측이 관심종목만
+    으로 폴백."""
+    valid = {"KOSPI", "KOSDAQ"}
+    out = []
+    for mk in [m.upper() for m in market_targets if m.upper() in valid]:
+        rows = _naver_rank_rows(mk, pages=5)
+        cleaned = []
+        for s in rows:
+            code = str(s.get("itemCode", "")).strip()
+            name = str(s.get("stockName", "")).strip()
+            # 보통주만(ETF/ETN/리츠 등 제외) + 6자리 코드.
+            if s.get("stockEndType") != "stock":
                 continue
-            out.append({"code": str(code).zfill(6), "name": name,
-                        "market": "KR", "_mk": mk})
-            cnt += 1
-            if cnt >= top_per_market:
-                break
+            if not (len(code) == 6 and code.isdigit()) or not name:
+                continue
+            try:
+                tv = float(s.get("accumulatedTradingValueRaw") or 0)
+            except (TypeError, ValueError):
+                tv = 0.0
+            cleaned.append((tv, code, name))
+        cleaned.sort(key=lambda x: x[0], reverse=True)
+        for _tv, code, name in cleaned[:top_per_market]:
+            out.append({"code": code, "name": name, "market": "KR", "_mk": mk})
+        print(f"[analyze] 네이버 유니버스 {mk}: 후보 {len(cleaned)} → 상위 "
+              f"{min(top_per_market, len(cleaned))} 선정(거래대금순)")
     return out
 
 
@@ -597,6 +626,63 @@ def yahoo_symbol(code):
     return f"{code}.KS"
 
 
+def score_watchlist(watchlist, regime, cutoff):
+    """관심종목을 KIS 현재가(있으면 정밀)+yfinance 일봉으로 점수화한다.
+    KIS 토큰 발급/조회 실패해도 중단하지 않고 yfinance 로 폴백한다.
+    반환: [(item, price, change, ind, score), ...]."""
+    out = []
+    cfg = _kis_cfg()
+    token = None
+    if cfg:
+        try:
+            token = _kis_token(cfg)
+        except Exception as ex:
+            print(f"[analyze] KIS 토큰 실패 — yfinance 일봉으로 폴백: {ex}")
+            token = None
+    for item in watchlist:
+        code = item.get("code", "")
+        if not code:
+            continue
+        price, change = (None, None)
+        if cfg and token:
+            price, change = kis_quote(code, cfg, token, "UN")
+        ind = daily_indicators(code + ".KS") or daily_indicators(code + ".KQ")
+        if price is None and ind is not None:
+            price = ind["yf_close"]
+        if price is None or ind is None:
+            print(f"[analyze] 시세/지표 미확보 제외: {item.get('name', code)}")
+            continue
+        sc, why = score_stock(price, ind)
+        sc = apply_regime(sc, why, regime)
+        ind["_why"] = why
+        out.append((item, price, change, ind, sc))
+    return out
+
+
+def score_universe(uni, regime):
+    """전체종목 유니버스를 yfinance 배치로 점수화한다(현재가=일봉 종가, 속도·정합성).
+    반환: [(item, price, change, ind, score), ...]."""
+    out = []
+    if not uni:
+        return out
+    sym_for = {t["code"]: t["code"] + (".KQ" if t.get("_mk") == "KOSDAQ" else ".KS")
+               for t in uni}
+    inds = daily_indicators_batch(list(sym_for.values()))
+    for t in uni:
+        code = t["code"]
+        ind = inds.get(sym_for[code])
+        if ind is None and not t.get("_mk"):
+            ind = daily_indicators(code + ".KS") or daily_indicators(code + ".KQ")
+        if ind is None:
+            continue
+        price = ind["yf_close"]
+        sc, why = score_stock(price, ind)
+        sc = apply_regime(sc, why, regime)
+        ind["_why"] = why
+        out.append((t, price, ind.get("change"), ind, sc))
+    return out
+
+
 def main():
     try:
         sys.stdout.reconfigure(encoding="utf-8")
@@ -604,17 +690,11 @@ def main():
         pass
     now = datetime.datetime.now(KST)
     now_iso = now.replace(microsecond=0, second=0).isoformat()
-    watchlist, scope, mkts, hold_cap, tuning = load_control()
+    watchlist, _scope, mkts, hold_cap, tuning = load_control()
     cutoff = int(tuning.get("score_cutoff", 55))
     if tuning != DEFAULT_TUNING:
         print(f"[analyze] 학습 보정 적용: {tuning}")
-    if not watchlist and scope != "market":
-        print("[analyze] watchlist 비어있음 — 중단")
-        return 0
 
-    # 분석 대상 구성. scope=='market' 이면 watchlist(시드) + KRX 거래대금 상위
-    # 유니버스를 합쳐 **전체종목**을 차트로 스캔한다. 유니버스 확보 실패 시
-    # 관심종목만으로 안전하게 폴백한다(중단 없음).
     # 시장 환경(미국 전일) 보정치 — 1회 계산해 모든 종목 점수에 동일 적용.
     regime = fetch_us_regime()
     if regime:
@@ -622,87 +702,40 @@ def main():
               f"보정 {regime['adj']:+g} (S&P{regime.get('sp', 0):+g}·"
               f"나스닥{regime.get('nasdaq', 0):+g}·SOX{regime.get('sox', 0):+g})")
 
-    targets = [dict(w) for w in watchlist]
-    use_batch = False
-    if scope == "market":
-        uni = build_universe(mkts)
-        if uni:
-            seen = {t.get("code") for t in targets}
-            for u in uni:
-                if u["code"] not in seen:
-                    targets.append(u)
-                    seen.add(u["code"])
-            use_batch = True
-            print(f"[analyze] 전체종목 스캔: watchlist {len(watchlist)} + "
-                  f"유니버스 {len(uni)} → 대상 {len(targets)} (markets={mkts})")
-        else:
-            print("[analyze] 유니버스 미확보 — 관심종목만 분석으로 폴백")
+    # ── 통합 분석: 관심종목 + 전체종목을 **항상 함께** 분석한다 ──────────────────
+    # 관심종목은 KIS 현재가(있으면 정밀)+yfinance 일봉으로, 전체종목은 네이버 거래대금
+    # 상위 유니버스(market_targets 범위)를 yfinance 배치로 점수화한다. 두 결과를
+    # group 태그('watchlist'|'market')로 구분해 한 feed 의 signals 에 함께 싣는다.
+    wl_codes = {str(w.get("code", "")).strip() for w in watchlist if w.get("code")}
 
-    cand = []  # (item, price, change, ind, score)
-    if use_batch:
-        # 전체종목 — 야후 배치 다운로드(시장별 접미사). 수백 종목이라 KIS 현재가는
-        # 생략하고 yfinance 일봉 종가/등락을 쓴다(정합성 유지·속도 확보).
-        sym_for = {t["code"]: t["code"] + (".KQ" if t.get("_mk") == "KOSDAQ" else ".KS")
-                   for t in targets}
-        inds = daily_indicators_batch(list(sym_for.values()))
-        for t in targets:
-            code = t["code"]
-            ind = inds.get(sym_for[code])
-            # watchlist 시드는 시장 정보가 없을 수 있어 개별 .KS/.KQ 폴백.
-            if ind is None and not t.get("_mk"):
-                ind = daily_indicators(code + ".KS") or daily_indicators(code + ".KQ")
-            if ind is None:
-                continue
-            price = ind["yf_close"]
-            sc, why = score_stock(price, ind)
-            sc = apply_regime(sc, why, regime)
-            ind["_why"] = why
-            cand.append((t, price, ind.get("change"), ind, sc))
-    else:
-        # 관심종목만 — KIS 현재가(있으면 더 정확) + yfinance 일봉. KIS 토큰 발급/조회
-        # 실패해도 절대 중단하지 않고 yfinance 로 폴백(1분당 1회 발급 제한 EGW00133).
-        cfg = _kis_cfg()
-        token = None
-        if cfg:
-            try:
-                token = _kis_token(cfg)
-            except Exception as ex:
-                print(f"[analyze] KIS 토큰 실패 — yfinance 일봉으로 폴백: {ex}")
-                token = None
-        for item in watchlist:
-            code = item.get("code", "")
-            if not code:
-                continue
-            price, change = (None, None)
-            if cfg and token:
-                price, change = kis_quote(code, cfg, token, "UN")
-            ind = daily_indicators(code + ".KS") or daily_indicators(code + ".KQ")
-            if price is None and ind is not None:
-                price = ind["yf_close"]
-            if price is None or ind is None:
-                print(f"[analyze] 시세/지표 미확보 제외: {item.get('name', code)}")
-                continue
-            sc, why = score_stock(price, ind)
-            sc = apply_regime(sc, why, regime)
-            ind["_why"] = why
-            cand.append((item, price, change, ind, sc))
+    wl_cand = score_watchlist(watchlist, regime, cutoff)
 
-    if not cand:
+    universe_failed = False
+    uni = build_universe(mkts)
+    uni = [u for u in uni if u.get("code") not in wl_codes]
+    if not uni:
+        universe_failed = True
+        print("[analyze] 전체종목 유니버스 미확보 — 이번 회차는 관심종목만.")
+    mk_cand = score_universe(uni, regime)
+    print(f"[analyze] 통합 분석: 관심종목 후보 {len(wl_cand)} / 전체종목 후보 "
+          f"{len(mk_cand)} (markets={mkts})")
+
+    if not wl_cand and not mk_cand:
         print("[analyze] 분석 가능한 종목 없음 — feed 미변경")
         return 0
 
-    cand.sort(key=lambda x: x[4], reverse=True)
-    # 점수 55 이상을 신호(최대 5), 나머지 관찰. 전체종목 스캔은 후보가 수백 개라
-    # 관찰을 점수 상위 일부(OBS_CAP)로 제한해 feed·앱이 비대해지지 않게 한다.
+    # 관심종목 신호(점수순 최대 5) + 관찰(미충족 watchlist).
     obs_cap = 40
-    signals, observations = [], []
+    wl_cand.sort(key=lambda x: x[4], reverse=True)
+    wl_signals, observations = [], []
     rank = 0
-    for item, price, change, ind, sc in cand:
+    for item, price, change, ind, sc in wl_cand:
         if sc >= cutoff and rank < 5:
             rank += 1
             sig = build_signal(rank, item, price, change, ind, hold_cap, tuning)
             sig["_score"] = sc
-            signals.append(sig)
+            sig["group"] = "watchlist"
+            wl_signals.append(sig)
         elif len(observations) < obs_cap:
             observations.append({
                 "name": item["name"], "code": item["code"], "market": "KR",
@@ -712,6 +745,21 @@ def main():
                           + (", ".join(ind["_why"]) if ind["_why"] else "뚜렷한 강세 신호 부족")
                           + f". ATR {ind['atr_pct']}%.",
             })
+
+    # 전체종목 신호(점수순 최대 5, 관심종목 제외). 비신호는 관찰에 넣지 않는다(후보 수백).
+    mk_cand.sort(key=lambda x: x[4], reverse=True)
+    market_signals = []
+    mrank = 0
+    for item, price, change, ind, sc in mk_cand:
+        if sc >= cutoff and mrank < 5:
+            mrank += 1
+            sig = build_signal(mrank, item, price, change, ind, hold_cap, tuning)
+            sig["_score"] = sc
+            sig["group"] = "market"
+            market_signals.append(sig)
+
+    # feed 에는 두 그룹을 합쳐 싣되 group 태그로 구분(앱이 섹션으로 나눠 표시).
+    signals = wl_signals + market_signals
 
     # 기존 feed 보존 항목(us_context·kr_context·positions·portfolio·assumptions).
     feed = {}
@@ -725,6 +773,12 @@ def main():
     feed.pop("catalyst", None)  # 일단 제거 후, 신선하면 reapply 가 되살린다.
 
     top = signals[0]["name"] if signals else (observations[0]["name"] if observations else None)
+    # 이번 분석이 실제로 본 범위(통합: 관심종목 + 전체종목 거래대금 상위).
+    if universe_failed:
+        scan_label = "통합 분석 — 관심종목 + 전체종목(시장 목록 확보 실패로 이번엔 전체종목 생략)"
+    else:
+        scan_label = (f"통합 분석 — 관심종목({len(wl_signals)} 신호) + "
+                      f"전체종목 거래대금 상위({'·'.join(mkts)}, {len(market_signals)} 신호)")
     regime_note = None
     if regime:
         regime_note = (f"시장 환경 보정: 전일 미국증시 가중 {regime['regime_pct']:+g}% "
@@ -736,7 +790,7 @@ def main():
         "date": now.strftime("%Y-%m-%d"),
         "generated_at": now_iso,
         "horizon_hours": hold_cap,
-        "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 미국증시 전일 환경 보정. 뉴스/촉매 미반영.",
+        "data_source": f"온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 미국증시 전일 환경 보정 · 분석 범위: {scan_label}. 뉴스/촉매 미반영.",
         "market_state": feed.get("market_state", {"korea": {"status": "closed"}, "us": {"status": "closed"}}),
         # 시장 환경 보정(측정 가능한 미국증시만) — 앱이 방법론·투명성 표기에 쓸 수 있다.
         "market_regime": regime,
@@ -747,9 +801,12 @@ def main():
             "headline": f"기술 분석 갱신({now.strftime('%m-%d %H:%M')} KST) — 차트·거래량·변동성 기준 "
                         f"{len(signals)}개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
         },
-        "signals": [{k: v for k, v in s.items() if k != "_score"} for s in signals],
+        "signals": [{**{k: v for k, v in s.items() if k != "_score"},
+                     "score": s["_score"]} for s in signals],
         "observations": observations,
-        "risk_notes": [
+        "risk_notes": ([
+            "⚠️ 전체종목(시장) 목록 확보에 실패해 이번 분석은 관심종목만 담았습니다(네트워크 일시 오류). 잠시 후 다시 분석하면 전체종목 상위도 함께 나옵니다.",
+        ] if universe_failed else []) + [
             "온디맨드 기술 분석 — 뉴스/촉매 미반영(catalyst_verified=false). 진입 전 재료·공시 직접 확인.",
             "지표는 KIS 현재가 + yfinance 일봉 실측(날조 없음). 변동성 장세 보수적 대응.",
             regime_note or "시장 환경 보정 미적용(미국증시 데이터 일시 미확보).",
@@ -776,8 +833,9 @@ def main():
     FEED_PATH.write_text(json.dumps(feed, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     # 전향 추적용 — 이번 발행 신호를 로그에 누적(통계 탭 forward 평가용).
     append_signal_log(feed["signals"], now_iso, now.strftime("%Y-%m-%d"), hold_cap)
-    print(f"[analyze] 완료 @ {now_iso} — 신호 {len(signals)} / 관찰 {len(observations)} "
-          f"(top {top}, scope {scope})")
+    print(f"[analyze] 완료 @ {now_iso} — 신호 {len(signals)} "
+          f"(관심 {len(wl_signals)}+전체 {len(market_signals)}) / 관찰 {len(observations)} "
+          f"(top {top})")
     return 0
 
 
