@@ -36,6 +36,8 @@ DEFAULT_ALERTS = {
     "price_enabled": True,
     "lv_entry": True, "lv_stop": True, "lv_target1": True, "lv_target2": True,
     "surge_enabled": True, "surge_threshold": 3.0, "surge_window": 10,
+    # 보유종목 경보(옵트인) — 기본 OFF(프라이버시). 켜면 holdings_watch 감시.
+    "hold_enabled": False, "hold_loss_pct": 5.0,
 }
 
 # 신호 레벨 정의: (feed 키, 설정 키, 라벨, 방향). 방향 '>='=상방, '<='=하방.
@@ -73,6 +75,10 @@ def _get_alerts(control):
         a["surge_window"] = int(a["surge_window"]) or 10
     except (TypeError, ValueError):
         a["surge_window"] = 10
+    try:
+        a["hold_loss_pct"] = float(a["hold_loss_pct"]) or 5.0
+    except (TypeError, ValueError):
+        a["hold_loss_pct"] = 5.0
     return a
 
 
@@ -89,7 +95,8 @@ def main():
 
     control = _load_json(CONTROL_PATH, {})
     alerts = _get_alerts(control)
-    if not alerts["price_enabled"] and not alerts["surge_enabled"]:
+    if (not alerts["price_enabled"] and not alerts["surge_enabled"]
+            and not alerts["hold_enabled"]):
         print("[alert-watch] 모든 알람 OFF — skip")
         return 0
 
@@ -196,6 +203,62 @@ def main():
                 f"{arrow} {name} {pct:+.1f}%",
                 f"최근 {win}분 {pct:+.1f}% ({ref_price:,.0f}→{price:,.0f}). 탭해서 확인하세요.",
             ))
+
+    # ── (3) 보유종목 급락·이탈(옵트인, holdings_watch) ──
+    if alerts["hold_enabled"]:
+        holdings = control.get("holdings_watch") or []
+        thr = alerts["surge_threshold"]
+        win = alerts["surge_window"]
+        hloss = alerts["hold_loss_pct"]
+        window_ms = win * 60 * 1000
+        cutoff = now_ms - window_ms
+        hbuf = state.get("hold_samples") or {}
+        for h in holdings:
+            code = (h.get("code") or "").strip()
+            market = (h.get("market") or "KR").upper()
+            if not code:
+                continue
+            price = price_of(code, market)
+            if not price or price <= 0:
+                continue
+            name = h.get("name") or code
+            # (a) 이탈(손실): 매수가 대비 -hloss% 이하 — 하루 1회.
+            try:
+                entry = float(h.get("entry") or 0)
+            except (TypeError, ValueError):
+                entry = 0.0
+            if entry > 0:
+                loss_pct = (price - entry) / entry * 100.0
+                if loss_pct <= -hloss:
+                    fkey = f"hold_loss|{code}"
+                    if not day_fired.get(fkey):
+                        day_fired[fkey] = True
+                        events.append((
+                            f"🛑 {name} 손실 {loss_pct:+.1f}%",
+                            f"매수가 {entry:,.0f} 대비 {loss_pct:+.1f}% "
+                            f"(현재 {price:,.0f}). 청산을 고려하세요.",
+                        ))
+            # (b) 급락(window): 하락 방향만 — 빠르게 빠질 때 즉시 알림.
+            buf = hbuf.setdefault(code, [])
+            buf.append([now_ms, price])
+            buf[:] = [x for x in buf if x[0] >= cutoff]
+            if len(buf) >= 2:
+                ref_ts, ref_price = buf[0]
+                if ref_price > 0 and now_ms - ref_ts >= MIN_HISTORY_SEC * 1000:
+                    pct = (price - ref_price) / ref_price * 100.0
+                    if pct <= -thr:
+                        dirkey = f"hold|{code}|down"
+                        if now_ms >= cooldown.get(dirkey, 0):
+                            cooldown[dirkey] = now_ms + window_ms
+                            events.append((
+                                f"📉 {name} 급락 {pct:+.1f}%",
+                                f"보유종목 최근 {win}분 {pct:+.1f}% "
+                                f"({ref_price:,.0f}→{price:,.0f}). 청산을 고려하세요.",
+                            ))
+        for code in list(hbuf.keys()):
+            if len(hbuf[code]) > 50:
+                hbuf[code] = hbuf[code][-50:]
+        state["hold_samples"] = hbuf
 
     # 표본 버퍼가 무한정 커지지 않게 종목별 최근 50개만 유지.
     for code in list(samples.keys()):
