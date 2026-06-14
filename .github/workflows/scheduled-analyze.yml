@@ -43,6 +43,7 @@ jobs:
         run: |
           enabled=$(jq -r '.engine.analysis_enabled // true' control.json)
           dow=$(TZ=Asia/Seoul date +%u)                              # 1=Mon ... 7=Sun
+          today=$(TZ=Asia/Seoul date +%F)                            # 오늘(KST) YYYY-MM-DD
           nowmin=$(( $(TZ=Asia/Seoul date +%-H) * 60 + $(TZ=Asia/Seoul date +%-M) ))
           mt=$(jq -r '.engine.morning_time_kst // "07:00"' control.json)
           mh=${mt%%:*}; mm=${mt##*:}
@@ -52,8 +53,10 @@ jobs:
                         | if ($d|type)=="array" and ($d|length)>0
                           then ($d|map(tostring)|join(",")) else "1,2,3,4,5" end' control.json)
           case ",$days," in *",$dow,"*) day_ok=true;; *) day_ok=false;; esac
+          # 오늘 예약 분석을 이미 했는지 마커로 확인(하루 1회 보장·중복 알림 방지).
+          marker=$(cat .state/last_scheduled_analyze 2>/dev/null || echo "")
 
-          run=false; reason="skip"; notify=false
+          run=false; reason="skip"; notify=false; scheduled=false
           if [ "$enabled" != "true" ]; then
             reason="analysis disabled"
           else
@@ -61,16 +64,22 @@ jobs:
             if [ "$dow" -le 5 ] && [ "$nowmin" -ge 540 ] && [ "$nowmin" -le 930 ]; then
               run=true; reason="market-hours periodic"
             fi
-            # (2) 예약 분석 — 선택 요일 + morning_time ±7분(주말·휴장일 포함).
+            # (2) 예약 분석 — 선택 요일 + morning_time 이후 **2시간 유예창 안에서 하루 1회**.
+            #     GitHub cron tick 은 자주 지연/누락된다(±7분 창은 한 tick만 놓쳐도 그날 분석을
+            #     통째로 건너뜀). 그래서 정확 시각 대신 'morning_time 이후 아직 안 했으면 실행'
+            #     으로 바꾼다 — 어느 tick 에서든 마커(.state/last_scheduled_analyze)로 1회 보장.
             #     이 경우에만 백그라운드 푸시(notify) — 장중 10분 주기는 스팸 방지로 제외.
-            diff=$(( nowmin - mtmin )); [ "$diff" -lt 0 ] && diff=$(( -diff ))
-            if [ "$day_ok" = "true" ] && [ "$diff" -le 7 ]; then
-              run=true; reason="scheduled ($mt dow=$dow)"; notify=true
+            grace_end=$(( mtmin + 120 ))
+            if [ "$day_ok" = "true" ] && [ "$nowmin" -ge "$mtmin" ] \
+               && [ "$nowmin" -le "$grace_end" ] && [ "$marker" != "$today" ]; then
+              run=true; reason="scheduled ($mt dow=$dow, last=$marker)"; notify=true; scheduled=true
             fi
           fi
           echo "run=$run" >> "$GITHUB_OUTPUT"
           echo "notify=$notify" >> "$GITHUB_OUTPUT"
-          echo "gate: dow=$dow now=$nowmin morning=$mt days=$days day_ok=$day_ok → run=$run notify=$notify ($reason)"
+          echo "scheduled=$scheduled" >> "$GITHUB_OUTPUT"
+          echo "today=$today" >> "$GITHUB_OUTPUT"
+          echo "gate: dow=$dow now=$nowmin morning=$mt days=$days day_ok=$day_ok marker=$marker → run=$run notify=$notify scheduled=$scheduled ($reason)"
 
       - uses: actions/setup-python@v5
         if: steps.gate.outputs.run == 'true'
@@ -102,11 +111,20 @@ jobs:
           KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
         run: python scripts/analyze_technical.py
 
+      # 예약 분석 1회 마커 — 오늘 했음을 기록(커밋되어 다음 tick 의 게이트가 중복 실행을
+      # 막는다). 마커 변경 자체가 diff 를 만들어, 장 개장 전이라 feed.json 이 그대로여도
+      # 커밋·푸시가 일어나 '아침 분석 완료' 푸시가 빠짐없이 발송된다.
+      - name: Mark scheduled done
+        if: steps.gate.outputs.run == 'true' && steps.gate.outputs.scheduled == 'true'
+        run: |
+          mkdir -p .state
+          echo "${{ steps.gate.outputs.today }}" > .state/last_scheduled_analyze
+
       - name: Commit & push if changed
         id: commit
         if: steps.gate.outputs.run == 'true'
         run: |
-          git add feed.json signals_log.json 2>/dev/null || git add feed.json
+          git add feed.json signals_log.json .state/last_scheduled_analyze 2>/dev/null || git add feed.json
           if [ -n "$(git status --porcelain)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
