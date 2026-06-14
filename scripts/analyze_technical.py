@@ -348,21 +348,21 @@ def apply_supply_finance(score, why, breakdown, sf):
     # (외국인 이탈도 초단기에 중요하므로 혼자 팔아도 반영). 외국인을 약간 더 무겁게.
     if f is not None:
         if f > 0:
-            s += 8
-            breakdown.append(f"외국인 순매수(최근 {nd}일) +8")
+            s += 14
+            breakdown.append(f"외국인 순매수(최근 {nd}일) +14")
             why.append("외국인 순매수")
         elif f < 0:
-            s -= 8
-            breakdown.append(f"외국인 순매도(최근 {nd}일) -8")
+            s -= 14
+            breakdown.append(f"외국인 순매도(최근 {nd}일) -14")
             why.append("외국인 순매도")
     if o is not None:
         if o > 0:
-            s += 7
-            breakdown.append(f"기관 순매수(최근 {nd}일) +7")
+            s += 11
+            breakdown.append(f"기관 순매수(최근 {nd}일) +11")
             why.append("기관 순매수")
         elif o < 0:
-            s -= 7
-            breakdown.append(f"기관 순매도(최근 {nd}일) -7")
+            s -= 11
+            breakdown.append(f"기관 순매도(최근 {nd}일) -11")
             why.append("기관 순매도")
     per, pbr = sf.get("per"), sf.get("pbr")
     if per is not None:
