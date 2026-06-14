@@ -16,6 +16,7 @@ import datetime
 import json
 import math
 import os
+import re
 import sys
 import urllib.parse
 import urllib.request
@@ -147,12 +148,36 @@ def _calc_indicators(closes, highs, lows, vols, opens):
     recent_low5 = min(lows[-5:])
     prev = closes[-2] if n >= 2 else closes[-1]
     change = round((closes[-1] / prev - 1) * 100, 2) if prev else None
+    # ── 미시구조 지표(요소 발굴용) — 모두 일봉에서 계산, 추가 데이터 불필요 ──
+    # 시가 갭: 오늘 시가 vs 어제 종가(%). 갭 방향은 단기 강력 신호.
+    gap_pct = (day_op / prev - 1) * 100 if prev else 0
+    # 거래대금/거래량 가속: 최근 5일 평균 vs 20일 평균(>1 이면 거래 활발해지는 중).
+    vol_avg5 = sum(vols[-5:]) / 5 if sum(vols[-5:]) else 0
+    vol_accel = (vol_avg5 / vol_avg20) if vol_avg20 else 0
+    # 연속 양봉(오늘부터 거슬러 종가가 오른 날의 연속 개수).
+    up_streak = 0
+    for i in range(n - 1, 0, -1):
+        if closes[i] > closes[i - 1]:
+            up_streak += 1
+        else:
+            break
+    # 20일 전고점 근접도(현재가 / 최근 20일 최고가). 1 에 가까울수록 전고 돌파 임박.
+    high20 = max(highs[-20:])
+    near_high20 = (closes[-1] / high20) if high20 else 0
+    # 장대봉(오늘 범위 / ATR). 1.5↑ 면 변동성 확장(에너지 분출).
+    range_exp = ((day_hi - day_lo) / atr) if atr else 0
+    # MA20 기울기: 지금 MA20 vs 5일 전 MA20(>0 이면 추세 상승).
+    ma20_prev = sum(closes[-25:-5]) / 20
+    ma20_slope = ma20 - ma20_prev
     return {
         "ma5": ma5, "ma20": ma20, "atr": atr, "atr_pct": round(atr_pct, 2),
         "vol_surge": round(vol_surge, 2), "rsi": round(rsi, 1),
         "close_pos": round(close_pos, 1), "breakout": breakout,
         "mom5": round(mom5, 2), "day_high": day_hi, "recent_low5": recent_low5,
         "yf_close": closes[-1], "change": change,
+        "gap_pct": round(gap_pct, 2), "vol_accel": round(vol_accel, 2),
+        "up_streak": up_streak, "near_high20": round(near_high20, 4),
+        "range_exp": round(range_exp, 2), "ma20_slope": ma20_slope,
     }
 
 
@@ -317,6 +342,61 @@ def fetch_supply_finance(code):
     return out or None
 
 
+_FRGN_URL = "https://finance.naver.com/item/frgn.naver?code={code}&page={page}"
+# frgn 표 한 행의 숫자 셀(종가·전일비·등락률·거래량·기관·외국인·보유주수·보유율).
+_FRGN_NUM = re.compile(r'class="tah[^"]*">\s*([+\-0-9.,%]+)\s*<')
+_FRGN_DATE = re.compile(r'(\d{4}\.\d{2}\.\d{2})</span></td>')
+
+
+def fetch_supply_history(code, pages=15):
+    """네이버 frgn 페이지에서 **일별 외국인·기관 순매매량 이력**을 긁는다(학습용).
+    반환: {'YYYY-MM-DD': (외국인순매매, 기관순매매)} (실측·날조 없음). 실패 시 {}.
+    integration API 는 5일치뿐이라, 과거 학습엔 이 페이지(페이지당 ~20거래일)를 쓴다."""
+    out = {}
+    for pg in range(1, pages + 1):
+        url = _FRGN_URL.format(code=code, page=pg)
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": _UNIVERSE_UA})
+            with urllib.request.urlopen(req, timeout=12) as r:
+                html = r.read().decode("euc-kr", "replace")
+        except Exception:
+            break
+        pos = list(_FRGN_DATE.finditer(html))
+        if not pos:
+            break
+        for i, m in enumerate(pos):
+            date = m.group(1)
+            s = m.end()
+            e = pos[i + 1].start() if i + 1 < len(pos) else s + 1500
+            nums = _FRGN_NUM.findall(html[s:e])
+            if len(nums) >= 6:  # [종가,전일비,등락률,거래량,기관,외국인,...]
+                org = _parse_num(nums[4])
+                frg = _parse_num(nums[5])
+                if frg is not None or org is not None:
+                    out[date.replace(".", "-")] = (frg or 0.0, org or 0.0)
+    return out
+
+
+def fetch_supply_history_batch(codes, pages=15):
+    """여러 종목의 수급 이력을 스레드풀로 병렬 수집 → {code: {date:(frg,org)}}."""
+    from concurrent.futures import ThreadPoolExecutor
+    out = {}
+    codes = [c for c in dict.fromkeys(codes) if c]
+    if not codes:
+        return out
+    try:
+        with ThreadPoolExecutor(max_workers=6) as ex:
+            for c, hist in ex.map(
+                    lambda c: (c, fetch_supply_history(c, pages)), codes):
+                if hist:
+                    out[c] = hist
+    except Exception as ex:
+        print(f"[analyze] 수급 이력 배치 수집 실패: {ex}")
+    total = sum(len(v) for v in out.values())
+    print(f"[learn] 수급 이력 수집: {len(out)}/{len(codes)} 종목 · {total} 종목일")
+    return out
+
+
 def fetch_supply_finance_batch(codes):
     """여러 종목의 수급·재무를 스레드풀로 병렬 수집 → {code: sf}. 실패 종목은 생략."""
     from concurrent.futures import ThreadPoolExecutor
@@ -385,57 +465,147 @@ def apply_supply_finance(score, why, breakdown, sf):
     return max(0, min(100, round(s)))
 
 
-def score_stock(price, ind):
+# 차트 점수 가중치 기본값(사람이 정한 규칙값). 데이터 학습(learn_weights.py)으로
+# 대체 가능 — control.json engine.learned_weights 로 주입(승인제). 각 키 = 항목별 기여점.
+DEFAULT_WEIGHTS = {
+    "base": 50,
+    "align_up": 18, "align_down": -8,
+    "above_ma20": 8,
+    "vol_surge": 15, "vol_ok": 7, "vol_dry": -8,
+    "strong_close": 14, "weak_close": -12,
+    "rsi_up": 13, "rsi_hot": -10, "rsi_oversold": 4,
+    "breakout": 14, "mom_up": 8,
+    # 미시구조(요소 발굴) — 기본 0(현재 점수 불변). 학습으로 값이 붙으면 활성화.
+    "gap_up": 0, "gap_down": 0, "vol_accel": 0, "streak_up": 0,
+    "near_high": 0, "range_exp": 0, "ma20_up": 0,
+    # 수급(요소 발굴) — 기본 0. Stage B(frgn 이력)에서 학습.
+    "for_buy": 0, "for_sell": 0, "org_buy": 0, "org_sell": 0,
+}
+
+# 사람이 읽는 항목 이름(앱 학습 가중치 카드·설명용). DEFAULT_WEIGHTS 키와 1:1.
+WEIGHT_LABELS = {
+    "align_up": "정배열(MA5>MA20)", "align_down": "역배열(MA5<MA20)",
+    "above_ma20": "현재가 > 20일선", "vol_surge": "거래량 급증(≥1.5x)",
+    "vol_ok": "거래량 양호(≥1.0x)", "vol_dry": "거래량 위축(<0.6x)",
+    "strong_close": "강세 마감(종가위치≥60%)", "weak_close": "윗꼬리/분배(<30%)",
+    "rsi_up": "RSI 상승(50~70)", "rsi_hot": "RSI 과열(>75)",
+    "rsi_oversold": "RSI 침체(<35)", "breakout": "변동성 돌파 상회",
+    "mom_up": "5일 모멘텀 양(+)",
+    "gap_up": "시가 갭상승(≥1%)", "gap_down": "시가 갭하락(≤-1%)",
+    "vol_accel": "거래대금 가속(5d≥1.2×20d)", "streak_up": "연속 양봉(3일+)",
+    "near_high": "20일 전고점 근접(≥98%)", "range_exp": "장대봉(범위≥1.5×ATR)",
+    "ma20_up": "MA20 상승추세",
+    "for_buy": "외국인 순매수", "for_sell": "외국인 순매도",
+    "org_buy": "기관 순매수", "org_sell": "기관 순매도",
+}
+
+
+def chart_features(price, ind, supply=None):
+    """지표(+선택적 수급)에서 점수 항목(피처) 충족 여부(1/0)를 뽑는다 — score_stock 과
+    learn_weights.py 가 공유해 항상 같은 정의를 쓰게 한다. 키는 DEFAULT_WEIGHTS 와 1:1.
+    supply: {'for': 외국인순매수합, 'org': 기관순매수합}(없으면 수급 피처는 0)."""
+    vs = ind["vol_surge"]
+    up = ind["ma5"] > ind["ma20"]
+    f = {
+        "align_up": 1 if up else 0,
+        "align_down": 0 if up else 1,
+        "above_ma20": 1 if price > ind["ma20"] else 0,
+        "vol_surge": 1 if vs >= 1.5 else 0,
+        "vol_ok": 1 if 1.0 <= vs < 1.5 else 0,
+        "vol_dry": 1 if 0 < vs < 0.6 else 0,
+        "strong_close": 1 if ind["close_pos"] >= 60 else 0,
+        "weak_close": 1 if ind["close_pos"] < 30 else 0,
+        "rsi_up": 1 if 50 <= ind["rsi"] <= 70 else 0,
+        "rsi_hot": 1 if ind["rsi"] > 75 else 0,
+        "rsi_oversold": 1 if ind["rsi"] < 35 else 0,
+        "breakout": 1 if price >= ind["breakout"] else 0,
+        "mom_up": 1 if ind["mom5"] > 0 else 0,
+        # 미시구조.
+        "gap_up": 1 if ind.get("gap_pct", 0) >= 1.0 else 0,
+        "gap_down": 1 if ind.get("gap_pct", 0) <= -1.0 else 0,
+        "vol_accel": 1 if ind.get("vol_accel", 0) >= 1.2 else 0,
+        "streak_up": 1 if ind.get("up_streak", 0) >= 3 else 0,
+        "near_high": 1 if ind.get("near_high20", 0) >= 0.98 else 0,
+        "range_exp": 1 if ind.get("range_exp", 0) >= 1.5 else 0,
+        "ma20_up": 1 if ind.get("ma20_slope", 0) > 0 else 0,
+        # 수급(supply 있을 때만 1/0, 없으면 0).
+        "for_buy": 1 if supply and supply.get("for", 0) > 0 else 0,
+        "for_sell": 1 if supply and supply.get("for", 0) < 0 else 0,
+        "org_buy": 1 if supply and supply.get("org", 0) > 0 else 0,
+        "org_sell": 1 if supply and supply.get("org", 0) < 0 else 0,
+    }
+    return f
+
+
+# 점수 근거에 풍부한 문구가 따로 있는 '원본' 항목들(아래 하드코딩 블록에서 처리).
+# 그 외(미시구조·수급) 신규 항목은 라벨 기반으로 일괄 가산한다.
+_CORE_FEATURE_KEYS = {
+    "align_up", "align_down", "above_ma20", "vol_surge", "vol_ok", "vol_dry",
+    "strong_close", "weak_close", "rsi_up", "rsi_hot", "rsi_oversold",
+    "breakout", "mom_up",
+}
+
+
+def score_stock(price, ind, weights=None, supply=None):
     """0~100 기술 점수 + (why, breakdown) 반환.
-    - why: 짧은 강세 근거(evidence 문구용, 기존과 동일).
-    - breakdown: **항목별 점수 내역**(앱 '점수 근거' 팝업용). 기본 50에서 시작해 각
-      지표 기여를 +/- 로 적는다. 합이 0~100을 넘으면 최종 점수는 0~100으로 제한된다."""
-    s = 50.0
+    - weights: 항목별 가중치(없으면 DEFAULT_WEIGHTS). 학습된 가중치를 주입하면 그
+      점수로 계산하되 근거(breakdown)는 그대로 노출(설명 가능성 유지).
+    - supply: {'for':..,'org':..} 수급(있으면 수급 항목도 학습 가중치로 반영).
+    - why: 짧은 강세 근거(evidence 문구용).
+    - breakdown: **항목별 점수 내역**(앱 '점수 근거' 팝업용). base 에서 시작해 각
+      지표 기여를 +/- 로 적는다. 0점 항목은 생략. 합은 0~100 으로 제한된다."""
+    w = {**DEFAULT_WEIGHTS, **(weights or {})}
+    f = chart_features(price, ind, supply)
+    s = float(w["base"])
     why = []
-    bd = ["기본 점수 +50"]
-    if ind["ma5"] > ind["ma20"]:
-        s += 18
-        why.append("정배열(MA5>MA20)")
-        bd.append("정배열(MA5>MA20) +18")
+    bd = [f"기본 점수 +{int(round(w['base']))}"]
+
+    def add(key, why_txt, bd_txt):
+        nonlocal s
+        pts = w.get(key, 0)
+        if pts == 0:
+            return  # 0점 항목(미사용·학습으로 꺼진 항목)은 점수·근거에서 생략.
+        s += pts
+        if why_txt:
+            why.append(why_txt)
+        bd.append(f"{bd_txt} {pts:+g}")
+
+    if f["align_up"]:
+        add("align_up", "정배열(MA5>MA20)", "정배열(MA5>MA20)")
     else:
-        s -= 8
-        bd.append("역배열(MA5<MA20) -8")
-    if price > ind["ma20"]:
-        s += 8
-        bd.append("현재가가 20일선(MA20) 위 +8")
-    if ind["vol_surge"] >= 1.5:
-        s += 15
-        why.append(f"거래량 급증 {ind['vol_surge']}x")
-        bd.append(f"거래량 급증 {ind['vol_surge']}배 +15")
-    elif ind["vol_surge"] >= 1.0:
-        s += 7
-        bd.append(f"거래량 양호 {ind['vol_surge']}배 +7")
-    if ind["close_pos"] >= 60:
-        s += 14
-        why.append(f"강세 마감(종가위치 {ind['close_pos']}%)")
-        bd.append(f"강세 마감(종가위치 {ind['close_pos']}%) +14")
-    elif ind["close_pos"] < 30:
-        s -= 12
-        why.append(f"윗꼬리/분배(종가위치 {ind['close_pos']}%)")
-        bd.append(f"윗꼬리/분배(종가위치 {ind['close_pos']}%) -12")
-    if 50 <= ind["rsi"] <= 70:
-        s += 13
-        why.append(f"RSI {ind['rsi']}(상승)")
-        bd.append(f"RSI {ind['rsi']} (상승 구간 50~70) +13")
-    elif ind["rsi"] > 75:
-        s -= 10
-        why.append(f"RSI {ind['rsi']}(과열)")
-        bd.append(f"RSI {ind['rsi']} (과열 >75) -10")
-    elif ind["rsi"] < 35:
-        s += 4
-        bd.append(f"RSI {ind['rsi']} (침체 반등 기대 <35) +4")
-    if price >= ind["breakout"]:
-        s += 14
-        why.append("변동성 돌파 상회")
-        bd.append("변동성 돌파선 상회 +14")
-    if ind["mom5"] > 0:
-        s += 8
-        bd.append(f"5일 모멘텀 +{ind['mom5']}% (양) +8")
+        add("align_down", None, "역배열(MA5<MA20)")
+    if f["above_ma20"]:
+        add("above_ma20", None, "현재가가 20일선(MA20) 위")
+    if f["vol_surge"]:
+        add("vol_surge", f"거래량 급증 {ind['vol_surge']}x",
+            f"거래량 급증 {ind['vol_surge']}배")
+    elif f["vol_ok"]:
+        add("vol_ok", None, f"거래량 양호 {ind['vol_surge']}배")
+    elif f["vol_dry"]:
+        add("vol_dry", f"거래량 위축 {ind['vol_surge']}x",
+            f"거래량 위축(매수세 이탈) {ind['vol_surge']}배")
+    if f["strong_close"]:
+        add("strong_close", f"강세 마감(종가위치 {ind['close_pos']}%)",
+            f"강세 마감(종가위치 {ind['close_pos']}%)")
+    elif f["weak_close"]:
+        add("weak_close", f"윗꼬리/분배(종가위치 {ind['close_pos']}%)",
+            f"윗꼬리/분배(종가위치 {ind['close_pos']}%)")
+    if f["rsi_up"]:
+        add("rsi_up", f"RSI {ind['rsi']}(상승)",
+            f"RSI {ind['rsi']} (상승 구간 50~70)")
+    elif f["rsi_hot"]:
+        add("rsi_hot", f"RSI {ind['rsi']}(과열)", f"RSI {ind['rsi']} (과열 >75)")
+    elif f["rsi_oversold"]:
+        add("rsi_oversold", None, f"RSI {ind['rsi']} (침체 반등 기대 <35)")
+    if f["breakout"]:
+        add("breakout", "변동성 돌파 상회", "변동성 돌파선 상회")
+    if f["mom_up"]:
+        add("mom_up", None, f"5일 모멘텀 +{ind['mom5']}% (양)")
+    # 신규 요소(미시구조·수급) — 학습 가중치가 붙은(0 아님) 항목만 라벨로 가산.
+    for key, flag in f.items():
+        if key in _CORE_FEATURE_KEYS or not flag:
+            continue
+        add(key, None, WEIGHT_LABELS.get(key, key))
     return max(0, min(100, round(s))), why, bd
 
 
@@ -737,10 +907,12 @@ def reapply_fresh_catalyst(feed, prev_catalyst, now):
 
 
 def load_control():
-    """control.json 파싱. 반환: (watchlist, scope, market_targets, hold_cap, tuning).
-    tuning 은 engine.tuning(없으면 DEFAULT_TUNING) — 통계 탭 학습 보정 적용 지점."""
+    """control.json 파싱. 반환: (watchlist, scope, market_targets, hold_cap, tuning, weights).
+    - tuning: engine.tuning(없으면 DEFAULT_TUNING) — 손절·목표 배수 학습 보정.
+    - weights: engine.learned_weights(없으면 None=DEFAULT_WEIGHTS) — 점수 가중치 학습 보정."""
     wl, scope, mkts, cap = [], "watchlist", ["KOSPI", "KOSDAQ"], 48
     tuning = dict(DEFAULT_TUNING)
+    weights = None
     if CONTROL_PATH.exists():
         try:
             c = json.loads(CONTROL_PATH.read_text(encoding="utf-8-sig"))
@@ -754,9 +926,15 @@ def load_control():
                 for k in DEFAULT_TUNING:
                     if k in t and isinstance(t[k], (int, float)):
                         tuning[k] = float(t[k])
+            lw = e.get("learned_weights")
+            if isinstance(lw, dict):
+                parsed = {k: float(lw[k]) for k in DEFAULT_WEIGHTS
+                          if k in lw and isinstance(lw[k], (int, float))}
+                if parsed:
+                    weights = {**DEFAULT_WEIGHTS, **parsed}
         except Exception as ex:
             print(f"[analyze] control 읽기 실패: {ex}")
-    return wl, scope, mkts, cap, tuning
+    return wl, scope, mkts, cap, tuning, weights
 
 
 def yahoo_symbol(code):
@@ -764,10 +942,11 @@ def yahoo_symbol(code):
     return f"{code}.KS"
 
 
-def score_watchlist(watchlist, regime, cutoff, sf_map=None):
+def score_watchlist(watchlist, regime, cutoff, sf_map=None, weights=None):
     """관심종목을 KIS 현재가(있으면 정밀)+yfinance 일봉으로 점수화한다.
     KIS 토큰 발급/조회 실패해도 중단하지 않고 yfinance 로 폴백한다.
     sf_map(코드→수급·재무)이 있으면 점수에 수급·재무를 추가 반영한다.
+    weights(학습된 가중치)가 있으면 차트 점수에 적용한다.
     반환: [(item, price, change, ind, score), ...]."""
     sf_map = sf_map or {}
     out = []
@@ -792,7 +971,7 @@ def score_watchlist(watchlist, regime, cutoff, sf_map=None):
         if price is None or ind is None:
             print(f"[analyze] 시세/지표 미확보 제외: {item.get('name', code)}")
             continue
-        sc, why, bd = score_stock(price, ind)
+        sc, why, bd = score_stock(price, ind, weights)
         sc = apply_regime(sc, why, bd, regime)
         sc = apply_supply_finance(sc, why, bd, sf_map.get(code))
         ind["_why"] = why
@@ -801,9 +980,10 @@ def score_watchlist(watchlist, regime, cutoff, sf_map=None):
     return out
 
 
-def score_universe(uni, regime, sf_map=None):
+def score_universe(uni, regime, sf_map=None, weights=None):
     """전체종목 유니버스를 yfinance 배치로 점수화한다(현재가=일봉 종가, 속도·정합성).
     sf_map(코드→수급·재무)이 있으면 점수에 수급·재무를 추가 반영한다.
+    weights(학습된 가중치)가 있으면 차트 점수에 적용한다.
     반환: [(item, price, change, ind, score), ...]."""
     sf_map = sf_map or {}
     out = []
@@ -820,7 +1000,7 @@ def score_universe(uni, regime, sf_map=None):
         if ind is None:
             continue
         price = ind["yf_close"]
-        sc, why, bd = score_stock(price, ind)
+        sc, why, bd = score_stock(price, ind, weights)
         sc = apply_regime(sc, why, bd, regime)
         sc = apply_supply_finance(sc, why, bd, sf_map.get(code))
         ind["_why"] = why
@@ -836,10 +1016,12 @@ def main():
         pass
     now = datetime.datetime.now(KST)
     now_iso = now.replace(microsecond=0, second=0).isoformat()
-    watchlist, _scope, mkts, hold_cap, tuning = load_control()
+    watchlist, _scope, mkts, hold_cap, tuning, weights = load_control()
     cutoff = int(tuning.get("score_cutoff", 55))
     if tuning != DEFAULT_TUNING:
-        print(f"[analyze] 학습 보정 적용: {tuning}")
+        print(f"[analyze] 손절·목표 학습 보정 적용: {tuning}")
+    if weights:
+        print(f"[analyze] 학습된 점수 가중치 적용: {weights}")
 
     # 시장 환경(미국 전일) 보정치 — 1회 계산해 모든 종목 점수에 동일 적용.
     regime = fetch_us_regime()
@@ -865,8 +1047,8 @@ def main():
     sf_codes = list(wl_codes) + [u["code"] for u in uni]
     sf_map = fetch_supply_finance_batch(sf_codes)
 
-    wl_cand = score_watchlist(watchlist, regime, cutoff, sf_map)
-    mk_cand = score_universe(uni, regime, sf_map)
+    wl_cand = score_watchlist(watchlist, regime, cutoff, sf_map, weights)
+    mk_cand = score_universe(uni, regime, sf_map, weights)
     print(f"[analyze] 통합 분석: 관심종목 후보 {len(wl_cand)} / 전체종목 후보 "
           f"{len(mk_cand)} (markets={mkts})")
 
