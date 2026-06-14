@@ -268,6 +268,123 @@ def build_universe(market_targets, top_per_market=60):
     return out
 
 
+# ── 수급(외국인·기관)·재무(PER/PBR) — 네이버 integration(로그인 불필요) ───────────
+def _parse_num(s):
+    """'+2,880,306' · '26.07배' · '4.48배' · '47.63%' → float. 비수치는 None."""
+    if s is None:
+        return None
+    t = (str(s).replace(",", "").replace("+", "").replace("배", "")
+         .replace("%", "").replace("원", "").strip())
+    try:
+        return float(t)
+    except (TypeError, ValueError):
+        return None
+
+
+def fetch_supply_finance(code):
+    """네이버 종목 integration API 로 **수급(외국인·기관 최근 순매수)·재무(PER/PBR)**
+    를 1회 호출로 수집한다(로그인 불필요·클라우드 동작). 실패 시 None."""
+    url = f"https://m.stock.naver.com/api/stock/{code}/integration"
+    try:
+        req = urllib.request.Request(
+            url, headers={"User-Agent": _UNIVERSE_UA, "Accept": "application/json"})
+        with urllib.request.urlopen(req, timeout=10) as r:
+            d = json.loads(r.read().decode("utf-8"))
+    except Exception:
+        return None
+    out = {}
+    # 수급 — dealTrendInfos(최근 거래일별) 외국인·기관 순매수 수량 합.
+    f_sum = o_sum = 0.0
+    days = 0
+    for row in d.get("dealTrendInfos") or []:
+        f = _parse_num(row.get("foreignerPureBuyQuant"))
+        o = _parse_num(row.get("organPureBuyQuant"))
+        if f is not None:
+            f_sum += f
+        if o is not None:
+            o_sum += o
+        days += 1
+    if days:
+        out["for_sum"] = f_sum
+        out["org_sum"] = o_sum
+        out["sd_days"] = days
+    # 재무 — totalInfos 의 PER/PBR.
+    for x in d.get("totalInfos") or []:
+        if x.get("code") == "per":
+            out["per"] = _parse_num(x.get("value"))
+        elif x.get("code") == "pbr":
+            out["pbr"] = _parse_num(x.get("value"))
+    return out or None
+
+
+def fetch_supply_finance_batch(codes):
+    """여러 종목의 수급·재무를 스레드풀로 병렬 수집 → {code: sf}. 실패 종목은 생략."""
+    from concurrent.futures import ThreadPoolExecutor
+    out = {}
+    codes = [c for c in dict.fromkeys(codes) if c]
+    if not codes:
+        return out
+    try:
+        with ThreadPoolExecutor(max_workers=8) as ex:
+            for c, sf in ex.map(lambda c: (c, fetch_supply_finance(c)), codes):
+                if sf:
+                    out[c] = sf
+    except Exception as ex:
+        print(f"[analyze] 수급/재무 배치 수집 실패: {ex}")
+    print(f"[analyze] 수급·재무 수집: {len(out)}/{len(codes)} 종목")
+    return out
+
+
+def apply_supply_finance(score, why, breakdown, sf):
+    """수급(외국인·기관 순매수)·재무(PER/PBR)를 점수에 반영하고 근거를 남긴다.
+    수급은 초단기에 영향이 커 가중을 두고, 재무는 48h엔 약해 경량 보정만 한다.
+    sf 없으면(수집 실패) 점수 불변(날조 없음)."""
+    if not sf:
+        return score
+    s = score
+    f, o = sf.get("for_sum"), sf.get("org_sum")
+    nd = sf.get("sd_days", 5)
+    # 외국인·기관을 각각 대칭(+/-)으로 가산한다 — 순매수면 가점, **순매도면 같은 폭 감점**
+    # (외국인 이탈도 초단기에 중요하므로 혼자 팔아도 반영). 외국인을 약간 더 무겁게.
+    if f is not None:
+        if f > 0:
+            s += 8
+            breakdown.append(f"외국인 순매수(최근 {nd}일) +8")
+            why.append("외국인 순매수")
+        elif f < 0:
+            s -= 8
+            breakdown.append(f"외국인 순매도(최근 {nd}일) -8")
+            why.append("외국인 순매도")
+    if o is not None:
+        if o > 0:
+            s += 7
+            breakdown.append(f"기관 순매수(최근 {nd}일) +7")
+            why.append("기관 순매수")
+        elif o < 0:
+            s -= 7
+            breakdown.append(f"기관 순매도(최근 {nd}일) -7")
+            why.append("기관 순매도")
+    per, pbr = sf.get("per"), sf.get("pbr")
+    if per is not None:
+        if per <= 0:
+            s -= 6
+            breakdown.append(f"PER {per:g} 적자 -6")
+        elif per <= 15:
+            s += 5
+            breakdown.append(f"PER {per:g} 저평가 +5")
+        elif per >= 60:
+            s -= 3
+            breakdown.append(f"PER {per:g} 고평가 -3")
+    if pbr is not None:
+        if pbr < 1:
+            s += 3
+            breakdown.append(f"PBR {pbr:g} 자산가치 이하 +3")
+        elif pbr >= 8:
+            s -= 2
+            breakdown.append(f"PBR {pbr:g} 고평가 -2")
+    return max(0, min(100, round(s)))
+
+
 def score_stock(price, ind):
     """0~100 기술 점수 + (why, breakdown) 반환.
     - why: 짧은 강세 근거(evidence 문구용, 기존과 동일).
@@ -647,10 +764,12 @@ def yahoo_symbol(code):
     return f"{code}.KS"
 
 
-def score_watchlist(watchlist, regime, cutoff):
+def score_watchlist(watchlist, regime, cutoff, sf_map=None):
     """관심종목을 KIS 현재가(있으면 정밀)+yfinance 일봉으로 점수화한다.
     KIS 토큰 발급/조회 실패해도 중단하지 않고 yfinance 로 폴백한다.
+    sf_map(코드→수급·재무)이 있으면 점수에 수급·재무를 추가 반영한다.
     반환: [(item, price, change, ind, score), ...]."""
+    sf_map = sf_map or {}
     out = []
     cfg = _kis_cfg()
     token = None
@@ -675,15 +794,18 @@ def score_watchlist(watchlist, regime, cutoff):
             continue
         sc, why, bd = score_stock(price, ind)
         sc = apply_regime(sc, why, bd, regime)
+        sc = apply_supply_finance(sc, why, bd, sf_map.get(code))
         ind["_why"] = why
         ind["_breakdown"] = bd
         out.append((item, price, change, ind, sc))
     return out
 
 
-def score_universe(uni, regime):
+def score_universe(uni, regime, sf_map=None):
     """전체종목 유니버스를 yfinance 배치로 점수화한다(현재가=일봉 종가, 속도·정합성).
+    sf_map(코드→수급·재무)이 있으면 점수에 수급·재무를 추가 반영한다.
     반환: [(item, price, change, ind, score), ...]."""
+    sf_map = sf_map or {}
     out = []
     if not uni:
         return out
@@ -700,6 +822,7 @@ def score_universe(uni, regime):
         price = ind["yf_close"]
         sc, why, bd = score_stock(price, ind)
         sc = apply_regime(sc, why, bd, regime)
+        sc = apply_supply_finance(sc, why, bd, sf_map.get(code))
         ind["_why"] = why
         ind["_breakdown"] = bd
         out.append((t, price, ind.get("change"), ind, sc))
@@ -731,15 +854,19 @@ def main():
     # group 태그('watchlist'|'market')로 구분해 한 feed 의 signals 에 함께 싣는다.
     wl_codes = {str(w.get("code", "")).strip() for w in watchlist if w.get("code")}
 
-    wl_cand = score_watchlist(watchlist, regime, cutoff)
-
     universe_failed = False
     uni = build_universe(mkts)
     uni = [u for u in uni if u.get("code") not in wl_codes]
     if not uni:
         universe_failed = True
         print("[analyze] 전체종목 유니버스 미확보 — 이번 회차는 관심종목만.")
-    mk_cand = score_universe(uni, regime)
+
+    # 수급(외국인·기관)·재무(PER/PBR) 1회 배치 수집 — 관심종목 + 유니버스 전체.
+    sf_codes = list(wl_codes) + [u["code"] for u in uni]
+    sf_map = fetch_supply_finance_batch(sf_codes)
+
+    wl_cand = score_watchlist(watchlist, regime, cutoff, sf_map)
+    mk_cand = score_universe(uni, regime, sf_map)
     print(f"[analyze] 통합 분석: 관심종목 후보 {len(wl_cand)} / 전체종목 후보 "
           f"{len(mk_cand)} (markets={mkts})")
 
@@ -813,7 +940,7 @@ def main():
         "date": now.strftime("%Y-%m-%d"),
         "generated_at": now_iso,
         "horizon_hours": hold_cap,
-        "data_source": f"온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 미국증시 전일 환경 보정 · 분석 범위: {scan_label}. 뉴스/촉매 미반영.",
+        "data_source": f"온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 수급(외국인·기관) + 재무(PER·PBR) + 미국증시 전일 환경 보정 · 분석 범위: {scan_label}. 뉴스/촉매는 ‘뉴스도 함께’에서만.",
         "market_state": feed.get("market_state", {"korea": {"status": "closed"}, "us": {"status": "closed"}}),
         # 시장 환경 보정(측정 가능한 미국증시만) — 앱이 방법론·투명성 표기에 쓸 수 있다.
         "market_regime": regime,
