@@ -19,11 +19,53 @@
 import datetime
 import json
 import sys
+import urllib.request
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import intraday_refresh as ir  # 같은 폴더 — 시세 조회/세션·개장 판정 재사용
 import fcm_notify              # send_message(title, body)
+
+
+def fetch_kr_intraday(code):
+    """네이버 polling 으로 KR 종목 장중 데이터(현재가·누적거래량·당일 고가·등락률)를
+    실측 조회한다(장중 진입 모멘텀 판정용). 실패 시 None. 수치는 모두 실측(날조 없음)."""
+    code = (code or "").strip()
+    if not code:
+        return None
+    url = f"https://polling.finance.naver.com/api/realtime/domestic/stock/{code}"
+    try:
+        req = urllib.request.Request(
+            url, headers={"Referer": "https://m.stock.naver.com/",
+                          "User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=10) as r:
+            d = json.loads(r.read().decode("utf-8"))
+    except Exception:
+        return None
+    datas = d.get("datas") or []
+    if not datas:
+        return None
+    k = datas[0]
+
+    def num(*keys):
+        for key in keys:
+            v = str(k.get(key, "")).replace(",", "").strip()
+            if v:
+                try:
+                    return float(v)
+                except ValueError:
+                    continue
+        return None
+
+    price = num("closePriceRaw", "closePrice")
+    if price is None:
+        return None
+    return {
+        "price": price,
+        "accvol": num("accumulatedTradingVolumeRaw", "accumulatedTradingVolume") or 0,
+        "high": num("highPriceRaw", "highPrice") or price,
+        "ratio": num("fluctuationsRatioRaw", "fluctuationsRatio") or 0,
+    }
 
 KST = ZoneInfo("Asia/Seoul")
 REPO = Path(__file__).resolve().parent.parent
@@ -38,6 +80,8 @@ DEFAULT_ALERTS = {
     "surge_enabled": True, "surge_threshold": 3.0, "surge_window": 10,
     # 보유종목 경보(옵트인) — 기본 OFF(프라이버시). 켜면 holdings_watch 감시.
     "hold_enabled": False, "hold_loss_pct": 5.0,
+    # 장중 진입 모멘텀 경보(옵트인·기본 OFF) — 관심종목 상승+거래량가속+고가돌파.
+    "mom_enabled": False, "mom_threshold": 1.5,
 }
 
 # 신호 레벨 정의: (feed 키, 설정 키, 라벨, 방향). 방향 '>='=상방, '<='=하방.
@@ -79,6 +123,10 @@ def _get_alerts(control):
         a["hold_loss_pct"] = float(a["hold_loss_pct"]) or 5.0
     except (TypeError, ValueError):
         a["hold_loss_pct"] = 5.0
+    try:
+        a["mom_threshold"] = float(a["mom_threshold"]) or 1.5
+    except (TypeError, ValueError):
+        a["mom_threshold"] = 1.5
     return a
 
 
@@ -96,7 +144,7 @@ def main():
     control = _load_json(CONTROL_PATH, {})
     alerts = _get_alerts(control)
     if (not alerts["price_enabled"] and not alerts["surge_enabled"]
-            and not alerts["hold_enabled"]):
+            and not alerts["hold_enabled"] and not alerts["mom_enabled"]):
         print("[alert-watch] 모든 알람 OFF — skip")
         return 0
 
@@ -259,6 +307,55 @@ def main():
             if len(hbuf[code]) > 50:
                 hbuf[code] = hbuf[code][-50:]
         state["hold_samples"] = hbuf
+
+    # ── (4) 장중 진입 모멘텀(옵트인) — 관심종목 KR ──
+    # "오를 때 빨리 타기": 최근 N분 상승 + **거래량 가속**(누적거래량 증가분) +
+    # 당일 고가 돌파 + 과열 아님일 때만 알림(실측 네이버 데이터, 날조 없음).
+    if alerts["mom_enabled"]:
+        momthr = alerts["mom_threshold"]
+        win = alerts["surge_window"]
+        window_ms = win * 60 * 1000
+        mcut = now_ms - window_ms
+        mbuf = state.get("mom_samples") or {}
+        for w in watchlist:
+            code = (w.get("code") or "").strip()
+            market = (w.get("market") or "KR").upper()
+            if not code or market != "KR":
+                continue
+            info = fetch_kr_intraday(code)
+            if not info:
+                continue
+            price = info["price"]
+            buf = mbuf.setdefault(code, [])
+            buf.append([now_ms, price, info["accvol"]])
+            buf[:] = [x for x in buf if x[0] >= mcut]
+            if len(buf) < 3:
+                continue
+            ref_ts, ref_price, _ = buf[0]
+            if ref_price <= 0 or now_ms - ref_ts < 6 * 60 * 1000:
+                continue
+            chg = (price - ref_price) / ref_price * 100.0
+            # 거래량 가속: 직전 구간 증가분 vs 그 이전 구간들 평균.
+            last_iv = info["accvol"] - buf[-2][2]
+            prior_ivs = [buf[j][2] - buf[j - 1][2] for j in range(1, len(buf) - 1)]
+            avg_prior = sum(prior_ivs) / len(prior_ivs) if prior_ivs else 0
+            vol_accel = avg_prior > 0 and last_iv >= 1.8 * avg_prior
+            near_high = price >= info["high"] * 0.999  # 당일 고가 부근/돌파
+            not_overext = info["ratio"] < 12           # 이미 급등 끝물 아님
+            if chg >= momthr and vol_accel and near_high and not_overext:
+                dirkey = f"mom|{code}"
+                if now_ms >= cooldown.get(dirkey, 0):
+                    cooldown[dirkey] = now_ms + window_ms
+                    name = w.get("name") or code
+                    events.append((
+                        f"📈 {name} 진입 모멘텀 +{chg:.1f}%",
+                        f"최근 {win}분 +{chg:.1f}% · 거래량 가속 · 당일 고가 돌파. "
+                        f"진입 검토(추격 주의·손절 함께).",
+                    ))
+        for c in list(mbuf.keys()):
+            if len(mbuf[c]) > 50:
+                mbuf[c] = mbuf[c][-50:]
+        state["mom_samples"] = mbuf
 
     # 표본 버퍼가 무한정 커지지 않게 종목별 최근 50개만 유지.
     for code in list(samples.keys()):
