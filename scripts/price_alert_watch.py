@@ -347,10 +347,13 @@ def main():
                 if now_ms >= cooldown.get(dirkey, 0):
                     cooldown[dirkey] = now_ms + window_ms
                     name = w.get("name") or code
+                    body = (f"최근 {win}분 +{chg:.1f}% · 거래량 가속 · 당일 고가 돌파. "
+                            f"진입 검토(추격 주의·손절 함께).")
                     events.append((
-                        f"📈 {name} 진입 모멘텀 +{chg:.1f}%",
-                        f"최근 {win}분 +{chg:.1f}% · 거래량 가속 · 당일 고가 돌파. "
-                        f"진입 검토(추격 주의·손절 함께).",
+                        f"📈 {name} 진입 모멘텀 +{chg:.1f}%", body,
+                        {"type": "momentum", "code": code, "name": name,
+                         "pct": f"{chg:.1f}", "price": f"{price:.0f}",
+                         "level": f"{info['high']:.0f}", "currency": "KRW"},
                     ))
         for c in list(mbuf.keys()):
             if len(mbuf[c]) > 50:
@@ -373,15 +376,16 @@ def main():
         print(f"[alert-watch] 도달/급등락 없음 @ {now_iso} ({session_label})")
         return 0
 
-    # 발송 — 건수 많으면 요약 1건(도배 방지).
+    # 발송 — 건수 많으면 요약 1건(도배 방지). 이벤트는 (title, body[, data]).
     if len(events) > MAX_INDIVIDUAL:
-        head = " / ".join(t for t, _ in events[:MAX_INDIVIDUAL])
+        head = " / ".join(ev[0] for ev in events[:MAX_INDIVIDUAL])
         fcm_notify.send_message(
             f"🔔 알람 {len(events)}건",
             f"{head} 외 {len(events) - MAX_INDIVIDUAL}건. 탭해서 확인하세요.")
     else:
-        for title, body in events:
-            fcm_notify.send_message(title, body)
+        for ev in events:
+            data = ev[2] if len(ev) > 2 else None
+            fcm_notify.send_message(ev[0], ev[1], data=data)
     print(f"[alert-watch] {len(events)}건 발송 @ {now_iso} ({session_label})")
     return 0
 

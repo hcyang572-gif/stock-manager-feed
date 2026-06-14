@@ -19,13 +19,16 @@ import sys
 import urllib.request
 
 
-def _send(project_id, token, topic, title, body):
+def _send(project_id, token, topic, title, body, data=None):
+    # FCM data 값은 모두 문자열이어야 한다. 미지정 시 기본 type=analysis_done.
+    payload = {"type": "analysis_done"} if not data else \
+        {k: str(v) for k, v in data.items()}
     msg = {
         "message": {
             "topic": topic,
             "notification": {"title": title, "body": body},
             "android": {"priority": "high"},
-            "data": {"type": "analysis_done"},
+            "data": payload,
         }
     }
     url = f"https://fcm.googleapis.com/v1/projects/{project_id}/messages:send"
@@ -51,14 +54,15 @@ def _credentials_and_project():
     return creds, info.get("project_id")
 
 
-def send_message(title, body, topic="analysis"):
-    """토픽으로 알림 1건 발송. 성공 True / 미설정·실패 False(예외 흡수)."""
+def send_message(title, body, topic="analysis", data=None):
+    """토픽으로 알림 1건 발송. data(dict)를 주면 FCM data 페이로드로 실어 앱이
+    분류·기록할 수 있다. 성공 True / 미설정·실패 False(예외 흡수)."""
     try:
         creds, project_id = _credentials_and_project()
         if not creds:
             print("[fcm] FCM_SERVICE_ACCOUNT 미설정 - 발송 건너뜀")
             return False
-        status, resp = _send(project_id, creds.token, topic, title, body)
+        status, resp = _send(project_id, creds.token, topic, title, body, data)
         print(f"[fcm] 발송 status={status} {resp[:200]}")
         return 200 <= status < 300
     except Exception as ex:
