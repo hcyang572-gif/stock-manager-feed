@@ -235,8 +235,8 @@ def _tune(samples):
     if cur_train is None or cur_val is None:
         return block
     best = None
-    for sm in (1.2, 1.5, 1.8, 2.1):
-        for t1 in (1.5, 2.0, 2.5):
+    for sm in (1.0, 1.2, 1.5, 1.8, 2.1, 2.5):
+        for t1 in (1.2, 1.5, 2.0, 2.5, 3.0):
             t2 = t1 + 1.0
             tr, _ = _avg_r(train, sm, t1, t2)
             vl, nf = _avg_r(val, sm, t1, t2)

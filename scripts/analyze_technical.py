@@ -615,6 +615,10 @@ DEFAULT_TUNING = {
     "target1_mult": 2.0,   # 목표1 = 진입 + target1_mult × 위험
     "target2_mult": 3.0,   # 목표2 = 진입 + target2_mult × 위험
     "score_cutoff": 55,    # 신호 채택 점수 임계
+    # 비중(위험균등 사이징) — 손절까지 갔을 때 잃을 자본을 risk_per_trade_pct 로 고정.
+    "risk_per_trade_pct": 1.0,  # 한 트레이드에 거는 자본 위험(%)
+    "max_weight_pct": 15.0,     # 종목 최대 비중(%)
+    "min_weight_pct": 3.0,      # 종목 최소 비중(%)
 }
 
 
@@ -640,8 +644,31 @@ def levels(price, ind, hold_cap, stop_mult=1.5, target1_mult=2.0, target2_mult=3
             "target2": target2, "etype": etype, "risk": risk}
 
 
-def build_signal(rank, item, price, change_pct, ind, hold_cap, tuning=None):
-    """기술 점수 통과 종목 → 매매계획 신호 dict. tuning(없으면 기본)로 손절·목표 조정."""
+def position_weight(entry, stop, score, cutoff, tuning):
+    """**위험균등(risk-parity) 비중 산정** — 손절까지 갔을 때 잃는 자본을
+    risk_per_trade_pct 로 고정한다(손절이 넓은 위험한 종목일수록 자동으로 작게).
+    그 위에 확신도(점수)·진입유형으로 가감하고 [min,max]%로 캡한다.
+    반환: (weight_pct, stop_pct, est_loss_pct)."""
+    t = {**DEFAULT_TUNING, **(tuning or {})}
+    stop_dist = (entry - stop) / entry if entry else 0  # 손절까지 거리(비율)
+    if stop_dist <= 0:
+        return t["min_weight_pct"], 0.0, 0.0
+    risk_budget = t["risk_per_trade_pct"]
+    raw = risk_budget / (stop_dist * 100) * 100  # = risk_budget / 손절거리% × 100
+    # 확신도 스케일: 컷오프에서 0.6배 → 85점 이상 1.0배.
+    span = max(1.0, 85.0 - cutoff)
+    conf = max(0.0, min(1.0, (score - cutoff) / span))
+    conf_scale = 0.6 + 0.4 * conf
+    w = raw * conf_scale
+    w = max(t["min_weight_pct"], min(t["max_weight_pct"], w))
+    est_loss = w * stop_dist  # 손절 시 자본 손실(%) ≈ 비중 × 손절거리
+    return round(w), round(stop_dist * 100, 1), round(est_loss, 2)
+
+
+def build_signal(rank, item, price, change_pct, ind, hold_cap, tuning=None,
+                 score=60, cutoff=55):
+    """기술 점수 통과 종목 → 매매계획 신호 dict. tuning(없으면 기본)로 손절·목표 조정.
+    score/cutoff 로 비중을 확신도에 맞춰 가감한다(위험균등 사이징)."""
     t = {**DEFAULT_TUNING, **(tuning or {})}
     lv = levels(price, ind, hold_cap, t["stop_mult"], t["target1_mult"],
                 t["target2_mult"])
@@ -652,7 +679,11 @@ def build_signal(rank, item, price, change_pct, ind, hold_cap, tuning=None):
     else:
         enote = f"{entry:,} 돌파 + 거래량 동반 시 진입(미돌파 시 미진입). 추격금지."
     rr = round((target1 - entry) / risk, 2) if risk > 0 else 0
-    weight = int(max(3, min(8, round(8 - ind["atr_pct"] * 0.25))))
+    # 위험균등 비중 — 손절 거리·확신도 반영. 돌파대기는 미체결 위험으로 0.85배.
+    weight, stop_pct, est_loss = position_weight(entry, stop, score, cutoff, t)
+    if etype == "breakout":
+        weight = int(max(t["min_weight_pct"], round(weight * 0.85)))
+        est_loss = round(weight * stop_pct / 100, 2)
     return {
         "rank": rank, "name": item["name"], "code": item["code"], "market": "KR",
         "direction": "long", "confidence": "mid" if etype == "now" else "low",
@@ -660,13 +691,18 @@ def build_signal(rank, item, price, change_pct, ind, hold_cap, tuning=None):
         "entry_type": etype, "entry_note": enote, "stop": stop,
         "target1": target1, "target2": target2, "rr": rr,
         "atr_pct": ind["atr_pct"], "hold_cap_hours": hold_cap, "weight_pct": weight,
+        "stop_pct": stop_pct, "est_loss_pct": est_loss,
         "catalyst_verified": False, "change_pct": round(change_pct, 2) if change_pct is not None else None,
         "evidence": "기술 분석(뉴스 미확인) — " + ", ".join(ind["_why"]) +
                     f". ATR {ind['atr_pct']}%·5일모멘텀 {ind['mom5']}%.",
         # 앱 '점수 근거' 팝업용 — 항목별 점수 내역(기본 50 + 각 지표 기여).
         "score_reasons": list(ind.get("_breakdown", [])),
-        "risk_notes": ["촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
-                       f"ATR {ind['atr_pct']}% 변동성 — 손절폭·비중 유의."],
+        "risk_notes": [
+            "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
+            f"비중 {weight}%는 위험균등 산정 — 손절({stop_pct}%) 도달 시 자본 약 "
+            f"{est_loss}% 손실 수준(위험 {t['risk_per_trade_pct']}%/트레이드 기준).",
+            f"목표1 도달 시 손절을 본전으로 올려 이익 보호 · 보유 {hold_cap}h 경과 시 잔여 청산.",
+        ],
         "tags": ["기술분석", "온디맨드"] + (["돌파대기"] if etype == "breakout" else ["즉시진입"]),
     }
 
@@ -1064,7 +1100,8 @@ def main():
     for item, price, change, ind, sc in wl_cand:
         if sc >= cutoff and rank < 5:
             rank += 1
-            sig = build_signal(rank, item, price, change, ind, hold_cap, tuning)
+            sig = build_signal(rank, item, price, change, ind, hold_cap, tuning,
+                               score=sc, cutoff=cutoff)
             sig["_score"] = sc
             sig["group"] = "watchlist"
             wl_signals.append(sig)
@@ -1085,7 +1122,8 @@ def main():
     for item, price, change, ind, sc in mk_cand:
         if sc >= cutoff and mrank < 5:
             mrank += 1
-            sig = build_signal(mrank, item, price, change, ind, hold_cap, tuning)
+            sig = build_signal(mrank, item, price, change, ind, hold_cap, tuning,
+                               score=sc, cutoff=cutoff)
             sig["_score"] = sc
             sig["group"] = "market"
             market_signals.append(sig)
