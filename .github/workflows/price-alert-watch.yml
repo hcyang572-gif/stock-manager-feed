@@ -1,80 +1,55 @@
 name: price-alert-watch
 
-# 백그라운드 가격 도달·급등락 감시 → FCM 푸시(앱 종료 중에도).
-# 5분 주기로 깨우되, gate 가 평일 + control.robot 운영창(기본 08:00~20:00, 시간외 NXT
-# 포함) 안에서만 실제 실행한다. 신호 레벨(진입/손절/목표) 도달과 관심종목 급등/급락을
-# KIS 통합(NXT) 실측가로 감지해 토픽 'analysis' 로 알린다.
+# 백그라운드 가격도달·급등락·보유 급락이탈·진입 모멘텀 감시 → FCM 푸시(앱 종료 중에도).
 #
-# 한계(정직): GitHub Actions cron 은 최소 5분·베스트에포트(수 분 지연 가능)라
-# 실시간(초)은 아니다. 빠르게 찍고 되돌아오는 움직임은 놓칠 수 있다.
+# [중요] 분단위 cron(*/5)은 GitHub throttle 로 누락이 잦아 신뢰 불가(종일 0회 발화 사례).
+# cron 은 **시간당 1회 기동**만 맡고, 실제 감시는 하나의 잡이 **내부 sleep 루프**로 ~70분
+# 동안 interval_min(기본 5분)마다 수행한다(throttle 내성). gate 는 매 반복마다 평일·운영창·
+# 알람ON(가격/급등락/보유/모멘텀 중 하나라도) 을 재확인. 상태(.alert_state.json)는 잡 안에서
+# 파일로 유지하고 cache 로 잡 간 보존.
 #
-# 상태(중복방지·급등락 표본)는 actions/cache 로 실행 간 보존(레포 커밋 없음).
+# 한계(정직): 폴링 주기(기본 5분) 사이의 순간 움직임은 놓칠 수 있다(실시간 초단위 아님).
 
 on:
   workflow_dispatch: {}
   schedule:
-    - cron: "*/5 * * * *"   # 매 5분(24h). gate 가 평일·운영창으로 정밀 필터.
+    - cron: "0 23 * * *"      # 08:00 KST 기동
+    - cron: "0 0-11 * * *"    # 09:00~20:00 KST 매시 기동(시간당 1회)
 
 permissions:
   contents: read
 
 concurrency:
   group: price-alert-watch
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   watch:
     runs-on: ubuntu-latest
+    timeout-minutes: 75
     steps:
       - uses: actions/checkout@v4
 
-      # 실행 여부 판정 — 평일 + control.robot 운영창 + 알람 1개라도 ON.
-      - name: Gate
-        id: gate
-        run: |
-          dow=$(TZ=Asia/Seoul date +%u)                       # 1=Mon … 7=Sun
-          nowmin=$(( $(TZ=Asia/Seoul date +%-H) * 60 + $(TZ=Asia/Seoul date +%-M) ))
-          ws=$(jq -r '.robot.window_start // "08:00"' control.json)
-          we=$(jq -r '.robot.window_end // "20:00"' control.json)
-          wsmin=$(( 10#${ws%%:*} * 60 + 10#${ws##*:} ))
-          wemin=$(( 10#${we%%:*} * 60 + 10#${we##*:} ))
-          pen=$(jq -r '(.alerts.price_enabled // true)' control.json)
-          sen=$(jq -r '(.alerts.surge_enabled // true)' control.json)
-          run=false
-          if [ "$dow" -le 5 ] && [ "$nowmin" -ge "$wsmin" ] && [ "$nowmin" -le "$wemin" ] \
-             && { [ "$pen" = "true" ] || [ "$sen" = "true" ]; }; then
-            run=true
-          fi
-          echo "run=$run" >> "$GITHUB_OUTPUT"
-          echo "gate: dow=$dow now=$nowmin win=$wsmin-$wemin price=$pen surge=$sen → run=$run"
-
       - uses: actions/setup-python@v5
-        if: steps.gate.outputs.run == 'true'
         with:
           python-version: "3.12"
 
       - name: Install deps
-        if: steps.gate.outputs.run == 'true'
         # google-auth: FCM 발송 · holidays/tzdata: 개장·시간 판정.
         run: pip install --quiet google-auth holidays tzdata
 
-      # KIS 토큰 '1일 1회 발급' — 다른 워크플로와 동일 키로 공유(재발급 방지).
       - name: KIS token date (KST)
-        if: steps.gate.outputs.run == 'true'
         id: kisdate
         run: echo "d=$(TZ=Asia/Seoul date +%F)" >> "$GITHUB_OUTPUT"
 
       - name: Cache KIS access token (1일 1회 발급)
-        if: steps.gate.outputs.run == 'true'
         uses: actions/cache@v4
         with:
           path: config/.kis_token.json
           key: kis-token-${{ steps.kisdate.outputs.d }}
 
-      # 알람 상태(발사기록·급등락 표본) — 실행 간 보존(커밋 대신 캐시).
-      # 매 실행 고유 키로 저장하고, restore-keys 로 가장 최근 것을 복원한다.
+      # 알람 상태(발사기록·급등락 표본) — 잡 시작 시 복원, 끝에 저장.
       - name: Restore alert state
-        if: steps.gate.outputs.run == 'true'
         uses: actions/cache/restore@v4
         with:
           path: config/.alert_state.json
@@ -82,16 +57,47 @@ jobs:
           restore-keys: |
             alert-state-
 
-      - name: Run price/surge watch
-        if: steps.gate.outputs.run == 'true'
+      # 내부 sleep 루프 — ~70분 동안 interval_min 마다 감시. 매 반복마다 origin/main 으로
+      # hard-reset 해 최신 control/feed 반영(가격레벨·운영창·알람토글 즉시 반영). 상태파일은
+      # untracked 라 reset 영향 없음(루프 동안 파일로 누적, 종료 시 cache 저장).
+      - name: Loop watch (내부 sleep 폴링 ~70분)
         env:
           KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
           KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
           FCM_SERVICE_ACCOUNT: ${{ secrets.FCM_SERVICE_ACCOUNT }}
-        run: python scripts/price_alert_watch.py
+        run: |
+          end=$(( $(date +%s) + 70*60 ))
+          while :; do
+            git fetch -q origin main 2>/dev/null && git reset --hard -q origin/main 2>/dev/null || true
+            dow=$(TZ=Asia/Seoul date +%u)
+            nowmin=$(( $(TZ=Asia/Seoul date +%-H) * 60 + $(TZ=Asia/Seoul date +%-M) ))
+            ws=$(jq -r '.robot.window_start // "08:00"' control.json)
+            we=$(jq -r '.robot.window_end // "20:00"' control.json)
+            wsmin=$(( 10#${ws%%:*} * 60 + 10#${ws##*:} ))
+            wemin=$(( 10#${we%%:*} * 60 + 10#${we##*:} ))
+            pen=$(jq -r '(.alerts.price_enabled // true)' control.json)
+            sen=$(jq -r '(.alerts.surge_enabled // true)' control.json)
+            hen=$(jq -r '(.alerts.hold_enabled // false)' control.json)
+            men=$(jq -r '(.alerts.mom_enabled // false)' control.json)
+            interval=$(jq -r '(.robot.interval_min // 5)' control.json)
+            case "$interval" in ''|*[!0-9]*) interval=5;; esac
+            [ "$interval" -lt 1 ] && interval=5
+            if [ "$dow" -le 5 ] && [ "$nowmin" -ge "$wsmin" ] && [ "$nowmin" -le "$wemin" ] \
+               && { [ "$pen" = "true" ] || [ "$sen" = "true" ] || [ "$hen" = "true" ] || [ "$men" = "true" ]; }; then
+              echo "watch tick $(TZ=Asia/Seoul date '+%H:%M KST') (price=$pen surge=$sen hold=$hen mom=$men)"
+              python scripts/price_alert_watch.py || true
+            else
+              echo "gate skip $(TZ=Asia/Seoul date '+%H:%M KST'): dow=$dow now=$nowmin win=$wsmin-$wemin price=$pen surge=$sen hold=$hen mom=$men"
+            fi
+            now=$(date +%s)
+            [ "$now" -ge "$end" ] && break
+            remain=$(( end - now ))
+            [ "$remain" -lt $(( interval * 60 )) ] && break
+            sleep $(( interval * 60 ))
+          done
 
       - name: Save alert state
-        if: steps.gate.outputs.run == 'true' && always()
+        if: always()
         uses: actions/cache/save@v4
         with:
           path: config/.alert_state.json

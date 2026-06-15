@@ -1,20 +1,22 @@
 name: intraday-refresh
 
-# 한국 개장일 08:00~20:00 KST, 10분마다 feed.json 의 종목 시세를 경량 갱신한다.
-# NXT(넥스트레이드) 연장거래(프리 08:00~/애프터 ~20:00)를 KIS 통합(UN) 시세로 반영.
-# (신규 발굴은 아침 풀 발굴이 담당 — 여기서는 선정 종목 현재가/ext 만 최신화)
-# 실제 개장일·시간 가드는 스크립트(intraday_refresh.py)가 KST 기준으로 정밀 판정한다.
-# cron 은 UTC 라 KST 창(08:00~20:00 = UTC 23:00~11:00)을 넉넉히 덮고 스크립트가 정확히 거른다.
+# 한국 거래일 08:00~20:00 KST, control.robot.interval_min(기본 5분)마다 feed.json 시세 갱신.
+# (NXT 연장거래 프리/애프터 포함 — KIS 통합 시세. 신규 발굴은 아침 풀 발굴이 담당.)
+#
+# [중요] GitHub 의 분단위 cron(*/5,*/10)은 throttle 로 누락이 잦아(종일 0회 발화 사례)
+# 신뢰할 수 없다. 그래서 cron 은 **시간당 1회 기동**만 맡고, 실제 폴링은 하나의 잡이
+# **내부 sleep 루프**로 ~70분 동안 interval_min 마다 수행한다(throttle 내성). 시간당 기동이
+# 겹치면 concurrency(cancel-in-progress)로 새 잡이 이어받아 연속 커버한다.
+# 거래일·시간 가드·NXT 판정은 스크립트(intraday_refresh.py)가 KST 로 정밀 처리한다.
 
 on:
   schedule:
-    - cron: "*/10 23 * * *"      # 08:00~08:50 KST (전일 UTC 23시)
-    - cron: "*/10 0-10 * * *"    # 09:00~19:50 KST
-    - cron: "0 11 * * *"         # 20:00 KST (마감 직전 1회)
-  workflow_dispatch:              # 수동 실행(테스트)
+    - cron: "0 23 * * *"      # 08:00 KST 기동
+    - cron: "0 0-11 * * *"    # 09:00~20:00 KST 매시 기동(시간당 1회)
+  workflow_dispatch:
     inputs:
       force:
-        description: "시간 가드 무시하고 강제 실행(주말·장외 테스트용)"
+        description: "시간 가드 무시 강제 실행(주말·장외 테스트용)"
         type: boolean
         default: false
 
@@ -23,11 +25,12 @@ permissions:
 
 concurrency:
   group: intraday-refresh
-  cancel-in-progress: false
+  cancel-in-progress: true   # 새 시간당 기동이 이전 루프를 이어받음(연속 커버·중복 방지)
 
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    timeout-minutes: 75
     steps:
       - uses: actions/checkout@v4
 
@@ -38,9 +41,7 @@ jobs:
       - name: Install deps
         run: pip install --quiet holidays tzdata
 
-      # KIS 접근 토큰은 24h 유효 — '1일 1회 발급' 원칙 준수를 위해 KST 날짜 키로
-      # 캐시해 하루 동안 모든 실행(10분마다)이 같은 토큰을 재사용한다. analyze-now 와
-      # 같은 키를 써 두 워크플로가 토큰을 공유한다(중복 발급 방지).
+      # KIS 토큰 '1일 1회 발급' — KST 날짜 키로 캐시해 다른 워크플로와 공유(재발급 방지).
       - name: KIS token date (KST)
         id: kisdate
         run: echo "d=$(TZ=Asia/Seoul date +%F)" >> "$GITHUB_OUTPUT"
@@ -51,21 +52,33 @@ jobs:
           path: config/.kis_token.json
           key: kis-token-${{ steps.kisdate.outputs.d }}
 
-      - name: Refresh quotes
+      # 내부 sleep 루프 — ~70분 동안 interval_min 마다 갱신(분단위 cron throttle 회피).
+      # 매 반복마다 origin/main 으로 hard-reset 해 최신 feed/control 에서 작업(다른
+      # 워크플로 push 와의 충돌·rebase 꼬임 방지). 변경 시 commit&push, 거부되면 다음
+      # 반복이 reset 후 재시도. 시간 가드는 스크립트가 처리하므로 창 밖이면 no-op.
+      - name: Loop refresh (내부 sleep 폴링 ~70분)
         env:
           KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
           KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
-        run: python scripts/intraday_refresh.py ${{ inputs.force && '--force' || '' }}
-
-      - name: Commit & push if changed
+          FORCE: ${{ inputs.force && '--force' || '' }}
         run: |
-          if [ -n "$(git status --porcelain feed.json)" ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add feed.json
-            git commit -m "intraday: 시세 10분 자동갱신·NXT 연장 ($(TZ=Asia/Seoul date '+%m-%d %H:%M KST'))"
-            git push
-            echo "pushed"
-          else
-            echo "no change — skip commit"
-          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          end=$(( $(date +%s) + 70*60 ))
+          while :; do
+            git fetch -q origin main 2>/dev/null && git reset --hard -q origin/main 2>/dev/null || true
+            interval=$(jq -r '(.robot.interval_min // 5)' control.json 2>/dev/null || echo 5)
+            case "$interval" in ''|*[!0-9]*) interval=5;; esac
+            [ "$interval" -lt 1 ] && interval=5
+            python scripts/intraday_refresh.py $FORCE || true
+            if [ -n "$(git status --porcelain feed.json)" ]; then
+              git add feed.json
+              git commit -q -m "intraday: 시세 자동갱신·NXT ($(TZ=Asia/Seoul date '+%m-%d %H:%M KST'))" || true
+              git push -q || true
+            fi
+            now=$(date +%s)
+            [ "$now" -ge "$end" ] && break
+            remain=$(( end - now ))
+            [ "$remain" -lt $(( interval * 60 )) ] && break
+            sleep $(( interval * 60 ))
+          done
