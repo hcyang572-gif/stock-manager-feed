@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "date": "2026-06-16",
-  "generated_at": "2026-06-16T05:05:00+09:00",
+  "generated_at": "2026-06-16T05:34:00+09:00",
   "horizon_hours": 48,
   "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 수급(외국인·기관) + 재무(PER·PBR) + 미국증시 전일 환경 보정 · 분석 범위: 통합 분석 — 관심종목(5 신호) + 전체종목 거래대금 상위(KOSPI, 5 신호). 뉴스/촉매는 ‘뉴스도 함께’에서만. (뉴스/촉매 13h 전 반영 보존)",
   "market_state": {
@@ -22,7 +22,7 @@
     "observation_count": 3,
     "position_count": 0,
     "top_signal": "LG에너지솔루션",
-    "headline": "기술 분석 갱신(06-16 05:05 KST) — 차트·거래량·변동성 기준 10개 신호. 뉴스 미반영이니 진입 전 재료 확인."
+    "headline": "기술 분석 갱신(06-16 05:34 KST) — 차트·거래량·변동성 기준 10개 신호. 뉴스 미반영이니 진입 전 재료 확인."
   },
   "signals": [
     {
@@ -44,6 +44,7 @@
       "atr_pct": 8.01,
       "hold_cap_hours": 48,
       "weight_pct": 7,
+      "vol_surge": 0.77,
       "stop_pct": 11.4,
       "est_loss_pct": 0.8,
       "catalyst_verified": true,
@@ -91,6 +92,7 @@
       "atr_pct": 4.41,
       "hold_cap_hours": 48,
       "weight_pct": 8,
+      "vol_surge": 0.69,
       "stop_pct": 8.9,
       "est_loss_pct": 0.71,
       "catalyst_verified": true,
@@ -138,6 +140,7 @@
       "atr_pct": 8.13,
       "hold_cap_hours": 48,
       "weight_pct": 3,
+      "vol_surge": 0.71,
       "stop_pct": 16.7,
       "est_loss_pct": 0.5,
       "catalyst_verified": false,
@@ -187,6 +190,7 @@
       "atr_pct": 6.75,
       "hold_cap_hours": 48,
       "weight_pct": 4,
+      "vol_surge": 0.72,
       "stop_pct": 13.3,
       "est_loss_pct": 0.53,
       "catalyst_verified": true,
@@ -235,6 +239,7 @@
       "atr_pct": 6.94,
       "hold_cap_hours": 48,
       "weight_pct": 4,
+      "vol_surge": 0.73,
       "stop_pct": 14.4,
       "est_loss_pct": 0.58,
       "catalyst_verified": false,
@@ -283,6 +288,7 @@
       "atr_pct": 5.19,
       "hold_cap_hours": 48,
       "weight_pct": 8,
+      "vol_surge": 1.04,
       "stop_pct": 10.9,
       "est_loss_pct": 0.87,
       "catalyst_verified": false,
@@ -334,6 +340,7 @@
       "atr_pct": 6.22,
       "hold_cap_hours": 48,
       "weight_pct": 7,
+      "vol_surge": 0.64,
       "stop_pct": 13.0,
       "est_loss_pct": 0.91,
       "catalyst_verified": false,
@@ -381,6 +388,7 @@
       "atr_pct": 7.32,
       "hold_cap_hours": 48,
       "weight_pct": 6,
+      "vol_surge": 0.73,
       "stop_pct": 14.8,
       "est_loss_pct": 0.89,
       "catalyst_verified": true,
@@ -429,6 +437,7 @@
       "atr_pct": 5.64,
       "hold_cap_hours": 48,
       "weight_pct": 8,
+      "vol_surge": 0.83,
       "stop_pct": 11.5,
       "est_loss_pct": 0.92,
       "catalyst_verified": true,
@@ -478,6 +487,7 @@
       "atr_pct": 7.93,
       "hold_cap_hours": 48,
       "weight_pct": 6,
+      "vol_surge": 7.38,
       "stop_pct": 16.9,
       "est_loss_pct": 1.0,
       "catalyst_verified": false,
@@ -519,6 +529,7 @@
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -9.19,
+      "vol_surge": 2.32,
       "reason": "기술 점수 57/100 — 조건 미충족(관망). 거래량 급증 2.32x, 미국증시 환경 +8 (전일 S&P+1.65%·나스닥+3.07%·SOX+5.45%), 외국인 순매도, 기관 순매수. ATR 8.52%."
     },
     {
@@ -529,6 +540,7 @@
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": 1.01,
+      "vol_surge": 0.55,
       "reason": "기술 점수 51/100 — 조건 미충족(관망). 정배열(MA5>MA20), 거래량 위축 0.55x, 윗꼬리/분배(종가위치 20.8%), 미국증시 환경 +8 (전일 S&P+1.65%·나스닥+3.07%·SOX+5.45%), 외국인 순매수, 기관 순매수. ATR 12.44%."
     },
     {
@@ -539,6 +551,7 @@
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": 5.89,
+      "vol_surge": 0.68,
       "reason": "기술 점수 23/100 — 조건 미충족(관망). 정배열(MA5>MA20), 윗꼬리/분배(종가위치 28.6%), 미국증시 환경 +8 (전일 S&P+1.65%·나스닥+3.07%·SOX+5.45%), 외국인 순매도, 기관 순매도. ATR 7.53%."
     }
   ],
@@ -644,8 +657,8 @@
       {
         "name": "아마존",
         "symbol": "AMZN",
-        "price": 246.1,
-        "change_pct": 3.16,
+        "price": 246.02,
+        "change_pct": 3.13,
         "asof": "2026-06-15"
       },
       {
