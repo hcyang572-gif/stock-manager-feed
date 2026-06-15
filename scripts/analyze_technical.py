@@ -717,6 +717,8 @@ def build_signal(rank, item, price, change_pct, ind, hold_cap, tuning=None,
         "entry_type": etype, "entry_note": enote, "stop": stop,
         "target1": target1, "target2": target2, "rr": rr,
         "atr_pct": ind["atr_pct"], "hold_cap_hours": hold_cap, "weight_pct": weight,
+        # 거래량 평소 대비 배수(오늘 거래량 ÷ 20일 평균) — 앱 주가탭 거래량 게이지용.
+        "vol_surge": ind["vol_surge"],
         "stop_pct": stop_pct, "est_loss_pct": est_loss,
         "catalyst_verified": False, "change_pct": round(change_pct, 2) if change_pct is not None else None,
         "evidence": "기술 분석(뉴스 미확인) — " + ", ".join(ind["_why"]) +
@@ -1149,6 +1151,8 @@ def main():
                 "name": item["name"], "code": item["code"], "market": "KR",
                 "price": float(price), "currency": "KRW", "watch_trigger": None,
                 "change_pct": round(change, 2) if change is not None else None,
+                # 거래량 평소 대비 배수 — 앱 주가탭 거래량 게이지용(신호와 동일 필드).
+                "vol_surge": ind["vol_surge"],
                 "reason": f"기술 점수 {sc}/100 — 조건 미충족(관망). "
                           + (", ".join(ind["_why"]) if ind["_why"] else "뚜렷한 강세 신호 부족")
                           + f". ATR {ind['atr_pct']}%.",
