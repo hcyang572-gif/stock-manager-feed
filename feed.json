@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0",
   "date": "2026-06-16",
-  "generated_at": "2026-06-16T05:34:00+09:00",
+  "generated_at": "2026-06-16T05:37:00+09:00",
   "horizon_hours": 48,
   "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 수급(외국인·기관) + 재무(PER·PBR) + 미국증시 전일 환경 보정 · 분석 범위: 통합 분석 — 관심종목(5 신호) + 전체종목 거래대금 상위(KOSPI, 5 신호). 뉴스/촉매는 ‘뉴스도 함께’에서만. (뉴스/촉매 13h 전 반영 보존)",
   "market_state": {
     "korea": {
       "status": "closed",
       "basis": "전일 종가(장 마감)",
-      "asof": "2026-06-12T23:26:00+09:00",
+      "asof": "2026-06-16T05:37:00+09:00",
       "session": "closed"
     },
     "us": {
@@ -32,7 +32,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 424000.0,
+      "price": 420500.0,
       "currency": "KRW",
       "entry": 414000.0,
       "entry_type": "breakout",
@@ -80,7 +80,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 1336000.0,
+      "price": 1332000.0,
       "currency": "KRW",
       "entry": 1359000.0,
       "entry_type": "breakout",
@@ -128,7 +128,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 2320000.0,
+      "price": 2288000.0,
       "currency": "KRW",
       "entry": 2360000.0,
       "entry_type": "breakout",
@@ -178,7 +178,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 1106000.0,
+      "price": 1084000.0,
       "currency": "KRW",
       "entry": 1162000.0,
       "entry_type": "breakout",
@@ -227,7 +227,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 101900.0,
+      "price": 99800.0,
       "currency": "KRW",
       "entry": 102400.0,
       "entry_type": "breakout",
@@ -525,7 +525,7 @@
       "name": "한전기술",
       "code": "052690",
       "market": "KR",
-      "price": 137400.0,
+      "price": 135000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -9.19,
@@ -536,7 +536,7 @@
       "name": "NAVER",
       "code": "035420",
       "market": "KR",
-      "price": 249500.0,
+      "price": 248000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": 1.01,
@@ -547,7 +547,7 @@
       "name": "삼성전자",
       "code": "005930",
       "market": "KR",
-      "price": 341500.0,
+      "price": 337000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": 5.89,
@@ -678,27 +678,27 @@
     ]
   },
   "kr_context": {
-    "asof": "2026-06-12T15:30:00+09:00",
-    "basis": "한국 지수(KIS 실측)",
+    "asof": "2026-06-16T05:37:00+09:00",
+    "basis": "한국 지수(네이버 실측)",
     "session": "closed",
     "indices": [
       {
         "name": "코스피",
         "symbol": "KOSPI",
-        "price": 8123.62,
-        "change_pct": 4.63
+        "price": 8545.98,
+        "change_pct": 5.2
       },
       {
         "name": "코스닥",
         "symbol": "KOSDAQ",
-        "price": 1029.05,
-        "change_pct": 3.22
+        "price": 1034.03,
+        "change_pct": 0.48
       },
       {
         "name": "코스피200",
         "symbol": "KOSPI200",
-        "price": 1291.32,
-        "change_pct": 4.85
+        "price": 1360.26,
+        "change_pct": 5.34
       }
     ]
   },
