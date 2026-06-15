@@ -691,6 +691,21 @@ def effective_mults(tuning, score):
     return sm, t1, t2
 
 
+def _supply_fields(sf):
+    """수급(sf) → feed 출력 필드. 외국인·기관 최근 순매수 합(주식수)·표본일수.
+    부호가 방향(>0 순매수·<0 순매도)이다. 미확보 시 빈 dict(표시 생략)."""
+    if not sf:
+        return {}
+    out = {}
+    if sf.get("for_sum") is not None:
+        out["foreign_net"] = round(float(sf["for_sum"]), 1)
+    if sf.get("org_sum") is not None:
+        out["inst_net"] = round(float(sf["org_sum"]), 1)
+    if out:
+        out["supply_days"] = int(sf.get("sd_days", 5))
+    return out
+
+
 def build_signal(rank, item, price, change_pct, ind, hold_cap, tuning=None,
                  score=60, cutoff=55):
     """기술 점수 통과 종목 → 매매계획 신호 dict. tuning(없으면 기본)로 손절·목표 조정.
@@ -719,6 +734,8 @@ def build_signal(rank, item, price, change_pct, ind, hold_cap, tuning=None,
         "atr_pct": ind["atr_pct"], "hold_cap_hours": hold_cap, "weight_pct": weight,
         # 거래량 평소 대비 배수(오늘 거래량 ÷ 20일 평균) — 앱 주가탭 거래량 게이지용.
         "vol_surge": ind["vol_surge"],
+        # 수급(외국인·기관 최근 순매수 합·일수) — 앱 주가탭 수급 아이콘용.
+        **_supply_fields(ind.get("_sf")),
         "stop_pct": stop_pct, "est_loss_pct": est_loss,
         "catalyst_verified": False, "change_pct": round(change_pct, 2) if change_pct is not None else None,
         "evidence": "기술 분석(뉴스 미확인) — " + ", ".join(ind["_why"]) +
@@ -1053,6 +1070,7 @@ def score_watchlist(watchlist, regime, cutoff, sf_map=None, weights=None):
         sc = apply_supply_finance(sc, why, bd, sf_map.get(code))
         ind["_why"] = why
         ind["_breakdown"] = bd
+        ind["_sf"] = sf_map.get(code)  # 수급(외국인·기관) — feed 출력·앱 표시용.
         out.append((item, price, change, ind, sc))
     return out
 
@@ -1082,6 +1100,7 @@ def score_universe(uni, regime, sf_map=None, weights=None):
         sc = apply_supply_finance(sc, why, bd, sf_map.get(code))
         ind["_why"] = why
         ind["_breakdown"] = bd
+        ind["_sf"] = sf_map.get(code)  # 수급(외국인·기관) — feed 출력·앱 표시용.
         out.append((t, price, ind.get("change"), ind, sc))
     return out
 
@@ -1153,6 +1172,8 @@ def main():
                 "change_pct": round(change, 2) if change is not None else None,
                 # 거래량 평소 대비 배수 — 앱 주가탭 거래량 게이지용(신호와 동일 필드).
                 "vol_surge": ind["vol_surge"],
+                # 수급(외국인·기관) — 신호와 동일 필드(미확보 시 생략).
+                **_supply_fields(ind.get("_sf")),
                 "reason": f"기술 점수 {sc}/100 — 조건 미충족(관망). "
                           + (", ".join(ind["_why"]) if ind["_why"] else "뚜렷한 강세 신호 부족")
                           + f". ATR {ind['atr_pct']}%.",
