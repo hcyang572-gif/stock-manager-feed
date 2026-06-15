@@ -285,6 +285,10 @@ def main():
                             f"🛑 {name} 손실 {loss_pct:+.1f}%",
                             f"매수가 {entry:,.0f} 대비 {loss_pct:+.1f}% "
                             f"(현재 {price:,.0f}). 청산을 고려하세요.",
+                            {"type": "hold", "kind": "loss", "code": code,
+                             "name": name, "price": f"{price:.0f}",
+                             "entry": f"{entry:.0f}", "pct": f"{loss_pct:.1f}",
+                             "currency": "KRW"},
                         ))
             # (b) 급락(window): 하락 방향만 — 빠르게 빠질 때 즉시 알림.
             buf = hbuf.setdefault(code, [])
@@ -302,6 +306,10 @@ def main():
                                 f"📉 {name} 급락 {pct:+.1f}%",
                                 f"보유종목 최근 {win}분 {pct:+.1f}% "
                                 f"({ref_price:,.0f}→{price:,.0f}). 청산을 고려하세요.",
+                                {"type": "hold", "kind": "plunge", "code": code,
+                                 "name": name, "price": f"{price:.0f}",
+                                 "ref": f"{ref_price:.0f}", "pct": f"{pct:.1f}",
+                                 "currency": "KRW"},
                             ))
         for code in list(hbuf.keys()):
             if len(hbuf[code]) > 50:
