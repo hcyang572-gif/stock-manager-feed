@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-06-14T19:31:10+09:00",
+  "generated_at": "2026-06-16T01:31:03+09:00",
   "backtest": {
     "period_days": 240,
     "universe": "관심종목",
@@ -8,79 +8,79 @@
     "hold_bars": 2,
     "score_cutoff": 55,
     "overall": {
-      "signals": 1433,
-      "filled": 944,
-      "no_fill": 489,
-      "hit_target1": 29,
-      "hit_target2": 14,
-      "hit_stop": 116,
-      "timecut": 785,
-      "win_rate": 53.0,
-      "avg_r": 0.12
+      "signals": 1403,
+      "filled": 928,
+      "no_fill": 475,
+      "hit_target1": 26,
+      "hit_target2": 18,
+      "hit_stop": 112,
+      "timecut": 772,
+      "win_rate": 52.9,
+      "avg_r": NaN
     },
     "by_score": {
       "55-64": {
         "signals": 177,
-        "filled": 110,
-        "no_fill": 67,
-        "hit_target1": 3,
-        "hit_target2": 2,
-        "hit_stop": 16,
-        "timecut": 89,
-        "win_rate": 46.4,
-        "avg_r": -0.0
-      },
-      "65-74": {
-        "signals": 194,
-        "filled": 114,
-        "no_fill": 80,
+        "filled": 111,
+        "no_fill": 66,
         "hit_target1": 3,
         "hit_target2": 3,
-        "hit_stop": 17,
+        "hit_stop": 18,
+        "timecut": 87,
+        "win_rate": 48.6,
+        "avg_r": NaN
+      },
+      "65-74": {
+        "signals": 191,
+        "filled": 112,
+        "no_fill": 79,
+        "hit_target1": 3,
+        "hit_target2": 4,
+        "hit_stop": 14,
         "timecut": 91,
-        "win_rate": 50.9,
-        "avg_r": 0.12
+        "win_rate": 48.2,
+        "avg_r": NaN
       },
       "75+": {
-        "signals": 1062,
-        "filled": 720,
-        "no_fill": 342,
-        "hit_target1": 23,
-        "hit_target2": 9,
-        "hit_stop": 83,
-        "timecut": 605,
+        "signals": 1035,
+        "filled": 705,
+        "no_fill": 330,
+        "hit_target1": 20,
+        "hit_target2": 11,
+        "hit_stop": 80,
+        "timecut": 594,
         "win_rate": 54.3,
-        "avg_r": 0.14
+        "avg_r": NaN
       }
     },
     "by_entry_type": {
       "now": {
-        "signals": 416,
-        "filled": 416,
+        "signals": 415,
+        "filled": 415,
         "no_fill": 0,
-        "hit_target1": 12,
-        "hit_target2": 7,
+        "hit_target1": 11,
+        "hit_target2": 9,
         "hit_stop": 59,
-        "timecut": 338,
-        "win_rate": 52.6,
-        "avg_r": 0.13
+        "timecut": 336,
+        "win_rate": 52.3,
+        "avg_r": NaN
       },
       "breakout": {
-        "signals": 1017,
-        "filled": 528,
-        "no_fill": 489,
-        "hit_target1": 17,
-        "hit_target2": 7,
-        "hit_stop": 57,
-        "timecut": 447,
-        "win_rate": 53.2,
-        "avg_r": 0.11
+        "signals": 988,
+        "filled": 513,
+        "no_fill": 475,
+        "hit_target1": 15,
+        "hit_target2": 9,
+        "hit_stop": 53,
+        "timecut": 436,
+        "win_rate": 53.4,
+        "avg_r": NaN
       }
     },
     "diagnostics": [
       "시간청산이 83%로 많아요 — 목표가가 멀거나 보유 기간이 짧을 수 있어요."
     ],
-    "note": "과거 일봉에 현 규칙을 적용한 백테스트(미국증시 환경 보정 제외). 한 봉 내 손절을 목표보다 먼저 보는 보수적 판정. 실측 가격만 사용."
+    "note": "과거 일봉에 현 규칙을 적용한 백테스트(미국증시 환경 보정 제외). 관리정책 반영: 목표1에서 절반 익절 + 목표1 후 손절을 본전으로 이동. 한 봉 내 손절을 목표보다 먼저 보는 보수적 판정. 실측 가격만 사용."
   },
   "tuning": {
     "current": {
@@ -90,19 +90,26 @@
       "score_cutoff": 55
     },
     "suggestion": null,
-    "method": "train 70% / val 30% 시간 분할 · val 평균 R 최대 + 현재 대비 +0.05R 이상일 때만 제안(과최적화 방지). 적용은 사용자 승인.",
-    "note": "지금 설정이 검증구간에서 가장 무난해요 — 바꿀 만한 보정안이 없어요."
+    "method": "train 70% / val 30% 시간 분할 · val 평균 R 최대 + 현재 대비 +0.05R(구간별 +0.08R) 이상일 때만 제안(과최적화 방지). 관리정책(목표1 절반익절·본전스톱) 반영. 적용은 사용자 승인.",
+    "note": "지금 설정이 검증구간에서 가장 무난해요 — 바꿀 만한 보정안이 없어요.",
+    "by_bucket": {},
+    "by_bucket_note": "점수 구간별로 손절·목표를 따로 학습한 결과입니다. 표본이 충분하고 개선이 뚜렷한 구간만 제안돼요."
   },
   "applied_tuning": {
     "stop_mult": 1.5,
     "target1_mult": 2.0,
     "target2_mult": 3.0,
-    "score_cutoff": 55
+    "score_cutoff": 55,
+    "risk_per_trade_pct": 1.0,
+    "max_weight_pct": 15.0,
+    "min_weight_pct": 3.0,
+    "partial_t1_frac": 0.5,
+    "breakeven_after_t1": 1.0
   },
   "forward": {
     "status": "ok",
     "matured": 0,
-    "logged": 16,
+    "logged": 43,
     "agg": {
       "signals": 0,
       "filled": 0,
@@ -197,46 +204,46 @@
     ],
     "suggestion": {
       "base": 50,
-      "align_up": -8,
-      "above_ma20": 0,
+      "align_up": -10,
+      "above_ma20": 1,
       "vol_surge": -9,
-      "vol_ok": -4,
-      "vol_dry": -16,
+      "vol_ok": -5,
+      "vol_dry": -17,
       "strong_close": 1,
-      "weak_close": -6,
-      "rsi_up": 0,
-      "rsi_hot": 5,
+      "weak_close": -5,
+      "rsi_up": 2,
+      "rsi_hot": 3,
       "rsi_oversold": 1,
-      "breakout": -8,
-      "mom_up": 6,
-      "gap_up": 2,
-      "gap_down": 10,
+      "breakout": -9,
+      "mom_up": 9,
+      "gap_up": 3,
+      "gap_down": 15,
       "vol_accel": 5,
-      "streak_up": 9,
-      "near_high": 9,
-      "range_exp": 1,
-      "ma20_up": -4,
+      "streak_up": 8,
+      "near_high": 10,
+      "range_exp": 0,
+      "ma20_up": -5,
       "for_buy": 18,
-      "for_sell": 10,
+      "for_sell": 9,
       "org_buy": 15,
-      "org_sell": 13,
+      "org_sell": 12,
       "align_down": 0,
-      "val_auc": 0.523,
-      "current_val_auc": 0.517,
-      "basis": "학습은 했지만 검증 성능 개선이 작아요(AUC 0.517→0.523). 참고용으로만 보고, 적용은 신중히 — 표본이 더 쌓이면 정확해져요."
+      "val_auc": 0.522,
+      "current_val_auc": 0.513,
+      "basis": "학습은 했지만 검증 성능 개선이 작아요(AUC 0.513→0.522). 참고용으로만 보고, 적용은 신중히 — 표본이 더 쌓이면 정확해져요."
     },
     "method": "과거 일봉의 '지표→48h 승패'를 로지스틱 회귀로 학습(numpy). train 70%/val 30% 시간분할 · 검증 AUC 가 현재 규칙보다 +0.02 이상 좋을 때만 제안(과최적화 방지). 적용은 사용자 승인.",
     "disclaimer": "학습 가중치는 과거 데이터 기반 확률 추정(베타)이며 미래 수익을 보장하지 않습니다.",
     "metrics": {
-      "train_n": 16914,
-      "val_n": 7250,
-      "win_base_rate": 47.9,
-      "current_val_auc": 0.517,
-      "learned_val_auc": 0.523
+      "train_n": 16796,
+      "val_n": 7199,
+      "win_base_rate": 47.8,
+      "current_val_auc": 0.513,
+      "learned_val_auc": 0.522
     },
     "recommended": false,
-    "generated_at": "2026-06-14T21:24:57+09:00",
-    "sample_count": 24164,
-    "applied": false
+    "generated_at": "2026-06-16T01:31:07+09:00",
+    "sample_count": 23995,
+    "applied": true
   }
 }
