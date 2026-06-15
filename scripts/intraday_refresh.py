@@ -176,6 +176,43 @@ KR_INDEX_LIST = [("코스피", "KOSPI", "0001"),
                  ("코스닥", "KOSDAQ", "1001"),
                  ("코스피200", "KOSPI200", "2001")]
 
+# 네이버 지수 폴백 — 클라우드에서 KIS 없이도 지수를 갱신(KIS 장애·미설정 대비).
+# SERVICE_INDEX 폴링: nv=지수×100, cr=등락률%. KPI200=코스피200.
+NAVER_INDEX_POLL = ("https://polling.finance.naver.com/api/realtime"
+                    "?query=SERVICE_INDEX:KOSPI,KOSDAQ,KPI200")
+NAVER_INDEX_MAP = {"KOSPI": ("코스피", "KOSPI"),
+                   "KOSDAQ": ("코스닥", "KOSDAQ"),
+                   "KPI200": ("코스피200", "KOSPI200")}
+
+
+def fetch_kr_indices_naver():
+    """네이버 SERVICE_INDEX 폴링으로 코스피·코스닥·코스피200 현재지수·등락률 조회.
+    KIS 폴백용(클라우드 동작·키 불필요). nv 는 ×100 정수라 /100 한다. 실패 시 []."""
+    try:
+        d = _get_json(NAVER_INDEX_POLL,
+                      headers={"Referer": "https://m.stock.naver.com/"})
+    except Exception:
+        return []
+    out = []
+    areas = ((d.get("result") or {}).get("areas") or [{}])
+    datas = (areas[0].get("datas") if areas else []) or []
+    for it in datas:
+        cd = it.get("cd")
+        if cd not in NAVER_INDEX_MAP:
+            continue
+        nv = it.get("nv")
+        if nv is None:
+            continue
+        cr = it.get("cr")
+        name, sym = NAVER_INDEX_MAP[cd]
+        try:
+            out.append({"name": name, "symbol": sym,
+                        "price": round(float(nv) / 100.0, 2),
+                        "change_pct": round(float(cr), 2) if cr is not None else 0.0})
+        except (TypeError, ValueError):
+            continue
+    return out
+
 
 def fetch_kr_indices(cfg, token):
     """KIS 로 코스피·코스닥·코스피200 현재지수·등락률 조회(각 1회 재시도). 실패 종목은 제외."""
@@ -419,21 +456,31 @@ def main():
                 item["change_pct"] = round(chg, 2)
 
     # 한국 지수(코스피·코스닥·코스피200) 갱신 — 장중/장외 동안 실시간.
+    # KIS(고정밀) 우선, 실패/미설정이면 **네이버 지수 폴백**으로 갱신한다(cron 누락·
+    # KIS 장애로 지수가 며칠씩 스테일되던 문제 방지 — KIS 없이도 항상 최신).
     cfg, token = _ensure_kis()
+    idxs, idx_src = [], ""
     if cfg and token:
         idxs = fetch_kr_indices(cfg, token)
         if idxs:
-            # 이번에 못 받은 지수는 직전 값을 유지(누락으로 사라지지 않게).
-            old_list = (feed.get("kr_context") or {}).get("indices") or []
-            old_by = {x.get("symbol"): x for x in old_list}
-            new_by = {x["symbol"]: x for x in idxs}
-            merged = [new_by.get(sym) or old_by.get(sym)
-                      for _, sym, _ in KR_INDEX_LIST]
-            merged = [m for m in merged if m]
-            if old_list != merged:
-                changed += 1
-            feed["kr_context"] = {"asof": now_iso, "basis": "한국 지수(KIS 실측)",
-                                  "session": session_key, "indices": merged}
+            idx_src = "KIS"
+    if not idxs:
+        idxs = fetch_kr_indices_naver()
+        if idxs:
+            idx_src = "네이버"
+    if idxs:
+        # 이번에 못 받은 지수는 직전 값을 유지(누락으로 사라지지 않게).
+        old_list = (feed.get("kr_context") or {}).get("indices") or []
+        old_by = {x.get("symbol"): x for x in old_list}
+        new_by = {x["symbol"]: x for x in idxs}
+        merged = [new_by.get(sym) or old_by.get(sym)
+                  for _, sym, _ in KR_INDEX_LIST]
+        merged = [m for m in merged if m]
+        if old_list != merged:
+            changed += 1
+        feed["kr_context"] = {"asof": now_iso,
+                              "basis": f"한국 지수({idx_src} 실측)",
+                              "session": session_key, "indices": merged}
 
     src_log = " ".join(f"{s}:{n}" for s, n in src_count.items()) or "없음"
     if miss:
