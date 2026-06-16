@@ -185,6 +185,21 @@ NAVER_INDEX_MAP = {"KOSPI": ("코스피", "KOSPI"),
                    "KPI200": ("코스피200", "KOSPI200")}
 
 
+def _sign_cr(cr, rf):
+    """네이버 rf(등락 방향코드)로 등락률 부호 확정. 1=상한·2=상승 → +, 5=하락·
+    4=하한 → −, 3=보합 → 0. 그 외/미상은 원값 유지(이미 부호가 있을 수 있음).
+    마감 후 cr 이 부호 없이 크기만 오는 케이스(방향 뒤집힘)를 막는다(INC-002)."""
+    mag = abs(cr)
+    rf = str(rf).strip()
+    if rf in ("1", "2"):
+        return mag
+    if rf in ("4", "5"):
+        return -mag
+    if rf == "3":
+        return 0.0
+    return cr
+
+
 def fetch_kr_indices_naver():
     """네이버 SERVICE_INDEX 폴링으로 코스피·코스닥·코스피200 현재지수·등락률 조회.
     KIS 폴백용(클라우드 동작·키 불필요). nv 는 ×100 정수라 /100 한다. 실패 시 []."""
@@ -206,9 +221,12 @@ def fetch_kr_indices_naver():
         cr = it.get("cr")
         name, sym = NAVER_INDEX_MAP[cd]
         try:
+            # ★정합성★ 네이버는 마감 후 cr 을 부호 없이 크기만 주기도 한다. 방향은
+            # rf(2=상승·3=보합·5=하락 등)에 있으므로 rf 로 부호를 확정한다(INC-002).
+            chg = _sign_cr(float(cr), it.get("rf")) if cr is not None else 0.0
             out.append({"name": name, "symbol": sym,
                         "price": round(float(nv) / 100.0, 2),
-                        "change_pct": round(float(cr), 2) if cr is not None else 0.0})
+                        "change_pct": round(chg, 2)})
         except (TypeError, ValueError):
             continue
     return out
