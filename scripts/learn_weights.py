@@ -166,8 +166,86 @@ def _to_points(coef):
     return {FEATURES[i]: int(round(coef[i] * scale)) for i in range(len(FEATURES))}
 
 
-def learn(items, supply_map):
-    """표본 수집 → 학습 → 검증 → 제안 블록(dict) 반환."""
+# ── 조합별 승률 분석(점수×거래량×외국인×기관) ───────────────────────────────
+# 단일 수식(가중치) 대신 "여러 조건이 동시에 맞을 때 48h 승률이 어떻게 달라지나"를
+# 본다. _collect 표본을 (점수구간 × 거래량상태 × 외국인 × 기관) 조합으로 묶어 승률·
+# 표본수를 집계하고, 표본 최소치 미만 조합은 우연/과최적화 방지로 제외한다.
+COMBO_MIN_SAMPLE = 120   # 조합 최소 표본(미만은 신뢰 낮아 제외)
+COMBO_TOP = 10           # 상위 조합 노출 수
+_FI = {k: i for i, k in enumerate(FEATURES)}  # 피처명 → 표본 벡터 인덱스
+
+
+def _score_bucket(s):
+    if s >= 75:
+        return "75+"
+    if s >= 65:
+        return "65-74"
+    if s >= 55:
+        return "55-64"
+    return "<55"
+
+
+def _vol_state(feat):
+    if feat[_FI["vol_surge"]]:
+        return "급증(≥1.5x)"
+    if feat[_FI["vol_ok"]]:
+        return "양호(1~1.5x)"
+    if feat[_FI["vol_dry"]]:
+        return "위축(<0.6x)"
+    return "보통(0.6~1x)"
+
+
+def _supply_dir(feat, buy_key, sell_key):
+    if feat[_FI[buy_key]]:
+        return "순매수"
+    if feat[_FI[sell_key]]:
+        return "순매도"
+    return "중립"
+
+
+def combo_winrates(samples, now):
+    """(점수구간 × 거래량 × 외국인 × 기관) 조합별 48h 승률을 집계한 블록(dict).
+    표본 최소치(COMBO_MIN_SAMPLE) 미만 조합은 제외. 전체 평균(base) 대비 우위(lift)도."""
+    agg = {}  # key -> [wins, n]
+    wins_total = 0
+    for _date, feat, label, score in samples:
+        key = (_score_bucket(score), _vol_state(feat),
+               _supply_dir(feat, "for_buy", "for_sell"),
+               _supply_dir(feat, "org_buy", "org_sell"))
+        a = agg.setdefault(key, [0, 0])
+        a[0] += label
+        a[1] += 1
+        wins_total += label
+    n_total = len(samples)
+    base = (wins_total / n_total) if n_total else 0.0
+    combos = []
+    for (sb, vs, fd, idr), (wins, n) in agg.items():
+        if n < COMBO_MIN_SAMPLE:
+            continue
+        wr = wins / n
+        combos.append({"score": sb, "volume": vs, "foreign": fd, "inst": idr,
+                       "winrate": round(wr, 3), "n": n,
+                       "lift": round(wr - base, 3)})
+    best = sorted(combos, key=lambda c: c["winrate"], reverse=True)
+    worst = sorted(combos, key=lambda c: c["winrate"])
+    return {
+        "generated_at": now.isoformat(),
+        "base_winrate": round(base, 3),
+        "n_total": n_total,
+        "n_combos": len(combos),
+        "min_sample": COMBO_MIN_SAMPLE,
+        "method": ("과거 일봉의 (점수구간 × 거래량 × 외국인순매매 × 기관순매매) "
+                   f"조합별 48h 승률. 표본 {COMBO_MIN_SAMPLE}건 미만 조합은 우연 방지로 제외."),
+        "disclaimer": ("과거 데이터 기반 참고치이며 미래 수익을 보장하지 않습니다. "
+                       "조합을 좁힐수록 표본이 줄어 신뢰가 낮아집니다. "
+                       "호가 매수/매도 비율은 과거 기록이 없어 제외(향후 적재 예정)."),
+        "best": best[:COMBO_TOP],
+        "worst": worst[:3],
+    }
+
+
+def learn(samples):
+    """학습 → 검증 → 제안 블록(dict) 반환(samples = _collect 결과)."""
     cur = {k: DEFAULT_WEIGHTS[k] for k in (["base"] + FEATURES + ["align_down"])}
     block = {
         "current": cur,
@@ -180,7 +258,6 @@ def learn(items, supply_map):
         "disclaimer": "학습 가중치는 과거 데이터 기반 확률 추정(베타)이며 미래 수익을 "
                       "보장하지 않습니다.",
     }
-    samples = _collect(items, supply_map)
     n = len(samples)
     if n < MIN_TRAIN + 30:
         block["note"] = f"표본이 적어 학습을 보류해요(현재 {n}건, {MIN_TRAIN + 30}건 이상 필요)."
@@ -262,7 +339,8 @@ def main():
     codes = [str(it.get("code", "")).strip() for it in items]
     supply_map = fetch_supply_history_batch(codes, SUPPLY_PAGES)
 
-    block, n = learn(items, supply_map)
+    samples = _collect(items, supply_map)
+    block, n = learn(samples)
     block["generated_at"] = now.isoformat()
     block["sample_count"] = n
     block["applied"] = applied_weights is not None
@@ -274,6 +352,7 @@ def main():
         except Exception:
             stats = {}
     stats["learned_weights"] = block
+    stats["winrate_combos"] = combo_winrates(samples, now)
     STATS_PATH.write_text(json.dumps(stats, ensure_ascii=False, indent=2) + "\n",
                           encoding="utf-8")
     m = block.get("metrics", {})

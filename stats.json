@@ -204,46 +204,176 @@
     ],
     "suggestion": {
       "base": 50,
-      "align_up": -10,
-      "above_ma20": 1,
-      "vol_surge": -9,
-      "vol_ok": -5,
-      "vol_dry": -17,
+      "align_up": -6,
+      "above_ma20": -1,
+      "vol_surge": -10,
+      "vol_ok": -3,
+      "vol_dry": -12,
       "strong_close": 1,
-      "weak_close": -5,
-      "rsi_up": 2,
-      "rsi_hot": 3,
-      "rsi_oversold": 1,
-      "breakout": -9,
-      "mom_up": 9,
-      "gap_up": 3,
-      "gap_down": 15,
-      "vol_accel": 5,
-      "streak_up": 8,
-      "near_high": 10,
-      "range_exp": 0,
+      "weak_close": -4,
+      "rsi_up": -1,
+      "rsi_hot": 5,
+      "rsi_oversold": -3,
+      "breakout": -4,
+      "mom_up": 7,
+      "gap_up": 2,
+      "gap_down": 9,
+      "vol_accel": 3,
+      "streak_up": 10,
+      "near_high": 8,
+      "range_exp": -2,
       "ma20_up": -5,
       "for_buy": 18,
-      "for_sell": 9,
-      "org_buy": 15,
-      "org_sell": 12,
+      "for_sell": 4,
+      "org_buy": 14,
+      "org_sell": 9,
       "align_down": 0,
-      "val_auc": 0.522,
-      "current_val_auc": 0.513,
-      "basis": "학습은 했지만 검증 성능 개선이 작아요(AUC 0.513→0.522). 참고용으로만 보고, 적용은 신중히 — 표본이 더 쌓이면 정확해져요."
+      "val_auc": 0.53,
+      "current_val_auc": 0.515,
+      "basis": "학습은 했지만 검증 성능 개선이 작아요(AUC 0.515→0.53). 참고용으로만 보고, 적용은 신중히 — 표본이 더 쌓이면 정확해져요."
     },
     "method": "과거 일봉의 '지표→48h 승패'를 로지스틱 회귀로 학습(numpy). train 70%/val 30% 시간분할 · 검증 AUC 가 현재 규칙보다 +0.02 이상 좋을 때만 제안(과최적화 방지). 적용은 사용자 승인.",
     "disclaimer": "학습 가중치는 과거 데이터 기반 확률 추정(베타)이며 미래 수익을 보장하지 않습니다.",
     "metrics": {
-      "train_n": 16796,
-      "val_n": 7199,
-      "win_base_rate": 47.8,
-      "current_val_auc": 0.513,
-      "learned_val_auc": 0.522
+      "train_n": 17217,
+      "val_n": 7380,
+      "win_base_rate": 47.6,
+      "current_val_auc": 0.515,
+      "learned_val_auc": 0.53
     },
     "recommended": false,
-    "generated_at": "2026-06-16T01:31:07+09:00",
-    "sample_count": 23995,
+    "generated_at": "2026-06-17T00:10:13+09:00",
+    "sample_count": 24597,
     "applied": true
+  },
+  "winrate_combos": {
+    "generated_at": "2026-06-17T00:10:13+09:00",
+    "base_winrate": 0.476,
+    "n_total": 24597,
+    "n_combos": 45,
+    "min_sample": 120,
+    "method": "과거 일봉의 (점수구간 × 거래량 × 외국인순매매 × 기관순매매) 조합별 48h 승률. 표본 120건 미만 조합은 우연 방지로 제외.",
+    "disclaimer": "과거 데이터 기반 참고치이며 미래 수익을 보장하지 않습니다. 조합을 좁힐수록 표본이 줄어 신뢰가 낮아집니다. 호가 매수/매도 비율은 과거 기록이 없어 제외(향후 적재 예정).",
+    "best": [
+      {
+        "score": "65-74",
+        "volume": "보통(0.6~1x)",
+        "foreign": "순매수",
+        "inst": "순매수",
+        "winrate": 0.599,
+        "n": 147,
+        "lift": 0.122
+      },
+      {
+        "score": "55-64",
+        "volume": "위축(<0.6x)",
+        "foreign": "순매수",
+        "inst": "순매도",
+        "winrate": 0.565,
+        "n": 131,
+        "lift": 0.089
+      },
+      {
+        "score": "75+",
+        "volume": "보통(0.6~1x)",
+        "foreign": "순매수",
+        "inst": "순매수",
+        "winrate": 0.547,
+        "n": 928,
+        "lift": 0.071
+      },
+      {
+        "score": "75+",
+        "volume": "양호(1~1.5x)",
+        "foreign": "순매수",
+        "inst": "순매수",
+        "winrate": 0.543,
+        "n": 849,
+        "lift": 0.067
+      },
+      {
+        "score": "75+",
+        "volume": "보통(0.6~1x)",
+        "foreign": "순매수",
+        "inst": "순매도",
+        "winrate": 0.54,
+        "n": 991,
+        "lift": 0.064
+      },
+      {
+        "score": "75+",
+        "volume": "급증(≥1.5x)",
+        "foreign": "순매수",
+        "inst": "순매수",
+        "winrate": 0.528,
+        "n": 889,
+        "lift": 0.051
+      },
+      {
+        "score": "55-64",
+        "volume": "보통(0.6~1x)",
+        "foreign": "순매수",
+        "inst": "순매도",
+        "winrate": 0.528,
+        "n": 284,
+        "lift": 0.052
+      },
+      {
+        "score": "<55",
+        "volume": "위축(<0.6x)",
+        "foreign": "순매도",
+        "inst": "순매수",
+        "winrate": 0.526,
+        "n": 274,
+        "lift": 0.049
+      },
+      {
+        "score": "75+",
+        "volume": "양호(1~1.5x)",
+        "foreign": "순매수",
+        "inst": "순매도",
+        "winrate": 0.525,
+        "n": 765,
+        "lift": 0.049
+      },
+      {
+        "score": "<55",
+        "volume": "보통(0.6~1x)",
+        "foreign": "순매도",
+        "inst": "순매도",
+        "winrate": 0.522,
+        "n": 362,
+        "lift": 0.046
+      }
+    ],
+    "worst": [
+      {
+        "score": "65-74",
+        "volume": "위축(<0.6x)",
+        "foreign": "중립",
+        "inst": "중립",
+        "winrate": 0.35,
+        "n": 297,
+        "lift": -0.126
+      },
+      {
+        "score": "75+",
+        "volume": "급증(≥1.5x)",
+        "foreign": "순매도",
+        "inst": "순매도",
+        "winrate": 0.396,
+        "n": 139,
+        "lift": -0.081
+      },
+      {
+        "score": "75+",
+        "volume": "위축(<0.6x)",
+        "foreign": "순매도",
+        "inst": "순매도",
+        "winrate": 0.404,
+        "n": 156,
+        "lift": -0.072
+      }
+    ]
   }
 }
