@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-06-16T01:31:03+09:00",
+  "generated_at": "2026-06-17T01:03:58+09:00",
   "backtest": {
     "period_days": 240,
     "universe": "관심종목",
@@ -8,14 +8,14 @@
     "hold_bars": 2,
     "score_cutoff": 55,
     "overall": {
-      "signals": 1403,
+      "signals": 1402,
       "filled": 928,
-      "no_fill": 475,
-      "hit_target1": 26,
+      "no_fill": 474,
+      "hit_target1": 27,
       "hit_target2": 18,
       "hit_stop": 112,
-      "timecut": 772,
-      "win_rate": 52.9,
+      "timecut": 771,
+      "win_rate": 53.2,
       "avg_r": NaN
     },
     "by_score": {
@@ -27,53 +27,53 @@
         "hit_target2": 3,
         "hit_stop": 18,
         "timecut": 87,
-        "win_rate": 48.6,
-        "avg_r": NaN
+        "win_rate": 51.4,
+        "avg_r": 0.05
       },
       "65-74": {
-        "signals": 191,
-        "filled": 112,
+        "signals": 190,
+        "filled": 111,
         "no_fill": 79,
         "hit_target1": 3,
         "hit_target2": 4,
         "hit_stop": 14,
-        "timecut": 91,
-        "win_rate": 48.2,
+        "timecut": 90,
+        "win_rate": 47.7,
         "avg_r": NaN
       },
       "75+": {
         "signals": 1035,
-        "filled": 705,
-        "no_fill": 330,
-        "hit_target1": 20,
+        "filled": 706,
+        "no_fill": 329,
+        "hit_target1": 21,
         "hit_target2": 11,
         "hit_stop": 80,
         "timecut": 594,
-        "win_rate": 54.3,
+        "win_rate": 54.4,
         "avg_r": NaN
       }
     },
     "by_entry_type": {
       "now": {
-        "signals": 415,
-        "filled": 415,
+        "signals": 416,
+        "filled": 416,
         "no_fill": 0,
         "hit_target1": 11,
         "hit_target2": 9,
         "hit_stop": 59,
-        "timecut": 336,
-        "win_rate": 52.3,
+        "timecut": 337,
+        "win_rate": 52.4,
         "avg_r": NaN
       },
       "breakout": {
-        "signals": 988,
-        "filled": 513,
-        "no_fill": 475,
-        "hit_target1": 15,
+        "signals": 986,
+        "filled": 512,
+        "no_fill": 474,
+        "hit_target1": 16,
         "hit_target2": 9,
         "hit_stop": 53,
-        "timecut": 436,
-        "win_rate": 53.4,
+        "timecut": 434,
+        "win_rate": 53.9,
         "avg_r": NaN
       }
     },
@@ -108,18 +108,18 @@
   },
   "forward": {
     "status": "ok",
-    "matured": 0,
-    "logged": 43,
+    "matured": 26,
+    "logged": 73,
     "agg": {
-      "signals": 0,
-      "filled": 0,
-      "no_fill": 0,
+      "signals": 26,
+      "filled": 22,
+      "no_fill": 4,
       "hit_target1": 0,
       "hit_target2": 0,
       "hit_stop": 0,
-      "timecut": 0,
-      "win_rate": null,
-      "avg_r": null
+      "timecut": 22,
+      "win_rate": 0.0,
+      "avg_r": NaN
     }
   },
   "disclaimer": "통계는 과거·실거래 실측 기반 참고용이며 미래 수익을 보장하지 않습니다.",
@@ -242,12 +242,12 @@
       "learned_val_auc": 0.53
     },
     "recommended": false,
-    "generated_at": "2026-06-17T00:32:03+09:00",
+    "generated_at": "2026-06-17T01:04:05+09:00",
     "sample_count": 24597,
     "applied": true
   },
   "winrate_combos": {
-    "generated_at": "2026-06-17T00:32:03+09:00",
+    "generated_at": "2026-06-17T01:04:05+09:00",
     "base_winrate": 0.476,
     "n_total": 24597,
     "n_combos": 45,
