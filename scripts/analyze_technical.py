@@ -27,10 +27,105 @@ KST = ZoneInfo("Asia/Seoul")
 REPO_ROOT = Path(__file__).resolve().parent.parent
 FEED_PATH = REPO_ROOT / "feed.json"
 CONTROL_PATH = REPO_ROOT / "control.json"
+STATS_PATH = REPO_ROOT / "stats.json"
 KIS_BASE = "https://openapi.koreainvestment.com:9443"
 KIS_TOKEN_PATH = REPO_ROOT / "config" / ".kis_token.json"
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
+
+
+# ── 조합 버킷(공용) — 점수×거래량×외국인×기관 조합 키 ─────────────────────────
+# learn_weights.py 의 조합별 승률(winrate_combos)과 analyze 의 신호 보정이 **정확히
+# 같은 버킷 정의**를 쓰도록 여기 한 곳에 모은다(중복·불일치 방지). 기존 learn_weights 의
+# _score_bucket/_vol_state/_supply_dir 정의와 1:1 동일.
+def combo_bucket(score, vol_surge_mult, for_net, org_net):
+    """(점수구간, 거래량상태, 외국인방향, 기관방향) 튜플(문자열) 반환.
+    - score_bucket: ≥75 '75+' / ≥65 '65-74' / ≥55 '55-64' / else '<55'
+    - vol_state: ≥1.5 '급증(≥1.5x)' / 1~1.5 '양호(1~1.5x)' / 0<vs<0.6 '위축(<0.6x)' / else '보통(0.6~1x)'
+    - foreign_dir/inst_dir: net>0 '순매수' / net<0 '순매도' / else '중립'
+    """
+    s = score
+    if s >= 75:
+        sb = "75+"
+    elif s >= 65:
+        sb = "65-74"
+    elif s >= 55:
+        sb = "55-64"
+    else:
+        sb = "<55"
+    vs = vol_surge_mult or 0
+    if vs >= 1.5:
+        vstate = "급증(≥1.5x)"
+    elif 1.0 <= vs < 1.5:
+        vstate = "양호(1~1.5x)"
+    elif 0 < vs < 0.6:
+        vstate = "위축(<0.6x)"
+    else:
+        vstate = "보통(0.6~1x)"
+
+    def _dir(net):
+        net = net or 0
+        if net > 0:
+            return "순매수"
+        if net < 0:
+            return "순매도"
+        return "중립"
+
+    return (sb, vstate, _dir(for_net), _dir(org_net))
+
+
+def combo_key(parts):
+    """버킷 튜플 → 'score|volume|foreign|inst' 문자열(테이블 lookup 키)."""
+    return "|".join(parts)
+
+
+def load_combo_table():
+    """stats.json 의 winrate_combos.table(조합별 과거 승률 lookup)을 1회 로드한다.
+    learn_weights.py 가 만든 실측 테이블만 쓴다(없으면 빈 dict → graceful 무보정)."""
+    if not STATS_PATH.exists():
+        return {}
+    try:
+        stats = json.loads(STATS_PATH.read_text(encoding="utf-8-sig"))
+    except Exception:
+        return {}
+    wc = stats.get("winrate_combos")
+    if not isinstance(wc, dict):
+        return {}
+    table = wc.get("table")
+    return table if isinstance(table, dict) else {}
+
+
+# 조합 보정 상한(과최적화 방지) — lift × 30 을 ±이 점수로 클램프.
+COMBO_ADJ_CAP = 4
+
+
+def apply_combo(score, ind, combo_table):
+    """조합별 과거 승률(combo_table)을 점수에 소프트 반영한다.
+    - (점수, 거래량배수, 외국인순매매, 기관순매매) → combo_bucket → combo_key 로 조회.
+    - 표본 충분(테이블에 있음)하면: combo_adj = clamp(round(lift*30), ±4) 를 점수에 가산하고
+      breakdown 에 '조합 보정' 항목을 남긴다(투명성). ind 에 combo_winrate/_sample/_lift/_adj 부착.
+    - 테이블 없거나 표본 부족(미존재)이면: 무보정(adj=0)·미부착(graceful).
+    반환: 보정된 점수(0~100 클램프). breakdown(ind['_breakdown'])도 갱신."""
+    if not combo_table:
+        return score
+    sf = ind.get("_sf") or {}
+    for_net = sf.get("for_sum", 0)
+    org_net = sf.get("org_sum", 0)
+    key = combo_key(combo_bucket(score, ind.get("vol_surge", 0), for_net, org_net))
+    rec = combo_table.get(key)
+    if not isinstance(rec, dict):
+        return score  # 표본 부족 — 미부착·무보정.
+    lift = rec.get("lift", 0) or 0
+    adj = max(-COMBO_ADJ_CAP, min(COMBO_ADJ_CAP, round(lift * 30)))
+    ind["combo_winrate"] = round(float(rec.get("winrate", 0)), 3)
+    ind["combo_sample"] = int(rec.get("n", 0))
+    ind["combo_lift"] = round(float(lift), 3)
+    ind["combo_adj"] = int(adj)
+    if adj:
+        bd = ind.setdefault("_breakdown", [])
+        wr_pct = round(float(rec.get("winrate", 0)) * 100, 1)
+        bd.append(f"조합 보정(과거 승률 {wr_pct}%·표본 {int(rec.get('n', 0))}) {adj:+g}")
+    return max(0, min(100, round(score + adj)))
 
 
 # ── KIS (현재가·등락률) ──────────────────────────────────────────────────────
@@ -706,6 +801,17 @@ def _supply_fields(sf):
     return out
 
 
+def _combo_fields(ind):
+    """ind 에 부착된 조합 승률 → feed 출력 필드(앱 표시·투명성용). 미부착 시 빈 dict."""
+    if ind.get("combo_winrate") is None:
+        return {}
+    return {
+        "combo_winrate": ind.get("combo_winrate"),
+        "combo_sample": ind.get("combo_sample"),
+        "combo_lift": ind.get("combo_lift"),
+    }
+
+
 def build_signal(rank, item, price, change_pct, ind, hold_cap, tuning=None,
                  score=60, cutoff=55):
     """기술 점수 통과 종목 → 매매계획 신호 dict. tuning(없으면 기본)로 손절·목표 조정.
@@ -736,6 +842,8 @@ def build_signal(rank, item, price, change_pct, ind, hold_cap, tuning=None,
         "vol_surge": ind["vol_surge"],
         # 수급(외국인·기관 최근 순매수 합·일수) — 앱 주가탭 수급 아이콘용.
         **_supply_fields(ind.get("_sf")),
+        # 조합별 과거 승률(점수×거래량×외국인×기관) — 표본 충분 시만 부착(graceful).
+        **_combo_fields(ind),
         "stop_pct": stop_pct, "est_loss_pct": est_loss,
         "catalyst_verified": False, "change_pct": round(change_pct, 2) if change_pct is not None else None,
         "evidence": "기술 분석(뉴스 미확인) — " + ", ".join(ind["_why"]) +
@@ -1036,13 +1144,16 @@ def yahoo_symbol(code):
     return f"{code}.KS"
 
 
-def score_watchlist(watchlist, regime, cutoff, sf_map=None, weights=None):
+def score_watchlist(watchlist, regime, cutoff, sf_map=None, weights=None,
+                    combo_table=None):
     """관심종목을 KIS 현재가(있으면 정밀)+yfinance 일봉으로 점수화한다.
     KIS 토큰 발급/조회 실패해도 중단하지 않고 yfinance 로 폴백한다.
     sf_map(코드→수급·재무)이 있으면 점수에 수급·재무를 추가 반영한다.
     weights(학습된 가중치)가 있으면 차트 점수에 적용한다.
+    combo_table(조합별 과거 승률)이 있으면 신호 컷오프·정렬 점수에 소프트 보정한다.
     반환: [(item, price, change, ind, score), ...]."""
     sf_map = sf_map or {}
+    combo_table = combo_table or {}
     out = []
     cfg = _kis_cfg()
     token = None
@@ -1071,16 +1182,19 @@ def score_watchlist(watchlist, regime, cutoff, sf_map=None, weights=None):
         ind["_why"] = why
         ind["_breakdown"] = bd
         ind["_sf"] = sf_map.get(code)  # 수급(외국인·기관) — feed 출력·앱 표시용.
+        sc = apply_combo(sc, ind, combo_table)  # 조합별 과거 승률 소프트 보정(±4).
         out.append((item, price, change, ind, sc))
     return out
 
 
-def score_universe(uni, regime, sf_map=None, weights=None):
+def score_universe(uni, regime, sf_map=None, weights=None, combo_table=None):
     """전체종목 유니버스를 yfinance 배치로 점수화한다(현재가=일봉 종가, 속도·정합성).
     sf_map(코드→수급·재무)이 있으면 점수에 수급·재무를 추가 반영한다.
     weights(학습된 가중치)가 있으면 차트 점수에 적용한다.
+    combo_table(조합별 과거 승률)이 있으면 신호 컷오프·정렬 점수에 소프트 보정한다.
     반환: [(item, price, change, ind, score), ...]."""
     sf_map = sf_map or {}
+    combo_table = combo_table or {}
     out = []
     if not uni:
         return out
@@ -1101,6 +1215,7 @@ def score_universe(uni, regime, sf_map=None, weights=None):
         ind["_why"] = why
         ind["_breakdown"] = bd
         ind["_sf"] = sf_map.get(code)  # 수급(외국인·기관) — feed 출력·앱 표시용.
+        sc = apply_combo(sc, ind, combo_table)  # 조합별 과거 승률 소프트 보정(±4).
         out.append((t, price, ind.get("change"), ind, sc))
     return out
 
@@ -1118,6 +1233,11 @@ def main():
         print(f"[analyze] 손절·목표 학습 보정 적용: {tuning}")
     if weights:
         print(f"[analyze] 학습된 점수 가중치 적용: {weights}")
+
+    # 조합별 과거 승률 lookup 테이블(stats.json) — 신호/관찰 표시 + 소프트 랭킹 보정용.
+    combo_table = load_combo_table()
+    if combo_table:
+        print(f"[analyze] 조합 승률 테이블 로드: {len(combo_table)}개 조합(±{COMBO_ADJ_CAP} 보정)")
 
     # 시장 환경(미국 전일) 보정치 — 1회 계산해 모든 종목 점수에 동일 적용.
     regime = fetch_us_regime()
@@ -1143,8 +1263,8 @@ def main():
     sf_codes = list(wl_codes) + [u["code"] for u in uni]
     sf_map = fetch_supply_finance_batch(sf_codes)
 
-    wl_cand = score_watchlist(watchlist, regime, cutoff, sf_map, weights)
-    mk_cand = score_universe(uni, regime, sf_map, weights)
+    wl_cand = score_watchlist(watchlist, regime, cutoff, sf_map, weights, combo_table)
+    mk_cand = score_universe(uni, regime, sf_map, weights, combo_table)
     print(f"[analyze] 통합 분석: 관심종목 후보 {len(wl_cand)} / 전체종목 후보 "
           f"{len(mk_cand)} (markets={mkts})")
 
@@ -1174,6 +1294,8 @@ def main():
                 "vol_surge": ind["vol_surge"],
                 # 수급(외국인·기관) — 신호와 동일 필드(미확보 시 생략).
                 **_supply_fields(ind.get("_sf")),
+                # 조합별 과거 승률 — 표본 충분 시만 부착(신호와 동일 필드).
+                **_combo_fields(ind),
                 "reason": f"기술 점수 {sc}/100 — 조건 미충족(관망). "
                           + (", ".join(ind["_why"]) if ind["_why"] else "뚜렷한 강세 신호 부족")
                           + f". ATR {ind['atr_pct']}%.",

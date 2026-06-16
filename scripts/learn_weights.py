@@ -26,6 +26,7 @@ import numpy as np
 from analyze_technical import (
     _calc_indicators, chart_features, score_stock, load_control,
     levels, build_universe, fetch_supply_history_batch,
+    combo_bucket, combo_key,
     DEFAULT_WEIGHTS, WEIGHT_LABELS, DEFAULT_TUNING,
 )
 from backtest import _fetch_daily, _evaluate, HOLD_BARS
@@ -73,7 +74,7 @@ def _supply_at(sup_sorted, sup_dates, date, days=SUPPLY_DAYS):
 
 
 def _collect(items, supply_map):
-    """과거 일봉(+수급 이력)에서 (date, features, label, cur_score) 표본을 모은다.
+    """과거 일봉(+수급 이력)에서 (date, features, label, cur_score, bucket) 표본을 모은다.
     label = 1 if 48h 보유창에서 승(R>0) else 0. 미체결(no_fill)·무효는 제외.
     백테스트와 달리 **점수 컷오프 없이 전 구간**을 모은다(가중치 학습용)."""
     sm = DEFAULT_TUNING["stop_mult"]
@@ -118,8 +119,12 @@ def _collect(items, supply_map):
                 sup_used += 1
             feats = chart_features(price, ind, supply)
             cur, _, _ = score_stock(price, ind)
+            # 조합 버킷 — analyze 와 동일 정의(공용 combo_bucket). supply 없으면 net=0(중립).
+            bucket = combo_bucket(cur, ind["vol_surge"],
+                                  (supply or {}).get("for", 0),
+                                  (supply or {}).get("org", 0))
             samples.append((bars[i][0], [feats[k] for k in FEATURES],
-                            1 if r > 0 else 0, cur))
+                            1 if r > 0 else 0, cur, bucket))
     samples.sort(key=lambda s: s[0])  # 시간순(train/val 분할용)
     print(f"[learn] 표본 {len(samples)}건 (수급 매칭 {sup_used}건)")
     return samples
@@ -172,60 +177,35 @@ def _to_points(coef):
 # 표본수를 집계하고, 표본 최소치 미만 조합은 우연/과최적화 방지로 제외한다.
 COMBO_MIN_SAMPLE = 120   # 조합 최소 표본(미만은 신뢰 낮아 제외)
 COMBO_TOP = 10           # 상위 조합 노출 수
-_FI = {k: i for i, k in enumerate(FEATURES)}  # 피처명 → 표본 벡터 인덱스
-
-
-def _score_bucket(s):
-    if s >= 75:
-        return "75+"
-    if s >= 65:
-        return "65-74"
-    if s >= 55:
-        return "55-64"
-    return "<55"
-
-
-def _vol_state(feat):
-    if feat[_FI["vol_surge"]]:
-        return "급증(≥1.5x)"
-    if feat[_FI["vol_ok"]]:
-        return "양호(1~1.5x)"
-    if feat[_FI["vol_dry"]]:
-        return "위축(<0.6x)"
-    return "보통(0.6~1x)"
-
-
-def _supply_dir(feat, buy_key, sell_key):
-    if feat[_FI[buy_key]]:
-        return "순매수"
-    if feat[_FI[sell_key]]:
-        return "순매도"
-    return "중립"
 
 
 def combo_winrates(samples, now):
     """(점수구간 × 거래량 × 외국인 × 기관) 조합별 48h 승률을 집계한 블록(dict).
-    표본 최소치(COMBO_MIN_SAMPLE) 미만 조합은 제외. 전체 평균(base) 대비 우위(lift)도."""
-    agg = {}  # key -> [wins, n]
+    버킷은 _collect 가 표본마다 저장한 공용 combo_bucket 결과(인덱스 4)를 그대로 쓴다 —
+    analyze 의 신호 보정과 정의가 항상 일치한다. 표본 최소치(COMBO_MIN_SAMPLE) 미만
+    조합은 제외. 전체 평균(base) 대비 우위(lift)도. best/worst 외에 **전체 조합 lookup
+    테이블**(table: combo_key → {winrate,n,lift})도 싣는다(analyze 가 신호별 조회)."""
+    agg = {}  # bucket(튜플) -> [wins, n]
     wins_total = 0
-    for _date, feat, label, score in samples:
-        key = (_score_bucket(score), _vol_state(feat),
-               _supply_dir(feat, "for_buy", "for_sell"),
-               _supply_dir(feat, "org_buy", "org_sell"))
-        a = agg.setdefault(key, [0, 0])
-        a[0] += label
+    for s in samples:
+        bucket = s[4]
+        a = agg.setdefault(bucket, [0, 0])
+        a[0] += s[2]
         a[1] += 1
-        wins_total += label
+        wins_total += s[2]
     n_total = len(samples)
     base = (wins_total / n_total) if n_total else 0.0
     combos = []
+    table = {}
     for (sb, vs, fd, idr), (wins, n) in agg.items():
         if n < COMBO_MIN_SAMPLE:
             continue
         wr = wins / n
+        lift = round(wr - base, 3)
         combos.append({"score": sb, "volume": vs, "foreign": fd, "inst": idr,
-                       "winrate": round(wr, 3), "n": n,
-                       "lift": round(wr - base, 3)})
+                       "winrate": round(wr, 3), "n": n, "lift": lift})
+        table[combo_key((sb, vs, fd, idr))] = {
+            "winrate": round(wr, 3), "n": n, "lift": lift}
     best = sorted(combos, key=lambda c: c["winrate"], reverse=True)
     worst = sorted(combos, key=lambda c: c["winrate"])
     return {
@@ -241,6 +221,8 @@ def combo_winrates(samples, now):
                        "호가 매수/매도 비율은 과거 기록이 없어 제외(향후 적재 예정)."),
         "best": best[:COMBO_TOP],
         "worst": worst[:3],
+        # 전체 조합 lookup 테이블(표본 충분한 모든 조합) — analyze 신호 보정용.
+        "table": table,
     }
 
 
