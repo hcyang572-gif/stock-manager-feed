@@ -1303,6 +1303,69 @@ def score_universe(uni, regime, sf_map=None, weights=None, combo_table=None):
     return out
 
 
+def _sign_cr(cr, rf):
+    """네이버 rf(등락 방향코드)로 등락률 부호 확정. 1=상한·2=상승 → +, 5=하락·
+    4=하한 → −, 3=보합 → 0. 그 외/미상은 원값 유지. 마감 후 cr 이 부호 없이
+    크기만 오는 케이스(방향 뒤집힘)를 막는다(INC-002)."""
+    mag = abs(cr)
+    rf = str(rf).strip()
+    if rf in ("1", "2"):
+        return mag
+    if rf in ("4", "5"):
+        return -mag
+    if rf == "3":
+        return 0.0
+    return cr
+
+
+def fetch_kr_changes_naver(codes):
+    """KR 6자리 코드들의 전일대비 등락률(%)을 네이버 polling 으로 **배치** 조회한다.
+
+    ★정합성(INC-002·003)★ 등락률 부호는 `cr`(마감 후 크기만 옴) 이 아니라 `rf` 로
+    확정한다. 이 값은 KIS 미확보(0.0 표기) 와 yfinance 일봉 직접차분(방향 뒤집힘)을
+    동시에 대체하는 **권위 출처**다(제공처가 계산한 전일대비). 실패 코드는 생략.
+    반환: {code: change_pct(float)}.
+    """
+    import urllib.request
+    import json as _json
+    clean = [c for c in {str(c).strip() for c in codes}
+             if c.isdigit() and len(c) == 6]
+    if not clean:
+        return {}
+    out = {}
+    for i in range(0, len(clean), 50):  # 묶음 50개씩
+        chunk = clean[i:i + 50]
+        url = ("https://polling.finance.naver.com/api/realtime"
+               "?query=SERVICE_ITEM:" + ",".join(chunk))
+        try:
+            req = urllib.request.Request(url, headers={
+                "User-Agent": "Mozilla/5.0",
+                "Referer": "https://m.stock.naver.com/"})
+            raw = urllib.request.urlopen(req, timeout=8).read()
+            d = None
+            for enc in ("utf-8", "cp949"):
+                try:
+                    d = _json.loads(raw.decode(enc))
+                    break
+                except Exception:
+                    continue
+            if not d:
+                continue
+            areas = ((d.get("result") or {}).get("areas") or [{}])
+            for it in (areas[0].get("datas") if areas else []) or []:
+                cd = it.get("cd")
+                cr = it.get("cr")
+                if cd and cr is not None:
+                    try:
+                        out[cd] = round(_sign_cr(float(cr), it.get("rf")), 2)
+                    except (TypeError, ValueError):
+                        pass
+        except Exception as ex:
+            print(f"[analyze] 네이버 등락률 배치 실패({chunk[:3]}…): {ex}")
+            continue
+    return out
+
+
 def main():
     try:
         sys.stdout.reconfigure(encoding="utf-8")
@@ -1355,12 +1418,22 @@ def main():
         print("[analyze] 분석 가능한 종목 없음 — feed 미변경")
         return 0
 
+    # ★정합성(INC-002·003)★ KR 종목 등락률은 네이버(cr+rf, 제공처 전일대비)로 일괄
+    # 덮어쓴다 — 관심종목 KIS 0.0 누락과 전체종목 yfinance 일봉차분(방향 뒤집힘)을
+    # 동시에 제거한다. 실패분은 기존값(KIS/yfinance) 유지. US 티커는 맵에 없어 무영향.
+    kr_codes = [c.get("code", "") for c, *_ in wl_cand] + \
+               [c.get("code", "") for c, *_ in mk_cand]
+    kr_chg_map = fetch_kr_changes_naver(kr_codes)
+    if kr_chg_map:
+        print(f"[analyze] KR 등락률 네이버 보정(rf 부호): {len(kr_chg_map)}종목")
+
     # 관심종목 신호(점수순 최대 5) + 관찰(미충족 watchlist).
     obs_cap = 40
     wl_cand.sort(key=lambda x: x[4], reverse=True)
     wl_signals, observations = [], []
     rank = 0
     for item, price, change, ind, sc in wl_cand:
+        change = kr_chg_map.get(item.get("code", ""), change)  # 네이버 권위값 우선
         if sc >= cutoff and rank < 5:
             rank += 1
             sig = build_signal(rank, item, price, change, ind, hold_cap, tuning,
@@ -1389,6 +1462,7 @@ def main():
     market_signals = []
     mrank = 0
     for item, price, change, ind, sc in mk_cand:
+        change = kr_chg_map.get(item.get("code", ""), change)  # 네이버 권위값 우선
         if sc >= cutoff and mrank < 5:
             mrank += 1
             sig = build_signal(mrank, item, price, change, ind, hold_cap, tuning,
