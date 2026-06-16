@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "updated_at": "2026-06-17T07:35:00+09:00",
-  "updated_by": "engine-fix",
+  "updated_at": "2026-06-17T08:08:18+09:00",
+  "updated_by": "app",
   "engine": {
     "analysis_enabled": true,
     "analysis_scope": "market",
@@ -101,25 +101,11 @@
     "lv_target1": true,
     "lv_target2": true,
     "surge_enabled": true,
-    "surge_threshold": 2.0,
+    "surge_threshold": 3.0,
     "surge_window": 10,
-    "hold_enabled": true,
-    "hold_loss_pct": 3.0,
+    "hold_enabled": false,
+    "hold_loss_pct": 5.0,
     "mom_enabled": true,
     "mom_threshold": 1.5
-  },
-  "holdings_watch": [
-    {
-      "code": "012450",
-      "market": "KR",
-      "name": "한화에어로스페이스",
-      "entry": 1105000.0
-    },
-    {
-      "code": "052690",
-      "market": "KR",
-      "name": "한전기술",
-      "entry": 137100.0
-    }
-  ]
+  }
 }
