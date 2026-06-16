@@ -860,6 +860,88 @@ def build_signal(rank, item, price, change_pct, ind, hold_cap, tuning=None,
     }
 
 
+# ── 미국 시세 견고 조회 헬퍼(최우선 정합성 규칙) ────────────────────────────
+# ★사고(2026-06-16) 교훈★ 일봉을 직접 closes[-1]/closes[-2] 로 차분하면
+#   (1) 미국장이 열린 시각에 돌면 마지막 칸이 '아직 안 끝난 부분봉'인데 종가로 오인하고
+#   (2) 야후 일봉에 거래일이 통째로 누락되면 엉뚱한 과거일이 기준이 되어
+#   등락률의 '방향'까지 뒤집힌다(나스닥 실제 -1.15% 가 +2.52% 로 표시됨).
+# → 세션 경계를 야후가 직접 책임지는 previous_close 를 1순위 기준으로 쓴다.
+US_INDEX_SYMS = {"^IXIC", "^GSPC", "^DJI", "^SOX"}
+
+
+def _us_now_et():
+    """미국 동부 현재 시각(서머타임 자동). zoneinfo 실패 시 KST-13h 근사."""
+    try:
+        import zoneinfo
+        return datetime.datetime.now(zoneinfo.ZoneInfo("America/New_York"))
+    except Exception:
+        return datetime.datetime.now(KST).replace(tzinfo=None) - datetime.timedelta(hours=13)
+
+
+def _us_today_et():
+    """미국 동부 기준 '오늘' 날짜(마지막 일봉이 당일 세션인지 판별용)."""
+    return _us_now_et().date()
+
+
+def _us_market_open():
+    """미 정규장(평일 09:30–16:00 ET) 개장 여부. 마지막 일봉이 '진행중 부분봉'
+    인지 판별해 live 오탐(마감 후를 장중으로 표기)을 막는다. 공휴일은 미반영
+    (그날은 일봉이 없어 어차피 live=False)."""
+    n = _us_now_et()
+    if n.weekday() >= 5:  # 토·일
+        return False
+    mins = n.hour * 60 + n.minute
+    return 9 * 60 + 30 <= mins < 16 * 60
+
+
+def _us_quote(sym):
+    """미국 지수/종목의 견고한 시세 dict 또는 None.
+
+    1순위: fast_info.previous_close(야후가 직전 정규장 종가를 직접 계산 — 누락일·
+    부분봉의 영향을 받지 않음). 2순위: 일봉 백업. 둘 다 검증을 통과해야 한다.
+    반환: {price, change_pct, asof('YYYY-MM-DD'), live(bool), prev_close} 또는 None.
+    """
+    import yfinance as yf
+    last = prev = None
+    asof = None
+    live = False
+    # 일봉(asof·live 판별·백업·검증용)
+    dates, closes = [], []
+    try:
+        h = yf.Ticker(sym).history(period="8d", auto_adjust=False)
+        h = h.dropna(subset=["Close"])
+        dates = [d.date() for d in h.index]
+        closes = [float(x) for x in h["Close"]]
+    except Exception:
+        pass
+    if dates:
+        asof = dates[-1].strftime("%Y-%m-%d")
+        # 마지막 일봉이 '오늘(ET)'이고 정규장이 실제 열려 있을 때만 장중(부분봉).
+        live = dates[-1] >= _us_today_et() and _us_market_open()
+    # 1순위 기준: 야후가 계산한 previous_close
+    try:
+        fi = yf.Ticker(sym).fast_info
+        lp = float(fi.last_price)
+        pc = float(fi.previous_close)
+        if lp > 0 and pc > 0:
+            last, prev = lp, pc
+    except Exception:
+        pass
+    # 백업: 일봉 차분(단, 마지막 칸이 진행중 세션이면 그 직전 종가를 기준으로)
+    if last is None and len(closes) >= 2 and closes[-2] > 0:
+        last, prev = closes[-1], closes[-2]
+    if last is None or not prev:
+        return None
+    chg = (last / prev - 1) * 100
+    # 정합성 게이트: 비현실적 등락률은 데이터 오류로 보고 폐기(방향 뒤집힘 사고 차단)
+    cap = 20.0 if sym in US_INDEX_SYMS else 45.0
+    if abs(chg) > cap:
+        print(f"[analyze] ⚠️ 미국 {sym} 등락률 이상치 {chg:+.2f}% (>{cap}%) — 폐기")
+        return None
+    return {"price": round(last, 2), "change_pct": round(chg, 2),
+            "asof": asof, "live": live, "prev_close": round(prev, 2)}
+
+
 # ── 시장 환경(거시) 보정 — 측정 가능한 미국증시만 ───────────────────────────
 def fetch_us_regime():
     """전일 미국 증시 등락으로 **시장 환경 보정치**를 계산한다(측정 가능한 거시만).
@@ -879,13 +961,9 @@ def fetch_us_regime():
     weights = {"sp": 0.30, "nasdaq": 0.30, "sox": 0.40}
     chg = {}
     for k, sym in syms.items():
-        try:
-            h = yf.Ticker(sym).history(period="6d", auto_adjust=False)
-            closes = [float(x) for x in h["Close"].dropna()]
-            if len(closes) >= 2 and closes[-2]:
-                chg[k] = (closes[-1] / closes[-2] - 1) * 100
-        except Exception:
-            continue
+        q = _us_quote(sym)  # ★previous_close 기준 견고 조회(부분봉·누락일 방어)
+        if q:
+            chg[k] = q["change_pct"]
     if not chg:
         return None
     den = sum(weights[k] for k in chg)
@@ -926,48 +1004,49 @@ def fetch_us_context():
     """미국 지수·빅테크 전일(또는 실시간) 종가·등락률을 yfinance 로 실측해 us_context
     dict 를 만든다. 한줄평·한국영향은 **측정된 수치에서 결정적으로 생성**(날조 없음).
     실패 시 None(호출 측이 기존 us_context 보존). 차트 엔진이 매 실행 갱신하므로
-    미국 카드가 더 이상 옛 날짜에 멈추지 않는다."""
+    미국 카드가 더 이상 옛 날짜에 멈추지 않는다.
+
+    ★정합성★ 등락률은 _us_quote 의 previous_close 기준(부분봉·누락일 방어).
+    asof 는 종목별 실제값을 그대로 싣는다(전 종목 동일 날짜로 덮어쓰지 않음)."""
     try:
-        import yfinance as yf
+        import yfinance as yf  # noqa: F401  (가용성 가드)
     except Exception:
         return None
-    syms = [s for _, s in US_INDICES + US_BIGTECH]
-    try:
-        data = yf.download(syms, period="6d", auto_adjust=False,
-                           group_by="ticker", threads=True, progress=False)
-    except Exception as ex:
-        print(f"[analyze] 미국 컨텍스트 다운로드 실패: {ex}")
-        return None
-
-    asof = None
-
-    def one(sym):
-        nonlocal asof
-        try:
-            sub = data[sym].dropna(subset=["Close"])
-            closes = [float(x) for x in sub["Close"]]
-            if len(closes) < 2 or closes[-2] == 0:
-                return None
-            chg = (closes[-1] / closes[-2] - 1) * 100
-            try:
-                asof = sub.index[-1].strftime("%Y-%m-%d")
-            except Exception:
-                pass
-            return {"price": round(closes[-1], 2), "change_pct": round(chg, 2)}
-        except Exception:
-            return None
 
     indices, bigtech = [], []
+    asofs, live_any = [], False
     for name, sym in US_INDICES:
-        q = one(sym)
+        q = _us_quote(sym)
         if q:
-            indices.append({"name": name, "symbol": sym, **q, "asof": asof})
+            indices.append({"name": name, "symbol": sym, "price": q["price"],
+                            "change_pct": q["change_pct"], "asof": q["asof"],
+                            "live": q["live"]})
+            if q["asof"]:
+                asofs.append(q["asof"])
+            live_any = live_any or q["live"]
     for name, sym in US_BIGTECH:
-        q = one(sym)
+        q = _us_quote(sym)
         if q:
-            bigtech.append({"name": name, "symbol": sym, **q, "asof": asof})
+            bigtech.append({"name": name, "symbol": sym, "price": q["price"],
+                            "change_pct": q["change_pct"], "asof": q["asof"],
+                            "live": q["live"]})
+            if q["asof"]:
+                asofs.append(q["asof"])
+            live_any = live_any or q["live"]
     if not indices and not bigtech:
         return None
+    asof = max(asofs) if asofs else None
+
+    # 신선도 게이트: asof 가 영업일 기준 너무 오래되면 발행 측이 알 수 있게 표기.
+    stale = False
+    try:
+        if asof:
+            age = (_us_today_et() - datetime.date.fromisoformat(asof)).days
+            stale = age > 5  # 주말·공휴일 여유 포함. 그 이상이면 데이터 멈춤 의심.
+            if stale:
+                print(f"[analyze] ⚠️ 미국 컨텍스트 신선도 경고: asof={asof} ({age}일 전)")
+    except Exception:
+        pass
 
     # 한줄평·한국영향 — 측정값에서 결정적으로 생성(추측 없음).
     sox = next((i for i in indices if "SOX" in i["symbol"]), None)
@@ -982,8 +1061,9 @@ def fetch_us_context():
         parts.append(f"나스닥 {nq['change_pct']:+g}%")
     if sox:
         parts.append(f"SOX {sox['change_pct']:+g}%")
-    summary = (("미국 " + ", ".join(parts) + ". ") if parts else "") + \
-        f"빅테크 상승 {up}·하락 {down}."
+    live_tag = "장중(실시간) " if live_any else ""
+    summary = (("미국 " + live_tag + ", ".join(parts) + ". ") if parts else "") + \
+        f"빅테크 상승 {up}·하락 {down}." + (" ⚠️데이터 신선도 점검 필요." if stale else "")
     if sox:
         if sox["change_pct"] >= 0.5:
             kr_impl = f"미 반도체 강세(SOX {sox['change_pct']:+g}%) — 삼성전자·SK하이닉스 등 반도체 우호적."
@@ -995,8 +1075,11 @@ def fetch_us_context():
         kr_impl = "미국 반도체(SOX) 데이터 미확보 — 한국 영향 판단 보류."
     return {
         "asof": asof or datetime.datetime.now(KST).strftime("%Y-%m-%d"),
-        "basis": "미국 정규장 종가(야후 실측)",
-        "session": "closed",
+        "basis": ("미국 장중 실시간(야후 실측)" if live_any
+                  else "미국 정규장 종가(야후 실측)"),
+        "session": "open" if live_any else "closed",
+        "live": live_any,
+        "stale": stale,
         "summary": summary,
         "kr_implication": kr_impl,
         "indices": indices,
