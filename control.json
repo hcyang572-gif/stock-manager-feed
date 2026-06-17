@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updated_at": "2026-06-17T10:44:22+09:00",
+  "updated_at": "2026-06-17T11:24:11+09:00",
   "updated_by": "app",
   "engine": {
     "analysis_enabled": true,
@@ -101,43 +101,11 @@
     "lv_target1": true,
     "lv_target2": true,
     "surge_enabled": true,
-    "hold_enabled": true,
-    "mom_enabled": true,
     "surge_threshold": 3.0,
     "surge_window": 10,
+    "hold_enabled": false,
     "hold_loss_pct": 5.0,
+    "mom_enabled": true,
     "mom_threshold": 1.5
-  },
-  "holdings_watch": [
-    {
-      "code": "000660",
-      "market": "KR",
-      "name": "SK하이닉스",
-      "entry": 2397000.0
-    },
-    {
-      "code": "005930",
-      "market": "KR",
-      "name": "삼성전자",
-      "entry": 334000.0
-    },
-    {
-      "code": "052690",
-      "market": "KR",
-      "name": "한전기술",
-      "entry": 134100.0
-    },
-    {
-      "code": "012450",
-      "market": "KR",
-      "name": "한화에어로스페이스",
-      "entry": 1216000.0
-    },
-    {
-      "code": "086790",
-      "market": "KR",
-      "name": "하나금융지주",
-      "entry": 129700.0
-    }
-  ]
+  }
 }
