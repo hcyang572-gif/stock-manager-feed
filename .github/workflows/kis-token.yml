@@ -1,0 +1,55 @@
+name: kis-token
+
+# KIS 액세스 토큰을 '하루 1회'만 발급해 actions/cache(키 kis-token-<KST날짜>)에 저장한다.
+#
+# [중요·SMS 폭탄 방지] KIS는 토큰 발급마다 보안 SMS를 보낸다. 그래서 발급은 **오직 이
+# 워크플로**(KIS_TOKEN_ISSUE=1)에서만 한다. intraday-refresh·scheduled-analyze·
+# analyze-news·price-alert-watch 등 다른 워크플로/스크립트는 이 캐시를 **읽기만** 하고
+# (KIS_TOKEN_ISSUE 미설정 → 발급 안 함), 캐시가 없으면 네이버 시세로 폴백한다.
+#
+# 평일 07:40 KST(=22:40 UTC 전일)에 장 시작(08:00) 전 미리 발급해 두면, 그날 모든
+# 워크플로가 같은 날짜 키 캐시를 공유한다 → 하루 1회 발급.
+
+on:
+  schedule:
+    - cron: "40 22 * * 0-4"   # 평일(KST 월~금) 07:40 KST 발급
+  workflow_dispatch:           # 필요 시 수동 발급
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kis-token
+  cancel-in-progress: false
+
+jobs:
+  issue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: pip install --quiet tzdata
+
+      - name: KIS token date (KST)
+        id: kisdate
+        run: echo "d=$(TZ=Asia/Seoul date +%F)" >> "$GITHUB_OUTPUT"
+
+      # 같은 날짜 키 캐시 — 이미 있으면 복원(발급 생략), 없으면 발급 후 post 단계에서 저장.
+      - name: Cache KIS access token (1일 1회)
+        uses: actions/cache@v4
+        with:
+          path: config/.kis_token.json
+          key: kis-token-${{ steps.kisdate.outputs.d }}
+
+      - name: Ensure KIS token (issue once)
+        env:
+          KIS_TOKEN_ISSUE: "1"
+          KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
+          KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
+        run: python scripts/ensure_kis_token.py

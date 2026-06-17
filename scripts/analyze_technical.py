@@ -156,6 +156,10 @@ def _kis_token(cfg):
                 return c["access_token"]
         except Exception:
             pass
+    # ★발급은 전용 워크플로(KIS_TOKEN_ISSUE=1)에서만★ 그 외엔 캐시 없으면 발급 안 함
+    # (네이버 폴백). 서버 cron마다 토큰 재발급 = KIS 발급 SMS 폭탄 방지.
+    if os.environ.get("KIS_TOKEN_ISSUE") != "1":
+        return None
     body = json.dumps({"grant_type": "client_credentials",
                        "appkey": cfg["app_key"], "appsecret": cfg["app_secret"]}).encode()
     req = urllib.request.Request(KIS_BASE + "/oauth2/tokenP", data=body, method="POST",

@@ -113,6 +113,11 @@ def _get_kis_token(cfg):
                 return cached["access_token"]
         except Exception:
             pass
+    # ★발급은 전용 워크플로(KIS_TOKEN_ISSUE=1)에서만★ — 그 외엔 캐시 없으면 발급하지
+    # 않고 None 반환(호출부가 네이버로 폴백). 서버 cron마다 토큰 재발급 = KIS 발급
+    # SMS 폭탄을 막는다(앱과 동일 원칙 — 발급은 하루 1회 전용 잡에서만).
+    if os.environ.get("KIS_TOKEN_ISSUE") != "1":
+        return None
     body = json.dumps({
         "grant_type": "client_credentials",
         "appkey": cfg["app_key"],
