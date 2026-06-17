@@ -109,8 +109,13 @@ def apply_combo(score, ind, combo_table):
     if not combo_table:
         return score
     sf = ind.get("_sf") or {}
-    for_net = sf.get("for_sum", 0)
-    org_net = sf.get("org_sum", 0)
+    for_net = sf.get("for_sum")
+    org_net = sf.get("org_sum")
+    # ★결측≠중립(P1)★ 수급 데이터가 없으면(None) 조합 보정·표시를 하지 않는다.
+    # 예전엔 결측을 net=0('중립' 버킷)으로 조회해 '데이터 없음'을 감점(승률 낮은
+    # 중립버킷)했다 — 수급 못 구한 종목을 벌하던 train/serve 분포 불일치.
+    if for_net is None or org_net is None:
+        return score
     key = combo_key(combo_bucket(score, ind.get("vol_surge", 0), for_net, org_net))
     rec = combo_table.get(key)
     if not isinstance(rec, dict):
