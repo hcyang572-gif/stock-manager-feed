@@ -172,22 +172,28 @@ def _kis_token(cfg):
 
 
 def kis_quote(code, cfg, token, mrkt="UN"):
-    """(현재가, 전일대비율) 또는 (None, None)."""
+    """(현재가, 전일대비율) 또는 (None, None). 실전/모의 tr_id 분기 + 1회 재시도
+    (P2/P4 — rate limit·일시 오류로 종목이 조용히 누락되던 것 방지)."""
     import time
-    time.sleep(0.25)
+    # 실전(real)=FHKST·모의(paper)=VHKST. account_type 미지정이면 실전 기본(안전).
+    tr_id = "VHKST01010100" if cfg.get("account_type") == "paper" else "FHKST01010100"
     params = urllib.parse.urlencode({"FID_COND_MRKT_DIV_CODE": mrkt, "FID_INPUT_ISCD": code})
     req = urllib.request.Request(
         f"{KIS_BASE}/uapi/domestic-stock/v1/quotations/inquire-price?{params}",
         headers={"Authorization": f"Bearer {token}", "appkey": cfg["app_key"],
-                 "appsecret": cfg["app_secret"], "tr_id": "FHKST01010100", "custtype": "P"})
-    try:
-        with urllib.request.urlopen(req, timeout=10) as r:
-            o = json.load(r).get("output", {})
-        p = str(o.get("stck_prpr", "")).replace(",", "")
-        c = str(o.get("prdy_ctrt", "")).replace(",", "")
-        return (float(p) if p else None, float(c) if c not in ("", "None") else None)
-    except Exception:
-        return (None, None)
+                 "appsecret": cfg["app_secret"], "tr_id": tr_id, "custtype": "P"})
+    for _ in range(2):
+        time.sleep(0.25)
+        try:
+            with urllib.request.urlopen(req, timeout=10) as r:
+                o = json.load(r).get("output", {})
+            p = str(o.get("stck_prpr", "")).replace(",", "")
+            c = str(o.get("prdy_ctrt", "")).replace(",", "")
+            if p:
+                return (float(p), float(c) if c not in ("", "None") else None)
+        except Exception:
+            pass
+    return (None, None)
 
 
 # ── KR 호가단위(틱) 반올림 ───────────────────────────────────────────────────
@@ -1654,7 +1660,23 @@ def main():
     if kept:
         print(f"[analyze] 뉴스 촉매 보존 반영: {kept}건")
 
-    FEED_PATH.write_text(json.dumps(feed, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    # ★검증 자동화(상시 게이트)★ 발행 직전 시세 정합성 검사 — '수동 검증'을
+    # 매 분석마다 자동 실행되게 코드화(INC-001~005). 경고는 feed['integrity']에
+    # 기록해 앱·로그가 보고, 콘솔에 ⚠️ 출력한다(차단보다 표기 우선 — 빈칸 금지 원칙).
+    try:
+        from verify_quotes import verify_feed
+        chk = verify_feed(feed, now=now)
+        feed["integrity"] = {"checked_at": now_iso,
+                             "critical": chk["critical"], "warn": chk["warn"]}
+        for c in chk["critical"]:
+            print(f"[analyze] ❌ 정합성 critical: {c}")
+        for w in chk["warn"]:
+            print(f"[analyze] ⚠️ 정합성 warn: {w}")
+    except Exception as ex:
+        print(f"[analyze] 정합성 검증 스킵(오류): {ex}")
+
+    FEED_PATH.write_text(json.dumps(feed, ensure_ascii=False, indent=2,
+                                    allow_nan=False) + "\n", encoding="utf-8")
     # 전향 추적용 — 이번 발행 신호를 로그에 누적(통계 탭 forward 평가용).
     append_signal_log(feed["signals"], now_iso, now.strftime("%Y-%m-%d"), hold_cap)
     print(f"[analyze] 완료 @ {now_iso} — 신호 {len(signals)} "
