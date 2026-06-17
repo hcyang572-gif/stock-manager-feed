@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "updated_at": "2026-06-17T13:35:00+09:00",
-  "updated_by": "engine-fix",
+  "updated_at": "2026-06-17T13:46:37+09:00",
+  "updated_by": "app",
   "engine": {
     "analysis_enabled": true,
     "analysis_scope": "market",
@@ -101,11 +101,11 @@
     "lv_target1": true,
     "lv_target2": true,
     "surge_enabled": true,
+    "hold_enabled": true,
+    "mom_enabled": true,
     "surge_threshold": 3.0,
     "surge_window": 10,
-    "hold_enabled": true,
     "hold_loss_pct": 5.0,
-    "mom_enabled": true,
     "mom_threshold": 1.5
   },
   "holdings_watch": [
@@ -114,12 +114,6 @@
       "market": "KR",
       "name": "NAVER",
       "entry": 243000.0
-    },
-    {
-      "code": "005930",
-      "market": "KR",
-      "name": "삼성전자",
-      "entry": 335750.0
     },
     {
       "code": "000660",
