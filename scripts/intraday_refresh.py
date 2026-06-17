@@ -384,6 +384,50 @@ def _ensure_kis():
     return None, None
 
 
+def fetch_kr_changes_naver(codes):
+    """KR 6자리 코드들의 전일대비 등락률(%)을 네이버 polling 배치로 조회한다.
+
+    ★정합성(INC-002·004)★ 부호는 `cr`(마감 후 크기만 옴)이 아니라 `rf`로 확정하고,
+    응답이 **EUC-KR**(종목명)이라 utf-8→cp949 순으로 안전 디코딩한다. 이 값을 KR
+    종목 change_pct 의 권위값으로 써서 KIS 프리장 0.0/스테일을 대체한다.
+    {code: change_pct}. 실패 코드는 생략."""
+    clean = [c for c in {str(c).strip() for c in codes}
+             if c.isdigit() and len(c) == 6]
+    if not clean:
+        return {}
+    out = {}
+    for i in range(0, len(clean), 50):  # 묶음 50개씩
+        chunk = clean[i:i + 50]
+        url = ("https://polling.finance.naver.com/api/realtime"
+               "?query=SERVICE_ITEM:" + ",".join(chunk))
+        try:
+            req = urllib.request.Request(url, headers={
+                "User-Agent": UA, "Referer": "https://m.stock.naver.com/"})
+            raw = urllib.request.urlopen(req, timeout=10).read()
+            d = None
+            for enc in ("utf-8", "cp949"):
+                try:
+                    d = json.loads(raw.decode(enc))
+                    break
+                except Exception:
+                    continue
+            if not d:
+                continue
+            areas = ((d.get("result") or {}).get("areas") or [{}])
+            for it in (areas[0].get("datas") if areas else []) or []:
+                cd = it.get("cd")
+                cr = it.get("cr")
+                if cd and cr is not None:
+                    try:
+                        out[cd] = round(_sign_cr(float(cr), it.get("rf")), 2)
+                    except (TypeError, ValueError):
+                        pass
+        except Exception as ex:
+            print(f"[intraday] 네이버 등락률 배치 실패({chunk[:3]}…): {ex}")
+            continue
+    return out
+
+
 def fetch_quote(code, market, session_key, session_label, now_iso):
     """현재가 조회 → (price, source, ext, change_pct).
     KR: KIS 통합(UN)=현재가 + 정규장(J)=기준종가로 ext 생성 → 네이버/야후 백업(ext 없음).
@@ -448,6 +492,18 @@ def main():
     src_count = {}  # source → 조회 성공 건수(로그용)
     miss = []       # 시세 미확보 종목(로그용)
     seen = {}       # code+market → (price, ext, change_pct) 캐시(중복 종목 1회만 조회)
+
+    # ★정합성(INC-002·004)★ KR 종목 등락률은 네이버(cr+rf, 전일대비)를 권위값으로
+    # 쓴다 — KIS 통합(UN)은 프리장에 0.0/스테일이라 feed 등락이 멈춰 보였다. 한 번
+    # 배치로 받아 아래 루프에서 KR 종목 change_pct 를 덮어쓴다(실패분은 KIS 값 유지).
+    kr_codes = [it.get("code", "")
+                for sec in ("signals", "observations")
+                for it in feed.get(sec, [])
+                if (it.get("market", "KR") or "KR").upper() == "KR"]
+    kr_chg_naver = fetch_kr_changes_naver(kr_codes)
+    if kr_chg_naver:
+        print(f"[intraday] KR 등락률 네이버 보정(rf 부호): {len(kr_chg_naver)}종목")
+
     for section in ("signals", "observations"):
         for item in feed.get(section, []):
             code = item.get("code", "")
@@ -463,6 +519,9 @@ def main():
                     src_count[source] = src_count.get(source, 0) + 1
                 else:
                     miss.append(item.get("name", code))
+            # KR 종목은 네이버 권위 등락률로 교체(있을 때). 미국 등은 KIS/야후 chg 유지.
+            if (market or "KR").upper() == "KR" and code in kr_chg_naver:
+                chg = kr_chg_naver[code]
             if price is None:
                 continue
             if item.get("price") != price:
