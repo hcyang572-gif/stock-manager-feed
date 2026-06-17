@@ -550,14 +550,21 @@ def main():
         old_list = (feed.get("kr_context") or {}).get("indices") or []
         old_by = {x.get("symbol"): x for x in old_list}
         new_by = {x["symbol"]: x for x in idxs}
-        merged = [new_by.get(sym) or old_by.get(sym)
-                  for _, sym, _ in KR_INDEX_LIST]
-        merged = [m for m in merged if m]
+        # ★거짓 신선도 방지(INC-005)★ 일부를 직전값으로 메우면 전체 asof=now 로
+        # 찍지 말고 stale=True 로 표시한다(어제 지수+오늘 asof 금지).
+        merged, used_old = [], False
+        for _, sym, _ in KR_INDEX_LIST:
+            if sym in new_by:
+                merged.append(new_by[sym])
+            elif sym in old_by:
+                merged.append(old_by[sym])
+                used_old = True
         if old_list != merged:
             changed += 1
         feed["kr_context"] = {"asof": now_iso,
                               "basis": f"한국 지수({idx_src} 실측)",
-                              "session": session_key, "indices": merged}
+                              "session": session_key,
+                              "stale": used_old, "indices": merged}
 
     src_log = " ".join(f"{s}:{n}" for s, n in src_count.items()) or "없음"
     if miss:

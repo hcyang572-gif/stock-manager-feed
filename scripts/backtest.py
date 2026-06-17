@@ -18,6 +18,7 @@ GitHub Actions(backtest.yml) 일 1회 실행 또는 로컬 실행.
 """
 import datetime
 import json
+import math
 import sys
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -44,8 +45,13 @@ def _fetch_daily(yahoo, period="400d"):
         rows = []
         for idx, r in h.iterrows():
             try:
-                rows.append((str(idx)[:10], float(r["Open"]), float(r["High"]),
-                             float(r["Low"]), float(r["Close"]), float(r["Volume"])))
+                o, hi, lo, c, v = (float(r["Open"]), float(r["High"]),
+                                   float(r["Low"]), float(r["Close"]),
+                                   float(r["Volume"]))
+                # ★NaN 가드(P0-2)★ 야후 결측봉은 제외 — R 계산에 NaN 전염 방지.
+                if not all(math.isfinite(x) for x in (o, hi, lo, c)):
+                    continue
+                rows.append((str(idx)[:10], o, hi, lo, c, v))
             except Exception:
                 continue
         return rows
@@ -105,9 +111,10 @@ def _evaluate(entry, stop, t1, t2, etype, fwd, partial=0.5, breakeven=True):
     if not filled:
         return ("no_fill", None)
     if rem > 1e-9:
-        realized += rem * ((last_close - entry) / risk if last_close else 0.0)
+        lc_ok = last_close is not None and math.isfinite(last_close)
+        realized += rem * ((last_close - entry) / risk if lc_ok else 0.0)
         rem = 0.0
-    r = round(realized, 2)
+    r = round(realized, 2) if math.isfinite(realized) else None
     if t2_hit:
         return ("target2", r)
     if t1_hit:
@@ -127,20 +134,24 @@ def _bucket(score):
 
 def _blank_agg():
     return {"n": 0, "no_fill": 0, "stop": 0, "target1": 0, "target2": 0,
-            "timecut": 0, "wins": 0, "r_sum": 0.0}
+            "timecut": 0, "wins": 0, "r_sum": 0.0, "r_n": 0}
 
 
 def _record(agg, outcome, r):
     agg["n"] += 1
     agg[outcome] = agg.get(outcome, 0) + 1
-    if r is not None:
+    # ★NaN 가드(P0-2)★ 유한한 R 만 집계(r_n 분모 분리). NaN/None 은 무시.
+    if r is not None and math.isfinite(r):
         agg["r_sum"] += r
+        agg["r_n"] += 1
         if r > 0:
             agg["wins"] += 1
 
 
 def _finalize(agg):
     filled = agg["n"] - agg["no_fill"]
+    rn = agg.get("r_n", 0)
+    target_hits = agg["target1"] + agg["target2"]
     return {
         "signals": agg["n"],
         "filled": filled,
@@ -149,8 +160,10 @@ def _finalize(agg):
         "hit_target2": agg["target2"],
         "hit_stop": agg["stop"],
         "timecut": agg["timecut"],
-        "win_rate": round(agg["wins"] / filled * 100, 1) if filled else None,
-        "avg_r": round(agg["r_sum"] / filled, 2) if filled else None,
+        # 승률(R>0 비율)과 목표도달률을 분리 노출(P1-4) — '찔끔 양봉=승리' 오해 방지.
+        "win_rate": round(agg["wins"] / rn * 100, 1) if rn else None,
+        "target_hit_rate": round(target_hits / filled * 100, 1) if filled else None,
+        "avg_r": round(agg["r_sum"] / rn, 2) if rn else None,
     }
 
 
@@ -396,7 +409,8 @@ def _append_history(stats, now):
     hist.sort(key=lambda h: h.get("date", ""))
     hist = hist[-90:]
     STATS_HISTORY_PATH.write_text(
-        json.dumps(hist, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        json.dumps(hist, ensure_ascii=False, indent=2, allow_nan=False) + "\n",
+        encoding="utf-8")
     print(f"[backtest] 이력 누적 → stats_history.json ({len(hist)}일)")
 
 
@@ -436,7 +450,8 @@ def main():
         "forward": _forward_section(),
         "disclaimer": "통계는 과거·실거래 실측 기반 참고용이며 미래 수익을 보장하지 않습니다.",
     }
-    STATS_PATH.write_text(json.dumps(stats, ensure_ascii=False, indent=2) + "\n",
+    STATS_PATH.write_text(json.dumps(stats, ensure_ascii=False, indent=2,
+                                     allow_nan=False) + "\n",
                           encoding="utf-8")
     _append_history(stats, now)
     ov = stats["backtest"]["overall"]

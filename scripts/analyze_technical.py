@@ -577,6 +577,15 @@ DEFAULT_WEIGHTS = {
     "for_buy": 0, "for_sell": 0, "org_buy": 0, "org_sell": 0,
 }
 
+# 부호가 명백한 키(단타 모멘텀) — 학습값이 이 부호를 어기면 과적합 오류로 보고
+# 학습세트 전체를 거부한다(P0-1). 양수여야 정상 / 음수여야 정상.
+_W_POS = ("align_up", "above_ma20", "vol_surge", "vol_ok", "strong_close",
+          "rsi_up", "rsi_oversold", "breakout", "mom_up", "gap_up",
+          "vol_accel", "streak_up", "near_high", "range_exp", "ma20_up",
+          "for_buy", "org_buy")
+_W_NEG = ("align_down", "vol_dry", "weak_close", "rsi_hot", "gap_down",
+          "for_sell", "org_sell")
+
 # 사람이 읽는 항목 이름(앱 학습 가중치 카드·설명용). DEFAULT_WEIGHTS 키와 1:1.
 WEIGHT_LABELS = {
     "align_up": "정배열(MA5>MA20)", "align_down": "역배열(MA5<MA20)",
@@ -735,11 +744,24 @@ def levels(price, ind, hold_cap, stop_mult=1.5, target1_mult=2.0, target2_mult=3
     stop = round_tick(max(entry - stop_mult * hf * atr, ind["recent_low5"]))
     if stop >= entry:
         stop = round_tick(entry * (1 - 0.02 * hf))
+    # ★손절 하한(P2)★ 변동성 큰 날 recent_low5 가 진입에 붙어 손절거리가 비현실적으로
+    # 좁아지는 것 방지 — 손절거리 최소 0.5·ATR(또는 1.5%) 확보.
+    min_risk = max(0.5 * atr, entry * 0.015)
+    if entry - stop < min_risk:
+        stop = round_tick(entry - min_risk)
     risk = entry - stop
-    target1 = round_tick(entry + target1_mult * risk)
-    target2 = round_tick(entry + target2_mult * risk)
+    # ★도달성(P0-3·스킬D)★ 48h 단타는 목표를 ATR 절대폭으로도 캡한다 — R 배수만 쓰면
+    # ATR 큰 종목의 목표가 +9~20%로 멀어져 시간청산만 나던 문제(forward 0%) 완화.
+    # target1 ≤ entry+1.2·ATR, target2 ≤ entry+2.0·ATR.
+    target1 = round_tick(min(entry + target1_mult * risk, entry + 1.2 * atr))
+    target2 = round_tick(min(entry + target2_mult * risk, entry + 2.0 * atr))
+    if target2 <= target1:
+        target2 = round_tick(target1 + 0.4 * atr)
+    # 돌파 진입가가 현재가 +2.5% 초과면 '쫓는' 신호 → 도달성 낮음(관찰 강등 후보).
+    reachable = not (etype == "breakout" and entry > price * 1.025)
     return {"entry": entry, "stop": stop, "target1": target1,
-            "target2": target2, "etype": etype, "risk": risk}
+            "target2": target2, "etype": etype, "risk": risk,
+            "reachable": reachable}
 
 
 def position_weight(entry, stop, score, cutoff, tuning):
@@ -857,6 +879,8 @@ def build_signal(rank, item, price, change_pct, ind, hold_cap, tuning=None,
             f"목표1 도달 시 손절을 본전으로 올려 이익 보호 · 보유 {hold_cap}h 경과 시 잔여 청산.",
         ],
         "tags": ["기술분석", "온디맨드"] + (["돌파대기"] if etype == "breakout" else ["즉시진입"]),
+        # 도달성(P0-3): 돌파 진입가가 현재가 +2.5% 초과면 False → 빌드 루프가 관찰 강등.
+        "reachable": lv.get("reachable", True),
     }
 
 
@@ -1049,6 +1073,7 @@ def fetch_kr_context_naver():
     now = datetime.datetime.now(KST).replace(microsecond=0, second=0)
     return {"asof": now.isoformat(),
             "session": "regular" if open_any else "closed",
+            "stale": False,  # 방금 네이버 실측 — 신선(앱 신선도 게이트용 boolean)
             "indices": indices}
 
 
@@ -1267,7 +1292,15 @@ def load_control():
             if isinstance(lw, dict):
                 parsed = {k: float(lw[k]) for k in DEFAULT_WEIGHTS
                           if k in lw and isinstance(lw[k], (int, float))}
-                if parsed:
+                # ★부호 가드(P0-1)★ 약한 AUC로 과적합된 학습이 단타 모멘텀을 거꾸로
+                # 잡는 사고 방지(align_up −8·vol_surge −9·breakout −8·for_sell +10 등).
+                # 단타에서 부호가 명백한 키만 검사 — 위반하면 학습세트 전체 거부→DEFAULT.
+                viol = [k for k in _W_POS if k in parsed and parsed[k] < 0] + \
+                       [k for k in _W_NEG if k in parsed and parsed[k] > 0]
+                if viol:
+                    print(f"[analyze] ⚠️ 학습 가중치 부호 비정상 {viol} — "
+                          f"학습세트 거부, DEFAULT 사용")
+                elif parsed:
                     weights = {**DEFAULT_WEIGHTS, **parsed}
         except Exception as ex:
             print(f"[analyze] control 읽기 실패: {ex}")
@@ -1418,6 +1451,22 @@ def fetch_kr_changes_naver(codes):
     return out
 
 
+def _observation(item, price, change, ind, sc, note=None):
+    """관찰(observations) 항목 dict — 신호와 같은 표시 필드 구성(매매계획만 없음).
+    note 가 있으면 강등 사유(예: 도달성 낮음)를 reason 앞에 붙인다."""
+    why = ", ".join(ind["_why"]) if ind.get("_why") else "뚜렷한 강세 신호 부족"
+    head = f"기술 점수 {sc}/100 — {note}" if note else f"기술 점수 {sc}/100 — 조건 미충족(관망)"
+    return {
+        "name": item["name"], "code": item["code"], "market": "KR",
+        "price": float(price), "currency": "KRW", "watch_trigger": None,
+        "change_pct": round(change, 2) if change is not None else None,
+        "vol_surge": ind["vol_surge"],
+        **_supply_fields(ind.get("_sf")),
+        **_combo_fields(ind),
+        "reason": f"{head}. {why}. ATR {ind['atr_pct']}%.",
+    }
+
+
 def main():
     try:
         sys.stdout.reconfigure(encoding="utf-8")
@@ -1487,27 +1536,19 @@ def main():
     for item, price, change, ind, sc in wl_cand:
         change = kr_chg_map.get(item.get("code", ""), change)  # 네이버 권위값 우선
         if sc >= cutoff and rank < 5:
-            rank += 1
-            sig = build_signal(rank, item, price, change, ind, hold_cap, tuning,
-                               score=sc, cutoff=cutoff)
-            sig["_score"] = sc
-            sig["group"] = "watchlist"
-            wl_signals.append(sig)
+            sig = build_signal(rank + 1, item, price, change, ind, hold_cap,
+                               tuning, score=sc, cutoff=cutoff)
+            if sig.get("reachable", True):
+                rank += 1
+                sig["_score"] = sc
+                sig["group"] = "watchlist"
+                wl_signals.append(sig)
+            elif len(observations) < obs_cap:
+                # ★도달성 강등(P0-3)★ 돌파 진입가가 현재가 +2.5% 초과 → 관찰로.
+                observations.append(_observation(item, price, change, ind, sc,
+                    note="돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰"))
         elif len(observations) < obs_cap:
-            observations.append({
-                "name": item["name"], "code": item["code"], "market": "KR",
-                "price": float(price), "currency": "KRW", "watch_trigger": None,
-                "change_pct": round(change, 2) if change is not None else None,
-                # 거래량 평소 대비 배수 — 앱 주가탭 거래량 게이지용(신호와 동일 필드).
-                "vol_surge": ind["vol_surge"],
-                # 수급(외국인·기관) — 신호와 동일 필드(미확보 시 생략).
-                **_supply_fields(ind.get("_sf")),
-                # 조합별 과거 승률 — 표본 충분 시만 부착(신호와 동일 필드).
-                **_combo_fields(ind),
-                "reason": f"기술 점수 {sc}/100 — 조건 미충족(관망). "
-                          + (", ".join(ind["_why"]) if ind["_why"] else "뚜렷한 강세 신호 부족")
-                          + f". ATR {ind['atr_pct']}%.",
-            })
+            observations.append(_observation(item, price, change, ind, sc))
 
     # 전체종목 신호(점수순 최대 5, 관심종목 제외). 비신호는 관찰에 넣지 않는다(후보 수백).
     mk_cand.sort(key=lambda x: x[4], reverse=True)
@@ -1516,9 +1557,11 @@ def main():
     for item, price, change, ind, sc in mk_cand:
         change = kr_chg_map.get(item.get("code", ""), change)  # 네이버 권위값 우선
         if sc >= cutoff and mrank < 5:
+            sig = build_signal(mrank + 1, item, price, change, ind, hold_cap,
+                               tuning, score=sc, cutoff=cutoff)
+            if not sig.get("reachable", True):
+                continue  # 도달성 낮음(돌파가 +2.5% 초과) → 신호 제외(P0-3).
             mrank += 1
-            sig = build_signal(mrank, item, price, change, ind, hold_cap, tuning,
-                               score=sc, cutoff=cutoff)
             sig["_score"] = sc
             sig["group"] = "market"
             market_signals.append(sig)
@@ -1566,7 +1609,8 @@ def main():
             "headline": f"기술 분석 갱신({now.strftime('%m-%d %H:%M')} KST) — 차트·거래량·변동성 기준 "
                         f"{len(signals)}개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
         },
-        "signals": [{**{k: v for k, v in s.items() if k != "_score"},
+        "signals": [{**{k: v for k, v in s.items()
+                        if k not in ("_score", "reachable")},
                      "score": s["_score"]} for s in signals],
         "observations": observations,
         "risk_notes": ([
