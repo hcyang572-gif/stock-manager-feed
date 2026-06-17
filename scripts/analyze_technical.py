@@ -1000,6 +1000,58 @@ US_BIGTECH = [("엔비디아", "NVDA"), ("마이크론", "MU"), ("브로드컴",
               ("아마존", "AMZN"), ("메타", "META"), ("테슬라", "TSLA")]
 
 
+def fetch_kr_context_naver():
+    """코스피·코스닥·코스피200 현재지수·등락률을 네이버 SERVICE_INDEX 로 실측해
+    kr_context(asof·session·indices)를 만든다. EUC-KR 안전 디코딩, 부호는 rf 로
+    확정(INC-002). intraday-refresh cron 스킵 시에도 analyze 가 self-heal 한다.
+    실패 시 None(호출 측이 기존 kr_context 보존)."""
+    import urllib.request
+    NAME = {"KOSPI": ("코스피", "KOSPI"), "KOSDAQ": ("코스닥", "KOSDAQ"),
+            "KPI200": ("코스피200", "KOSPI200")}
+    url = ("https://polling.finance.naver.com/api/realtime"
+           "?query=SERVICE_INDEX:KOSPI,KOSDAQ,KPI200")
+    try:
+        req = urllib.request.Request(url, headers={
+            "User-Agent": "Mozilla/5.0", "Referer": "https://m.stock.naver.com/"})
+        raw = urllib.request.urlopen(req, timeout=8).read()
+    except Exception as ex:
+        print(f"[analyze] KR 지수 네이버 실패: {ex}")
+        return None
+    d = None
+    for enc in ("utf-8", "cp949"):
+        try:
+            d = json.loads(raw.decode(enc))
+            break
+        except Exception:
+            continue
+    if not d:
+        return None
+    indices, open_any = [], False
+    areas = ((d.get("result") or {}).get("areas") or [{}])
+    for it in (areas[0].get("datas") if areas else []) or []:
+        cd = it.get("cd")
+        nv = it.get("nv")
+        if cd not in NAME or nv is None:
+            continue
+        name, sym = NAME[cd]
+        try:
+            price = round(float(nv) / 100.0, 2)
+            cr = it.get("cr")
+            chg = _sign_cr(float(cr), it.get("rf")) if cr is not None else 0.0
+        except (TypeError, ValueError):
+            continue
+        indices.append({"name": name, "symbol": sym,
+                        "price": price, "change_pct": round(chg, 2)})
+        if str(it.get("ms", "")).upper() == "OPEN":
+            open_any = True
+    if not indices:
+        return None
+    now = datetime.datetime.now(KST).replace(microsecond=0, second=0)
+    return {"asof": now.isoformat(),
+            "session": "regular" if open_any else "closed",
+            "indices": indices}
+
+
 def fetch_us_context():
     """미국 지수·빅테크 전일(또는 실시간) 종가·등락률을 yfinance 로 실측해 us_context
     dict 를 만든다. 한줄평·한국영향은 **측정된 수치에서 결정적으로 생성**(날조 없음).
@@ -1533,6 +1585,16 @@ def main():
     if usc:
         feed["us_context"] = usc
         print(f"[analyze] 미국 컨텍스트 갱신: {usc['summary']}")
+    # ★정합성 self-heal★ 한국 지수도 매 analyze 실행마다 네이버로 갱신한다 —
+    # intraday-refresh cron(GitHub Actions)이 장중에 스킵돼 코스피가 어제값에
+    # 멈추던 문제 방지(2026-06-17 코스피 8545(+5.2%) stale 사고). 부호는 rf 로 확정.
+    krc = fetch_kr_context_naver()
+    if krc:
+        old = feed.get("kr_context") or {}
+        old.update(krc)  # 다른 필드 보존, 지수·asof·session 만 갱신.
+        feed["kr_context"] = old
+        print(f"[analyze] KR 지수 갱신: "
+              f"{[(i['name'], i['change_pct']) for i in krc['indices']]}")
 
     feed.setdefault("positions", feed.get("positions", []))
     feed.setdefault("portfolio", feed.get("portfolio", {"total_unrealized": 0, "count": 0, "to_close": 0}))
