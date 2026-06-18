@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updated_at": "2026-06-18T22:48:48+09:00",
+  "updated_at": "2026-06-18T23:19:26+09:00",
   "updated_by": "app",
   "engine": {
     "analysis_enabled": true,
@@ -78,17 +78,17 @@
   "run_requested_at": "2026-06-18T22:48:48+09:00",
   "news_requested_at": "2026-06-18T10:55:49+09:00",
   "alerts": {
-    "price_enabled": false,
+    "price_enabled": true,
     "lv_entry": true,
     "lv_stop": true,
     "lv_target1": true,
     "lv_target2": true,
     "surge_enabled": true,
-    "hold_enabled": true,
-    "mom_enabled": false,
     "surge_threshold": 3.0,
     "surge_window": 10,
+    "hold_enabled": true,
     "hold_loss_pct": 4.0,
+    "mom_enabled": false,
     "mom_threshold": 1.5
   },
   "holdings_watch": [
