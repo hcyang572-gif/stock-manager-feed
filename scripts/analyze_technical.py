@@ -1565,13 +1565,13 @@ def main():
         elif len(observations) < obs_cap:
             observations.append(_observation(item, price, change, ind, sc))
 
-    # 전체종목 신호(점수순 최대 30, 관심종목 제외). 비신호는 관찰에 넣지 않는다(후보 수백).
+    # 전체종목 신호(점수순 최대 30·기준 50점, 관심종목 제외). 비신호는 관찰에 넣지 않는다(후보 수백).
     mk_cand.sort(key=lambda x: x[4], reverse=True)
     market_signals = []
     mrank = 0
     for item, price, change, ind, sc in mk_cand:
         change = kr_chg_map.get(item.get("code", ""), change)  # 네이버 권위값 우선
-        if sc >= cutoff and mrank < 30:
+        if sc >= 50 and mrank < 30:  # 전체종목은 50점(관심종목 55보다 완화)
             sig = build_signal(mrank + 1, item, price, change, ind, hold_cap,
                                tuning, score=sc, cutoff=cutoff)
             if not sig.get("reachable", True):
