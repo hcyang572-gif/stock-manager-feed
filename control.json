@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updated_at": "2026-06-18T22:39:20+09:00",
+  "updated_at": "2026-06-18T22:39:24+09:00",
   "updated_by": "app",
   "engine": {
     "analysis_enabled": true,
@@ -86,9 +86,23 @@
     "surge_enabled": true,
     "surge_threshold": 3.0,
     "surge_window": 10,
-    "hold_enabled": false,
+    "hold_enabled": true,
     "hold_loss_pct": 5.0,
     "mom_enabled": false,
     "mom_threshold": 1.5
-  }
+  },
+  "holdings_watch": [
+    {
+      "code": "034730",
+      "market": "KR",
+      "name": "SK",
+      "entry": 688000.0
+    },
+    {
+      "code": "012450",
+      "market": "KR",
+      "name": "한화에어로스페이스",
+      "entry": 1105000.0
+    }
+  ]
 }
