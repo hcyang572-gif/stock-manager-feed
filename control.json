@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updated_at": "2026-06-18T08:17:45+09:00",
+  "updated_at": "2026-06-18T09:39:29+09:00",
   "updated_by": "app",
   "engine": {
     "analysis_enabled": true,
@@ -68,6 +68,11 @@
       "code": "086790",
       "name": "하나금융지주",
       "market": "KR"
+    },
+    {
+      "code": "034730",
+      "name": "SK",
+      "market": "KR"
     }
   ],
   "run_requested_at": "2026-06-17T20:15:09+09:00",
@@ -79,11 +84,11 @@
     "lv_target1": true,
     "lv_target2": true,
     "surge_enabled": true,
+    "hold_enabled": false,
+    "mom_enabled": false,
     "surge_threshold": 3.0,
     "surge_window": 10,
-    "hold_enabled": false,
     "hold_loss_pct": 5.0,
-    "mom_enabled": false,
     "mom_threshold": 1.5
   }
 }
