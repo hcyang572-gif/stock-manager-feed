@@ -371,7 +371,7 @@ def _naver_rank_rows(mk, pages=5):
     return rows
 
 
-def build_universe(market_targets, top_per_market=60):
+def build_universe(market_targets, top_per_market=100):
     """네이버 거래대금 상위로 시장별 유니버스 [{code,name,market,_mk}] 반환.
     네이버 모바일 시총 랭킹 API(여러 페이지)에서 **보통주만** 추려 당일 거래대금
     순으로 top_per_market 선정한다. 종목명·코드를 네이버 실측으로 받아 정합성을
