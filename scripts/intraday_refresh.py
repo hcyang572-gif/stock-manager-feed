@@ -550,7 +550,9 @@ def main():
         idxs = fetch_kr_indices_naver()
         if idxs:
             idx_src = "네이버"
+    idx_fetched = False  # 이번 실행에서 지수를 실측으로 받았나(받았으면 신선도 갱신 보장)
     if idxs:
+        idx_fetched = True
         # 이번에 못 받은 지수는 직전 값을 유지(누락으로 사라지지 않게).
         old_list = (feed.get("kr_context") or {}).get("indices") or []
         old_by = {x.get("symbol"): x for x in old_list}
@@ -574,11 +576,15 @@ def main():
     src_log = " ".join(f"{s}:{n}" for s, n in src_count.items()) or "없음"
     if miss:
         print(f"[intraday] 시세 미확보: {', '.join(miss)}")
-    if changed == 0:
+    # ★정합성 신선도 보장(INC-007)★ 지수를 실측했으면 종목 가격이 안 변했어도
+    # market_state.korea / kr_context.asof 를 반드시 신선화·기록한다. 이전엔 종목
+    # changed==0 이면 여기서 early-return 해 메모리상 갱신한 지수/시장상태가 통째로
+    # 버려졌고(파일 미기록), 결국 market_state.korea 가 며칠씩 옛 시각에 멈췄다.
+    if changed == 0 and not idx_fetched:
         print(f"[intraday] 변경 없음 @ {now_iso} (force={force}, 소스 {src_log})")
         return 0
 
-    # 변경 있을 때만 시각·시장상태 갱신.
+    # 변경 또는 지수 실측 시 시각·시장상태 갱신.
     korea = feed.setdefault("market_state", {}).setdefault("korea", {})
     basis_by_session = {
         "pre": "장전 NXT 프리마켓(08:00~09:00, 10분 자동갱신)",
@@ -591,6 +597,9 @@ def main():
     korea["basis"] = basis_by_session.get(session_key, "")
     korea["session"] = session_key
     korea["asof"] = now_iso
+    # 예약/전체 분석 시각(analyzed_at)은 시세 갱신에 덮어쓰지 않는다(앱 '예약분석 경과'
+    # 표기용). 아직 없으면(구버전 feed) 직전 generated_at 으로 1회 보정한다.
+    feed.setdefault("analyzed_at", feed.get("generated_at", now_iso))
     feed["generated_at"] = now_iso
 
     FEED_PATH.write_text(

@@ -1086,10 +1086,33 @@ def fetch_kr_context_naver():
     if not indices:
         return None
     now = datetime.datetime.now(KST).replace(microsecond=0, second=0)
+    # ★정합성 self-heal★ market_state.korea(status/basis/asof)도 같은 네이버 실측에서
+    # 함께 산출한다 — 이 블록은 intraday_refresh 만 갱신해 왔는데, GitHub cron 스킵으로
+    # 장중 한 번도 못 돌면 며칠씩 옛 시각에 멈췄다(2026-06-19 market_state.korea 가
+    # 06-17 13:28 에 고정된 사고). analyze 는 예약·온디맨드로 안정적으로 돌므로 여기서
+    # 항상 신선화한다. 세션은 ms=OPEN(정규장) + KST 창(08:00~20:00 NXT)으로 판정.
+    minutes = now.hour * 60 + now.minute
+    in_window = (8 * 60) <= minutes <= (20 * 60) and now.weekday() < 5
+    if open_any:
+        st_status, st_session = "open", "regular"
+        st_basis = "정규장 실시간(네이버 지수 실측)"
+    elif in_window and (8 * 60) <= minutes < (9 * 60):
+        st_status, st_session = "pre", "pre"
+        st_basis = "장전 NXT 프리마켓(08:00~09:00, 네이버 지수 실측)"
+    elif in_window and (15 * 60 + 30) < minutes <= (20 * 60):
+        st_status, st_session = "post", "after"
+        st_basis = "장후 NXT 애프터마켓(15:30~20:00, 네이버 지수 실측)"
+    else:
+        st_status, st_session = "closed", "closed"
+        st_basis = "전일 종가(장 마감)"
     return {"asof": now.isoformat(),
-            "session": "regular" if open_any else "closed",
+            "session": "regular" if open_any else st_session,
             "stale": False,  # 방금 네이버 실측 — 신선(앱 신선도 게이트용 boolean)
-            "indices": indices}
+            "indices": indices,
+            # 호출 측(main)이 feed['market_state']['korea'] 에 적용한다(아래 _ms 키는
+            # kr_context 본문에는 싣지 않고 main 에서 분리해 쓴다).
+            "_market_state_korea": {"status": st_status, "basis": st_basis,
+                                    "session": st_session, "asof": now.isoformat()}}
 
 
 def fetch_us_context():
@@ -1612,6 +1635,10 @@ def main():
         "schema_version": "1.0",
         "date": now.strftime("%Y-%m-%d"),
         "generated_at": now_iso,
+        # analyzed_at = 신호를 새로 산출한 '전체(예약) 분석' 시각. generated_at 은
+        # 장중 시세갱신(intraday_refresh)마다 now 로 덮어써지므로, 앱의 '예약분석 경과'
+        # 표기는 이 필드를 쓴다(intraday_refresh 가 보존). 분석 직후엔 둘이 같다.
+        "analyzed_at": now_iso,
         "horizon_hours": hold_cap,
         "data_source": f"온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 수급(외국인·기관) + 재무(PER·PBR) + 미국증시 전일 환경 보정 · 분석 범위: {scan_label}. 뉴스/촉매는 ‘뉴스도 함께’에서만.",
         "market_state": feed.get("market_state", {"korea": {"status": "closed"}, "us": {"status": "closed"}}),
@@ -1649,9 +1676,17 @@ def main():
     # 멈추던 문제 방지(2026-06-17 코스피 8545(+5.2%) stale 사고). 부호는 rf 로 확정.
     krc = fetch_kr_context_naver()
     if krc:
+        # market_state.korea self-heal 분 — kr_context 본문에는 싣지 않는다.
+        ms_korea = krc.pop("_market_state_korea", None)
         old = feed.get("kr_context") or {}
         old.update(krc)  # 다른 필드 보존, 지수·asof·session 만 갱신.
         feed["kr_context"] = old
+        # ★정합성 self-heal★ market_state.korea(status/basis/asof)도 방금 실측한
+        # 신선값으로 갱신 — intraday_refresh cron 스킵으로 며칠 멈추던 사고 방지.
+        if ms_korea:
+            ms = feed.setdefault("market_state", {})
+            ms_k = ms.setdefault("korea", {})
+            ms_k.update(ms_korea)
         print(f"[analyze] KR 지수 갱신: "
               f"{[(i['name'], i['change_pct']) for i in krc['indices']]}")
 

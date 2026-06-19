@@ -79,6 +79,19 @@ def verify_feed(feed, now=None):
     _check_ctx("us_context", feed.get("us_context"))
     _check_ctx("kr_context", feed.get("kr_context"))
 
+    # ★INC-007★ market_state.korea.asof 신선도 — 이 블록은 intraday_refresh 만
+    # 갱신해 왔는데 GitHub cron 스킵 시 며칠씩 옛 시각에 멈췄다(2026-06-19: korea
+    # status=open 인데 asof 가 06-17 13:28). kr_context 만 검사하면 못 잡으므로
+    # 여기서 market_state.{korea,us}.asof 도 같은 신선도 규칙으로 검사한다.
+    for mk in ("korea", "us"):
+        st = (feed.get("market_state") or {}).get(mk) or {}
+        asof = _parse_date(st.get("asof"))
+        status = str(st.get("status") or "")
+        # us 는 KR 전용 빌드에서 asof=null/closed 가 정상이므로 asof 가 있을 때만 검사.
+        if asof and (last_bd - asof).days > 1:
+            warn.append(f"market_state.{mk} asof {asof} 가 마지막 영업일"
+                        f"({last_bd})보다 과거(신선도, status={status})")
+
     # bigtech (미국 종목)
     bt = (feed.get("us_context") or {}).get("bigtech") or []
     for q in bt:
