@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0",
   "date": "2026-06-19",
-  "generated_at": "2026-06-19T13:30:00+09:00",
+  "generated_at": "2026-06-19T15:07:00+09:00",
   "horizon_hours": 48,
   "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 수급(외국인·기관) + 재무(PER·PBR) + 미국증시 전일 환경 보정 · 분석 범위: 통합 분석 — 관심종목(0 신호) + 전체종목 거래대금 상위(KOSPI, 2 신호). 뉴스/촉매는 ‘뉴스도 함께’에서만.",
   "market_state": {
     "korea": {
       "status": "open",
       "basis": "정규장 실시간(네이버 지수 실측)",
-      "asof": "2026-06-19T13:31:00+09:00",
+      "asof": "2026-06-19T15:08:00+09:00",
       "session": "regular"
     },
     "us": {
@@ -21,67 +21,65 @@
     "signal_count": 2,
     "observation_count": 10,
     "position_count": 0,
-    "top_signal": "NC",
-    "headline": "기술 분석 갱신(06-19 13:30 KST) — 차트·거래량·변동성 기준 2개 신호. 뉴스 미반영이니 진입 전 재료 확인."
+    "top_signal": "현대글로비스",
+    "headline": "기술 분석 갱신(06-19 15:07 KST) — 차트·거래량·변동성 기준 2개 신호. 뉴스 미반영이니 진입 전 재료 확인."
   },
   "signals": [
     {
       "rank": 1,
-      "name": "NC",
-      "code": "036570",
+      "name": "현대글로비스",
+      "code": "086280",
       "market": "KR",
       "direction": "long",
-      "confidence": "mid",
-      "price": 278000.0,
+      "confidence": "low",
+      "price": 216000.0,
       "currency": "KRW",
-      "entry": 278000.0,
-      "entry_type": "now",
-      "entry_note": "기술 점수 상위·돌파 상회. 현재가(278,000) 부근 즉시 진입 가능, 거래량 확인.",
-      "stop": 256000,
-      "target1": 304000,
-      "target2": 321500,
-      "rr": 1.18,
-      "atr_pct": 7.86,
+      "entry": 218500.0,
+      "entry_type": "breakout",
+      "entry_note": "218,500 돌파 + 거래량 동반 시 진입(미돌파 시 미진입). 추격금지.",
+      "stop": 209000,
+      "target1": 234000,
+      "target2": 244500,
+      "rr": 1.63,
+      "atr_pct": 5.98,
       "hold_cap_hours": 48,
       "weight_pct": 13,
-      "vol_surge": 0.86,
-      "foreign_net": 107927.0,
-      "inst_net": -54538.0,
+      "vol_surge": 0.94,
+      "foreign_net": 140119.0,
+      "inst_net": -71042.0,
       "supply_days": 5,
       "combo_winrate": 0.54,
       "combo_sample": 991,
       "combo_lift": 0.064,
-      "stop_pct": 7.9,
-      "est_loss_pct": 1.0,
+      "stop_pct": 4.3,
+      "est_loss_pct": 0.56,
       "catalyst_verified": false,
-      "change_pct": 6.58,
-      "evidence": "기술 분석(뉴스 미확인) — 강세 마감(종가위치 79.5%), 변동성 돌파 상회, 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매도. ATR 7.86%·5일모멘텀 5.7%.",
+      "change_pct": 2.83,
+      "evidence": "기술 분석(뉴스 미확인) — 강세 마감(종가위치 73.7%), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매도. ATR 5.98%·5일모멘텀 3.6%.",
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
-        "현재가가 20일선(MA20) 위 +8",
-        "강세 마감(종가위치 79.5%) +14",
-        "변동성 돌파선 상회 +14",
-        "5일 모멘텀 +5.7% (양) +8",
+        "강세 마감(종가위치 73.7%) +14",
+        "5일 모멘텀 +3.6% (양) +8",
         "미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%)",
         "외국인 순매수(최근 5일) +14",
         "기관 순매도(최근 5일) -11",
-        "PER 12.97 저평가 +5",
+        "PER 9.71 저평가 +5",
         "조합 보정(과거 승률 54.0%·표본 991) +2"
       ],
       "risk_notes": [
         "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
-        "비중 13%는 위험균등 산정 — 손절(7.9%) 도달 시 자본 약 1.0% 손실 수준(위험 1.0%/트레이드 기준).",
+        "비중 13%는 위험균등 산정 — 손절(4.3%) 도달 시 자본 약 0.56% 손실 수준(위험 1.0%/트레이드 기준).",
         "목표1 도달 시 손절을 본전으로 올려 이익 보호 · 보유 48h 경과 시 잔여 청산."
       ],
       "tags": [
         "기술분석",
         "온디맨드",
-        "즉시진입"
+        "돌파대기"
       ],
       "group": "market",
-      "score": 100,
-      "catalyst": "뚜렷한 촉매 없음 — 온라인 게임 부문 신작 포트폴리오 검증 국면. 최근 48시간 내 개별 뉴스 없음."
+      "score": 82,
+      "catalyst": "뚜렷한 촉매 없음 — 물류 및 운송 사업 정상화. 최근 48시간 내 개별 뉴스 없음."
     },
     {
       "rank": 2,
@@ -90,39 +88,39 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 10680.0,
+      "price": 10670.0,
       "currency": "KRW",
       "entry": 10880.0,
       "entry_type": "breakout",
       "entry_note": "10,880 돌파 + 거래량 동반 시 진입(미돌파 시 미진입). 추격금지.",
-      "stop": 10680,
+      "stop": 10650,
       "target1": 11120,
-      "target2": 11270,
-      "rr": 1.2,
-      "atr_pct": 1.84,
+      "target2": 11280,
+      "rr": 1.04,
+      "atr_pct": 1.86,
       "hold_cap_hours": 48,
       "weight_pct": 13,
-      "vol_surge": 1.15,
+      "vol_surge": 1.46,
       "foreign_net": 234655.0,
       "inst_net": 448718.0,
       "supply_days": 5,
-      "stop_pct": 1.8,
-      "est_loss_pct": 0.23,
+      "stop_pct": 2.1,
+      "est_loss_pct": 0.27,
       "catalyst_verified": false,
       "change_pct": -1.39,
-      "evidence": "기술 분석(뉴스 미확인) — 윗꼬리/분배(종가위치 0.0%), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매수. ATR 1.84%·5일모멘텀 -3.52%.",
+      "evidence": "기술 분석(뉴스 미확인) — 윗꼬리/분배(종가위치 9.5%), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매수. ATR 1.86%·5일모멘텀 -3.61%.",
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
-        "거래량 양호 1.15배 +7",
-        "윗꼬리/분배(종가위치 0.0%) -12",
+        "거래량 양호 1.46배 +7",
+        "윗꼬리/분배(종가위치 9.5%) -12",
         "미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%)",
         "외국인 순매수(최근 5일) +14",
         "기관 순매수(최근 5일) +11"
       ],
       "risk_notes": [
         "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
-        "비중 13%는 위험균등 산정 — 손절(1.8%) 도달 시 자본 약 0.23% 손실 수준(위험 1.0%/트레이드 기준).",
+        "비중 13%는 위험균등 산정 — 손절(2.1%) 도달 시 자본 약 0.27% 손실 수준(위험 1.0%/트레이드 기준).",
         "목표1 도달 시 손절을 본전으로 올려 이익 보호 · 보유 48h 경과 시 잔여 청산."
       ],
       "tags": [
@@ -139,171 +137,168 @@
       "name": "삼성전자",
       "code": "005930",
       "market": "KR",
-      "price": 356500.0,
+      "price": 352500.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -2.28,
-      "vol_surge": 0.81,
+      "change_pct": -0.28,
+      "vol_surge": 1.04,
       "foreign_net": 1448510.0,
       "inst_net": 7743185.0,
       "supply_days": 5,
-      "combo_winrate": 0.547,
-      "combo_sample": 928,
-      "combo_lift": 0.071,
-      "reason": "기술 점수 100/100 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 정배열(MA5>MA20), 윗꼬리/분배(종가위치 26.5%), RSI 58.7(상승), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매수. ATR 7.12%."
+      "combo_winrate": 0.543,
+      "combo_sample": 849,
+      "combo_lift": 0.067,
+      "reason": "기술 점수 100/100 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 정배열(MA5>MA20), 윗꼬리/분배(종가위치 22.1%), RSI 57.7(상승), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매수. ATR 7.27%."
     },
     {
       "name": "SK하이닉스",
       "code": "000660",
       "market": "KR",
-      "price": 2758000.0,
+      "price": 2737000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 3.02,
-      "vol_surge": 0.8,
+      "change_pct": 3.82,
+      "vol_surge": 1.04,
       "foreign_net": 1205850.0,
       "inst_net": 513907.0,
       "supply_days": 5,
-      "combo_winrate": 0.547,
-      "combo_sample": 928,
-      "combo_lift": 0.071,
-      "reason": "기술 점수 100/100 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 정배열(MA5>MA20), RSI 62.8(상승), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매수. ATR 6.82%."
+      "combo_winrate": 0.543,
+      "combo_sample": 849,
+      "combo_lift": 0.067,
+      "reason": "기술 점수 100/100 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 정배열(MA5>MA20), 윗꼬리/분배(종가위치 24.1%), RSI 62.3(상승), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매수. ATR 6.88%."
     },
     {
       "name": "SK",
       "code": "034730",
       "market": "KR",
-      "price": 714000.0,
+      "price": 711000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 3.49,
-      "vol_surge": 1.1,
+      "change_pct": 5.39,
+      "vol_surge": 1.47,
       "foreign_net": 63478.0,
       "inst_net": 36411.0,
       "supply_days": 5,
       "combo_winrate": 0.543,
       "combo_sample": 849,
       "combo_lift": 0.067,
-      "reason": "기술 점수 100/100 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 정배열(MA5>MA20), 윗꼬리/분배(종가위치 17.3%), RSI 55.5(상승), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매수. ATR 7.4%."
+      "reason": "기술 점수 100/100 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 정배열(MA5>MA20), 윗꼬리/분배(종가위치 17.9%), RSI 55.1(상승), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매수. ATR 7.43%."
+    },
+    {
+      "name": "한화에어로스페이스",
+      "code": "012450",
+      "market": "KR",
+      "price": 1107000.0,
+      "currency": "KRW",
+      "watch_trigger": null,
+      "change_pct": -6.39,
+      "vol_surge": 0.94,
+      "foreign_net": 37598.0,
+      "inst_net": 24342.0,
+      "supply_days": 5,
+      "combo_winrate": 0.547,
+      "combo_sample": 928,
+      "combo_lift": 0.071,
+      "reason": "기술 점수 99/100 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 정배열(MA5>MA20), 윗꼬리/분배(종가위치 11.6%), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매수. ATR 7.47%."
     },
     {
       "name": "LS ELECTRIC",
       "code": "010120",
       "market": "KR",
-      "price": 249000.0,
+      "price": 248500.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 2.38,
-      "vol_surge": 1.82,
+      "change_pct": 5.17,
+      "vol_surge": 2.04,
       "foreign_net": 809561.0,
       "inst_net": -1216585.0,
       "supply_days": 5,
       "combo_winrate": 0.501,
       "combo_sample": 475,
       "combo_lift": 0.025,
-      "reason": "기술 점수 99/100 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 정배열(MA5>MA20), 거래량 급증 1.82x, 윗꼬리/분배(종가위치 15.4%), RSI 52.0(상승), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매도. ATR 10.18%."
+      "reason": "기술 점수 99/100 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 정배열(MA5>MA20), 거래량 급증 2.04x, 윗꼬리/분배(종가위치 13.8%), RSI 51.9(상승), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매도. ATR 10.2%."
     },
     {
       "name": "삼성전자우",
       "code": "005935",
       "market": "KR",
-      "price": 222500.0,
+      "price": 221000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -3.06,
-      "vol_surge": 0.7,
+      "change_pct": -1.64,
+      "vol_surge": 0.88,
       "foreign_net": 954400.0,
       "inst_net": -227661.0,
       "supply_days": 5,
       "combo_winrate": 0.54,
       "combo_sample": 991,
       "combo_lift": 0.064,
-      "reason": "기술 점수 98/100 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 정배열(MA5>MA20), 윗꼬리/분배(종가위치 19.4%), RSI 57.5(상승), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매도. ATR 7.39%."
-    },
-    {
-      "name": "한화에어로스페이스",
-      "code": "012450",
-      "market": "KR",
-      "price": 1117000.0,
-      "currency": "KRW",
-      "watch_trigger": null,
-      "change_pct": -6.39,
-      "vol_surge": 0.51,
-      "foreign_net": 37598.0,
-      "inst_net": 24342.0,
-      "supply_days": 5,
-      "combo_winrate": 0.43,
-      "combo_sample": 251,
-      "combo_lift": -0.046,
-      "reason": "기술 점수 88/100 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 정배열(MA5>MA20), 거래량 위축 0.51x, 윗꼬리/분배(종가위치 0.0%), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매수. ATR 7.26%."
+      "reason": "기술 점수 98/100 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 정배열(MA5>MA20), 윗꼬리/분배(종가위치 20.0%), RSI 56.8(상승), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매도. ATR 7.51%."
     },
     {
       "name": "삼성바이오로직스",
       "code": "207940",
       "market": "KR",
-      "price": 1362000.0,
+      "price": 1355000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -4.97,
-      "vol_surge": 0.86,
+      "change_pct": -4.9,
+      "vol_surge": 1.11,
       "foreign_net": 44268.0,
       "inst_net": -28268.0,
       "supply_days": 5,
-      "combo_winrate": 0.54,
-      "combo_sample": 991,
-      "combo_lift": 0.064,
-      "reason": "기술 점수 85/100 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 정배열(MA5>MA20), 윗꼬리/분배(종가위치 8.0%), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매도. ATR 4.81%."
+      "combo_winrate": 0.525,
+      "combo_sample": 765,
+      "combo_lift": 0.049,
+      "reason": "기술 점수 91/100 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 정배열(MA5>MA20), 윗꼬리/분배(종가위치 9.3%), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매도. ATR 4.88%."
     },
     {
       "name": "NAVER",
       "code": "035420",
       "market": "KR",
-      "price": 229000.0,
+      "price": 226500.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -3.19,
-      "vol_surge": 0.35,
+      "change_pct": -2.13,
+      "vol_surge": 0.44,
       "foreign_net": 947762.0,
       "inst_net": 452662.0,
       "supply_days": 5,
       "combo_winrate": 0.43,
       "combo_sample": 251,
       "combo_lift": -0.046,
-      "reason": "기술 점수 80/100 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 정배열(MA5>MA20), 거래량 위축 0.35x, 윗꼬리/분배(종가위치 15.4%), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매수. ATR 13.37%."
+      "reason": "기술 점수 80/100 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 정배열(MA5>MA20), 거래량 위축 0.44x, 윗꼬리/분배(종가위치 11.6%), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매수. ATR 13.58%."
     },
     {
       "name": "두산에너빌리티",
       "code": "034020",
       "market": "KR",
-      "price": 95300.0,
+      "price": 95600.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -4.52,
-      "vol_surge": 0.86,
+      "change_pct": -2.51,
+      "vol_surge": 1.09,
       "foreign_net": -1985361.0,
       "inst_net": 190453.0,
       "supply_days": 5,
-      "combo_winrate": 0.465,
-      "combo_sample": 241,
-      "combo_lift": -0.011,
-      "reason": "기술 점수 40/100 — 조건 미충족(관망). 윗꼬리/분배(종가위치 10.8%), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매도, 기관 순매수. ATR 7.3%."
+      "reason": "기술 점수 47/100 — 조건 미충족(관망). 윗꼬리/분배(종가위치 17.1%), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매도, 기관 순매수. ATR 7.29%."
     },
     {
       "name": "LG에너지솔루션",
       "code": "373220",
       "market": "KR",
-      "price": 399500.0,
+      "price": 394500.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -0.75,
-      "vol_surge": 0.54,
+      "change_pct": -0.13,
+      "vol_surge": 0.71,
       "foreign_net": 262031.0,
       "inst_net": -120331.0,
       "supply_days": 5,
-      "combo_winrate": 0.421,
-      "combo_sample": 404,
-      "combo_lift": -0.055,
-      "reason": "기술 점수 35/100 — 조건 미충족(관망). 거래량 위축 0.54x, 윗꼬리/분배(종가위치 10.0%), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매도. ATR 7.08%."
+      "combo_winrate": 0.512,
+      "combo_sample": 365,
+      "combo_lift": 0.036,
+      "reason": "기술 점수 46/100 — 조건 미충족(관망). 윗꼬리/분배(종가위치 11.3%), 미국증시 환경 +8 (전일 S&P+1.08%·나스닥+1.91%·SOX+6.42%), 외국인 순매수, 기관 순매도. ATR 7.28%."
     }
   ],
   "positions": [],
@@ -327,7 +322,7 @@
   ],
   "disclaimer": "본 산출물은 투자 참고용이며 매수·매도를 보장하지 않습니다. 실주문은 사용자가 증권사 앱에서 직접 판단·실행합니다(자동주문 없음). 수치 날조 없이 실측·발간 시점 기준이며, 시세 미확보 종목은 관망 처리합니다. 투자 손실에 대한 책임은 투자자 본인에게 있습니다.",
   "us_context": {
-    "asof": "2026-06-18",
+    "asof": "2026-06-17",
     "basis": "미국 정규장 종가(야후 실측)",
     "session": "closed",
     "live": false,
@@ -340,7 +335,7 @@
         "symbol": "^IXIC",
         "price": 26517.93,
         "change_pct": 1.91,
-        "asof": "2026-06-18",
+        "asof": "2026-06-17",
         "live": false
       },
       {
@@ -348,7 +343,7 @@
         "symbol": "^GSPC",
         "price": 7500.58,
         "change_pct": 1.08,
-        "asof": "2026-06-18",
+        "asof": "2026-06-17",
         "live": false
       },
       {
@@ -356,7 +351,7 @@
         "symbol": "^DJI",
         "price": 51564.7,
         "change_pct": 0.14,
-        "asof": "2026-06-18",
+        "asof": "2026-06-17",
         "live": false
       },
       {
@@ -364,7 +359,7 @@
         "symbol": "^SOX",
         "price": 14341.78,
         "change_pct": 6.42,
-        "asof": "2026-06-18",
+        "asof": "2026-06-17",
         "live": false
       }
     ],
@@ -374,7 +369,7 @@
         "symbol": "NVDA",
         "price": 210.69,
         "change_pct": 2.13,
-        "asof": "2026-06-18",
+        "asof": "2026-06-17",
         "live": false
       },
       {
@@ -382,7 +377,7 @@
         "symbol": "MU",
         "price": 1133.99,
         "change_pct": 5.22,
-        "asof": "2026-06-18",
+        "asof": "2026-06-17",
         "live": false
       },
       {
@@ -390,7 +385,7 @@
         "symbol": "AVGO",
         "price": 411.35,
         "change_pct": 3.27,
-        "asof": "2026-06-18",
+        "asof": "2026-06-17",
         "live": false
       },
       {
@@ -398,7 +393,7 @@
         "symbol": "AAPL",
         "price": 298.01,
         "change_pct": 0.29,
-        "asof": "2026-06-18",
+        "asof": "2026-06-17",
         "live": false
       },
       {
@@ -406,7 +401,7 @@
         "symbol": "MSFT",
         "price": 379.4,
         "change_pct": -0.75,
-        "asof": "2026-06-18",
+        "asof": "2026-06-17",
         "live": false
       },
       {
@@ -414,7 +409,7 @@
         "symbol": "GOOGL",
         "price": 368.03,
         "change_pct": 0.65,
-        "asof": "2026-06-18",
+        "asof": "2026-06-17",
         "live": false
       },
       {
@@ -422,7 +417,7 @@
         "symbol": "AMZN",
         "price": 244.39,
         "change_pct": 2.08,
-        "asof": "2026-06-18",
+        "asof": "2026-06-17",
         "live": false
       },
       {
@@ -430,7 +425,7 @@
         "symbol": "META",
         "price": 577.22,
         "change_pct": 0.46,
-        "asof": "2026-06-18",
+        "asof": "2026-06-17",
         "live": false
       },
       {
@@ -438,33 +433,33 @@
         "symbol": "TSLA",
         "price": 400.49,
         "change_pct": 0.69,
-        "asof": "2026-06-18",
+        "asof": "2026-06-17",
         "live": false
       }
     ]
   },
   "kr_context": {
-    "asof": "2026-06-19T13:31:00+09:00",
+    "asof": "2026-06-19T15:08:00+09:00",
     "basis": "한국 지수(네이버 실측)",
     "session": "regular",
     "indices": [
       {
         "name": "코스피",
         "symbol": "KOSPI",
-        "price": 8986.42,
-        "change_pct": -0.85
+        "price": 9124.09,
+        "change_pct": 0.66
       },
       {
         "name": "코스닥",
         "symbol": "KOSDAQ",
-        "price": 952.93,
-        "change_pct": -4.8
+        "price": 966.12,
+        "change_pct": -3.48
       },
       {
         "name": "코스피200",
         "symbol": "KOSPI200",
-        "price": 1450.56,
-        "change_pct": -0.59
+        "price": 1473.77,
+        "change_pct": 1.0
       }
     ],
     "stale": false
@@ -477,11 +472,13 @@
     "adj": 8.0
   },
   "integrity": {
-    "checked_at": "2026-06-19T13:30:00+09:00",
+    "checked_at": "2026-06-19T15:07:00+09:00",
     "critical": [],
-    "warn": []
+    "warn": [
+      "us_context asof 2026-06-17 가 마지막 영업일(2026-06-19)보다 과거(신선도)"
+    ]
   },
-  "analyzed_at": "2026-06-19T13:30:00+09:00",
+  "analyzed_at": "2026-06-19T15:07:00+09:00",
   "catalyst": {
     "asof": "2026-06-19T09:53:00+09:00",
     "verified": true,
