@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updated_at": "2026-06-21T02:53:44+09:00",
+  "updated_at": "2026-06-21T03:11:56+09:00",
   "updated_by": "app",
   "engine": {
     "analysis_enabled": true,
@@ -89,31 +89,11 @@
     "lv_target1": true,
     "lv_target2": true,
     "surge_enabled": true,
-    "hold_enabled": true,
-    "mom_enabled": true,
     "surge_threshold": 3.0,
     "surge_window": 10,
-    "hold_loss_pct": 4.0,
+    "hold_enabled": false,
+    "hold_loss_pct": 5.0,
+    "mom_enabled": false,
     "mom_threshold": 1.5
-  },
-  "holdings_watch": [
-    {
-      "code": "010120",
-      "market": "KR",
-      "name": "LS ELECTRIC",
-      "entry": 266000.0
-    },
-    {
-      "code": "373220",
-      "market": "KR",
-      "name": "LG에너지솔루션",
-      "entry": 413500.0
-    },
-    {
-      "code": "005935",
-      "market": "KR",
-      "name": "삼성전자우",
-      "entry": 232500.0
-    }
-  ]
+  }
 }
