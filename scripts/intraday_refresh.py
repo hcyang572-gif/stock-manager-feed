@@ -472,6 +472,70 @@ def fetch_quote(code, market, session_key, session_label, now_iso):
     return (p, "yahoo", None, None) if p is not None else (None, None, None, None)
 
 
+def _to_int(v):
+    """쉼표 포함 숫자 문자열 → int. 실패 시 None."""
+    try:
+        return int(str(v).replace(",", "").strip())
+    except (TypeError, ValueError):
+        return None
+
+
+def fetch_ask_ratio_kis(code, cfg, token):
+    """KIS 호가 API(inquire-asking-price-exp-ccn)로 매수/매도호가 총잔량을 조회해
+    매수비중(ask_ratio, 0~1)을 계산한다. 반환 (bid_rem, ask_rem, ask_ratio) 또는 None.
+
+    ★정합성★ 합이 0이거나 비율이 0~1 밖이면 데이터 오류로 폐기(None) — 날조 금지.
+    호가는 장중에만 유효하므로 호출부(fetch_ask_ratio)가 장중에만 부른다.
+    토큰은 호출부가 넘긴 캐시 토큰만 사용 — 여기서 새로 발급하지 않는다.
+    """
+    tr_id = "FHKST01010200"  # 주식현재가 호가/예상체결(실전·모의 공통)
+    time.sleep(KIS_CALL_GAP)  # 초당 호출 제한 회피
+    params = urllib.parse.urlencode({
+        "FID_COND_MRKT_DIV_CODE": "J",
+        "FID_INPUT_ISCD": code,
+    })
+    req = urllib.request.Request(
+        f"{KIS_BASE}/uapi/domestic-stock/v1/quotations/"
+        f"inquire-asking-price-exp-ccn?{params}",
+        headers={
+            "Authorization": f"Bearer {token}",
+            "appkey": cfg["app_key"],
+            "appsecret": cfg["app_secret"],
+            "tr_id": tr_id,
+            "custtype": "P",
+        },
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=10) as r:
+            data = json.load(r)
+        o = data.get("output1", {}) or {}
+        bid = _to_int(o.get("total_bidp_rsqn"))  # 매수호가 총잔량
+        ask = _to_int(o.get("total_askp_rsqn"))  # 매도호가 총잔량
+        if bid is None or ask is None:
+            return None
+        tot = bid + ask
+        if tot <= 0:
+            return None  # 합 0(장 시작 전/데이터 없음) → 폐기
+        ratio = round(bid / tot, 4)  # 매수비중(>0.5=매수우위)
+        if not (0.0 <= ratio <= 1.0):
+            return None  # 이상치 폐기
+        return bid, ask, ratio
+    except Exception:
+        return None
+
+
+def fetch_ask_ratio(code, market, cfg, token, trading_open):
+    """호가 매수비중 조회 — KR·장중·KIS 토큰이 모두 있을 때만. 그 외 None(생략).
+    네이버 polling엔 호가 잔량 필드가 없어 KIS 호가 API로만 채운다."""
+    if (market or "KR").upper() != "KR":
+        return None
+    if not trading_open:
+        return None  # 마감 후엔 호가 무의미 → 생략(직전값도 쓰지 않음)
+    if not (cfg and token):
+        return None
+    return fetch_ask_ratio_kis(code, cfg, token)
+
+
 def main():
     global WINDOW_OPEN, WINDOW_CLOSE
     force = "--force" in sys.argv[1:]
@@ -509,6 +573,14 @@ def main():
     if kr_chg_naver:
         print(f"[intraday] KR 등락률 네이버 보정(rf 부호): {len(kr_chg_naver)}종목")
 
+    # ── 호가 매수/매도 잔량 비율(ask_ratio) ──────────────────────────────────
+    # 네이버 polling엔 호가 잔량이 없어 KIS 호가 API(캐시 토큰)로만 채운다. KR·장중·
+    # KIS 토큰이 모두 있을 때만 조회하고, 없음/합0/범위밖이면 생략(직전값도 제거 —
+    # 마감/미확보 시 스테일 호가 금지). 토큰은 캐시만 재사용(새 발급 없음).
+    kis_cfg_h, kis_tok_h = _ensure_kis()
+    ask_seen = {}
+    ask_n = 0
+
     for section in ("signals", "observations"):
         for item in feed.get(section, []):
             code = item.get("code", "")
@@ -536,6 +608,23 @@ def main():
                 item["ext"] = ext
             if chg is not None:
                 item["change_pct"] = round(chg, 2)
+            # 호가 매수비중(ask_ratio) — KR·장중·KIS 토큰 있을 때만. 그 외엔 직전값
+            # 제거(스테일 호가 금지). 종목당 1회만 조회(seen 캐시).
+            if key in ask_seen:
+                ar = ask_seen[key]
+            else:
+                ar = fetch_ask_ratio(code, market, kis_cfg_h, kis_tok_h, ok)
+                ask_seen[key] = ar
+            if ar is not None:
+                bid_rem, ask_rem, ratio = ar
+                item["ask_ratio"] = ratio
+                item["bid_rem"] = bid_rem
+                item["ask_rem"] = ask_rem
+                item["ask_ratio_asof"] = now_iso
+                ask_n += 1
+            else:
+                for k in ("ask_ratio", "bid_rem", "ask_rem", "ask_ratio_asof"):
+                    item.pop(k, None)
 
     # 한국 지수(코스피·코스닥·코스피200) 갱신 — 장중/장외 동안 실시간.
     # KIS(고정밀) 우선, 실패/미설정이면 **네이버 지수 폴백**으로 갱신한다(cron 누락·
