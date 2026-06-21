@@ -292,16 +292,56 @@ def _calc_indicators(closes, highs, lows, vols, opens):
 
 
 def daily_indicators(yahoo):
-    """yfinance 일봉(개별 호출)으로 지표 dict. 실패 시 None."""
+    """yfinance 일봉(개별 호출)으로 지표 dict + 5분봉 시계열(앱 차트용). 실패 시 None."""
     try:
         import yfinance as yf
         h = yf.Ticker(yahoo).history(period="80d", auto_adjust=False)
         if len(h) < 25:
             return None
-        return _calc_indicators(
+        ind = _calc_indicators(
             [float(x) for x in h["Close"]], [float(x) for x in h["High"]],
             [float(x) for x in h["Low"]], [float(x) for x in h["Volume"]],
             [float(x) for x in h["Open"]])
+        if ind is None:
+            return None
+        # ── 5분봉 시계열(최근 24거래시간, 앱 '최근 24시간 차트'용) ─────────────
+        # KR: tail 160봉(정규장 78봉/일 × 2일). US: tail 300봉(~3.7거래일).
+        # ★KR NXT 연장(08:00~09:00·15:30~20:00)은 yfinance prepost=False 미제공 →
+        #   정규장(09:00~15:30) 기준. ★정합성★ 빈 DF면 빈 리스트([])(null 금지).
+        is_kr = yahoo.endswith(".KS") or yahoo.endswith(".KQ")
+        i5_tail = 160 if is_kr else 300
+        try:
+            df5 = yf.Ticker(yahoo).history(period="5d", interval="5m",
+                                           prepost=False, auto_adjust=False)
+            rows5 = []
+            if df5 is not None and not df5.empty:
+                df5 = df5.tail(i5_tail)
+
+                def _sf(v):
+                    try:
+                        f = float(v)
+                        return None if f != f else round(f, 2)
+                    except Exception:
+                        return None
+
+                for idx, row in df5.iterrows():
+                    ts = idx
+                    if getattr(ts, "tzinfo", None) is None:
+                        try:
+                            ts = ts.tz_localize("UTC")
+                        except Exception:
+                            pass
+                    rows5.append([
+                        ts.isoformat(),
+                        _sf(row.get("Open")), _sf(row.get("High")),
+                        _sf(row.get("Low")), _sf(row.get("Close")),
+                        int(row.get("Volume", 0) or 0),
+                    ])
+            ind["intraday_5m"] = rows5
+        except Exception as ex:
+            print(f"[analyze] 5분봉 수집 실패({yahoo}): {ex}")
+            ind["intraday_5m"] = []
+        return ind
     except Exception:
         return None
 
@@ -431,6 +471,9 @@ def fetch_supply_finance(code):
     # 수급 — dealTrendInfos(최근 거래일별) 외국인·기관 순매수 수량 합.
     f_sum = o_sum = 0.0
     days = 0
+    # dealTrendInfos 는 최근 거래일이 첫 행(실측 확인). 첫 유효행을 1거래일 값으로 보존.
+    f_1d = o_1d = None
+    d1_date = None
     for row in d.get("dealTrendInfos") or []:
         f = _parse_num(row.get("foreignerPureBuyQuant"))
         o = _parse_num(row.get("organPureBuyQuant"))
@@ -438,11 +481,23 @@ def fetch_supply_finance(code):
             f_sum += f
         if o is not None:
             o_sum += o
+        if f_1d is None and o_1d is None and (f is not None or o is not None):
+            f_1d, o_1d = f, o
+            bz = str(row.get("bizdate") or "").strip()
+            if len(bz) == 8 and bz.isdigit():
+                d1_date = f"{bz[:4]}-{bz[4:6]}-{bz[6:]}"
         days += 1
     if days:
         out["for_sum"] = f_sum
         out["org_sum"] = o_sum
         out["sd_days"] = days
+        # 가장 최근 1거래일 외국인·기관 순매수(표시 부각용 — 점수엔 미반영).
+        if f_1d is not None:
+            out["for_1d"] = f_1d
+        if o_1d is not None:
+            out["org_1d"] = o_1d
+        if d1_date:
+            out["sd_1d_date"] = d1_date
     # 재무 — totalInfos 의 PER/PBR.
     for x in d.get("totalInfos") or []:
         if x.get("code") == "per":
@@ -835,6 +890,14 @@ def _supply_fields(sf):
         out["inst_net"] = round(float(sf["org_sum"]), 1)
     if out:
         out["supply_days"] = int(sf.get("sd_days", 5))
+        # ★최근 1거래일 부각★ 외국인·기관 순매수(주식수, 부호=방향). 점수엔 미반영,
+        # 표시 전용 — 5일 합산이 누적이라 '오늘 들어오는/나가는 흐름'을 별도 노출.
+        if sf.get("for_1d") is not None:
+            out["foreign_net_1d"] = round(float(sf["for_1d"]), 1)
+        if sf.get("org_1d") is not None:
+            out["inst_net_1d"] = round(float(sf["org_1d"]), 1)
+        if sf.get("sd_1d_date"):
+            out["supply_1d_date"] = sf["sd_1d_date"]
     return out
 
 
@@ -896,6 +959,8 @@ def build_signal(rank, item, price, change_pct, ind, hold_cap, tuning=None,
         "tags": ["기술분석", "온디맨드"] + (["돌파대기"] if etype == "breakout" else ["즉시진입"]),
         # 도달성(P0-3): 돌파 진입가가 현재가 +2.5% 초과면 False → 빌드 루프가 관찰 강등.
         "reachable": lv.get("reachable", True),
+        # 5분봉 시계열(앱 '최근 24시간 차트'용). 수집 실패 시 빈 리스트([]).
+        "intraday_5m": ind.get("intraday_5m", []),
     }
 
 
@@ -1489,12 +1554,43 @@ def fetch_kr_changes_naver(codes):
     return out
 
 
-def _observation(item, price, change, ind, sc, note=None):
-    """관찰(observations) 항목 dict — 신호와 같은 표시 필드 구성(매매계획만 없음).
-    note 가 있으면 강등 사유(예: 도달성 낮음)를 reason 앞에 붙인다."""
+def _tentative_plan(price, ind, hold_cap, tuning, score, cutoff):
+    """관찰종목용 '잠정(관찰) 매매계획' — 신호와 동일한 매매계획 코어(levels +
+    position_weight + 구간별 배수)를 재사용해 진입·손절·목표1/2·RR·비중을 산출한다.
+    실측 price·ATR 기반(날조 없음). 신호로 채택되지 않은 후보이므로 plan_tentative=True
+    로 표식해 앱이 '잠정'으로 구분한다. ind/price 가 비정상이면 빈 dict."""
+    try:
+        sm, t1m, t2m = effective_mults(tuning, score)
+        lv = levels(price, ind, hold_cap, sm, t1m, t2m)
+        entry, stop, risk = lv["entry"], lv["stop"], lv["risk"]
+        target1, target2 = lv["target1"], lv["target2"]
+        rr = round((target1 - entry) / risk, 2) if risk > 0 else 0
+        t = {**DEFAULT_TUNING, **(tuning or {})}
+        weight, stop_pct, est_loss = position_weight(entry, stop, score, cutoff, t)
+        if lv["etype"] == "breakout":
+            weight = int(max(t["min_weight_pct"], round(weight * 0.85)))
+            est_loss = round(weight * stop_pct / 100, 2)
+        return {
+            "plan_tentative": True,        # ★잠정(관찰) 표식 — 앱이 신호와 구분.
+            "entry": float(entry), "entry_type": lv["etype"],
+            "stop": stop, "target1": target1, "target2": target2,
+            "rr": rr, "atr_pct": ind["atr_pct"],
+            "weight_pct": weight, "stop_pct": stop_pct, "est_loss_pct": est_loss,
+            "hold_cap_hours": hold_cap,
+            "reachable": lv.get("reachable", True),
+        }
+    except Exception:
+        return {}
+
+
+def _observation(item, price, change, ind, sc, note=None,
+                 hold_cap=48, tuning=None, cutoff=55):
+    """관찰(observations) 항목 dict — 신호와 같은 표시 필드 + 잠정 매매계획.
+    note 가 있으면 강등 사유(예: 도달성 낮음)를 reason 앞에 붙인다.
+    hold_cap/tuning/cutoff 로 신호와 동일 방식의 잠정 진입·손절·목표를 채운다."""
     why = ", ".join(ind["_why"]) if ind.get("_why") else "뚜렷한 강세 신호 부족"
     head = f"기술 점수 {sc}점 — {note}" if note else f"기술 점수 {sc}점 — 조건 미충족(관망)"
-    return {
+    obs = {
         "name": item["name"], "code": item["code"], "market": "KR",
         "price": float(price), "currency": "KRW", "watch_trigger": None,
         "change_pct": round(change, 2) if change is not None else None,
@@ -1506,6 +1602,60 @@ def _observation(item, price, change, ind, sc, note=None):
         **_supply_fields(ind.get("_sf")),
         **_combo_fields(ind),
         "reason": f"{head}. {why}. ATR {ind['atr_pct']}%.",
+        # 5분봉 시계열(앱 '최근 24시간 차트'용, 관찰 종목도 포함).
+        "intraday_5m": ind.get("intraday_5m", []),
+    }
+    # ★잠정(관찰) 매매계획★ — 신호와 동일 코어로 진입/손절/목표/RR/비중 채움.
+    obs.update(_tentative_plan(price, ind, hold_cap, tuning, sc, cutoff))
+    return obs
+
+
+def build_watch_advice(signals, observations, regime, krc_session, universe_failed):
+    """신호탭 최상단 '관망 권고' 배너용 구조화 advice를 분석 결과로 생성한다.
+    앱이 이모지·항목으로 풍부히 렌더할 수 있게 구조(level/headline/bullets/action)를 준다.
+    날조 없음 — 모두 이번 분석의 실측 집계(신호 수·상위 점수·시장환경)에서 도출."""
+    n_sig = len(signals)
+    top = signals[0] if signals else None
+    top_score = top.get("_score") if top else None
+    regime_pct = (regime or {}).get("regime_pct")
+    bullets = []
+    if n_sig == 0:
+        level = "observe"
+        headline = "발굴된 매수 신호가 없습니다 — 관망 권고"
+        bullets.append("기술 조건을 통과한 종목이 없어 무리한 진입보다 대기를 권합니다.")
+    elif top_score is not None and top_score < 60:
+        level = "caution"
+        headline = f"신호 {n_sig}건이나 확신도 낮음 — 신중 접근"
+        bullets.append(f"최상위 점수 {top_score}점으로 약한 편 — 분할·소액부터 검토.")
+    else:
+        level = "normal"
+        headline = f"매수 신호 {n_sig}건 — 상위 후보 {top.get('name')}({top_score}점)"
+        bullets.append(f"최상위 {top.get('name')} {top_score}점 · 진입 전 재료·시초가 갭 확인.")
+    if regime_pct is not None:
+        if regime_pct <= -0.8:
+            bullets.append(f"전일 미국증시 약세({regime_pct:+g}%) — 위험회피 국면, 비중 보수적으로.")
+        elif regime_pct >= 0.8:
+            bullets.append(f"전일 미국증시 강세({regime_pct:+g}%) — 우호적이나 추격매수 경계.")
+        else:
+            bullets.append(f"전일 미국증시 보합({regime_pct:+g}%) — 종목 선별 중심.")
+    if krc_session in ("pre", "after"):
+        bullets.append("현재 NXT 연장(장전/장후) 시간 — 유동성 얇음, 호가 슬리피지 유의.")
+    if universe_failed:
+        bullets.append("전체종목 목록 일시 미확보 — 이번 회차는 관심종목 위주입니다.")
+    bullets.append("공통 유의: 뉴스/촉매 미반영(기술 신호만). 실주문은 본인 판단·실행.")
+    action = {
+        "observe": "관망 — 신규 진입 보류",
+        "caution": "신중 — 소액·분할 진입 검토",
+        "normal": "선별 진입 — 상위 후보 우선 검토",
+    }[level]
+    return {
+        "level": level,
+        "headline": headline,
+        "bullets": bullets,
+        "action": action,
+        "signal_count": n_sig,
+        "top_signal": (top.get("name") if top else None),
+        "top_score": top_score,
     }
 
 
@@ -1588,9 +1738,11 @@ def main():
             elif len(observations) < obs_cap:
                 # ★도달성 강등(P0-3)★ 돌파 진입가가 현재가 +2.5% 초과 → 관찰로.
                 observations.append(_observation(item, price, change, ind, sc,
-                    note="돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰"))
+                    note="돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰",
+                    hold_cap=hold_cap, tuning=tuning, cutoff=cutoff))
         elif len(observations) < obs_cap:
-            observations.append(_observation(item, price, change, ind, sc))
+            observations.append(_observation(item, price, change, ind, sc,
+                hold_cap=hold_cap, tuning=tuning, cutoff=cutoff))
 
     # 전체종목 신호(점수순 최대 30·기준 50점, 관심종목 제외). 비신호는 관찰에 넣지 않는다(후보 수백).
     mk_cand.sort(key=lambda x: x[4], reverse=True)
@@ -1623,6 +1775,10 @@ def main():
     feed.pop("catalyst", None)  # 일단 제거 후, 신선하면 reapply 가 되살린다.
 
     top = signals[0]["name"] if signals else (observations[0]["name"] if observations else None)
+    # 관망 권고(구조화) — 신호탭 최상단 배너용. signals 에 _score 가 살아있을 때 계산.
+    _krc_session = (feed.get("kr_context") or {}).get("session")
+    watch_advice = build_watch_advice(signals, observations, regime,
+                                      _krc_session, universe_failed)
     # 이번 분석이 실제로 본 범위(통합: 관심종목 + 전체종목 거래대금 상위).
     if universe_failed:
         scan_label = "통합 분석 — 관심종목 + 전체종목(시장 목록 확보 실패로 이번엔 전체종목 생략)"
@@ -1648,6 +1804,8 @@ def main():
         "market_state": feed.get("market_state", {"korea": {"status": "closed"}, "us": {"status": "closed"}}),
         # 시장 환경 보정(측정 가능한 미국증시만) — 앱이 방법론·투명성 표기에 쓸 수 있다.
         "market_regime": regime,
+        # 관망/위험회피 권고(구조화) — 앱이 이모지·항목으로 풍부히 렌더(E).
+        "watch_advice": watch_advice,
         "summary": {
             "signal_count": len(signals), "observation_count": len(observations),
             "position_count": len(feed.get("positions", [])),
