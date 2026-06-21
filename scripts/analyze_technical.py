@@ -130,7 +130,7 @@ def apply_combo(score, ind, combo_table):
         bd = ind.setdefault("_breakdown", [])
         wr_pct = round(float(rec.get("winrate", 0)) * 100, 1)
         bd.append(f"조합 보정(과거 승률 {wr_pct}%·표본 {int(rec.get('n', 0))}) {adj:+g}")
-    return max(0, min(100, round(score + adj)))
+    return max(0, round(score + adj))
 
 
 # ── KIS (현재가·등락률) ──────────────────────────────────────────────────────
@@ -572,7 +572,7 @@ def apply_supply_finance(score, why, breakdown, sf):
         elif pbr >= 8:
             s -= 2
             breakdown.append(f"PBR {pbr:g} 고평가 -2")
-    return max(0, min(100, round(s)))
+    return max(0, round(s))
 
 
 # 차트 점수 가중치 기본값(사람이 정한 규칙값). 데이터 학습(learn_weights.py)으로
@@ -725,7 +725,7 @@ def score_stock(price, ind, weights=None, supply=None):
         if key in _CORE_FEATURE_KEYS or not flag:
             continue
         add(key, None, WEIGHT_LABELS.get(key, key))
-    return max(0, min(100, round(s))), why, bd
+    return max(0, round(s)), why, bd
 
 
 # 매매계획 보정 파라미터 기본값(통계 탭 학습으로 조정 가능). control.json engine.tuning.
@@ -1028,7 +1028,7 @@ def apply_regime(score, why, breakdown, regime):
     note = f"미국증시 환경 {adj:+g} (전일 {'·'.join(parts)})"
     why.append(note)
     breakdown.append(note)
-    return max(0, min(100, round(score + adj)))
+    return max(0, round(score + adj))
 
 
 # ── 미국 야간 컨텍스트(지수·빅테크·한줄평) 실측 갱신 ───────────────────────────
@@ -1493,12 +1493,16 @@ def _observation(item, price, change, ind, sc, note=None):
     """관찰(observations) 항목 dict — 신호와 같은 표시 필드 구성(매매계획만 없음).
     note 가 있으면 강등 사유(예: 도달성 낮음)를 reason 앞에 붙인다."""
     why = ", ".join(ind["_why"]) if ind.get("_why") else "뚜렷한 강세 신호 부족"
-    head = f"기술 점수 {sc}/100 — {note}" if note else f"기술 점수 {sc}/100 — 조건 미충족(관망)"
+    head = f"기술 점수 {sc}점 — {note}" if note else f"기술 점수 {sc}점 — 조건 미충족(관망)"
     return {
         "name": item["name"], "code": item["code"], "market": "KR",
         "price": float(price), "currency": "KRW", "watch_trigger": None,
         "change_pct": round(change, 2) if change is not None else None,
         "vol_surge": ind["vol_surge"],
+        # ★관찰에도 점수 노출(앱 '분석 전' 오표기 방지) — sc 는 이미 계산된 점수.
+        # 신호와 대칭으로 score·score_reasons 둘 다 실어 앱이 배지·근거를 표시한다.
+        "score": sc,
+        "score_reasons": list(ind.get("_breakdown", [])),
         **_supply_fields(ind.get("_sf")),
         **_combo_fields(ind),
         "reason": f"{head}. {why}. ATR {ind['atr_pct']}%.",
