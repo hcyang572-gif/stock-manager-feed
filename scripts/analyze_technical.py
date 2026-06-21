@@ -341,6 +341,28 @@ def daily_indicators(yahoo):
         except Exception as ex:
             print(f"[analyze] 5분봉 수집 실패({yahoo}): {ex}")
             ind["intraday_5m"] = []
+        # 최근 7거래일 일봉(앱 신호카드 '1주일 차트'용) — 위에서 받은 h(80일) 재사용.
+        try:
+            def _d(v):
+                try:
+                    f = float(v)
+                    return None if f != f else round(f, 2)
+                except Exception:
+                    return None
+            rows7 = []
+            for idx, row in h.tail(7).iterrows():
+                ts = idx
+                if getattr(ts, "tzinfo", None) is None:
+                    try:
+                        ts = ts.tz_localize("UTC")
+                    except Exception:
+                        pass
+                rows7.append([ts.isoformat(), _d(row.get("Open")),
+                              _d(row.get("High")), _d(row.get("Low")),
+                              _d(row.get("Close")), int(row.get("Volume", 0) or 0)])
+            ind["daily_7d"] = rows7
+        except Exception:
+            ind["daily_7d"] = []
         return ind
     except Exception:
         return None
@@ -961,6 +983,8 @@ def build_signal(rank, item, price, change_pct, ind, hold_cap, tuning=None,
         "reachable": lv.get("reachable", True),
         # 5분봉 시계열(앱 '최근 24시간 차트'용). 수집 실패 시 빈 리스트([]).
         "intraday_5m": ind.get("intraday_5m", []),
+        # 최근 7거래일 일봉(앱 신호카드 '1주일 차트'용).
+        "daily_7d": ind.get("daily_7d", []),
     }
 
 
@@ -1604,6 +1628,8 @@ def _observation(item, price, change, ind, sc, note=None,
         "reason": f"{head}. {why}. ATR {ind['atr_pct']}%.",
         # 5분봉 시계열(앱 '최근 24시간 차트'용, 관찰 종목도 포함).
         "intraday_5m": ind.get("intraday_5m", []),
+        # 최근 7거래일 일봉(앱 신호카드 '1주일 차트'용).
+        "daily_7d": ind.get("daily_7d", []),
     }
     # ★잠정(관찰) 매매계획★ — 신호와 동일 코어로 진입/손절/목표/RR/비중 채움.
     obs.update(_tentative_plan(price, ind, hold_cap, tuning, sc, cutoff))
