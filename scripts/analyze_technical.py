@@ -279,6 +279,8 @@ def _calc_indicators(closes, highs, lows, vols, opens):
     # MA20 기울기: 지금 MA20 vs 5일 전 MA20(>0 이면 추세 상승).
     ma20_prev = sum(closes[-25:-5]) / 20
     ma20_slope = ma20 - ma20_prev
+    # 고점추격 방어 — MA20 이격률(현재가가 20일선 대비 몇 % 위인가). 이미 있는 값만 사용.
+    ma20_disparity = (closes[-1] / ma20 - 1) * 100 if ma20 else 0
     return {
         "ma5": ma5, "ma20": ma20, "atr": atr, "atr_pct": round(atr_pct, 2),
         "vol_surge": round(vol_surge, 2), "rsi": round(rsi, 1),
@@ -288,6 +290,7 @@ def _calc_indicators(closes, highs, lows, vols, opens):
         "gap_pct": round(gap_pct, 2), "vol_accel": round(vol_accel, 2),
         "up_streak": up_streak, "near_high20": round(near_high20, 4),
         "range_exp": round(range_exp, 2), "ma20_slope": ma20_slope,
+        "ma20_disparity": round(ma20_disparity, 2),
     }
 
 
@@ -690,6 +693,8 @@ DEFAULT_WEIGHTS = {
     "near_high": 0, "range_exp": 0, "ma20_up": 0,
     # 수급(요소 발굴) — 기본 0. Stage B(frgn 이력)에서 학습.
     "for_buy": 0, "for_sell": 0, "org_buy": 0, "org_sell": 0,
+    # 고점추격 방어(과열 감점) — 기본 활성(작은 음수). edge 얇아 보수적(합산 최대 −15).
+    "ext_ma20": -6, "ext_run": -5, "ext_near_high_hot": -4,
 }
 
 # 부호가 명백한 키(단타 모멘텀) — 학습값이 이 부호를 어기면 과적합 오류로 보고
@@ -699,7 +704,7 @@ _W_POS = ("align_up", "above_ma20", "vol_surge", "vol_ok", "strong_close",
           "vol_accel", "streak_up", "near_high", "range_exp", "ma20_up",
           "for_buy", "org_buy")
 _W_NEG = ("align_down", "vol_dry", "weak_close", "rsi_hot", "gap_down",
-          "for_sell", "org_sell")
+          "for_sell", "org_sell", "ext_ma20", "ext_run", "ext_near_high_hot")
 
 # 사람이 읽는 항목 이름(앱 학습 가중치 카드·설명용). DEFAULT_WEIGHTS 키와 1:1.
 WEIGHT_LABELS = {
@@ -716,6 +721,9 @@ WEIGHT_LABELS = {
     "ma20_up": "MA20 상승추세",
     "for_buy": "외국인 순매수", "for_sell": "외국인 순매도",
     "org_buy": "기관 순매수", "org_sell": "기관 순매도",
+    "ext_ma20": "MA20 이격 과대(고점추격 주의)",
+    "ext_run": "단기 급등 과열(5일)",
+    "ext_near_high_hot": "전고점+RSI 동반 과열",
 }
 
 
@@ -752,6 +760,11 @@ def chart_features(price, ind, supply=None):
         "for_sell": 1 if supply and supply.get("for", 0) < 0 else 0,
         "org_buy": 1 if supply and supply.get("org", 0) > 0 else 0,
         "org_sell": 1 if supply and supply.get("org", 0) < 0 else 0,
+        # 고점추격 방어(과열 감점) — 이미 계산된 지표만 사용(신규 데이터 0).
+        "ext_ma20": 1 if ind.get("ma20_disparity", 0) >= 12.0 else 0,
+        "ext_run": 1 if ind.get("mom5", 0) >= 15.0 else 0,
+        "ext_near_high_hot": 1 if (ind.get("near_high20", 0) >= 0.99
+                                   and ind.get("rsi", 0) > 72) else 0,
     }
     return f
 
@@ -958,7 +971,7 @@ def _combo_fields(ind):
 
 
 def build_signal(rank, item, price, change_pct, ind, hold_cap, tuning=None,
-                 score=60, cutoff=55):
+                 score=60, cutoff=55, chase=False):
     """기술 점수 통과 종목 → 매매계획 신호 dict. tuning(없으면 기본)로 손절·목표 조정.
     score 구간별 차등 배수(by_bucket)가 있으면 반영하고, 비중은 위험균등으로 산정."""
     t = {**DEFAULT_TUNING, **(tuning or {})}
@@ -1001,7 +1014,9 @@ def build_signal(rank, item, price, change_pct, ind, hold_cap, tuning=None,
             f"{est_loss}% 손실 수준(위험 {t['risk_per_trade_pct']}%/트레이드 기준).",
             f"목표1 도달 시 손절을 본전으로 올려 이익 보호 · 보유 {hold_cap}h 경과 시 잔여 청산.",
         ],
-        "tags": ["기술분석", "온디맨드"] + (["돌파대기"] if etype == "breakout" else ["즉시진입"]),
+        "tags": ["기술분석", "온디맨드"]
+                + (["돌파대기"] if etype == "breakout" else ["즉시진입"])
+                + (["추격주의"] if chase else []),
         # 도달성(P0-3): 돌파 진입가가 현재가 +2.5% 초과면 False → 빌드 루프가 관찰 강등.
         "reachable": lv.get("reachable", True),
         # 5분봉 시계열(앱 '최근 24시간 차트'용). 수집 실패 시 빈 리스트([]).
@@ -1405,13 +1420,35 @@ def reapply_fresh_catalyst(feed, prev_catalyst, now):
     return cnt
 
 
+# 고점추격(과열) 기본 설정 — control.json engine.overheat 로 덮어쓸 수 있다.
+# gate_enabled=True 면 disparity_max/mom5_max 초과 종목을 신호에서 배제(눌림 대기).
+# tag_* 임계는 게이트보다 낮아, 게이트 OFF 여도 '추격주의' 태그(경고)는 항상 붙는다.
+DEFAULT_OVERHEAT = {
+    "gate_enabled": False, "disparity_max": 18.0, "mom5_max": 22.0,
+    "tag_disparity": 10.0, "tag_mom5": 12.0,
+}
+
+
+def overheat_state(ind, oh):
+    """(gate_block, tag_chase) — 이미 계산된 MA20 이격·5일 모멘텀만 사용.
+    gate_block: 게이트(배제) 임계 초과. tag_chase: '추격주의' 태그 임계 초과."""
+    disp = ind.get("ma20_disparity", 0) or 0
+    mom5 = ind.get("mom5", 0) or 0
+    block = (disp >= oh["disparity_max"]) or (mom5 >= oh["mom5_max"])
+    chase = (disp >= oh["tag_disparity"]) or (mom5 >= oh["tag_mom5"])
+    return block, chase
+
+
 def load_control():
-    """control.json 파싱. 반환: (watchlist, scope, market_targets, hold_cap, tuning, weights).
+    """control.json 파싱. 반환: (watchlist, scope, market_targets, hold_cap, tuning,
+    weights, overheat).
     - tuning: engine.tuning(없으면 DEFAULT_TUNING) — 손절·목표 배수 학습 보정.
-    - weights: engine.learned_weights(없으면 None=DEFAULT_WEIGHTS) — 점수 가중치 학습 보정."""
+    - weights: engine.learned_weights(없으면 None=DEFAULT_WEIGHTS) — 점수 가중치 학습 보정.
+    - overheat: engine.overheat(없으면 DEFAULT_OVERHEAT) — 고점추격 게이트·태그 임계."""
     wl, scope, mkts, cap = [], "watchlist", ["KOSPI", "KOSDAQ"], 48
     tuning = dict(DEFAULT_TUNING)
     weights = None
+    overheat = dict(DEFAULT_OVERHEAT)
     if CONTROL_PATH.exists():
         try:
             c = json.loads(CONTROL_PATH.read_text(encoding="utf-8-sig"))
@@ -1452,9 +1489,18 @@ def load_control():
                           f"학습세트 거부, DEFAULT 사용")
                 elif parsed:
                     weights = {**DEFAULT_WEIGHTS, **parsed}
+            # 고점추격(과열) 토글 — bool/숫자만 받아 덮어쓴다(나머지 기본값 유지).
+            oh = e.get("overheat")
+            if isinstance(oh, dict):
+                for k in DEFAULT_OVERHEAT:
+                    if k == "gate_enabled":
+                        if isinstance(oh.get(k), bool):
+                            overheat[k] = oh[k]
+                    elif isinstance(oh.get(k), (int, float)):
+                        overheat[k] = float(oh[k])
         except Exception as ex:
             print(f"[analyze] control 읽기 실패: {ex}")
-    return wl, scope, mkts, cap, tuning, weights
+    return wl, scope, mkts, cap, tuning, weights, overheat
 
 
 def yahoo_symbol(code):
@@ -1715,7 +1761,7 @@ def main():
         pass
     now = datetime.datetime.now(KST)
     now_iso = now.replace(microsecond=0, second=0).isoformat()
-    watchlist, _scope, mkts, hold_cap, tuning, weights = load_control()
+    watchlist, _scope, mkts, hold_cap, tuning, weights, overheat = load_control()
     cutoff = int(tuning.get("score_cutoff", 55))
     if tuning != DEFAULT_TUNING:
         print(f"[analyze] 손절·목표 학습 보정 적용: {tuning}")
@@ -1777,8 +1823,16 @@ def main():
     for item, price, change, ind, sc in wl_cand:
         change = kr_chg_map.get(item.get("code", ""), change)  # 네이버 권위값 우선
         if sc >= cutoff and rank < 5:
+            block, chase = overheat_state(ind, overheat)
+            # 고점추격 게이트(기본 OFF) — 과열 심하면 신호 제외, '눌림 대기' 관찰로 강등.
+            if overheat["gate_enabled"] and block:
+                if len(observations) < obs_cap:
+                    observations.append(_observation(item, price, change, ind, sc,
+                        note=f"단기 과열(MA20 이격 {ind.get('ma20_disparity')}%·5일 {ind.get('mom5')}%) — 눌림 대기",
+                        hold_cap=hold_cap, tuning=tuning, cutoff=cutoff))
+                continue
             sig = build_signal(rank + 1, item, price, change, ind, hold_cap,
-                               tuning, score=sc, cutoff=cutoff)
+                               tuning, score=sc, cutoff=cutoff, chase=chase)
             if sig.get("reachable", True):
                 rank += 1
                 sig["_score"] = sc
@@ -1800,8 +1854,12 @@ def main():
     for item, price, change, ind, sc in mk_cand:
         change = kr_chg_map.get(item.get("code", ""), change)  # 네이버 권위값 우선
         if sc >= 50 and mrank < 30:  # 전체종목은 50점(관심종목 55보다 완화)
+            block, chase = overheat_state(ind, overheat)
+            # 고점추격 게이트(기본 OFF) — 과열 종목 신호 제외(전체종목은 관찰 누적 안 함).
+            if overheat["gate_enabled"] and block:
+                continue
             sig = build_signal(mrank + 1, item, price, change, ind, hold_cap,
-                               tuning, score=sc, cutoff=cutoff)
+                               tuning, score=sc, cutoff=cutoff, chase=chase)
             if not sig.get("reachable", True):
                 continue  # 도달성 낮음(돌파가 +2.5% 초과) → 신호 제외(P0-3).
             mrank += 1

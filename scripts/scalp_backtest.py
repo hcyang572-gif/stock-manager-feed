@@ -239,7 +239,7 @@ def main():
     interval = sys.argv[1] if len(sys.argv) > 1 else "5m"
     period = sys.argv[2] if len(sys.argv) > 2 else "60d"
 
-    watchlist, scope, mkts, hold_cap, tuning, _w = load_control()
+    watchlist, scope, mkts, hold_cap, tuning, _w, _oh = load_control()
     if not watchlist:
         print("[scalp] watchlist 비어있음 — 중단")
         return 0

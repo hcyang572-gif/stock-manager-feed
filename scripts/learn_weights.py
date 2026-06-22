@@ -298,7 +298,7 @@ def main():
         sys.stdout.reconfigure(encoding="utf-8")
     except Exception:
         pass
-    watchlist, _scope, mkts, _cap, _tuning, applied_weights = load_control()
+    watchlist, _scope, mkts, _cap, _tuning, applied_weights, _overheat = load_control()
     now = datetime.datetime.now(KST).replace(microsecond=0)
 
     # 학습 표본 최대화 — 관심종목 + 시장 거래대금 상위 유니버스(중복 제거).

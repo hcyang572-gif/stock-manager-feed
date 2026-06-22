@@ -419,7 +419,7 @@ def main():
         sys.stdout.reconfigure(encoding="utf-8")
     except Exception:
         pass
-    watchlist, scope, mkts, hold_cap, tuning, _weights = load_control()
+    watchlist, scope, mkts, hold_cap, tuning, _weights, _overheat = load_control()
     if not watchlist:
         print("[backtest] watchlist 비어있음 — 중단")
         return 0
