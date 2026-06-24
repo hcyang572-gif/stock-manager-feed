@@ -1,15 +1,15 @@
 {
   "schema_version": "1.0",
   "date": "2026-06-24",
-  "generated_at": "2026-06-24T07:07:00+09:00",
+  "generated_at": "2026-06-24T09:12:00+09:00",
   "horizon_hours": 48,
-  "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 수급(외국인·기관) + 재무(PER·PBR) + 미국증시 전일 환경 보정 · 분석 범위: 통합 분석 — 관심종목(0 신호) + 전체종목 거래대금 상위(KOSPI, 0 신호). 뉴스/촉매는 ‘뉴스도 함께’에서만.",
+  "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉) + 미국증시 전일 환경 보정 + 뉴스/촉매 종합분석(Claude 웹검색, claude-haiku-4-5).",
   "market_state": {
     "korea": {
-      "status": "closed",
-      "basis": "전일 종가(장 마감)",
-      "asof": "2026-06-24T07:08:00+09:00",
-      "session": "closed"
+      "status": "open",
+      "basis": "정규장 실시간(네이버 지수 실측)",
+      "asof": "2026-06-24T09:13:00+09:00",
+      "session": "regular"
     },
     "us": {
       "status": "closed",
@@ -22,7 +22,7 @@
     "observation_count": 12,
     "position_count": 0,
     "top_signal": "SK",
-    "headline": "기술 분석 갱신(06-24 07:07 KST) — 차트·거래량·변동성 기준 0개 신호. 뉴스 미반영이니 진입 전 재료 확인."
+    "headline": "뉴스+차트 종합분석 갱신(06-24 09:13 KST) — 촉매 검증 0건. 주도주 SK."
   },
   "signals": [],
   "observations": [
@@ -33,7 +33,7 @@
       "price": 705000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -3.42,
+      "change_pct": 1.42,
       "vol_surge": 2.65,
       "score": 90,
       "score_reasons": [
@@ -1411,7 +1411,8 @@
       "stop_pct": 15.3,
       "est_loss_pct": 0.92,
       "hold_cap_hours": 48,
-      "reachable": false
+      "reachable": false,
+      "catalyst": "SK하이닉스 신고가 달성으로 그룹 시총 2000조원 돌파 — 6월 17일 SK하이닉스가 238만 2000원 신고가로 종가 기준 최고가 경신. SK 그룹 시총이 2020조원을 초과하면서 주력 계열사 SK스퀘어(20.1% 지분) 및 모회사 SK의 시너지 강화 기대. 대신증권이 코스피 목표를 8800→11500으로 상향하며 반도체 밸류에이션 정상화 전망."
     },
     {
       "name": "SK하이닉스",
@@ -1420,7 +1421,7 @@
       "price": 2555000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -12.47,
+      "change_pct": 4.77,
       "vol_surge": 1.45,
       "score": 79,
       "score_reasons": [
@@ -1434,7 +1435,7 @@
         "미국증시 환경 -8 (전일 S&P-1.44%·나스닥-2.21%·SOX-7.87%)",
         "외국인 순매도(최근 5일) -14",
         "기관 순매수(최근 5일) +11",
-        "PBR 10.74 고평가 -2"
+        "PBR 11.29 고평가 -2"
       ],
       "foreign_net": -1657651.0,
       "inst_net": 133960.0,
@@ -2798,7 +2799,8 @@
       "stop_pct": 15.2,
       "est_loss_pct": 0.76,
       "hold_cap_hours": 48,
-      "reachable": false
+      "reachable": false,
+      "catalyst": "신고가 랠리 지속, 2분기 실적 호조 예상 — 6월 17일 238만 2000원 신고가 기록 후 6월 22일 289만 9000원까지 상승. 2분기 영업이익 61~64조원 전망으로 1분기(37.6조원) 대비 60% 이상 성장 예상. AI 메모리 수요 강세와 DRAM/NAND 가격 상승으로 연내 공급 부족 기조 강화. 목표주가 3,800,000원(KB증권)까지 상향 평가."
     },
     {
       "name": "한화에어로스페이스",
@@ -2807,7 +2809,7 @@
       "price": 1073000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -4.62,
+      "change_pct": -1.68,
       "vol_surge": 0.81,
       "score": 66,
       "score_reasons": [
@@ -4182,7 +4184,8 @@
       "stop_pct": 8.2,
       "est_loss_pct": 0.66,
       "hold_cap_hours": 48,
-      "reachable": false
+      "reachable": false,
+      "catalyst": "KAI 지분 추가 매입 공시로 전략적 지배력 강화 — 6월 16일 공시로 KAI 주식 338만 7533주를 5000억원에 추가 취득 결정(12월 31일 예정). 취득 후 지분율 9.97%로 상향하며 경영 참여 의지 표현. 6월 23일 기준 KAI 지분 추가 매입 뉴스 보도로 양사 시너지 확대 기대감. 차세대 민·군 겸용 항공엔진 개발 사업 착수로 미래 성장성 부각."
     },
     {
       "name": "삼성바이오로직스",
@@ -4191,7 +4194,7 @@
       "price": 1273000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -1.7,
+      "change_pct": -0.86,
       "vol_surge": 0.96,
       "score": 52,
       "score_reasons": [
@@ -5574,7 +5577,7 @@
       "price": 104500.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -10.3,
+      "change_pct": 0.57,
       "vol_surge": 0.91,
       "score": 52,
       "score_reasons": [
@@ -6957,7 +6960,7 @@
       "price": 362000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -6.1,
+      "change_pct": -0.69,
       "vol_surge": 0.83,
       "score": 30,
       "score_reasons": [
@@ -8341,7 +8344,7 @@
       "price": 310000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -12.31,
+      "change_pct": 7.9,
       "vol_surge": 1.35,
       "score": 29,
       "score_reasons": [
@@ -9725,7 +9728,7 @@
       "price": 232500.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -5.1,
+      "change_pct": -2.8,
       "vol_surge": 1.29,
       "score": 24,
       "score_reasons": [
@@ -9736,8 +9739,8 @@
         "미국증시 환경 -8 (전일 S&P-1.44%·나스닥-2.21%·SOX-7.87%)",
         "외국인 순매도(최근 5일) -14",
         "기관 순매도(최근 5일) -11",
-        "PER 103.43 고평가 -3",
-        "PBR 16.72 고평가 -2",
+        "PER 101.2 고평가 -3",
+        "PBR 16.36 고평가 -2",
         "조합 보정(과거 승률 43.6%·표본 156) -1"
       ],
       "foreign_net": -83390.0,
@@ -11111,7 +11114,7 @@
       "price": 258000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -14.43,
+      "change_pct": 5.04,
       "vol_surge": 0.8,
       "score": 21,
       "score_reasons": [
@@ -11121,8 +11124,8 @@
         "미국증시 환경 -8 (전일 S&P-1.44%·나스닥-2.21%·SOX-7.87%)",
         "외국인 순매수(최근 5일) +14",
         "기관 순매도(최근 5일) -11",
-        "PER 138.19 고평가 -3",
-        "PBR 38.48 고평가 -2",
+        "PER 144.62 고평가 -3",
+        "PBR 40.27 고평가 -2",
         "조합 보정(과거 승률 51.2%·표본 365) +1"
       ],
       "foreign_net": 846332.0,
@@ -12496,7 +12499,7 @@
       "price": 202500.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -8.78,
+      "change_pct": -0.74,
       "vol_surge": 0.43,
       "score": 19,
       "score_reasons": [
@@ -13881,7 +13884,7 @@
       "price": 511000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -12.05,
+      "change_pct": 0.39,
       "vol_surge": 1.21,
       "score": 7,
       "score_reasons": [
@@ -15266,7 +15269,7 @@
       "price": 89200.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -5.31,
+      "change_pct": -0.45,
       "vol_surge": 1.33,
       "score": 0,
       "score_reasons": [
@@ -15277,7 +15280,7 @@
         "미국증시 환경 -8 (전일 S&P-1.44%·나스닥-2.21%·SOX-7.87%)",
         "외국인 순매도(최근 5일) -14",
         "기관 순매도(최근 5일) -11",
-        "PER 370.12 고평가 -3",
+        "PER 371.37 고평가 -3",
         "조합 보정(과거 승률 43.6%·표본 156) -1"
       ],
       "foreign_net": -597890.0,
@@ -16659,7 +16662,7 @@
     "tax_pct_us": 0.0
   },
   "risk_notes": [
-    "온디맨드 기술 분석 — 뉴스/촉매 미반영(catalyst_verified=false). 진입 전 재료·공시 직접 확인.",
+    "시장 촉매 요약: SK하이닉스가 6월 17일 238만 2000원으로 종가 기준 사상 최고가를 경신하며 SK 그룹 시총 2000조원 돌파. 반도체 수급 타이트화와 AI 인프라 수요 강세 속 업계 전반 호황. 한화에어로스페이스는 KAI 지분 추가 매입 공시(총 9.97% 목표)로 전략적 시너지 강화. / 뉴스/촉매 종합분석 반영(Claude 웹검색). 보도는 시점에 따라 정정될 수 있으니 진입 전 원문 확인.",
     "지표는 KIS 현재가 + yfinance 일봉 실측(날조 없음). 변동성 장세 보수적 대응.",
     "시장 환경 보정: 전일 미국증시 가중 -4.24% (S&P -1.44%·나스닥 -2.21%·SOX -7.87%) → 모든 종목 점수 -8점 반영. 금리·지정학은 숫자 보정 없이 뉴스 종합분석의 정성 판단으로만 반영.",
     "본 신호는 투자 참고용이며 매수·매도를 보장하지 않는다. 실주문은 본인 판단·실행."
@@ -16783,27 +16786,27 @@
     ]
   },
   "kr_context": {
-    "asof": "2026-06-24T07:08:00+09:00",
+    "asof": "2026-06-24T09:13:00+09:00",
     "basis": "한국 지수(네이버 실측)",
-    "session": "closed",
+    "session": "regular",
     "indices": [
       {
         "name": "코스피",
         "symbol": "KOSPI",
-        "price": 8203.84,
-        "change_pct": -9.99
+        "price": 8496.03,
+        "change_pct": 3.56
       },
       {
         "name": "코스닥",
         "symbol": "KOSDAQ",
-        "price": 891.52,
-        "change_pct": -7.94
+        "price": 899.96,
+        "change_pct": 0.95
       },
       {
         "name": "코스피200",
         "symbol": "KOSPI200",
-        "price": 1321.7,
-        "change_pct": -10.53
+        "price": 1376.09,
+        "change_pct": 4.12
       }
     ],
     "stale": false
@@ -16816,18 +16819,17 @@
     "adj": -8.0
   },
   "integrity": {
-    "checked_at": "2026-06-24T07:07:00+09:00",
+    "checked_at": "2026-06-24T09:12:00+09:00",
     "critical": [],
     "warn": []
   },
-  "analyzed_at": "2026-06-24T07:07:00+09:00",
+  "analyzed_at": "2026-06-24T09:12:00+09:00",
   "watch_advice": {
     "level": "observe",
     "headline": "발굴된 매수 신호가 없습니다 — 관망 권고",
     "bullets": [
       "기술 조건을 통과한 종목이 없어 무리한 진입보다 대기를 권합니다.",
       "전일 미국증시 약세(-4.24%) — 위험회피 국면, 비중 보수적으로.",
-      "현재 NXT 연장(장전/장후) 시간 — 유동성 얇음, 호가 슬리피지 유의.",
       "공통 유의: 뉴스/촉매 미반영(기술 신호만). 실주문은 본인 판단·실행."
     ],
     "action": "관망 — 신규 진입 보류",
@@ -16836,40 +16838,53 @@
     "top_score": null
   },
   "catalyst": {
-    "asof": "2026-06-23T14:28:00+09:00",
+    "asof": "2026-06-24T09:13:00+09:00",
     "verified": true,
     "model": "claude-haiku-4-5",
-    "summary": "SK하이닉스가 6월 23일 창사 이래 최고 분기 실적(1분기 매출 52.6조, 영업이익 37.6조, 영업이익률 72%)을 발표하며 장전 사상 최고가 달성. 한화에어로스페이스는 6월 16일 KAI 지분 5000억원 규모 추가 인수 공시로 경영 강화 신호.",
+    "summary": "SK하이닉스가 6월 17일 238만 2000원으로 종가 기준 사상 최고가를 경신하며 SK 그룹 시총 2000조원 돌파. 반도체 수급 타이트화와 AI 인프라 수요 강세 속 업계 전반 호황. 한화에어로스페이스는 KAI 지분 추가 매입 공시(총 9.97% 목표)로 전략적 시너지 강화.",
     "items": {
       "034730": {
-        "headline": "뚜렷한 촉매 없음",
-        "detail": "최근 48시간 내 구체적 호재나 악재 없음. 다만 SK하이닉스(자회사)의 실적 호조가 간접적 긍정 신호로 작용할 수 있음.",
-        "sentiment": "neutral",
-        "sources": []
-      },
-      "000660": {
-        "headline": "사상 최대 1분기 실적 발표 및 사상 최고가 달성",
-        "detail": "<cite index=\"47-1,47-5,47-6\">2026년 1분기 매출 52조5763억원, 영업이익 37조6103억원, 영업이익률 72%로 창사 이래 최고 수준을 달성했으며 분기 기준 사상 처음 50조원을 돌파</cite>. <cite index=\"12-1\">6월 22일 2,945,000원의 사상 최고가 달성</cite>. 48시간 초단기 매수 후 공시 이후 주가 락인(현재 4.93% 하락)으로 단기 수익실현 가능성과 마이크론 24일(미국 시간) 실적 발표 리스크 존재.",
+        "headline": "SK하이닉스 신고가 달성으로 그룹 시총 2000조원 돌파",
+        "detail": "6월 17일 SK하이닉스가 238만 2000원 신고가로 종가 기준 최고가 경신. SK 그룹 시총이 2020조원을 초과하면서 주력 계열사 SK스퀘어(20.1% 지분) 및 모회사 SK의 시너지 강화 기대. 대신증권이 코스피 목표를 8800→11500으로 상향하며 반도체 밸류에이션 정상화 전망.",
         "sentiment": "positive",
         "sources": [
           {
-            "title": "SK하이닉스 2026년 1분기 경영실적 발표",
-            "url": "https://news.skhynix.co.kr/q1-2026-business-results/"
+            "title": "SK그룹 시총 2000조 돌파…국내 증시 비중 26%",
+            "url": "https://www.sedaily.com/article/20056686"
           },
           {
-            "title": "SK하이닉스 2026년 1분기 실적발표 컨퍼런스콜 전문",
-            "url": "https://www.thelec.kr/news/articleView.html?idxno=55559"
+            "title": "코스피, 장중 상승 전환…SK하이닉스, 247만원 신고가",
+            "url": "https://view.asiae.co.kr/article/2026061713544942637"
+          }
+        ]
+      },
+      "000660": {
+        "headline": "신고가 랠리 지속, 2분기 실적 호조 예상",
+        "detail": "6월 17일 238만 2000원 신고가 기록 후 6월 22일 289만 9000원까지 상승. 2분기 영업이익 61~64조원 전망으로 1분기(37.6조원) 대비 60% 이상 성장 예상. AI 메모리 수요 강세와 DRAM/NAND 가격 상승으로 연내 공급 부족 기조 강화. 목표주가 3,800,000원(KB증권)까지 상향 평가.",
+        "sentiment": "positive",
+        "sources": [
+          {
+            "title": "SK하이닉스, '가자 미국으로' 목표가 3,100,000원",
+            "url": "https://www.newspim.com/news/view/20260617000182"
+          },
+          {
+            "title": "코스피 8864선, 사상 최고가 마감…SK하이닉스 신고가 랠리",
+            "url": "https://core.asiae.co.kr/article/2026061716094598778"
           }
         ]
       },
       "012450": {
-        "headline": "KAI 지분 5000억원 규모 추가 매입 공시(6월 16일)",
-        "detail": "<cite index=\"16-1,16-2,16-3\">한화에어로스페이스가 6월 16일 공시를 통해 한국항공우주산업의 주식 338만7533주를 5000억원에 취득한다고 밝혔으며, 이는 현금취득 방식 장내매수로 진행</cite>. <cite index=\"16-4,16-5\">취득 예정일은 2026년 12월 31일이며, 취득 후 지분율은 9.97%가 된다</cite>. 이는 방산 포트폴리오 강화 및 전략적 동반자 관계 격상 신호로 중기 실적 개선 기대감 제공, 다만 48시간 초단기 매매 관점에서는 이미 공시된 지라 신규 촉매 부족.",
-        "sentiment": "positive",
+        "headline": "KAI 지분 추가 매입 공시로 전략적 지배력 강화",
+        "detail": "6월 16일 공시로 KAI 주식 338만 7533주를 5000억원에 추가 취득 결정(12월 31일 예정). 취득 후 지분율 9.97%로 상향하며 경영 참여 의지 표현. 6월 23일 기준 KAI 지분 추가 매입 뉴스 보도로 양사 시너지 확대 기대감. 차세대 민·군 겸용 항공엔진 개발 사업 착수로 미래 성장성 부각.",
+        "sentiment": "neutral",
         "sources": [
           {
             "title": "한화에어로스페이스, 한국항공우주산업 주식 취득 결정",
             "url": "https://www.digitaltoday.co.kr/news/articleView.html?idxno=675628"
+          },
+          {
+            "title": "한화, KAI 지분 9% 넘게 확보…1대 주주 수은 '여건 변화 시 정부와 협의'",
+            "url": "https://m.finance.daum.net/quotes/A012450/home"
           }
         ]
       }
