@@ -34,7 +34,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install deps
-        run: pip install --quiet google-auth
+        run: pip install --quiet google-auth requests
       - name: FCM 종합분석 완료 알림
         env:
           FCM_SERVICE_ACCOUNT: ${{ secrets.FCM_SERVICE_ACCOUNT }}
