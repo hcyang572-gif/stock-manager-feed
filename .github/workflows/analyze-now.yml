@@ -4,13 +4,16 @@ name: analyze-now
 # 뉴스/촉매 없이 차트·거래량·변동성 지표만으로 관심종목(control.json)을 재분석해 feed.json 갱신.
 # LLM 미사용·무료. KIS 현재가 + yfinance 일봉 실측. 휴장일·주말 포함 언제나 실행(직전 거래일 일봉).
 #
-# 트리거: control.json 이 바뀌어 push 될 때 자동 실행(앱이 run_requested_at·watchlist 수정·저장
-# 시 발생). 앱 토큰은 contents:write 만으로 충분 — Actions 권한 불필요(과거 workflow_dispatch
-# 403 해소). 수동 실행을 위해 workflow_dispatch 도 유지한다.
+# 트리거: control.json 이 main 에 push 될 때 자동 실행(앱이 run_requested_at·watchlist 수정·저장
+# 시 발생). branches: [main] 필터로 피처 브랜치 push 가 spurious 트리거하는 것을 방지한다
+# (2026-06-26 수정 — v0.2.43 브랜치 push 로 analyze-now 가 그 브랜치에서 실행·push 됐던 사고 방지).
+# 앱 토큰은 contents:write 만으로 충분 — Actions 권한 불필요(과거 workflow_dispatch 403 해소).
+# 수동 실행을 위해 workflow_dispatch 도 유지한다.
 
 on:
   workflow_dispatch: {}
   push:
+    branches: [main]
     paths:
       - control.json
 
@@ -98,9 +101,10 @@ jobs:
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git commit -m "analyze: 온디맨드 기술 분석 ($(TZ=Asia/Seoul date '+%m-%d %H:%M KST'))"
             # push 레이스(다른 워크플로/수동 push 로 main 이 앞섬) 대비 rebase 재시도.
+            # HEAD:refs/heads/main 을 명시해 어느 브랜치에서 실행되든 반드시 main 에 push.
             ok=false
             for i in 1 2 3; do
-              git pull --rebase origin main && git push && { ok=true; break; } || sleep 5
+              git pull --rebase origin main && git push origin HEAD:refs/heads/main && { ok=true; break; } || sleep 5
             done
             echo "pushed=$ok" >> "$GITHUB_OUTPUT"
           else
