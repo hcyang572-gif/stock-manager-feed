@@ -52,7 +52,7 @@ jobs:
       - name: Install deps
         if: steps.gate.outputs.run == 'true'
         # anthropic: 뉴스 촉매 조사(웹검색 서버툴). pykrx: 전체종목 차트 스캔.
-        run: pip install --quiet yfinance pandas tzdata pykrx google-auth anthropic
+        run: pip install --quiet yfinance pandas tzdata pykrx google-auth requests anthropic
 
       - name: KIS token date (KST)
         if: steps.gate.outputs.run == 'true'
