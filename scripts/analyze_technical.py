@@ -146,7 +146,8 @@ def apply_combo(score, ind, combo_table):
         bd = ind.setdefault("_breakdown", [])
         wr_pct = round(float(rec.get("winrate", 0)) * 100, 1)
         bd.append(f"조합 보정(과거 승률 {wr_pct}%·표본 {int(rec.get('n', 0))}) {adj:+g}")
-    return max(0, round(score + adj))
+    # ★0~100 양방향 클램프(P1-신호품질)★ 조합 보정 후에도 상한 확보.
+    return max(0, min(100, round(score + adj)))
 
 
 # ── KIS (현재가·등락률) ──────────────────────────────────────────────────────
@@ -326,14 +327,22 @@ def daily_indicators(yahoo):
         import yfinance as yf
         # 100d ≈ 71거래일: daily_7d(7봉)·daily_30d(22봉)·daily_90d(65봉) 모두 커버.
         h = yf.Ticker(yahoo).history(period="100d", auto_adjust=False)
-        if len(h) < 25:
+        n_bars = len(h)
+        if n_bars < 25:
             return None
+        # ★데이터 충분성 경고(P1-신호품질)★ 30 미만이면 ATR14·MA20 기반 지표가 불안정.
+        # 표본 수가 극히 적은 종목(신상장·거래정지 복귀 등)의 과대점수를 방지하기 위해
+        # 표본 수를 ind 에 기록한다(score_watchlist/score_universe 가 data_quality 표기에 사용).
+        if n_bars < 30:
+            print(f"[analyze] ⚠️ 일봉 표본 부족 {yahoo}: {n_bars}봉 (권장 30+)")
         ind = _calc_indicators(
             [float(x) for x in h["Close"]], [float(x) for x in h["High"]],
             [float(x) for x in h["Low"]], [float(x) for x in h["Volume"]],
             [float(x) for x in h["Open"]])
         if ind is None:
             return None
+        # 표본 수 기록 — 신호·관찰 발행 시 data_quality 판단에 사용.
+        ind["_n_bars"] = n_bars
         # ── 5분봉 시계열(최근 24거래시간, 앱 '최근 24시간 차트'용) ─────────────
         # KR: tail 160봉(정규장 78봉/일 × 2일). US: tail 300봉(~3.7거래일).
         # ★KR NXT 연장(08:00~09:00·15:30~20:00)은 yfinance prepost=False 미제공 →
@@ -434,6 +443,11 @@ def daily_indicators_batch(symbols):
                 [float(x) for x in sub["Low"]], [float(x) for x in sub["Volume"]],
                 [float(x) for x in sub["Open"]])
             if ind:
+                # ★데이터 충분성 가드(P1-신호품질)★ 배치에도 동일하게 표본 수 기록.
+                n_sub = len(sub)
+                ind["_n_bars"] = n_sub
+                if n_sub < 30:
+                    print(f"[analyze] ⚠️ 배치 일봉 표본 부족 {sym}: {n_sub}봉 (권장 30+)")
                 # 최근 7/30/90 거래일 일봉 — 배치 download 의 sub 재사용, 추가 API 호출 없음.
                 # 형식: [iso_ts, open, high, low, close, volume] (daily_7d 와 동일 6-튜플).
                 try:
@@ -721,7 +735,8 @@ def apply_supply_finance(score, why, breakdown, sf):
         elif pbr >= 8:
             s -= 2
             breakdown.append(f"PBR {pbr:g} 고평가 -2")
-    return max(0, round(s))
+    # ★0~100 양방향 클램프(P1-신호품질)★ 수급·재무 가산 후에도 상한 확보.
+    return max(0, min(100, round(s)))
 
 
 # 차트 점수 가중치 기본값(사람이 정한 규칙값). 데이터 학습(learn_weights.py)으로
@@ -884,7 +899,11 @@ def score_stock(price, ind, weights=None, supply=None):
         if key in _CORE_FEATURE_KEYS or not flag:
             continue
         add(key, None, WEIGHT_LABELS.get(key, key))
-    return max(0, round(s)), why, bd
+    # ★점수 상한 100 클램프(P1-신호품질)★ score_stock 단계에서 상한을 확보해
+    # 이후 apply_regime/apply_supply_finance/apply_combo 가산 전 기저가 100을
+    # 넘지 않도록 한다(클램프 미적용 시 외국인+기관+미국장 보정만 최대 +33이 추가
+    # 되어 133점처럼 신호 순위가 왜곡되던 문제 방지). 음수 방어도 유지.
+    return max(0, min(100, round(s))), why, bd
 
 
 # 매매계획 보정 파라미터 기본값(통계 탭 학습으로 조정 가능). control.json engine.tuning.
@@ -1035,6 +1054,18 @@ def build_signal(rank, item, price, change_pct, ind, hold_cap, tuning=None,
     if etype == "breakout":
         weight = int(max(t["min_weight_pct"], round(weight * 0.85)))
         est_loss = round(weight * stop_pct / 100, 2)
+    # ★데이터 충분성 가드(P1-신호품질)★ 일봉 표본이 30 미만이면 ATR14·RSI14·MA20
+    # 지표 신뢰도가 낮아 과대점수 위험. data_quality 필드로 기록해 앱·로그가 인지.
+    n_bars = ind.get("_n_bars", 99)
+    data_quality = "low" if n_bars < 30 else ("ok" if n_bars < 45 else "good")
+    risk_notes_base = [
+        "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
+        f"비중 {weight}%는 위험균등 산정 — 손절({stop_pct}%) 도달 시 자본 약 "
+        f"{est_loss}% 손실 수준(위험 {t['risk_per_trade_pct']}%/트레이드 기준).",
+        f"목표1 도달 시 손절을 본전으로 올려 이익 보호 · 보유 {hold_cap}h 경과 시 잔여 청산.",
+    ]
+    if data_quality == "low":
+        risk_notes_base.insert(0, f"⚠️ 일봉 표본 {n_bars}봉으로 부족 — ATR·MA20 신뢰도 낮음. 결과 참고만.")
     return {
         "rank": rank, "name": item["name"], "code": item["code"], "market": "KR",
         "direction": "long", "confidence": "mid" if etype == "now" else "low",
@@ -1049,20 +1080,18 @@ def build_signal(rank, item, price, change_pct, ind, hold_cap, tuning=None,
         # 조합별 과거 승률(점수×거래량×외국인×기관) — 표본 충분 시만 부착(graceful).
         **_combo_fields(ind),
         "stop_pct": stop_pct, "est_loss_pct": est_loss,
+        # ★데이터 충분성(P1)★ — "low"(n<30)·"ok"(30~44)·"good"(45+). 앱 참고용.
+        "data_quality": data_quality,
         "catalyst_verified": False, "change_pct": round(change_pct, 2) if change_pct is not None else None,
         "evidence": "기술 분석(뉴스 미확인) — " + ", ".join(ind["_why"]) +
                     f". ATR {ind['atr_pct']}%·5일모멘텀 {ind['mom5']}%.",
         # 앱 '점수 근거' 팝업용 — 항목별 점수 내역(기본 50 + 각 지표 기여).
         "score_reasons": list(ind.get("_breakdown", [])),
-        "risk_notes": [
-            "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
-            f"비중 {weight}%는 위험균등 산정 — 손절({stop_pct}%) 도달 시 자본 약 "
-            f"{est_loss}% 손실 수준(위험 {t['risk_per_trade_pct']}%/트레이드 기준).",
-            f"목표1 도달 시 손절을 본전으로 올려 이익 보호 · 보유 {hold_cap}h 경과 시 잔여 청산.",
-        ],
+        "risk_notes": risk_notes_base,
         "tags": ["기술분석", "온디맨드"]
                 + (["돌파대기"] if etype == "breakout" else ["즉시진입"])
-                + (["추격주의"] if chase else []),
+                + (["추격주의"] if chase else [])
+                + (["데이터부족"] if data_quality == "low" else []),
         # 도달성(P0-3): 돌파 진입가가 현재가 +2.5% 초과면 False → 빌드 루프가 관찰 강등.
         "reachable": lv.get("reachable", True),
         # 5분봉 시계열(앱 '최근 24시간 차트'용). 수집 실패 시 빈 리스트([]).
@@ -1205,7 +1234,9 @@ def apply_regime(score, why, breakdown, regime):
     note = f"미국증시 환경 {adj:+g} (전일 {'·'.join(parts)})"
     why.append(note)
     breakdown.append(note)
-    return max(0, round(score + adj))
+    # ★0~100 양방향 클램프(P1-신호품질)★ score_stock 에서 이미 min(100,...) 적용됐으나
+    # 이 함수가 단독 호출될 수 있어 상한도 명시한다.
+    return max(0, min(100, round(score + adj)))
 
 
 # ── 미국 야간 컨텍스트(지수·빅테크·한줄평) 실측 갱신 ───────────────────────────
@@ -1869,13 +1900,23 @@ def main():
     if kr_chg_map:
         print(f"[analyze] KR 등락률 네이버 보정(rf 부호): {len(kr_chg_map)}종목")
 
+    # ★KR 등락률 이상치 게이트(P1-신호품질·시세 정합성)★ 네이버 권위값으로 덮어쓴
+    # 등락률도 ±45% 초과면 데이터 오류로 보고 None 처리(change_pct=null 로 발행).
+    # 방향 뒤집힘 사고는 이미 rf 부호로 차단됐지만, 크기 이상치는 별도 게이트 필요.
+    def _kr_chg_gated(code, fallback):
+        v = kr_chg_map.get(code, fallback)
+        if v is not None and abs(v) > 45.0:
+            print(f"[analyze] ⚠️ KR {code} 등락률 이상치 {v:+.2f}% (>45%) — 폐기(null)")
+            return None
+        return v
+
     # 관심종목 신호(점수순 최대 5) + 관찰(미충족 watchlist).
     obs_cap = 40
     wl_cand.sort(key=lambda x: x[4], reverse=True)
     wl_signals, observations = [], []
     rank = 0
     for item, price, change, ind, sc in wl_cand:
-        change = kr_chg_map.get(item.get("code", ""), change)  # 네이버 권위값 우선
+        change = _kr_chg_gated(item.get("code", ""), change)  # 네이버 권위값 + 이상치 게이트
         if sc >= cutoff and rank < 5:
             block, chase = overheat_state(ind, overheat)
             # 고점추격 게이트(기본 OFF) — 과열 심하면 신호 제외, '눌림 대기' 관찰로 강등.
@@ -1906,7 +1947,7 @@ def main():
     market_signals = []
     mrank = 0
     for item, price, change, ind, sc in mk_cand:
-        change = kr_chg_map.get(item.get("code", ""), change)  # 네이버 권위값 우선
+        change = _kr_chg_gated(item.get("code", ""), change)  # 네이버 권위값 + 이상치 게이트
         if sc >= 50 and mrank < 30:  # 전체종목은 50점(관심종목 55보다 완화)
             block, chase = overheat_state(ind, overheat)
             # 고점추격 게이트(기본 OFF) — 과열 종목 신호 제외(전체종목은 관찰 누적 안 함).
