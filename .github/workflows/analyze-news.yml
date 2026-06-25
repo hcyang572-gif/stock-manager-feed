@@ -8,12 +8,16 @@ name: analyze-news
 # 과거의 '크롬으로 Claude 예약 루틴 열기(Run now 수동)' 방식을 대체한다 — 앱이 직접
 # 트리거하므로 사용자가 별도 버튼을 누를 필요가 없다.
 #
+# branches: [main] 필터로 피처 브랜치 push 가 spurious 트리거하는 것을 방지한다
+# (2026-06-26 수정 — analyze-now 와 동일 사고 방지).
+#
 # 필요 시크릿: ANTHROPIC_API_KEY (없으면 analyze_news.py 가 차트 feed 만 남기고 종료).
 #             KIS_APP_KEY/SECRET(선택, 차트 현재가 정밀도), FCM_SERVICE_ACCOUNT(선택, 완료 푸시).
 
 on:
   workflow_dispatch: {}
   push:
+    branches: [main]
     paths:
       - control.json
 
@@ -92,9 +96,10 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git commit -m "analyze: 뉴스 종합분석 ($(TZ=Asia/Seoul date '+%m-%d %H:%M KST'))"
+            # HEAD:refs/heads/main 명시 — 어느 브랜치에서 실행되든 반드시 main 에 push.
             ok=false
             for i in 1 2 3; do
-              git pull --rebase origin main && git push && { ok=true; break; } || sleep 5
+              git pull --rebase origin main && git push origin HEAD:refs/heads/main && { ok=true; break; } || sleep 5
             done
             echo "pushed=$ok" >> "$GITHUB_OUTPUT"
           else
