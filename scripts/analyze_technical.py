@@ -324,7 +324,8 @@ def daily_indicators(yahoo):
     """yfinance 일봉(개별 호출)으로 지표 dict + 5분봉 시계열(앱 차트용). 실패 시 None."""
     try:
         import yfinance as yf
-        h = yf.Ticker(yahoo).history(period="80d", auto_adjust=False)
+        # 100d ≈ 71거래일: daily_7d(7봉)·daily_30d(22봉)·daily_90d(65봉) 모두 커버.
+        h = yf.Ticker(yahoo).history(period="100d", auto_adjust=False)
         if len(h) < 25:
             return None
         ind = _calc_indicators(
@@ -370,7 +371,9 @@ def daily_indicators(yahoo):
         except Exception as ex:
             print(f"[analyze] 5분봉 수집 실패({yahoo}): {ex}")
             ind["intraday_5m"] = []
-        # 최근 7거래일 일봉(앱 신호카드 '1주일 차트'용) — 위에서 받은 h(80일) 재사용.
+        # 최근 7/30/90 거래일 일봉 — h(100d) 재사용, 추가 API 호출 없음.
+        # 형식: [iso_ts, open, high, low, close, volume] (daily_7d 와 동일 6-튜플).
+        # daily_30d = 약 22거래일(1달), daily_90d = 약 65거래일(3달).
         try:
             def _d(v):
                 try:
@@ -378,20 +381,28 @@ def daily_indicators(yahoo):
                     return None if f != f else round(f, 2)
                 except Exception:
                     return None
-            rows7 = []
-            for idx, row in h.tail(7).iterrows():
-                ts = idx
-                if getattr(ts, "tzinfo", None) is None:
-                    try:
-                        ts = ts.tz_localize("UTC")
-                    except Exception:
-                        pass
-                rows7.append([ts.isoformat(), _d(row.get("Open")),
-                              _d(row.get("High")), _d(row.get("Low")),
-                              _d(row.get("Close")), int(row.get("Volume", 0) or 0)])
-            ind["daily_7d"] = rows7
+
+            def _daily_rows(df_slice):
+                rows = []
+                for idx, row in df_slice.iterrows():
+                    ts = idx
+                    if getattr(ts, "tzinfo", None) is None:
+                        try:
+                            ts = ts.tz_localize("UTC")
+                        except Exception:
+                            pass
+                    rows.append([ts.isoformat(), _d(row.get("Open")),
+                                 _d(row.get("High")), _d(row.get("Low")),
+                                 _d(row.get("Close")), int(row.get("Volume", 0) or 0)])
+                return rows
+
+            ind["daily_7d"] = _daily_rows(h.tail(7))
+            ind["daily_30d"] = _daily_rows(h.tail(30))
+            ind["daily_90d"] = _daily_rows(h.tail(90))
         except Exception:
             ind["daily_7d"] = []
+            ind["daily_30d"] = []
+            ind["daily_90d"] = []
         return ind
     except Exception:
         return None
@@ -406,7 +417,8 @@ def daily_indicators_batch(symbols):
         return out
     try:
         import yfinance as yf
-        data = yf.download(syms, period="80d", auto_adjust=False,
+        # 100d ≈ 71거래일: daily_7d·daily_30d·daily_90d 모두 커버.
+        data = yf.download(syms, period="100d", auto_adjust=False,
                            group_by="ticker", threads=True, progress=False)
     except Exception as ex:
         print(f"[analyze] 배치 다운로드 실패: {ex}")
@@ -422,8 +434,8 @@ def daily_indicators_batch(symbols):
                 [float(x) for x in sub["Low"]], [float(x) for x in sub["Volume"]],
                 [float(x) for x in sub["Open"]])
             if ind:
-                # 최근 7거래일 일봉(앱 신호카드 '1주일 차트'용) — 배치 download 의 sub 재사용
-                # (추가 API 호출 없음). 전체종목(market) 신호도 1주일 그래프가 나오게 한다.
+                # 최근 7/30/90 거래일 일봉 — 배치 download 의 sub 재사용, 추가 API 호출 없음.
+                # 형식: [iso_ts, open, high, low, close, volume] (daily_7d 와 동일 6-튜플).
                 try:
                     def _d7(v):
                         try:
@@ -431,20 +443,28 @@ def daily_indicators_batch(symbols):
                             return None if f != f else round(f, 2)
                         except Exception:
                             return None
-                    rows7 = []
-                    for idx, row in sub.tail(7).iterrows():
-                        ts = idx
-                        if getattr(ts, "tzinfo", None) is None:
-                            try:
-                                ts = ts.tz_localize("UTC")
-                            except Exception:
-                                pass
-                        rows7.append([ts.isoformat(), _d7(row.get("Open")),
-                                      _d7(row.get("High")), _d7(row.get("Low")),
-                                      _d7(row.get("Close")), int(row.get("Volume", 0) or 0)])
-                    ind["daily_7d"] = rows7
+
+                    def _batch_daily_rows(df_slice):
+                        rows = []
+                        for idx, row in df_slice.iterrows():
+                            ts = idx
+                            if getattr(ts, "tzinfo", None) is None:
+                                try:
+                                    ts = ts.tz_localize("UTC")
+                                except Exception:
+                                    pass
+                            rows.append([ts.isoformat(), _d7(row.get("Open")),
+                                         _d7(row.get("High")), _d7(row.get("Low")),
+                                         _d7(row.get("Close")), int(row.get("Volume", 0) or 0)])
+                        return rows
+
+                    ind["daily_7d"] = _batch_daily_rows(sub.tail(7))
+                    ind["daily_30d"] = _batch_daily_rows(sub.tail(30))
+                    ind["daily_90d"] = _batch_daily_rows(sub.tail(90))
                 except Exception:
                     ind["daily_7d"] = []
+                    ind["daily_30d"] = []
+                    ind["daily_90d"] = []
                 out[sym] = ind
         except Exception:
             continue
@@ -1049,6 +1069,10 @@ def build_signal(rank, item, price, change_pct, ind, hold_cap, tuning=None,
         "intraday_5m": ind.get("intraday_5m", []),
         # 최근 7거래일 일봉(앱 신호카드 '1주일 차트'용).
         "daily_7d": ind.get("daily_7d", []),
+        # 최근 ~1달(약 22거래일) 일봉. 앱 미니차트가 daily_7d 보다 우선 사용.
+        "daily_30d": ind.get("daily_30d", []),
+        # 최근 ~3달(약 65거래일) 일봉. 앱이 '3달 차트'에 사용할 경우 이 값을 우선.
+        "daily_90d": ind.get("daily_90d", []),
     }
 
 
@@ -1725,6 +1749,10 @@ def _observation(item, price, change, ind, sc, note=None,
         "intraday_5m": ind.get("intraday_5m", []),
         # 최근 7거래일 일봉(앱 신호카드 '1주일 차트'용).
         "daily_7d": ind.get("daily_7d", []),
+        # 최근 ~1달(약 22거래일) 일봉. 앱 미니차트가 daily_7d 보다 우선 사용.
+        "daily_30d": ind.get("daily_30d", []),
+        # 최근 ~3달(약 65거래일) 일봉. 앱이 '3달 차트'에 사용할 경우 이 값을 우선.
+        "daily_90d": ind.get("daily_90d", []),
     }
     # ★잠정(관찰) 매매계획★ — 신호와 동일 코어로 진입/손절/목표/RR/비중 채움.
     obs.update(_tentative_plan(price, ind, hold_cap, tuning, sc, cutoff))
