@@ -90,7 +90,7 @@ jobs:
       - name: Install deps
         if: steps.gate.outputs.run == 'true'
         # pykrx: 전체종목 유니버스, google-auth: FCM 푸시 발송용.
-        run: pip install --quiet yfinance pandas tzdata pykrx google-auth
+        run: pip install --quiet yfinance pandas tzdata pykrx google-auth requests
 
       # KIS 토큰 '1일 1회 발급' — KST 날짜 키로 캐시(analyze-now 와 동일 키).
       - name: KIS token date (KST)
