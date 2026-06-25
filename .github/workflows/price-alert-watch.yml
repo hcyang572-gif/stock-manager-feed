@@ -36,7 +36,7 @@ jobs:
 
       - name: Install deps
         # google-auth: FCM 발송 · holidays/tzdata: 개장·시간 판정.
-        run: pip install --quiet google-auth holidays tzdata
+        run: pip install --quiet google-auth requests holidays tzdata
 
       - name: KIS token date (KST)
         id: kisdate
