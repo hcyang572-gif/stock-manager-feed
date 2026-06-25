@@ -25,6 +25,22 @@ from zoneinfo import ZoneInfo
 
 KST = ZoneInfo("Asia/Seoul")
 REPO_ROOT = Path(__file__).resolve().parent.parent
+
+
+# ── JSON 직렬화 안전 정제 ────────────────────────────────────────────────────
+def _json_safe(obj):
+    """feed dict 를 재귀로 순회해 JSON 직렬화 불가 float(nan/inf/-inf)를 None 으로
+    교체한다. allow_nan=False 직렬화 직전에 반드시 통과시킨다.
+    - float: math.isfinite 아니면 → None (날조 없음 — 값 없음=null)
+    - dict/list: 재귀
+    - 나머지: 그대로"""
+    if isinstance(obj, float):
+        return obj if math.isfinite(obj) else None
+    if isinstance(obj, dict):
+        return {k: _json_safe(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_json_safe(v) for v in obj]
+    return obj
 FEED_PATH = REPO_ROOT / "feed.json"
 CONTROL_PATH = REPO_ROOT / "control.json"
 STATS_PATH = REPO_ROOT / "stats.json"
@@ -224,7 +240,17 @@ def round_tick(p):
 
 # ── 일봉 지표(yfinance) ─────────────────────────────────────────────────────
 def _calc_indicators(closes, highs, lows, vols, opens):
-    """OHLCV 시계열(과거→현재)로 기술 지표 dict. 데이터 부족 시 None."""
+    """OHLCV 시계열(과거→현재)로 기술 지표 dict. 데이터 부족 시 None.
+    yfinance 가 반환하는 nan/inf float 를 0 으로 방어(nan 이 아래 산술에 전파되면
+    모든 지표가 nan 이 되고 직렬화 단계에서 ValueError 로 분석 전체가 터짐)."""
+    # nan/inf 입력 방어 — yfinance 가 결측 행에 nan 을 넣을 수 있다.
+    def _safe(v, default=0.0):
+        return v if (isinstance(v, float) and math.isfinite(v)) else default
+    closes = [_safe(v) for v in closes]
+    highs  = [_safe(v) for v in highs]
+    lows   = [_safe(v) for v in lows]
+    vols   = [_safe(v) for v in vols]
+    opens  = [_safe(v) for v in opens]
     n = len(closes)
     if n < 25:
         return None
@@ -1983,6 +2009,10 @@ def main():
     except Exception as ex:
         print(f"[analyze] 정합성 검증 스킵(오류): {ex}")
 
+    # ★직렬화 직전 정제★ — 지표 계산 과정에서 yfinance nan/inf 가 살아남아
+    # allow_nan=False 로 직렬화가 통째로 터지는 사고(2026-06-25 INC) 방어.
+    # nan="값 없음"=null 변환(날조 없음). _calc_indicators nan 방어와 이중 안전망.
+    feed = _json_safe(feed)
     FEED_PATH.write_text(json.dumps(feed, ensure_ascii=False, indent=2,
                                     allow_nan=False) + "\n", encoding="utf-8")
     # 전향 추적용 — 이번 발행 신호를 로그에 누적(통계 탭 forward 평가용).
