@@ -31,12 +31,14 @@ jobs:
         run: python scripts/backtest.py
       - name: Learn score weights (로지스틱 회귀 → stats.json learned_weights)
         run: python scripts/learn_weights.py
+      - name: Run strategy backtest (프리셋×기간 매트릭스 → strategy_backtest_result.json)
+        run: python scripts/strategy_backtest.py
       - name: Commit & push if changed
         run: |
-          if [ -n "$(git status --porcelain stats.json stats_history.json)" ]; then
+          if [ -n "$(git status --porcelain stats.json stats_history.json strategy_backtest_result.json)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add stats.json stats_history.json
+            git add stats.json stats_history.json strategy_backtest_result.json
             git commit -m "backtest: 통계 갱신 ($(TZ=Asia/Seoul date '+%m-%d %H:%M KST'))"
             ok=false
             for i in 1 2 3; do

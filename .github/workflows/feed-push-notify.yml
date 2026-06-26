@@ -34,6 +34,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install deps
+        # requests: google-auth 토큰 refresh 의존(누락 시 ImportError→발송 무음실패).
         run: pip install --quiet google-auth requests
       - name: FCM 종합분석 완료 알림
         env:

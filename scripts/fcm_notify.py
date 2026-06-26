@@ -20,8 +20,10 @@ import urllib.request
 
 
 def _send(project_id, token, topic, title, body, data=None):
-    # FCM data 값은 모두 문자열이어야 한다. 미지정 시 기본 type=analysis_done.
-    payload = {"type": "analysis_done"} if not data else \
+    # FCM data 값은 모두 문자열이어야 한다. 미지정 시 기본 type=generic(안전).
+    # 과거 기본이 analysis_done 이라, data 를 빠뜨린 호출(가격도달·급등락)이 앱에서
+    # '분석 완료'로 오분류됐다. 분석완료 푸시는 main()/호출측이 type 을 명시한다.
+    payload = {"type": "generic"} if not data else \
         {k: str(v) for k, v in data.items()}
     msg = {
         "message": {
@@ -76,7 +78,9 @@ def main():
     ap.add_argument("--body", default="호창이가 새 매수 신호를 올렸어요. 탭해서 확인하세요.")
     ap.add_argument("--topic", default="analysis")
     args = ap.parse_args()
-    send_message(args.title, args.body, args.topic)
+    # CLI 발송은 분석 완료 알림 용도 — type 을 명시(기본 generic 로 빠지지 않게).
+    send_message(args.title, args.body, args.topic,
+                 data={"type": "analysis_done"})
     return 0
 
 

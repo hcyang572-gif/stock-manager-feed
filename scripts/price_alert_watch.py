@@ -181,7 +181,7 @@ def main():
             quote_cache[key] = p
         return quote_cache[key]
 
-    events = []  # (title, body)
+    events = []  # (title, body[, data]) — data 페이로드를 실어 앱이 종류별로 분류·기록
 
     # ── (1) 신호 가격 도달 ──
     if alerts["price_enabled"]:
@@ -210,9 +210,16 @@ def main():
                 if day_fired.get(fkey):
                     continue
                 day_fired[fkey] = True
+                # ★data 필수★ — 없으면 fcm_notify 가 type=analysis_done 으로 채워
+                # 앱이 '분석 완료'로 오분류한다. type=lkey(entry/stop/target1/target2)
+                # 는 앱 push_service 의 가격도달 분기·fromPriceReach 와 그대로 맞물린다.
                 events.append((
                     f"🎯 {name} {label} 도달",
                     f"현재가 {price:,.0f} · {label} {level:,.0f} 도달. 탭해서 확인하세요.",
+                    {"type": lkey, "code": code, "name": name,
+                     "level": f"{level:.0f}", "price": f"{price:.0f}",
+                     "market": market,
+                     "currency": "USD" if market == "US" else "KRW"},
                 ))
 
     # ── (2) 관심종목 급등/급락 ──
@@ -247,9 +254,16 @@ def main():
             cooldown[dirkey] = now_ms + window_ms
             name = w.get("name") or code
             arrow = "📈 급등" if is_surge else "📉 급락"
+            # ★data 필수★ type=surge — 앱 push_service 의 surge 분기·fromSurgePush 와
+            # 맞물린다. 방향은 kind(surge/plunge)+pct 부호로 앱이 판정한다.
             events.append((
                 f"{arrow} {name} {pct:+.1f}%",
                 f"최근 {win}분 {pct:+.1f}% ({ref_price:,.0f}→{price:,.0f}). 탭해서 확인하세요.",
+                {"type": "surge", "code": code, "name": name,
+                 "kind": "surge" if is_surge else "plunge",
+                 "pct": f"{pct:.1f}", "ref": f"{ref_price:.0f}",
+                 "price": f"{price:.0f}", "market": market,
+                 "currency": "USD" if market == "US" else "KRW"},
             ))
 
     # ── (3) 보유종목 급락·이탈(옵트인, holdings_watch) ──
