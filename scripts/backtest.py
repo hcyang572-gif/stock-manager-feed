@@ -383,6 +383,20 @@ def _forward_section():
 STATS_HISTORY_PATH = REPO_ROOT / "stats_history.json"
 
 
+def _clean_nan(obj):
+    """비유한 float(NaN·inf)을 None 으로 치환(재귀). allow_nan=False 직렬화 실패 방지.
+    ★why★ 과거에 잘못 적재된 stats_history.json 의 avg_r=NaN 레코드를 다시 읽어
+    재직렬화하면 ValueError 로 backtest 가 매번 죽어 stats.json 발행이 멈춘다
+    (2026-06-20~ 사고). 적재 전·후 모두 이 청소를 거쳐 비유한 값이 새지 않게 한다."""
+    if isinstance(obj, float):
+        return obj if math.isfinite(obj) else None
+    if isinstance(obj, dict):
+        return {k: _clean_nan(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_clean_nan(v) for v in obj]
+    return obj
+
+
 def _append_history(stats, now):
     """일자별 승률·평균R·신호수를 stats_history.json 에 누적(같은 날 1레코드, 최근 90개).
     앱 통계 탭이 이 이력을 꺾은선 그래프로 보여준다(추세). 실측 backtest 값만."""
@@ -408,6 +422,8 @@ def _append_history(stats, now):
     hist.append(rec)
     hist.sort(key=lambda h: h.get("date", ""))
     hist = hist[-90:]
+    # 적재된 옛 레코드에 NaN/inf 가 있어도(과거 사고분) 안전하게 정리 후 직렬화.
+    hist = _clean_nan(hist)
     STATS_HISTORY_PATH.write_text(
         json.dumps(hist, ensure_ascii=False, indent=2, allow_nan=False) + "\n",
         encoding="utf-8")
@@ -450,6 +466,7 @@ def main():
         "forward": _forward_section(),
         "disclaimer": "통계는 과거·실거래 실측 기반 참고용이며 미래 수익을 보장하지 않습니다.",
     }
+    stats = _clean_nan(stats)  # 비유한 값 방어(어떤 집계도 NaN 을 발행하지 않게).
     STATS_PATH.write_text(json.dumps(stats, ensure_ascii=False, indent=2,
                                      allow_nan=False) + "\n",
                           encoding="utf-8")
