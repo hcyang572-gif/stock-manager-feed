@@ -1410,6 +1410,180 @@ def fetch_us_context():
     }
 
 
+def generate_market_outlook(signals, kr_context, us_context):
+    """실측 지표(한국 지수 등락·신호 분포·미국 야간)만으로 오늘의 증시 전망을
+    규칙 기반으로 생성한다. 수치 날조 없음 — 미확보 값은 판정에서 제외.
+    미래보장 아님: 현재·과거 지표 기반 분위기 판단(참고용).
+
+    반환:
+        {regime, headline, buy_view, sell_view, basis, asof} 또는 None(오류·데이터 부족).
+
+    regime 4단계:
+        '강세'  — 지수↑ + 신호 다수 + 미국 우호가 겹칠 때
+        '약세'  — 지수↓ + 신호 적음 + 미국 부담이 겹칠 때
+        '혼조'  — 코스피·코스닥 방향 엇갈리거나 지수·신호 방향 불일치
+        '중립'  — 뚜렷한 방향 없음(보합권)
+    """
+    try:
+        from collections import Counter
+
+        now_kst = datetime.datetime.now(KST).replace(microsecond=0)
+        asof = now_kst.isoformat()
+
+        # ── 1. 한국 지수 등락률 수집(실측값만) ──────────────────────
+        kr_indices = (kr_context or {}).get("indices", [])
+        kospi_chg = next(
+            (i["change_pct"] for i in kr_indices if i.get("symbol") == "KOSPI"), None)
+        kosdaq_chg = next(
+            (i["change_pct"] for i in kr_indices if i.get("symbol") == "KOSDAQ"), None)
+        main_idx_chg = kospi_chg if kospi_chg is not None else kosdaq_chg
+
+        # ── 2. 신호 분포 분석 ─────────────────────────────────────
+        n_signals = len(signals) if signals else 0
+        # signals 변수는 _score 가 살아있는 list(feed.update 이전 raw list).
+        scores = [s.get("_score", 0) for s in (signals or [])]
+        avg_score = round(sum(scores) / len(scores), 1) if scores else 0.0
+
+        # 주도 테마: 신호 태그에서 기술·합의 메타 태그 제외 후 빈도 상위 3개
+        _meta_tags = {"합의2", "합의3", "기술주도", "촉매주도",
+                      "돌파대기", "정배열", "역배열", "눌림목"}
+        tag_cnt = Counter()
+        for s in (signals or []):
+            for t in s.get("tags", []):
+                if t not in _meta_tags:
+                    tag_cnt[t] += 1
+        top_themes = [t for t, _ in tag_cnt.most_common(3)]
+
+        # ── 3. 미국 야간 지수(실측값만) ──────────────────────────
+        usc = us_context or {}
+        us_indices = usc.get("indices", [])
+        sp_chg = next(
+            (i["change_pct"] for i in us_indices if i.get("symbol") == "^GSPC"), None)
+        sox_chg = next(
+            (i["change_pct"] for i in us_indices
+             if "SOX" in i.get("symbol", "")), None)
+
+        # ── 4. regime 점수 합산 ─────────────────────────────────
+        # 지수 기여: ±2, 신호수 기여: ±1, 미국 기여: ±1
+        reg_score = 0
+        basis_parts = [f"매수신호 {n_signals}개·평균점수 {avg_score}"]
+
+        if main_idx_chg is not None:
+            if main_idx_chg >= 1.0:
+                reg_score += 2
+            elif main_idx_chg >= 0.2:
+                reg_score += 1
+            elif main_idx_chg <= -1.0:
+                reg_score -= 2
+            elif main_idx_chg <= -0.2:
+                reg_score -= 1
+            if kospi_chg is not None:
+                basis_parts.append(f"코스피 {kospi_chg:+g}%")
+            if kosdaq_chg is not None:
+                basis_parts.append(f"코스닥 {kosdaq_chg:+g}%")
+
+        if n_signals >= 4:
+            reg_score += 1
+        elif n_signals == 0:
+            reg_score -= 1
+
+        if sp_chg is not None:
+            if sp_chg >= 0.5:
+                reg_score += 1
+            elif sp_chg <= -0.5:
+                reg_score -= 1
+            basis_parts.append(f"전일 S&P {sp_chg:+g}%")
+        if sox_chg is not None:
+            basis_parts.append(f"SOX {sox_chg:+g}%")
+
+        # ── 5. regime 결정 ───────────────────────────────────────
+        # 코스피·코스닥 방향 엇갈림 → 혼조 우선 적용
+        _both = kospi_chg is not None and kosdaq_chg is not None
+        _split = _both and (
+            (kospi_chg > 0.3 and kosdaq_chg < -0.3) or
+            (kospi_chg < -0.3 and kosdaq_chg > 0.3)
+        )
+        if _split:
+            regime = "혼조"
+        elif reg_score >= 2:
+            regime = "강세"
+        elif reg_score <= -2:
+            regime = "약세"
+        elif abs(reg_score) <= 1:
+            regime = "중립"
+        elif reg_score > 1:
+            regime = "강세"
+        else:
+            regime = "약세"
+
+        # ── 6. 텍스트 생성 ──────────────────────────────────────
+        theme_str = "·".join(top_themes) if top_themes else "전 업종"
+        theme_note = (f"주도 테마({theme_str}) 위주 선별 진입."
+                      if top_themes else "업종 편중 없음 — 종목 개별 신호 중심.")
+
+        if regime == "강세":
+            headline = (f"{theme_str} 주도 강세 — 기술신호 {n_signals}개·평균점수 {avg_score}. "
+                        f"과열 구간 진입 시 비중 조절 유의.")
+            buy_view = (
+                f"지수 상승 흐름 — 점수 상위 신호의 돌파·눌림 진입 집중. {theme_note} "
+                f"{'미국 우호환경(S&P ' + f'{sp_chg:+g}%)으로 외인 유입 기대.' if (sp_chg or 0) >= 0.5 else '거래량 동반 여부 반드시 확인.'}"
+            )
+            sell_view = (
+                f"급등 후 상단 매물대·과열 구간 도달 시 일부 차익실현 검토. "
+                f"48시간 보유캡 도달 종목 우선 정리. 손절가 이탈 시 재료 불문 기계적 손절."
+            )
+        elif regime == "약세":
+            headline = (f"지수 약세 — 진입 기회 제한({n_signals}개 신호). "
+                        f"손절 규율 최우선, 현금 비중 확대 검토.")
+            buy_view = (
+                f"신호 수 제한적 — 고점수·고확신 종목만 소량 진입(비중 절제). "
+                f"{theme_note} 지수 낙폭 확대 시 신규 진입 전면 보류."
+            )
+            sell_view = (
+                f"지수 하락 환경 — 보유 비중 축소 우선. "
+                f"{'미 반도체 약세(SOX ' + f'{sox_chg:+g}%)로 반도체 비중 경계. ' if (sox_chg or 0) <= -1.0 else ''}"
+                f"손절가 이탈 즉시 기계적 청산. 반등 시도도 매도 기회로 활용."
+            )
+        elif regime == "혼조":
+            headline = (f"코스피·코스닥 방향 엇갈린 혼조 — {theme_str} 선별 진입. "
+                        f"섹터 순환매 가능성, 방향 확인 후 진입.")
+            buy_view = (
+                f"강한 섹터(수급 유입·거래량 증가)에 한정 진입. {theme_note} "
+                f"지수 방향 불일치 구간 — 단기 변동성 확대 대비 비중 절제."
+            )
+            sell_view = (
+                f"방향성 부재 구간 — 목표가 도달 시 즉시 분할 익절. "
+                f"48시간 보유캡 준수, 수익 확보 후 현금화 우선."
+            )
+        else:  # 중립
+            headline = (f"지수 보합 중립 — 뚜렷한 방향성 부재. "
+                        f"신호 {n_signals}개 내 고점수 종목만 선별 접근.")
+            buy_view = (
+                f"방향성 불명확 — 점수 상위 소수 종목에 집중(분산 금지). {theme_note} "
+                f"거래량·분봉 확인 후 돌파 진입이 원칙."
+            )
+            sell_view = (
+                f"보유 중 목표가·손절가 룰 엄격 적용. "
+                f"수익권 진입 종목은 일부 차익실현 후 트레일링 적용 검토. "
+                f"48시간 보유캡 이내 청산 원칙 유지."
+            )
+
+        basis = " · ".join(basis_parts) + " (실측 지표, 날조 없음)"
+
+        return {
+            "regime": regime,
+            "headline": headline,
+            "buy_view": buy_view,
+            "sell_view": sell_view,
+            "basis": basis,
+            "asof": asof,
+        }
+
+    except Exception as ex:
+        print(f"[analyze] market_outlook 생성 실패(건너뜀): {ex}")
+        return None
+
+
 SIGNALS_LOG_PATH = REPO_ROOT / "signals_log.json"
 
 
@@ -2053,6 +2227,21 @@ def main():
             ms_k.update(ms_korea)
         print(f"[analyze] KR 지수 갱신: "
               f"{[(i['name'], i['change_pct']) for i in krc['indices']]}")
+
+    # ── 오늘의 증시 전망(market_outlook) 자동 생성 ───────────────────────────
+    # 실측 지표(한국 지수·신호 분포·미국 야간)만으로 regime 판정. 날조 없음.
+    # 미산출(데이터 부족·오류)이면 market_outlook 키를 넣지 않는다(앱 null 미표시).
+    # usc 는 fetch_us_context() 반환값(None 이면 함수 내부에서 빈 dict 처리).
+    outlook = generate_market_outlook(signals, feed.get("kr_context"), usc)
+    if outlook:
+        feed["summary"]["market_outlook"] = outlook
+        # 면책 한 줄 — risk_notes 에 1회만 추가(중복 방지).
+        _outlook_disc = "이 증시 전망은 과거·현재 지표 기반이며 미래를 보장하지 않습니다(참고용)."
+        rn = feed.get("risk_notes", [])
+        if _outlook_disc not in rn:
+            feed["risk_notes"] = rn + [_outlook_disc]
+        print(f"[analyze] market_outlook 생성: regime={outlook['regime']} "
+              f"(신호 {len(signals)}개, basis={outlook['basis'][:50]}...)")
 
     feed.setdefault("positions", feed.get("positions", []))
     feed.setdefault("portfolio", feed.get("portfolio", {"total_unrealized": 0, "count": 0, "to_close": 0}))
