@@ -17,6 +17,7 @@
 import bisect
 import datetime
 import json
+import math
 import sys
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -110,8 +111,8 @@ def _collect(items, supply_map):
             price = bars[i][4]
             lv = levels(price, ind, 48, sm, t1, t2)
             fwd = [(b[1], b[2], b[3], b[4]) for b in bars[i + 1:i + 1 + HOLD_BARS]]
-            outcome, r = _evaluate(lv["entry"], lv["stop"], lv["target1"],
-                                   lv["target2"], lv["etype"], fwd)
+            outcome, r, _ = _evaluate(lv["entry"], lv["stop"], lv["target1"],
+                                      lv["target2"], lv["etype"], fwd)
             if outcome in ("invalid", "no_fill") or r is None:
                 continue
             supply = _supply_at(sup_sorted, sup_dates, bars[i][0])
@@ -123,8 +124,9 @@ def _collect(items, supply_map):
             bucket = combo_bucket(cur, ind["vol_surge"],
                                   (supply or {}).get("for", 0),
                                   (supply or {}).get("org", 0))
+            # r 이 None 이 아닐 때(위에서 가드) math.isfinite 도 보장(_evaluate 내부 처리).
             samples.append((bars[i][0], [feats[k] for k in FEATURES],
-                            1 if r > 0 else 0, cur, bucket))
+                            1 if r > 0 else 0, cur, bucket, r))  # [5]=r(avg_r 집계용)
     samples.sort(key=lambda s: s[0])  # 시간순(train/val 분할용)
     print(f"[learn] 표본 {len(samples)}건 (수급 매칭 {sup_used}건)")
     return samples
@@ -180,32 +182,68 @@ COMBO_TOP = 10           # 상위 조합 노출 수
 
 
 def combo_winrates(samples, now):
-    """(점수구간 × 거래량 × 외국인 × 기관) 조합별 48h 승률을 집계한 블록(dict).
+    """(점수구간 × 거래량 × 외국인 × 기관) 조합별 48h 승률·avg_r·payoff 집계 블록(dict).
+
     버킷은 _collect 가 표본마다 저장한 공용 combo_bucket 결과(인덱스 4)를 그대로 쓴다 —
     analyze 의 신호 보정과 정의가 항상 일치한다. 표본 최소치(COMBO_MIN_SAMPLE) 미만
     조합은 제외. 전체 평균(base) 대비 우위(lift)도. best/worst 외에 **전체 조합 lookup
-    테이블**(table: combo_key → {winrate,n,lift})도 싣는다(analyze 가 신호별 조회)."""
-    agg = {}  # bucket(튜플) -> [wins, n]
+    테이블**(table: combo_key → {winrate,n,lift,avg_r})도 싣는다(analyze 가 신호별 조회).
+
+    추가 필드(작업1):
+      avg_r   — 조합 표본 전체 평균 R(이익·손실 합산). None=데이터 없음.
+      payoff  — 평균 이익 R / |평균 손실 R|. None=한쪽 없음.
+    앱 WinrateCombo.avgR(double?, key='avg_r')가 이 필드를 읽어 EV/켈리 칩을 표시."""
+    # 누산기: bucket→{wins, n, r_sum, r_n, wins_r_sum, wins_r_n, loss_r_sum, loss_r_n}
+    agg = {}
     wins_total = 0
     for s in samples:
         bucket = s[4]
-        a = agg.setdefault(bucket, [0, 0])
-        a[0] += s[2]
-        a[1] += 1
+        r_val = s[5] if len(s) > 5 else None  # _collect 에서 추가한 실현 R
+        a = agg.setdefault(bucket, {
+            "wins": 0, "n": 0,
+            "r_sum": 0.0, "r_n": 0,
+            "wins_r_sum": 0.0, "wins_r_n": 0,
+            "loss_r_sum": 0.0, "loss_r_n": 0,
+        })
+        a["wins"] += s[2]
+        a["n"] += 1
         wins_total += s[2]
+        # r_val 이 None 이 아닌 경우 _evaluate 보장으로 math.isfinite 도 성립.
+        # 방어적으로 isfinite 도 체크.
+        if r_val is not None and math.isfinite(r_val):
+            a["r_sum"] += r_val
+            a["r_n"] += 1
+            if r_val > 0:
+                a["wins_r_sum"] += r_val
+                a["wins_r_n"] += 1
+            elif r_val < 0:
+                a["loss_r_sum"] += r_val
+                a["loss_r_n"] += 1
     n_total = len(samples)
     base = (wins_total / n_total) if n_total else 0.0
     combos = []
     table = {}
-    for (sb, vs, fd, idr), (wins, n) in agg.items():
+    for (sb, vs, fd, idr), acc in agg.items():
+        n = acc["n"]
         if n < COMBO_MIN_SAMPLE:
             continue
+        wins = acc["wins"]
         wr = wins / n
         lift = round(wr - base, 3)
-        combos.append({"score": sb, "volume": vs, "foreign": fd, "inst": idr,
-                       "winrate": round(wr, 3), "n": n, "lift": lift})
+        # ── avg_r ────────────────────────────────────────────────────────────
+        avg_r = round(acc["r_sum"] / acc["r_n"], 2) if acc["r_n"] else None
+        # ── payoff = 평균이익R / |평균손실R| ─────────────────────────────────
+        avg_win_r = (acc["wins_r_sum"] / acc["wins_r_n"]) if acc["wins_r_n"] else None
+        avg_loss_r = (acc["loss_r_sum"] / acc["loss_r_n"]) if acc["loss_r_n"] else None
+        payoff = (round(avg_win_r / abs(avg_loss_r), 2)
+                  if (avg_win_r is not None and avg_loss_r is not None and avg_loss_r != 0)
+                  else None)
+        entry = {"score": sb, "volume": vs, "foreign": fd, "inst": idr,
+                 "winrate": round(wr, 3), "n": n, "lift": lift,
+                 "avg_r": avg_r, "payoff": payoff}
+        combos.append(entry)
         table[combo_key((sb, vs, fd, idr))] = {
-            "winrate": round(wr, 3), "n": n, "lift": lift}
+            "winrate": round(wr, 3), "n": n, "lift": lift, "avg_r": avg_r}
     best = sorted(combos, key=lambda c: c["winrate"], reverse=True)
     worst = sorted(combos, key=lambda c: c["winrate"])
     return {
@@ -215,7 +253,7 @@ def combo_winrates(samples, now):
         "n_combos": len(combos),
         "min_sample": COMBO_MIN_SAMPLE,
         "method": ("과거 일봉의 (점수구간 × 거래량 × 외국인순매매 × 기관순매매) "
-                   f"조합별 48h 승률. 표본 {COMBO_MIN_SAMPLE}건 미만 조합은 우연 방지로 제외."),
+                   f"조합별 48h 승률·평균R·payoff. 표본 {COMBO_MIN_SAMPLE}건 미만 조합은 우연 방지로 제외."),
         "disclaimer": ("과거 데이터 기반 참고치이며 미래 수익을 보장하지 않습니다. "
                        "조합을 좁힐수록 표본이 줄어 신뢰가 낮아집니다. "
                        "호가 매수/매도 비율은 과거 기록이 없어 제외(향후 적재 예정)."),

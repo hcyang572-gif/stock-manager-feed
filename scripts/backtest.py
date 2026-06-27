@@ -66,11 +66,12 @@ def _evaluate(entry, stop, t1, t2, etype, fwd, partial=0.5, breakeven=True):
     - partial: 목표1 도달 시 청산할 비중(0이면 부분익절 안 함=목표1 미청산하고 계속).
     - breakeven: 목표1 도달 후 손절을 본전(진입가)으로 올린다.
     R 은 **비중가중 실현 손익**(R 단위). 손절 −1.0 기준. 미발동(no_fill)은 r=None.
-    반환: (outcome, r) — outcome ∈ {invalid,no_fill,stop,target1,target2,timecut}.
+    반환: (outcome, r, bars_to_exit) — outcome ∈ {invalid,no_fill,stop,target1,target2,timecut},
+    bars_to_exit: 청산까지 소요된 일봉 봉 수(no_fill·invalid 는 None).
     """
     risk = entry - stop
     if risk <= 0:
-        return ("invalid", None)
+        return ("invalid", None, None)
     filled = (etype == "now")
     rem = 1.0          # 남은 비중
     realized = 0.0     # 실현 R(비중가중)
@@ -79,7 +80,8 @@ def _evaluate(entry, stop, t1, t2, etype, fwd, partial=0.5, breakeven=True):
     stopped = False
     cur_stop = stop
     last_close = None
-    for (o, h, l, c) in fwd:
+    bars_to_exit = None
+    for bar_num, (o, h, l, c) in enumerate(fwd, 1):
         last_close = c
         if not filled:
             if h >= entry:       # 돌파대기 체결
@@ -91,6 +93,7 @@ def _evaluate(entry, stop, t1, t2, etype, fwd, partial=0.5, breakeven=True):
             realized += rem * (cur_stop - entry) / risk
             rem = 0.0
             stopped = True
+            bars_to_exit = bar_num
             break
         if not t1_hit and h >= t1:
             realized += partial * (t1 - entry) / risk
@@ -102,26 +105,29 @@ def _evaluate(entry, stop, t1, t2, etype, fwd, partial=0.5, breakeven=True):
                 realized += rem * (t2 - entry) / risk
                 rem = 0.0
                 t2_hit = True
+                bars_to_exit = bar_num
                 break
         elif t1_hit and h >= t2:
             realized += rem * (t2 - entry) / risk
             rem = 0.0
             t2_hit = True
+            bars_to_exit = bar_num
             break
     if not filled:
-        return ("no_fill", None)
+        return ("no_fill", None, None)
     if rem > 1e-9:
         lc_ok = last_close is not None and math.isfinite(last_close)
         realized += rem * ((last_close - entry) / risk if lc_ok else 0.0)
         rem = 0.0
+        bars_to_exit = len(fwd)  # 시간청산: 보유창 전체 소요
     r = round(realized, 2) if math.isfinite(realized) else None
     if t2_hit:
-        return ("target2", r)
+        return ("target2", r, bars_to_exit)
     if t1_hit:
-        return ("target1", r)   # 목표1 부분익절 후 본전스톱/시간청산
+        return ("target1", r, bars_to_exit)   # 목표1 부분익절 후 본전스톱/시간청산
     if stopped:
-        return ("stop", r)
-    return ("timecut", r)
+        return ("stop", r, bars_to_exit)
+    return ("timecut", r, bars_to_exit)
 
 
 def _bucket(score):
@@ -218,41 +224,90 @@ def _collect_samples(items):
             if sc < SCORE_CUTOFF:
                 continue
             fwd = [(b[1], b[2], b[3], b[4]) for b in bars[i + 1:i + 1 + HOLD_BARS]]
-            samples.append((price, ind, fwd, sc))
+            samples.append((price, ind, fwd, sc, bars[i][0]))  # [4]=date_str(국면 분류용)
     return samples
 
 
+def _kospi_regime_map(bars, ma_period=20, thresh=0.005):
+    """KOSPI(^KS11) 일봉에서 날짜→시장국면('상승'/'하락'/'횡보') 맵 생성.
+
+    국면 기준(단순·일관):
+      상승: 종가 > 20일 MA × 1.005
+      하락: 종가 < 20일 MA × 0.995
+      횡보: 나머지(MA 계산 전 초기 구간 포함, 결측봉 포함).
+    호출부에서 `.get(date, '횡보')` 로 맵에 없는 날짜를 처리."""
+    closes = [b[4] for b in bars]
+    date_map = {}
+    for i in range(len(bars)):
+        date_str = bars[i][0]
+        if i < ma_period - 1:
+            date_map[date_str] = "횡보"
+            continue
+        ma20 = sum(closes[i - ma_period + 1:i + 1]) / ma_period
+        close = closes[i]
+        if not math.isfinite(ma20) or not math.isfinite(close) or ma20 == 0:
+            date_map[date_str] = "횡보"
+        elif close > ma20 * (1 + thresh):
+            date_map[date_str] = "상승"
+        elif close < ma20 * (1 - thresh):
+            date_map[date_str] = "하락"
+        else:
+            date_map[date_str] = "횡보"
+    return date_map
+
+
 def _eval_sample(price, ind, fwd, sm, t1m, t2m):
-    """표본을 주어진 손절·목표 배수로 평가 → (outcome, r, etype)."""
+    """표본을 주어진 손절·목표 배수로 평가 → (outcome, r, etype, bars_to_exit)."""
     lv = levels(price, ind, 48, sm, t1m, t2m)
-    outcome, r = _evaluate(lv["entry"], lv["stop"], lv["target1"], lv["target2"],
-                           lv["etype"], fwd)
-    return outcome, r, lv["etype"]
+    outcome, r, bars_to_exit = _evaluate(lv["entry"], lv["stop"], lv["target1"], lv["target2"],
+                                         lv["etype"], fwd)
+    return outcome, r, lv["etype"], bars_to_exit
 
 
-def _aggregate(samples):
-    """기본 파라미터(현 규칙)로 표본을 집계 → (전체, 점수버킷별, 진입유형별)."""
+def _aggregate(samples, regime_map=None):
+    """기본 파라미터(현 규칙)로 표본을 집계 → (전체, 점수버킷별, 진입유형별, 국면별, 청산속도별).
+
+    regime_map: 날짜→국면('상승'/'하락'/'횡보') dict. None 이면 by_regime 은 빈 집계.
+    by_exit_speed: 청산 소요 봉 수별(일봉 기준). '1일차'/'2일차'/'시간청산'."""
     agg = _blank_agg()
     by_bucket = {"55-64": _blank_agg(), "65-74": _blank_agg(), "75+": _blank_agg()}
     by_type = {"now": _blank_agg(), "breakout": _blank_agg()}
+    by_regime = {"상승": _blank_agg(), "하락": _blank_agg(), "횡보": _blank_agg()}
+    by_exit_speed = {"1일차": _blank_agg(), "2일차": _blank_agg(), "시간청산": _blank_agg()}
     sm = DEFAULT_TUNING["stop_mult"]
     t1 = DEFAULT_TUNING["target1_mult"]
     t2 = DEFAULT_TUNING["target2_mult"]
-    for (price, ind, fwd, sc) in samples:
-        outcome, r, et = _eval_sample(price, ind, fwd, sm, t1, t2)
+    for s in samples:
+        price, ind, fwd, sc = s[0], s[1], s[2], s[3]
+        date_str = s[4] if len(s) > 4 else None
+        outcome, r, et, bars_to_exit = _eval_sample(price, ind, fwd, sm, t1, t2)
         if outcome == "invalid":
             continue
         _record(agg, outcome, r)
         _record(by_bucket[_bucket(sc)], outcome, r)
         _record(by_type[et], outcome, r)
-    return agg, by_bucket, by_type
+        # 국면별 집계(regime_map 있을 때만; 결측일→'횡보')
+        if regime_map is not None and date_str:
+            regime_key = regime_map.get(date_str, "횡보")
+            _record(by_regime[regime_key], outcome, r)
+        # 청산속도별 집계(체결 신호만 — no_fill 제외)
+        if outcome != "no_fill" and bars_to_exit is not None:
+            if bars_to_exit == 1:
+                speed_key = "1일차"
+            elif outcome == "timecut":
+                speed_key = "시간청산"
+            else:
+                speed_key = "2일차"
+            _record(by_exit_speed[speed_key], outcome, r)
+    return agg, by_bucket, by_type, by_regime, by_exit_speed
 
 
 def _avg_r(subset, sm, t1, t2):
     """subset 표본을 주어진 배수로 평가한 평균 R·체결 수."""
     rs = []
-    for (price, ind, fwd, sc) in subset:
-        _, r, _ = _eval_sample(price, ind, fwd, sm, t1, t2)
+    for s in subset:
+        price, ind, fwd, sc = s[0], s[1], s[2], s[3]
+        _, r, _, _ = _eval_sample(price, ind, fwd, sm, t1, t2)
         if r is not None:
             rs.append(r)
     return (sum(rs) / len(rs), len(rs)) if rs else (None, 0)
@@ -370,8 +425,8 @@ def _forward_section():
         fwd = [(b[1], b[2], b[3], b[4]) for b in bars[idx + 1:idx + 1 + HOLD_BARS]]
         if not fwd:
             continue
-        outcome, r = _evaluate(e["entry"], e["stop"], e["target1"], e["target2"],
-                               e.get("entry_type", "now"), fwd)
+        outcome, r, _ = _evaluate(e["entry"], e["stop"], e["target1"], e["target2"],
+                                   e.get("entry_type", "now"), fwd)
         if outcome == "invalid":
             continue
         matured += 1
@@ -441,7 +496,14 @@ def main():
         return 0
     now = datetime.datetime.now(KST).replace(microsecond=0)
     samples = _collect_samples(watchlist)
-    agg, by_bucket, by_type = _aggregate(samples)
+    # ── KOSPI 국면 맵(by_regime 산출용) ──────────────────────────────────────
+    kospi_bars = _fetch_daily("^KS11")
+    regime_map = _kospi_regime_map(kospi_bars) if len(kospi_bars) >= 25 else None
+    if regime_map:
+        print(f"[backtest] KOSPI 국면 맵 생성: {len(regime_map)}일치")
+    else:
+        print("[backtest] KOSPI 일봉 미확보 — by_regime 빈 집계")
+    agg, by_bucket, by_type, by_regime, by_exit_speed = _aggregate(samples, regime_map)
 
     stats = {
         "schema_version": "1.0",
@@ -455,10 +517,20 @@ def main():
             "overall": _finalize(agg),
             "by_score": {k: _finalize(v) for k, v in by_bucket.items()},
             "by_entry_type": {k: _finalize(v) for k, v in by_type.items()},
+            # ── 작업2: 시장 국면별 성과 ──────────────────────────────────
+            "by_regime": {k: _finalize(v) for k, v in by_regime.items()},
+            "regime_method": ("KOSPI(^KS11) 20일 이동평균 기준 국면 분류: "
+                             "종가>MA20×1.005='상승', 종가<MA20×0.995='하락', 나머지='횡보'. "
+                             "결측일='횡보'. KOSPI 미확보 시 by_regime 전 버킷 빈 집계."),
+            # ── 작업3: 청산 속도(봉 수) 버킷 ────────────────────────────
+            "by_exit_speed": {k: _finalize(v) for k, v in by_exit_speed.items()},
+            "exit_speed_note": (f"★일봉 기준(분·시간 단위 보유시간 불가). "
+                               f"'1일차'/'2일차'=목표·손절 청산까지 소요 거래일(봉) 수. "
+                               f"'시간청산'=보유창({HOLD_BARS}거래일) 전체 경과 후 마지막 종가로 청산."),
             "diagnostics": _diagnostics(agg, by_type),
-            "note": "과거 일봉에 현 규칙을 적용한 백테스트(미국증시 환경 보정 제외). "
+            "note": ("과거 일봉에 현 규칙을 적용한 백테스트(미국증시 환경 보정 제외). "
                     "관리정책 반영: 목표1에서 절반 익절 + 목표1 후 손절을 본전으로 이동. "
-                    "한 봉 내 손절을 목표보다 먼저 보는 보수적 판정. 실측 가격만 사용.",
+                    "한 봉 내 손절을 목표보다 먼저 보는 보수적 판정. 실측 가격만 사용."),
         },
         # 학습 보정안(승인제) — 손절·목표 배수 그리드를 train/val 로 검증해 제안.
         "tuning": _tune(samples),
