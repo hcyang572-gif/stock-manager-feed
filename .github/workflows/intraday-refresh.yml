@@ -1,13 +1,25 @@
 name: intraday-refresh
 
-# 한국 거래일 08:00~20:00 KST, control.robot.interval_min(기본 5분)마다 feed.json 시세 갱신.
-# (NXT 연장거래 프리/애프터 포함 — KIS 통합 시세. 신규 발굴은 아침 풀 발굴이 담당.)
+# 한국 거래일 08:00~20:00 KST, control.robot.interval_min(기본 15분)마다
+# ①시세 재갱신(intraday_refresh.py) ②경량 기술 재발굴(analyze_technical.py)을
+# 함께 수행한다. (NXT 연장거래 프리/애프터 포함 — KIS 통합 시세.)
+#
+# [2026-07-03] 장중 15분마다 기술 재발굴을 추가한 이유: 무거운 촉매(뉴스/LLM)
+# 발굴은 비용 때문에 아침 1회만 하지만, 변동성 돌파·거래량 급증·전고점 돌파·VWAP
+# 이탈회복 같은 **차트 기반 신호**는 장중 새로 튀는 급등주를 놓치지 않도록 여기서
+# 재스캔한다(관심종목+전체종목 거래대금 상위 통합, LLM 미사용·무료). 기존에는
+# scheduled-analyze.yml 의 "*/10 * * * *" 분단위 cron 이 이 역할을 맡았으나 GitHub
+# 가 고빈도 cron 을 강하게 throttle 해(실측: 하루 1회 이하) 사실상 죽어있었다.
+# 이 워크플로(시간당 기동+내부 sleep 루프)는 이미 검증된 신뢰 패턴이라 재발굴도
+# 여기로 옮겨 같은 내성을 얻는다.
 #
 # [중요] GitHub 의 분단위 cron(*/5,*/10)은 throttle 로 누락이 잦아(종일 0회 발화 사례)
 # 신뢰할 수 없다. 그래서 cron 은 **시간당 1회 기동**만 맡고, 실제 폴링은 하나의 잡이
 # **내부 sleep 루프**로 ~70분 동안 interval_min 마다 수행한다(throttle 내성). 시간당 기동이
 # 겹치면 concurrency(cancel-in-progress)로 새 잡이 이어받아 연속 커버한다.
 # 거래일·시간 가드·NXT 판정은 스크립트(intraday_refresh.py)가 KST 로 정밀 처리한다.
+# 기술 재발굴은 intraday_refresh.py 의 판정(주말·공휴일·시간창)을 그대로 재사용해
+# 거래일이 아니면 함께 건너뛴다(아래 Loop 스텝 참고).
 
 on:
   schedule:
@@ -39,7 +51,8 @@ jobs:
           python-version: "3.12"
 
       - name: Install deps
-        run: pip install --quiet holidays tzdata
+        # yfinance: 기술 재발굴(analyze_technical.py)의 일봉·지표 계산용.
+        run: pip install --quiet holidays tzdata yfinance
 
       # KIS 토큰 '1일 1회 발급' — KST 날짜 키로 캐시해 다른 워크플로와 공유(재발급 방지).
       - name: KIS token date (KST)
@@ -52,11 +65,16 @@ jobs:
           path: config/.kis_token.json
           key: kis-token-${{ steps.kisdate.outputs.d }}
 
-      # 내부 sleep 루프 — ~70분 동안 interval_min 마다 갱신(분단위 cron throttle 회피).
-      # 매 반복마다 origin/main 으로 hard-reset 해 최신 feed/control 에서 작업(다른
-      # 워크플로 push 와의 충돌·rebase 꼬임 방지). 변경 시 commit&push, 거부되면 다음
-      # 반복이 reset 후 재시도. 시간 가드는 스크립트가 처리하므로 창 밖이면 no-op.
-      - name: Loop refresh (내부 sleep 폴링 ~70분)
+      # 내부 sleep 루프 — ~70분 동안 interval_min(기본 15분) 마다
+      # ①intraday_refresh.py(시세·NXT ext·호가 경량 갱신) ②analyze_technical.py
+      # (관심종목+전체종목 거래대금 상위 경량 기술 재발굴 — LLM 미사용) 를 순서대로
+      # 수행한다. ①을 먼저 실행해 거래일·시간 가드 결과(stdout)를 얻고, 주말·공휴일·
+      # 창 밖이면 ②도 함께 건너뛴다(중복 판정 로직 방지 — intraday_refresh.py 의
+      # is_trading_now() 판정을 그대로 재사용). 매 반복마다 origin/main 으로
+      # hard-reset 해 최신 feed/control 에서 작업(다른 워크플로 push 와의 충돌·rebase
+      # 꼬임 방지). 두 스크립트 결과를 한 커밋으로 묶어 push, 거부되면 다음 반복이
+      # reset 후 재시도.
+      - name: Loop refresh + rescan (내부 sleep 폴링 ~70분)
         env:
           KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
           KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
@@ -67,13 +85,22 @@ jobs:
           end=$(( $(date +%s) + 70*60 ))
           while :; do
             git fetch -q origin main 2>/dev/null && git reset --hard -q origin/main 2>/dev/null || true
-            interval=$(jq -r '(.robot.interval_min // 5)' control.json 2>/dev/null || echo 5)
-            case "$interval" in ''|*[!0-9]*) interval=5;; esac
-            [ "$interval" -lt 1 ] && interval=5
-            python scripts/intraday_refresh.py $FORCE || true
-            if [ -n "$(git status --porcelain feed.json)" ]; then
-              git add feed.json
-              git commit -q -m "intraday: 시세 자동갱신·NXT ($(TZ=Asia/Seoul date '+%m-%d %H:%M KST'))" || true
+            interval=$(jq -r '(.robot.interval_min // 15)' control.json 2>/dev/null || echo 15)
+            case "$interval" in ''|*[!0-9]*) interval=15;; esac
+            [ "$interval" -lt 1 ] && interval=15
+
+            refresh_out=$(python scripts/intraday_refresh.py $FORCE 2>&1)
+            printf '%s\n' "$refresh_out"
+
+            if printf '%s' "$refresh_out" | grep -qE '^\[intraday\] skip \((weekend|holiday|krx-yearend|outside-window)\)' && [ -z "$FORCE" ]; then
+              echo "[rescan] 거래일 아님/창 밖 — 기술 재발굴 건너뜀"
+            else
+              python scripts/analyze_technical.py || true
+            fi
+
+            if [ -n "$(git status --porcelain feed.json signals_log.json 2>/dev/null)" ]; then
+              git add feed.json signals_log.json 2>/dev/null || git add feed.json
+              git commit -q -m "intraday: 시세+기술 재발굴 자동갱신 ($(TZ=Asia/Seoul date '+%m-%d %H:%M KST'))" || true
               git push -q || true
             fi
             now=$(date +%s)

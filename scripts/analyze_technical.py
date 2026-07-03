@@ -2074,11 +2074,26 @@ def main():
     if kr_chg_map:
         print(f"[analyze] KR 등락률 네이버 보정(rf 부호): {len(kr_chg_map)}종목")
 
+    # ★프리마켓 0.00 오표기 방지(2026-07-03)★ 네이버 SERVICE_ITEM 은 KRX 정규장
+    # (09:00) 개장 전엔 라이브 틱이 없어 전일종가를 그대로 돌려주며 cr=0 이 고정
+    # 출력된다 — 관측 결과 08:00~09:00 프리마켓 시간대에 관심종목 30개 전부가
+    # 동시에 change_pct=0.00 으로 기록되는 사고가 있었다(실측 '변동없음'이 아니라
+    # '아직 데이터 없음'을 0 으로 날조한 것). 08:00~09:00(KST, 평일)엔 네이버 값이
+    # 정확히 0.0 이면 무조건 신뢰하지 않는다: KIS UN(NXT) 등 실측 대체값이 있으면
+    # 그 값을 쓰고, 없으면 null(미확보)로 발행한다. 정규장 개장 후(09:00~)엔 실제
+    # 보합(0.00)도 있을 수 있으므로 이 가드를 적용하지 않는다.
+    _premkt = now.weekday() < 5 and (8 * 60) <= (now.hour * 60 + now.minute) < (9 * 60)
+
     # ★KR 등락률 이상치 게이트(P1-신호품질·시세 정합성)★ 네이버 권위값으로 덮어쓴
     # 등락률도 ±45% 초과면 데이터 오류로 보고 None 처리(change_pct=null 로 발행).
     # 방향 뒤집힘 사고는 이미 rf 부호로 차단됐지만, 크기 이상치는 별도 게이트 필요.
     def _kr_chg_gated(code, fallback):
         v = kr_chg_map.get(code, fallback)
+        if _premkt and v == 0.0:
+            if fallback is not None and fallback != 0.0:
+                return fallback  # KIS UN 등 실측 프리마켓 값 보존(네이버 고정값이 덮어쓰지 않게)
+            print(f"[analyze] KR {code} 프리마켓 네이버 미개장 고정값(0.00) — 미확보 처리(null)")
+            return None
         if v is not None and abs(v) > 45.0:
             print(f"[analyze] ⚠️ KR {code} 등락률 이상치 {v:+.2f}% (>45%) — 폐기(null)")
             return None

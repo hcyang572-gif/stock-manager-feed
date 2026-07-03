@@ -597,8 +597,23 @@ def main():
                 else:
                     miss.append(item.get("name", code))
             # KR 종목은 네이버 권위 등락률로 교체(있을 때). 미국 등은 KIS/야후 chg 유지.
+            # ★프리마켓 0.00 오표기 방지(2026-07-03)★ 네이버 SERVICE_ITEM 은 KRX
+            # 정규장(09:00) 개장 전엔 라이브 틱이 없어 전일종가 그대로에 cr=0 을
+            # 고정 출력한다 — 08:00~09:00 프리마켓에 관심종목 전체가 동시에
+            # change_pct=0.00 으로 찍히는 사고(실측 '변동없음'이 아닌 '미확보'를
+            # 0 으로 날조)를 막는다. 이 시간대 네이버 값이 정확히 0.0 이면: KIS
+            # UN(NXT) 실측 chg 가 이미 있으면 그걸 유지, 없으면 change_pct 자체를
+            # 지워(null) 미확보로 남긴다. 09:00 이후엔 실제 보합(0.00)도 있으니
+            # 가드하지 않는다.
+            _premkt = session_key == "pre"
             if (market or "KR").upper() == "KR" and code in kr_chg_naver:
-                chg = kr_chg_naver[code]
+                nchg = kr_chg_naver[code]
+                if _premkt and nchg == 0.0:
+                    if not (chg is not None and chg != 0.0):
+                        chg = None  # 미확보 — 기존 change_pct 제거(날조 금지)
+                        item.pop("change_pct", None)
+                else:
+                    chg = nchg
             if price is None:
                 continue
             if item.get("price") != price:
