@@ -20,11 +20,26 @@ name: intraday-refresh
 # 거래일·시간 가드·NXT 판정은 스크립트(intraday_refresh.py)가 KST 로 정밀 처리한다.
 # 기술 재발굴은 intraday_refresh.py 의 판정(주말·공휴일·시간창)을 그대로 재사용해
 # 거래일이 아니면 함께 건너뛴다(아래 Loop 스텝 참고).
+#
+# [2026-07-03 장애·근본원인·대책] 오늘 장중 11:10~12:20 KST 실행이 끝난 뒤 12:20~14:20
+# KST **2시간 동안 아무 실행도 없어** feed.json 이 고착됐다. gh api 로 당일 00:00~05:21 UTC
+# (09:00~14:21 KST) 구간을 전수 조회한 결과 이 레포의 **모든 워크플로에서 schedule 이벤트가
+# 단 한 번도 발화하지 않았다**(workflow_dispatch 3건만 존재) — "시간당 1회 기동"이라는 기존
+# 설계는 "매 시간 schedule 이 반드시 온다"를 전제했는데, 그 전제 자체가 GitHub 인프라 한계로
+# 깨질 수 있음이 실측 확인됨(GitHub 공식 문서도 "높은 부하 시 schedule 이 지연되거나 아예
+# 발화하지 않을 수 있다"고 명시 — 정시(:00)는 전세계 cron 이 몰리는 최고 부하 시점이라 더 취약).
+# 대책: ① 더는 "다음 schedule 이 반드시 온다"에 기대지 않고, **이 잡이 스스로 끝나기 직전
+# 자기 자신을 workflow_dispatch 로 재기동(릴레이)**한다(아래 "Relay 연쇄 재기동" 스텝) — 08:00
+# 최초 기동(수동이든 schedule 이든) 이후로는 20:00 KST 까지 schedule 없이도 끊김 없이 이어진다.
+# ② 그래도 릴레이가 어떤 이유로든 끊기는 경우를 대비해 시간당 cron 은 **백스톱**으로 유지하되,
+# 발화 확률을 높이려 정시(:00)를 피해 오프셋(:07)을 줬다(GitHub 권장사항).
 
 on:
   schedule:
-    - cron: "0 23 * * *"      # 08:00 KST 기동
-    - cron: "0 0-11 * * *"    # 09:00~20:00 KST 매시 기동(시간당 1회)
+    - cron: "53 22 * * *"     # 07:53 KST 기동(장전 준비, 정시 혼잡 회피 오프셋)
+    - cron: "7 0-11 * * *"    # 09:07~20:07 KST 매시 백스톱 기동(정시 혼잡 회피 오프셋).
+                               # 정상 동작 시엔 아래 Relay 가 이미 이어받고 있어 대개는
+                               # concurrency 로 조용히 흡수되고, 릴레이가 끊겼을 때만 복구 역할.
   workflow_dispatch:
     inputs:
       force:
@@ -34,6 +49,7 @@ on:
 
 permissions:
   contents: write
+  actions: write   # Relay 스텝이 자기 자신을 workflow_dispatch 로 재기동하는 데 필요.
 
 concurrency:
   group: intraday-refresh
@@ -79,6 +95,7 @@ jobs:
       # 워크플로 push 와의 충돌·rebase 꼬임 방지). 두 스크립트 결과를 한 커밋으로
       # 묶어 push, 거부되면 다음 반복이 reset 후 재시도.
       - name: Loop refresh + rescan (내부 sleep 폴링 ~70분)
+        id: loop
         env:
           KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
           KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
@@ -88,6 +105,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           end=$(( $(date +%s) + 70*60 ))
           last_rescan_slot=""
+          nontrading="false"   # 마지막 회차가 주말/공휴일/연말휴장 스킵이었는지(Relay 스텝이 참조)
           while :; do
             git fetch -q origin main 2>/dev/null && git reset --hard -q origin/main 2>/dev/null || true
             interval=$(jq -r '(.robot.interval_min // 5)' control.json 2>/dev/null || echo 5)
@@ -100,6 +118,12 @@ jobs:
             # 주기를 잡아먹지 않게 한다(실패해도 다음 반복이 재시도).
             refresh_out=$(timeout 120 python scripts/intraday_refresh.py $FORCE 2>&1)
             printf '%s\n' "$refresh_out"
+
+            if printf '%s' "$refresh_out" | grep -qE '^\[intraday\] skip \((weekend|holiday|krx-yearend)\)' && [ -z "$FORCE" ]; then
+              nontrading="true"
+            else
+              nontrading="false"
+            fi
 
             # 기술 재발굴 — 고정 15분 슬롯(:00/:15/:30/:45)당 1회만. 같은 슬롯 안에서
             # 반복 호출되지 않게 last_rescan_slot 으로 중복 방지.
@@ -124,3 +148,33 @@ jobs:
             [ "$remain" -lt $(( interval * 60 )) ] && break
             sleep $(( interval * 60 ))
           done
+          echo "nontrading=$nontrading" >> "$GITHUB_OUTPUT"
+
+      # ★2026-07-03 장애 대책★ — GitHub schedule 이 몇 시간 동안 통째로 발화하지 않아도
+      # (실측: 오늘 00:00~05:21 UTC 전 워크플로 schedule 이벤트 0건) 20:00 KST 까지 공백이
+      # 안 생기도록, 이 잡이 끝나기 직전 **자기 자신을 workflow_dispatch 로 재기동**한다.
+      # 08:00 KST 최초 1회(수동이든 schedule 이든)만 성공하면 그 뒤로는 schedule 안 와도
+      # 연쇄적으로 이어진다. concurrency(cancel-in-progress)가 새 릴레이 잡을 이어받으므로
+      # 이 잡이 곧 끝나는 것과 겹쳐도 안전(유실 없음 — push 는 이미 위에서 완료됨).
+      # 평일·08:00~19:57 KST 안에서만 재기동(그 밖·주말이면 자연 종료). 오늘이 주말/공휴일/
+      # 연말휴장으로 판정됐으면(Loop 의 nontrading 출력) 굳이 다음 릴레이를 깨우지 않는다
+      # (schedule 백스톱이 필요시 다시 깨움 — 휴일에 70분 루프를 낭비적으로 반복하지 않기 위함).
+      # if 는 기본값(성공 시에만) — 이 잡이 concurrency 로 "취소"당한 경우엔 실행하지 않는다
+      # (이미 그 취소를 유발한 새 run 이 떠 있으므로, 취소된 쪽까지 또 self-dispatch 하면
+      # 릴레이가 이중으로 갈라질 수 있어 굳이 always() 를 쓰지 않는다).
+      - name: Relay 연쇄 재기동 (schedule 드롭 대비 — 20:00 KST까지 공백 없이)
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          dow=$(TZ=Asia/Seoul date +%u)     # 1=Mon..7=Sun
+          nowmin=$(( $(TZ=Asia/Seoul date +%-H) * 60 + $(TZ=Asia/Seoul date +%-M) ))
+          if [ "${{ steps.loop.outputs.nontrading }}" = "true" ]; then
+            echo "[relay] 오늘은 비거래일 판정 — 연쇄 재기동 생략(백스톱 cron 이 필요시 깨움)"
+          elif [ "$dow" -le 5 ] && [ "$nowmin" -ge 480 ] && [ "$nowmin" -lt 1197 ]; then
+            gh workflow run intraday-refresh.yml --repo "${{ github.repository }}" --ref "${{ github.ref_name }}" \
+              && echo "[relay] 다음 릴레이 기동 성공" \
+              || echo "[relay] self-dispatch 실패 — 다음 시간당 백스톱 cron 이 이어받음"
+          else
+            echo "[relay] 20:00 KST 이후/주말 — 연쇄 종료"
+          fi
