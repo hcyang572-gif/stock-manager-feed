@@ -65,15 +65,19 @@ jobs:
           path: config/.kis_token.json
           key: kis-token-${{ steps.kisdate.outputs.d }}
 
-      # 내부 sleep 루프 — ~70분 동안 interval_min(기본 15분) 마다
-      # ①intraday_refresh.py(시세·NXT ext·호가 경량 갱신) ②analyze_technical.py
-      # (관심종목+전체종목 거래대금 상위 경량 기술 재발굴 — LLM 미사용) 를 순서대로
-      # 수행한다. ①을 먼저 실행해 거래일·시간 가드 결과(stdout)를 얻고, 주말·공휴일·
-      # 창 밖이면 ②도 함께 건너뛴다(중복 판정 로직 방지 — intraday_refresh.py 의
-      # is_trading_now() 판정을 그대로 재사용). 매 반복마다 origin/main 으로
-      # hard-reset 해 최신 feed/control 에서 작업(다른 워크플로 push 와의 충돌·rebase
-      # 꼬임 방지). 두 스크립트 결과를 한 커밋으로 묶어 push, 거부되면 다음 반복이
-      # reset 후 재시도.
+      # 내부 sleep 루프 — ~70분 동안 두 가지를 서로 다른 주기로 수행한다:
+      #  ①intraday_refresh.py(시세·NXT ext·호가 경량 갱신) — control.json
+      #    robot.interval_min(앱이 설정, 기본 5분) 마다. 이 값은 앱 설정화면이
+      #    소유하므로 엔진이 되돌려쓰지 않는다(되돌려쓰면 앱 재저장과 핑퐁).
+      #  ②analyze_technical.py(관심종목+전체종목 거래대금 상위 경량 기술 재발굴 —
+      #    LLM 미사용, 변동성 돌파·거래량 급증·전고점 돌파·VWAP 등) — **고정 15분**
+      #    (매 정각 :00/:15/:30/:45, interval_min 과 무관하게 코드에서 고정). 무거운
+      #    전체종목 스캔이라 interval_min 이 그보다 촘촘해도 15분보다 자주 돌리지
+      #    않는다(비용·API 레이트 보호). 주말·공휴일·시간창 밖이면 ①의 판정
+      #    (intraday_refresh.py stdout)을 재사용해 ②도 함께 건너뛴다.
+      # 매 반복마다 origin/main 으로 hard-reset 해 최신 feed/control 에서 작업(다른
+      # 워크플로 push 와의 충돌·rebase 꼬임 방지). 두 스크립트 결과를 한 커밋으로
+      # 묶어 push, 거부되면 다음 반복이 reset 후 재시도.
       - name: Loop refresh + rescan (내부 sleep 폴링 ~70분)
         env:
           KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
@@ -83,23 +87,30 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           end=$(( $(date +%s) + 70*60 ))
+          last_rescan_slot=""
           while :; do
             git fetch -q origin main 2>/dev/null && git reset --hard -q origin/main 2>/dev/null || true
-            interval=$(jq -r '(.robot.interval_min // 15)' control.json 2>/dev/null || echo 15)
-            case "$interval" in ''|*[!0-9]*) interval=15;; esac
-            [ "$interval" -lt 1 ] && interval=15
+            interval=$(jq -r '(.robot.interval_min // 5)' control.json 2>/dev/null || echo 5)
+            case "$interval" in ''|*[!0-9]*) interval=5;; esac
+            [ "$interval" -lt 1 ] && interval=5
 
             # ★타임아웃 방어★ 클라우드 IP에서 야후/네이버가 간헐적으로 느려지거나
-            # 막히면(403·재시도 backoff) 한 회차가 오래 걸려 이후 15분 주기 전체가
+            # 막히면(403·재시도 backoff) 한 회차가 오래 걸려 이후 주기 전체가
             # 밀릴 수 있다. 각 스크립트를 timeout 으로 감싸 한 회차 지연이 다음
-            # interval_min 주기를 잡아먹지 않게 한다(실패해도 다음 반복이 재시도).
+            # 주기를 잡아먹지 않게 한다(실패해도 다음 반복이 재시도).
             refresh_out=$(timeout 120 python scripts/intraday_refresh.py $FORCE 2>&1)
             printf '%s\n' "$refresh_out"
 
+            # 기술 재발굴 — 고정 15분 슬롯(:00/:15/:30/:45)당 1회만. 같은 슬롯 안에서
+            # 반복 호출되지 않게 last_rescan_slot 으로 중복 방지.
+            rescan_slot=$(( ($(TZ=Asia/Seoul date +%-H) * 60 + $(TZ=Asia/Seoul date +%-M)) / 15 ))
             if printf '%s' "$refresh_out" | grep -qE '^\[intraday\] skip \((weekend|holiday|krx-yearend|outside-window)\)' && [ -z "$FORCE" ]; then
               echo "[rescan] 거래일 아님/창 밖 — 기술 재발굴 건너뜀"
+            elif [ "$rescan_slot" = "$last_rescan_slot" ] && [ -z "$FORCE" ]; then
+              echo "[rescan] 이번 15분 슬롯 이미 수행 — 건너뜀"
             else
               timeout 300 python scripts/analyze_technical.py || echo "[rescan] 기술 재발굴 실패/타임아웃 — 다음 회차 재시도"
+              last_rescan_slot="$rescan_slot"
             fi
 
             if [ -n "$(git status --porcelain feed.json signals_log.json 2>/dev/null)" ]; then
