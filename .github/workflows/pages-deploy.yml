@@ -1,0 +1,72 @@
+name: pages-deploy
+
+# GitHub Pages 배포를 "정적 설치 페이지가 실제로 바뀔 때만" 발동시킨다.
+#
+# [2026-07-09 근본 수정] 이 레포는 기존에 Pages 소스가 "브랜치에서 배포"(legacy,
+# GitHub 내부 자동 pages-build-deployment)였다. 그 모드는 main 에 push 될 때마다
+# 무조건 전체 Pages 재배포를 걸고, Pages 배포는 동시성 1개라 매번 이전 배포를
+# 취소시킨다. 그런데 intraday-refresh.yml 이 장중(08:00~20:00 KST) 5~10분마다
+# feed.json/signals_log.json 을 자동 커밋·push 하므로, install-vX.html 배포가
+# 그 사이에 끼면 거의 항상 cancelled 로 끝났다(실측 2026-07-09: v0.2.85 설치
+# 페이지가 여러 번 취소되다 한참 뒤에야 겨우 한 번 성공). 카톡으로 설치 링크를
+# 보냈는데 정작 Pages 가 최신 install-vX.html 을 못 띄우는 사고로 이어졌다.
+#
+# 해결: Pages 소스를 "GitHub Actions"(build_type=workflow)로 바꾸고, 이 워크플로가
+# ①설치 페이지류 정적 파일이 바뀐 push 에만 반응(on.push.paths) ②앱이 실제로
+# 읽는 feed.json/signals_log.json/control.json/*.py 등은 애초에 배포 아티팩트에도
+# 안 담는다(별도 _site 스테이징 폴더로 필요한 파일만 복사) — 두 겹으로 5분 커밋과
+# Pages 배포를 완전히 분리한다.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "index.html"
+      - "install-*.html"
+      - "public-review.html"
+      - "qr.png"
+      - ".nojekyll"
+      - ".github/workflows/pages-deploy.yml"
+  workflow_dispatch:   # 필요시 수동 재배포
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Pages 배포 자체의 동시성 그룹(GitHub 공식 권장 이름 "pages"). 취소 대신 대기시켜
+# 마지막 배포가 항상 실제로 완료되게 한다(취소로 인한 유실 방지가 이번 수정의 핵심).
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 배포용 정적 파일만 스테이징(_site) — feed.json 등 대용량/고빈도 파일 제외
+        run: |
+          mkdir -p _site
+          cp index.html _site/ 2>/dev/null || true
+          cp install-v*.html _site/ 2>/dev/null || true
+          cp public-review.html _site/ 2>/dev/null || true
+          cp qr.png _site/ 2>/dev/null || true
+          touch _site/.nojekyll
+          ls -la _site
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages 아티팩트
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
