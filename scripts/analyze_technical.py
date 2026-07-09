@@ -146,8 +146,10 @@ def apply_combo(score, ind, combo_table):
         bd = ind.setdefault("_breakdown", [])
         wr_pct = round(float(rec.get("winrate", 0)) * 100, 1)
         bd.append(f"조합 보정(과거 승률 {wr_pct}%·표본 {int(rec.get('n', 0))}) {adj:+g}")
-    # ★0~100 양방향 클램프(P1-신호품질)★ 조합 보정 후에도 상한 확보.
-    return max(0, min(100, round(score + adj)))
+    # ★클램프★ 조합 보정(±4) 후에도 상한 확보하되, apply_supply_finance 의 매수
+    # 전환/가속 '압도적 보너스'로 이미 100 을 넘긴 점수는 그 헤드룸을 보존한다
+    # (상한 = max(100, 입력점수)) — 조합 보정이 압도 보너스를 100 으로 깎지 않게.
+    return max(0, min(max(100, round(score)), round(score + adj)))
 
 
 # ── KIS (현재가·등락률) ──────────────────────────────────────────────────────
@@ -688,9 +690,94 @@ def fetch_supply_finance_batch(codes):
     return out
 
 
+# ── 매수 전환/가속 감지 파라미터 (★★사용자 최우선 지시: 외국인·기관이 "막 사기 시작"
+# 하는 단계 = 그 어떤 기술적 요소보다 **압도적으로 크게** 반영). 외국인/기관이 오늘
+# 매수로 전환(sign flip)했거나 가속 중이면, 그 종목이 다른 조건과 무관하게 최종 점수
+# 순위에서 확실히 최상위권으로 튀어 올라야 한다. 그래서 이 보너스는 기존 개별 가중치
+# 스케일(±14/±11, vol_surge 15, breakout 14 등 대부분 10대)을 압도하는 40~90점대로
+# 잡고, **0~100 클램프 밖(apply_supply_finance 말미)에서 별도 가산**해 100 상한에
+# 무력화되지 않게 한다(뒤따르는 apply_combo 도 이 헤드룸을 보존하도록 상한 완화).
+# 대칭: 외국인/기관이 급격히 팔기 시작하는 '이탈'도 동일하게 압도적 감점(즉시 리스크 회피).
+_SM_ACCEL_RATIO = 1.8   # 오늘 순매수가 직전 평균의 이 배 이상이면 '가속'으로 본다.
+_SM_MIN_DAYS = 3        # 직전 평균은 (오늘 제외) 최소 2일치 필요 → sd_days≥3 일 때만.
+_SM_FOR_FLIP, _SM_FOR_ACCEL = 50, 42   # 외국인 전환/가속 가감점(★압도적).
+_SM_ORG_FLIP, _SM_ORG_ACCEL = 38, 30   # 기관 전환/가속(외국인 다음으로 중요).
+_SM_ACCEL_KICKER_CAP = 20   # 가속이 강할수록 추가 가산(최대치) — 노이즈 폭주 방지 상한.
+
+
+def _supply_basis_label(asof):
+    """수급 전환/가속 근거에 붙일 **정직한 기준일 라벨**을 만든다.
+    ★시세정합성 최우선 규칙★: 네이버/KIS/토스 모두 외국인·기관 순매수는 **장중엔
+    갱신되지 않고**(전일 확정치), 장 마감 30~60분 뒤에야 당일(D) 확정치로 바뀐다.
+    따라서 net_1d 는 '지금 이 순간'이 아니라 '가장 최근 확정 거래일'의 값이다.
+    'net_1d 기준일(asof)==KST 오늘'일 때만 오늘 확정으로, 아니면 직전 확정일로 라벨링해
+    '어제 데이터를 오늘 일어난 일'로 오인시키지 않는다."""
+    if not asof:
+        return "최근 확정 거래일 기준"
+    today = datetime.datetime.now(KST).strftime("%Y-%m-%d")
+    if asof == today:
+        return f"{asof} 마감확정 기준"
+    return f"최근 확정 {asof} 기준(장중이면 D-1)"
+
+
+def _supply_momentum_one(net_1d, net_sum, nd, flip_pts, accel_pts,
+                         label, asof, why, breakdown):
+    """한 투자자(외국인/기관)의 **최근 확정 거래일(net_1d) vs 그 직전 며칠 평균** 흐름을
+    점수에 반영한다. ★net_1d 는 실시간 아님 — 장중엔 D-1 확정치라 '기준일(asof)'을
+    반드시 문구에 명시(오늘로 오인 금지, 시세정합성 규칙).★
+    - 매수 전환: 직전 순매도/보합(prior_avg≤0)인데 최근 확정일이 순매수(net_1d>0) → 압도 가점.
+    - 매수 가속: 직전에도 매수였지만 최근 확정일이 평균의 _SM_ACCEL_RATIO배 이상 → 압도 가점
+      (가속이 강할수록 최대 _SM_ACCEL_KICKER_CAP 만큼 추가 가산).
+    - 대칭: 순매도 전환·순매도 가속(외국인 이탈도 초단기엔 중요)은 같은 폭 감점.
+    표본 부족(sd_days<_SM_MIN_DAYS)·1일치 결측이면 0 반환(보너스 없음·날조 금지).
+    전환·가속은 상호배타(전환은 prior_avg≤0, 가속은 prior_avg>0 조건).
+    반환: 점수 가감(0 가능·100 초과 유발 가능). why/breakdown 에 근거를 남긴다."""
+    if net_1d is None or net_sum is None or nd is None or nd < _SM_MIN_DAYS:
+        return 0
+    prior_avg = (net_sum - net_1d) / (nd - 1)  # 최근 확정일 제외 그 직전 며칠 일평균.
+    basis = _supply_basis_label(asof)
+    if net_1d > 0:  # 최근 확정일 순매수 — 진입 우호.
+        if prior_avg <= 0:  # 직전 순매도/보합 → 최근 확정일 순매수: 방향 전환 '시작'.
+            why.append(f"{label} 매수 전환({basis})")
+            breakdown.append(
+                f"{label} 매수 전환 감지({basis}: 직전 순매도/보합→순매수) — "
+                f"압도적 우선 반영 +{flip_pts}")
+            return flip_pts
+        if net_1d >= _SM_ACCEL_RATIO * prior_avg:  # 평소 매수의 배 이상: 가속.
+            mult = min(net_1d / prior_avg, 99)  # 직전평균이 극소일 때 배수 폭주 방지.
+            kick = max(0, min(_SM_ACCEL_KICKER_CAP,
+                              round((mult - _SM_ACCEL_RATIO) * 6)))
+            pts = accel_pts + kick
+            why.append(f"{label} 매수 가속({basis})")
+            breakdown.append(
+                f"{label} 매수 가속({basis}: 평소 대비 {mult:.1f}배) — "
+                f"압도적 우선 반영 +{pts}")
+            return pts
+    elif net_1d < 0:  # 최근 확정일 순매도 — 이탈 신호(초단기 중요).
+        if prior_avg >= 0:  # 직전 순매수/보합 → 최근 확정일 순매도: 이탈 전환 '시작'.
+            why.append(f"{label} 매도 전환({basis})")
+            breakdown.append(
+                f"{label} 매도 전환 감지({basis}: 직전 순매수/보합→순매도) — "
+                f"압도적 우선 감점 -{flip_pts}")
+            return -flip_pts
+        if net_1d <= _SM_ACCEL_RATIO * prior_avg:  # 둘 다 음수: |확정일|≥배 → 매도 가속.
+            mult = min(net_1d / prior_avg, 99)  # 둘 다 음수라 양수 배수.
+            kick = max(0, min(_SM_ACCEL_KICKER_CAP,
+                              round((mult - _SM_ACCEL_RATIO) * 6)))
+            pts = accel_pts + kick
+            why.append(f"{label} 매도 가속({basis})")
+            breakdown.append(
+                f"{label} 매도 가속({basis}: 평소 대비 {mult:.1f}배) — "
+                f"압도적 우선 감점 -{pts}")
+            return -pts
+    return 0
+
+
 def apply_supply_finance(score, why, breakdown, sf):
     """수급(외국인·기관 순매수)·재무(PER/PBR)를 점수에 반영하고 근거를 남긴다.
     수급은 초단기에 영향이 커 가중을 두고, 재무는 48h엔 약해 경량 보정만 한다.
+    누적(nd일) 순매수에 더해, **오늘 1거래일이 직전 며칠 대비 전환/가속인지**를
+    별도 보너스로 얹어 '외국인·기관이 막 사기 시작하는 단계'를 부각한다.
     sf 없으면(수집 실패) 점수 불변(날조 없음)."""
     if not sf:
         return score
@@ -735,8 +822,21 @@ def apply_supply_finance(score, why, breakdown, sf):
         elif pbr >= 8:
             s -= 2
             breakdown.append(f"PBR {pbr:g} 고평가 -2")
-    # ★0~100 양방향 클램프(P1-신호품질)★ 수급·재무 가산 후에도 상한 확보.
-    return max(0, min(100, round(s)))
+    # ★0~100 양방향 클램프(P1-신호품질)★ 차트+국면+누적수급+재무 기저는 상한 100.
+    base = max(0, min(100, round(s)))
+    # ★★매수 전환/가속 = 압도적 우선(클램프 밖 별도 가산)★★ 외국인/기관이 오늘 막 사기
+    # 시작(전환)했거나 가속 중이면 100 상한을 넘겨 얹어, 다른 모든 요소를 합친 것보다
+    # 확실히 크게 최상위로 튀게 한다. 표본 부족·결측이면 0(날조 금지). 이탈은 대칭 감점.
+    nd = sf.get("sd_days", 5)
+    asof = sf.get("sd_1d_date")  # net_1d 의 실제 확정 거래일(장중이면 D-1) — 정직 라벨용.
+    sm = 0
+    sm += _supply_momentum_one(sf.get("for_1d"), sf.get("for_sum"), nd, _SM_FOR_FLIP,
+                               _SM_FOR_ACCEL, "외국인", asof, why, breakdown)
+    sm += _supply_momentum_one(sf.get("org_1d"), sf.get("org_sum"), nd, _SM_ORG_FLIP,
+                               _SM_ORG_ACCEL, "기관", asof, why, breakdown)
+    # 하한만 0 으로 보호(음수 이탈 감점 반영), 상한은 개방 → 전환/가속 종목이 100 초과로
+    # 순위 최상위 확보. 이 초과 헤드룸은 뒤따르는 apply_combo 가 보존하도록 상한 완화됨.
+    return max(0, base + sm)
 
 
 # 차트 점수 가중치 기본값(사람이 정한 규칙값). 데이터 학습(learn_weights.py)으로
