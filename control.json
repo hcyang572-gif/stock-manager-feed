@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updated_at": "2026-07-10T07:08:20+09:00",
+  "updated_at": "2026-07-10T07:08:28+09:00",
   "updated_by": "app",
   "engine": {
     "analysis_enabled": true,
@@ -142,9 +142,17 @@
     "surge_enabled": false,
     "surge_threshold": 3.0,
     "surge_window": 10,
-    "hold_enabled": false,
+    "hold_enabled": true,
     "hold_loss_pct": 5.0,
     "mom_enabled": false,
     "mom_threshold": 1.5
-  }
+  },
+  "holdings_watch": [
+    {
+      "code": "005930",
+      "market": "KR",
+      "name": "삼성전자",
+      "entry": 309500.0
+    }
+  ]
 }
