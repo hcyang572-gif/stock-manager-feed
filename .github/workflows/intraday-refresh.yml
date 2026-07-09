@@ -10,6 +10,15 @@ name: intraday-refresh
 # 지나가므로 놓치지 않는다(아래 Loop 스텝 참고). interval_min 이 10분보다 커지면
 # 슬롯 경계를 건너뛸 수 있으니 그 경우 이 상수를 함께 재검토할 것.
 #
+# [2026-07-09] 호가불균형(orderbook_imbalance)·대량체결(large_trade_*) 신호 추가 —
+# 외국인/기관 수급과 달리 호가·체결테이프는 원천적으로 실시간이라 수급용 10분 슬롯이
+# 아니라 ①의 시세 루프(interval_min, 기본 5분)에 얹는다. 대상은 이미 선정된
+# signals+observations 뿐(전체종목 풀스캔 아님) — API 레이트리밋 보호. 소스: 호가
+# 불균형=KIS(이미 조회 중인 ask_ratio 값 재사용, 신규 호출 0)→토스 폴백, 대량체결=
+# 토스 전용(호가·체결 REST). 토스 토큰은 KIS 와 동일하게 날짜별 캐시(아래 Cache Toss
+# access token 스텝) — 재발급 시 이전 토큰이 무효화되므로(로컬 PC 스크립트와 계정
+# 공유) 남발하지 않는다.
+#
 # [2026-07-03] 장중 15분마다(2026-07-09 부터 10분마다) 기술 재발굴을 추가한 이유: 무거운 촉매(뉴스/LLM)
 # 발굴은 비용 때문에 아침 1회만 하지만, 변동성 돌파·거래량 급증·전고점 돌파·VWAP
 # 이탈회복 같은 **차트 기반 신호**는 장중 새로 튀는 급등주를 놓치지 않도록 여기서
@@ -87,6 +96,17 @@ jobs:
           path: config/.kis_token.json
           key: kis-token-${{ steps.kisdate.outputs.d }}
 
+      # 토스 액세스 토큰 캐시 — [2026-07-09 신규] 호가불균형 폴백·대량체결 감지용.
+      # 토스는 클라이언트당 활성 토큰 1개만 유효해 재발급마다 이전 토큰이 무효화된다
+      # (SMS는 없음). ~70분마다 재기동되는 이 잡이 매번 새 토큰을 발급하면 로컬 PC
+      # (scripts/compare_quotes.py, 동일 client_id)와 불필요하게 자주 충돌하므로,
+      # KIS 와 동일하게 날짜 키로 캐시해 하루 중 재사용한다(진짜 만료/401 때만 재발급).
+      - name: Cache Toss access token
+        uses: actions/cache@v4
+        with:
+          path: config/.toss_token.json
+          key: toss-token-${{ steps.kisdate.outputs.d }}
+
       # 내부 sleep 루프 — ~70분 동안 두 가지를 서로 다른 주기로 수행한다:
       #  ①intraday_refresh.py(시세·NXT ext·호가 경량 갱신) — control.json
       #    robot.interval_min(앱이 설정, 기본 5분) 마다. 이 값은 앱 설정화면이
@@ -109,6 +129,8 @@ jobs:
         env:
           KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
           KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
+          TOSS_CLIENT_ID: ${{ secrets.TOSS_CLIENT_ID }}
+          TOSS_CLIENT_SECRET: ${{ secrets.TOSS_CLIENT_SECRET }}
           FORCE: ${{ inputs.force && '--force' || '' }}
         run: |
           git config user.name "github-actions[bot]"

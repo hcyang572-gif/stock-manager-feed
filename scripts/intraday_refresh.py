@@ -13,12 +13,24 @@
 
 GitHub Actions(.github/workflows/intraday-refresh.yml)가 10분마다 호출한다.
 로컬 점검: `python scripts/intraday_refresh.py --force`(시간 가드 무시).
+
+- **호가불균형(orderbook_imbalance)·대량체결(large_trade_*, 2026-07-09 신규)**:
+  이 루프(control.json robot.interval_min, 기본 5분)에서 함께 갱신한다. 수급
+  (외국인/기관)과 달리 호가·체결테이프는 원천적으로 실시간이라 촘촘히 봐도
+  의미가 있다 — analyze_technical.py 의 고정 10분 재발굴과 무관하게 이 5분
+  루프에 얹는다. 대상은 이미 선정된 signals+observations(전체종목 풀스캔
+  아님)로 한정해 API 레이트리밋을 보호한다. 소스: 호가불균형=KIS(이미 조회된
+  bid_rem/ask_rem 재사용, 신규 호출 0회)→토스 폴백, 대량체결=토스 전용(KIS
+  inquire-ccnl 은 문서상 가능하나 레이트리밋 보호로 이번엔 미사용).
 """
+import base64
 import datetime
 import json
 import os
+import statistics
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -536,6 +548,273 @@ def fetch_ask_ratio(code, market, cfg, token, trading_open):
     return fetch_ask_ratio_kis(code, cfg, token)
 
 
+# ═════════════════════════════════════════════════════════════════════════
+# 토스증권(Open API) — 호가불균형 폴백 + 대량체결(비정상적으로 큰 단일 체결) 감지
+# (2026-07-09 신규, [[toss-api-integration]])
+#
+# 토스 토큰은 "클라이언트당 활성 토큰 1개"만 유효해 재발급 시 이전 토큰이 즉시
+# 무효화된다(SMS 는 없음). 로컬 PC(scripts/compare_quotes.py, 동일 client_id 사용)와
+# 계정을 공유하므로 서로의 토큰을 무효화할 수 있다 — 완화책: ①디스크 캐시를
+# GitHub Actions cache 로 날짜 키 유지해 job 재시작마다 재발급하지 않음(KIS 토큰
+# 캐시와 동일 패턴) ②401 을 받으면 딱 1회만 force 재발급 후 재시도(연쇄 재발급
+# 금지) ③이 신호는 두 소스 중 하나일 뿐이라 토스가 막혀도 KIS/미가용으로 조용히
+# 폴백한다(전체 스크립트를 막지 않음).
+TOSS_BASE = "https://openapi.tossinvest.com"
+TOSS_CONFIG_PATH = REPO_ROOT / "config" / "toss_config.json"
+TOSS_TOKEN_PATH = REPO_ROOT / "config" / ".toss_token.json"
+TOSS_CALL_GAP = 0.15           # 토스 호출 간 최소 간격(초) — 레이트리밋 보호
+LARGE_TRADE_MULTIPLE = 8.0      # 최근 체결 중앙값 대비 이 배수 이상이면 '대량체결' 후보
+LARGE_TRADE_MIN_SAMPLE = 10     # 중앙값 계산에 필요한 최소 체결 건수(부족하면 판정 보류)
+LARGE_TRADE_LOOKBACK_MIN = 5    # 대량체결로 인정할 최신성(분) — 이보다 오래되면 무시
+# ★실측 캘리브레이션(2026-07-09, 관심종목 38개 실측)★ 배수(multiple)만으로 판정하면
+# 오탐이 매우 많다 — KRX 체결은 1~5주 단위 잘게 쪼갠 틱이 흔해 중앙값이 1~5주 수준으로
+# 낮고, 그러면 평범한 20~100주 체결도 손쉽게 수십~수백 배로 찍힌다(1차 시도 5배 임계값
+# 으로는 38종목 중 30종목이 매 스캔마다 '대량체결'로 찍혀 신호 변별력이 사실상 없었음).
+# 그래서 배수 조건에 더해 '체결대금(가격×수량)'이 최소값 이상일 때만 대량체결로
+# 확정한다 — 000660(193배·8.4억원)·007390(2,845배·2.4억원)처럼 실제 의미있는 단일
+# 체결만 남기고, 069540(65배·313만원)처럼 배수만 큰데 대금이 작은 저가주 노이즈는
+# 폐기한다. ★후속 캘리브레이션 권장★ 이 값은 하루 중 한 시점(15:09 KST) 관심종목
+# 실측 스냅샷 기준 1차 추정치다. signal-selector/사용자가 며칠 운용 후 과다/과소
+# 탐지가 확인되면 이 두 상수를 조정할 것.
+LARGE_TRADE_MIN_VALUE_KRW = 50_000_000  # 최소 체결대금(원) — 5천만원 미만은 폐기
+
+
+def _load_toss_config():
+    """토스 Open API 설정 로드 — 환경변수(GitHub Actions secrets) 우선, 없으면
+    로컬 파일(config/toss_config.json, gitignore됨·PC 로컬 테스트용)."""
+    cid = os.environ.get("TOSS_CLIENT_ID")
+    csec = os.environ.get("TOSS_CLIENT_SECRET")
+    if (not cid or not csec) and TOSS_CONFIG_PATH.exists():
+        try:
+            fcfg = json.loads(TOSS_CONFIG_PATH.read_text(encoding="utf-8"))
+            cid = cid or fcfg.get("client_id")
+            csec = csec or fcfg.get("client_secret")
+        except Exception:
+            pass
+    if not cid or not csec:
+        return None
+    return {"client_id": cid, "client_secret": csec}
+
+
+def _get_toss_token(cfg, force=False):
+    """토스 액세스 토큰 취득 — 디스크 캐시 재사용(만료 60초 여유), force=True 이거나
+    만료됐을 때만 재발급. 재발급은 이전 토큰을 무효화하므로 호출부가 남발하지 않아야
+    한다(호출부: _ensure_toss 1회, _toss_get 의 401 복구 1회뿐)."""
+    now_ts = datetime.datetime.now(KST).timestamp()
+    if not force and TOSS_TOKEN_PATH.exists():
+        try:
+            cached = json.loads(TOSS_TOKEN_PATH.read_text(encoding="utf-8"))
+            if float(cached.get("expire", 0)) - now_ts > 60:
+                return cached["access_token"]
+        except Exception:
+            pass
+    basic = base64.b64encode(f"{cfg['client_id']}:{cfg['client_secret']}".encode()).decode()
+    body = urllib.parse.urlencode({"grant_type": "client_credentials"}).encode()
+    req = urllib.request.Request(
+        f"{TOSS_BASE}/oauth2/token", data=body, method="POST",
+        headers={"Authorization": f"Basic {basic}",
+                 "Content-Type": "application/x-www-form-urlencoded"})
+    with urllib.request.urlopen(req, timeout=10) as r:
+        d = json.load(r)
+    tok = d["access_token"]
+    exp = now_ts + float(d.get("expires_in", 3600)) - 60
+    TOSS_TOKEN_PATH.parent.mkdir(parents=True, exist_ok=True)
+    TOSS_TOKEN_PATH.write_text(
+        json.dumps({"access_token": tok, "expire": exp}), encoding="utf-8")
+    return tok
+
+
+_toss_cfg = None     # 모듈 레벨 캐시(False=설정 없음 확인됨, None=미확인)
+_toss_token = None   # False=이번 실행 발급 실패(재시도 안 함), None=미확인
+
+
+def _ensure_toss():
+    """토스 설정/토큰 준비 → (cfg, token) 또는 (None, None). 실패해도 조용히
+    생략(토스는 두 신호의 소스 중 하나일 뿐 — 없으면 KIS/미가용으로 폴백)."""
+    global _toss_cfg, _toss_token
+    if _toss_cfg is None:
+        _toss_cfg = _load_toss_config() or False
+    if _toss_cfg and _toss_token is None:
+        try:
+            _toss_token = _get_toss_token(_toss_cfg)
+        except Exception as e:
+            print(f"[토스] 토큰 발급 실패: {e}")
+            _toss_token = False
+    if _toss_cfg and _toss_token:
+        return _toss_cfg, _toss_token
+    return None, None
+
+
+def _toss_get(path, token):
+    """토스 GET 요청 — 401 이면 토큰을 딱 1회만 force 재발급해 재시도(연쇄 방지)."""
+    global _toss_token
+
+    def _do(tok):
+        req = urllib.request.Request(
+            f"{TOSS_BASE}{path}", headers={"Authorization": f"Bearer {tok}"})
+        with urllib.request.urlopen(req, timeout=10) as r:
+            return json.load(r)
+
+    try:
+        return _do(token)
+    except urllib.error.HTTPError as e:
+        if e.code == 401 and _toss_cfg:
+            try:
+                new_tok = _get_toss_token(_toss_cfg, force=True)
+                _toss_token = new_tok
+                return _do(new_tok)
+            except Exception:
+                return None
+        return None
+    except Exception:
+        return None
+
+
+def fetch_orderbook_toss(code, token):
+    """토스 호가 조회(GET /api/v1/orderbook?symbol=) — 매도/매수 각 10단계 합.
+    반환: {'best_ask','best_bid','ask_sum','bid_sum','timestamp'} 또는 None."""
+    time.sleep(TOSS_CALL_GAP)
+    d = _toss_get(f"/api/v1/orderbook?{urllib.parse.urlencode({'symbol': code})}", token)
+    if not d:
+        return None
+    res = d.get("result") or {}
+    asks = res.get("asks") or []
+    bids = res.get("bids") or []
+    if not asks or not bids:
+        return None
+    try:
+        ask_sum = sum(int(a["volume"]) for a in asks)
+        bid_sum = sum(int(b["volume"]) for b in bids)
+        best_ask = float(asks[0]["price"])
+        best_bid = float(bids[0]["price"])
+    except (KeyError, TypeError, ValueError):
+        return None
+    if ask_sum <= 0 and bid_sum <= 0:
+        return None  # 합 0(데이터 없음) → 폐기(날조 금지)
+    return {"best_ask": best_ask, "best_bid": best_bid,
+            "ask_sum": ask_sum, "bid_sum": bid_sum,
+            "timestamp": res.get("timestamp")}
+
+
+def fetch_trades_toss(code, token, count=50):
+    """토스 최근 체결테이프 조회(GET /api/v1/trades?symbol=) — 최신순 최대 count건.
+    반환: [{'price','volume','timestamp'}, ...] 또는 None."""
+    time.sleep(TOSS_CALL_GAP)
+    d = _toss_get(
+        f"/api/v1/trades?{urllib.parse.urlencode({'symbol': code, 'count': count})}", token)
+    if not d:
+        return None
+    res = d.get("result")
+    if not isinstance(res, list) or not res:
+        return None
+    out = []
+    for t in res:
+        try:
+            out.append({"price": float(t["price"]), "volume": int(t["volume"]),
+                        "timestamp": t.get("timestamp")})
+        except (KeyError, TypeError, ValueError):
+            continue
+    return out or None
+
+
+def detect_large_trade(trades, ob, now_kst):
+    """최근 체결테이프에서 비정상적으로 큰 단일 체결(대량체결)을 찾는다.
+
+    판정(AND 조건 — 실측 캘리브레이션 반영):
+      ①배수: 최근 체결 중앙값(대상 자신 제외) 대비 LARGE_TRADE_MULTIPLE(기본 5배) 이상
+      ②체결대금: 가격×수량 ≥ LARGE_TRADE_MIN_VALUE_KRW(기본 1천만원) — 저가주 잔량
+        노이즈(수백 배수인데 대금은 수백만원인 오탐)를 걸러낸다.
+      ③최신성: 체결 시각이 LARGE_TRADE_LOOKBACK_MIN(기본 5분) 이내.
+    셋 다 만족해야 detected=True. 방향은 그 체결가를 동시 조회한 호가창의 최우선
+    매도/매수호가와 비교하는 Lee-Ready 방식으로 판별한다: 체결가>=매도1호가 →
+    적극매수(buy), 체결가<=매수1호가 → 적극매도(sell), 그 사이(스프레드 내부)면
+    방향 불명(None).
+
+    표본이 LARGE_TRADE_MIN_SAMPLE 미만이면 판정을 보류한다(None — 날조 금지).
+    """
+    if not trades or len(trades) < LARGE_TRADE_MIN_SAMPLE:
+        return None
+    vols = [t.get("volume") for t in trades if t.get("volume") is not None]
+    if len(vols) < LARGE_TRADE_MIN_SAMPLE:
+        return None
+    max_idx = max(range(len(trades)), key=lambda i: trades[i].get("volume", 0))
+    max_t = trades[max_idx]
+    base_vols = vols[:max_idx] + vols[max_idx + 1:]
+    if not base_vols:
+        return None
+    median_vol = statistics.median(base_vols)
+    if median_vol <= 0:
+        return None
+    multiple = round(max_t["volume"] / median_vol, 2)
+    value_krw = round(max_t["volume"] * max_t["price"])
+    detected = multiple >= LARGE_TRADE_MULTIPLE and value_krw >= LARGE_TRADE_MIN_VALUE_KRW
+
+    # 최신성 확인 — 오래된 대량체결을 '지금 감지'로 오표기하지 않는다.
+    ts_raw = max_t.get("timestamp")
+    fresh = True
+    if ts_raw:
+        try:
+            ts = datetime.datetime.fromisoformat(str(ts_raw))
+            if ts.tzinfo is None:
+                ts = ts.replace(tzinfo=KST)
+            age_min = (now_kst - ts).total_seconds() / 60.0
+            fresh = -1 <= age_min <= LARGE_TRADE_LOOKBACK_MIN  # -1: 시계오차 여유
+        except Exception:
+            fresh = True  # 파싱 실패는 최신성 판정 보류(과도한 폐기 방지)
+    if not fresh:
+        detected = False
+
+    direction = None
+    if ob and detected:
+        if max_t["price"] >= ob["best_ask"]:
+            direction = "buy"
+        elif max_t["price"] <= ob["best_bid"]:
+            direction = "sell"
+
+    return {
+        "detected": bool(detected),
+        "direction": direction,
+        "multiple": multiple,
+        "value_krw": value_krw,
+        "asof": ts_raw or now_kst.replace(microsecond=0).isoformat(),
+    }
+
+
+def fetch_microstructure(code, market, trading_open, now_kst, kis_bid_rem, kis_ask_rem):
+    """호가불균형(orderbook_imbalance)·대량체결(large_trade_*) 통합 조회.
+
+    소스 우선순위 — 호가불균형: ①KIS(이미 조회된 bid_rem/ask_rem 재사용, 신규
+    API 호출 0회) ②토스(호가 10단계 합, 신규 호출) ③미가용. 대량체결: 토스
+    체결테이프 전용(KIS inquire-ccnl [FHKST01010300] 은 문서상 가능하나
+    레이트리밋 보호를 위해 이번엔 미사용 — 필요시 백업으로 추가 가능).
+
+    반환: (imbalance 또는 None, imb_asof 또는 None, imb_source, large_trade dict 또는 None)
+    imb_source 는 항상 "kis"|"toss"|"unavailable" 중 하나.
+    """
+    if (market or "KR").upper() != "KR" or not trading_open:
+        return None, None, "unavailable", None
+
+    imb, imb_source = None, None
+    if kis_bid_rem is not None and kis_ask_rem is not None and (kis_bid_rem + kis_ask_rem) > 0:
+        imb = round((kis_bid_rem - kis_ask_rem) / (kis_bid_rem + kis_ask_rem), 4)
+        imb_source = "kis"
+
+    large_trade = None
+    cfg, token = _ensure_toss()
+    if cfg and token:
+        ob = fetch_orderbook_toss(code, token)
+        if imb is None and ob and (ob["ask_sum"] + ob["bid_sum"]) > 0:
+            imb = round((ob["bid_sum"] - ob["ask_sum"]) / (ob["bid_sum"] + ob["ask_sum"]), 4)
+            imb_source = "toss"
+        trades = fetch_trades_toss(code, token)
+        large_trade = detect_large_trade(trades, ob, now_kst)
+
+    if imb is None:
+        imb_source = "unavailable"
+    imb_asof = now_kst.replace(microsecond=0, second=0).isoformat() if imb is not None else None
+    return imb, imb_asof, imb_source, large_trade
+
+
 def main():
     global WINDOW_OPEN, WINDOW_CLOSE
     force = "--force" in sys.argv[1:]
@@ -580,6 +859,8 @@ def main():
     kis_cfg_h, kis_tok_h = _ensure_kis()
     ask_seen = {}
     ask_n = 0
+    micro_seen = {}  # 호가불균형·대량체결 종목당 1회 캐시(key → (imb, asof, source, large_trade))
+    micro_n = 0
 
     for section in ("signals", "observations"):
         for item in feed.get(section, []):
@@ -638,7 +919,48 @@ def main():
                 item["ask_ratio_asof"] = now_iso
                 ask_n += 1
             else:
+                bid_rem, ask_rem = None, None
                 for k in ("ask_ratio", "bid_rem", "ask_rem", "ask_ratio_asof"):
+                    item.pop(k, None)
+
+            # 호가불균형(orderbook_imbalance, -1~+1)·대량체결(large_trade_*) —
+            # 종목당 1회만 조회(micro_seen 캐시). KIS bid_rem/ask_rem 이 있으면
+            # 신규 호출 없이 파생(1차), 없으면 토스로 폴백(2차). 대량체결은 토스
+            # 전용. 둘 다 KR·장중 전용 — 그 외엔 직전값 제거(스테일 금지).
+            if key in micro_seen:
+                imb, imb_asof, imb_source, lt = micro_seen[key]
+            else:
+                imb, imb_asof, imb_source, lt = fetch_microstructure(
+                    code, market, ok, now, bid_rem, ask_rem)
+                micro_seen[key] = (imb, imb_asof, imb_source, lt)
+                if imb is not None:
+                    micro_n += 1
+            if imb is not None:
+                # 허수호가 급변 완화(과도한 복잡화는 피하되 최소 신호는 남김):
+                # 직전 조회값 대비 급변(스윙>1.0, 즉 부호가 반대로 크게 뒤집힘)
+                # 이면 orderbook_imbalance_stable=False 로 신뢰도 힌트만 남긴다
+                # (값 자체는 날조 없이 실측 그대로 반영).
+                prev_imb = item.get("orderbook_imbalance")
+                item["orderbook_imbalance"] = imb
+                item["orderbook_imbalance_asof"] = imb_asof
+                item["orderbook_imbalance_source"] = imb_source
+                item["orderbook_imbalance_stable"] = (
+                    prev_imb is None or abs(imb - prev_imb) <= 1.0)
+            else:
+                item["orderbook_imbalance_source"] = imb_source or "unavailable"
+                for k in ("orderbook_imbalance", "orderbook_imbalance_asof",
+                          "orderbook_imbalance_stable"):
+                    item.pop(k, None)
+            if lt is not None:
+                item["large_trade_detected"] = lt["detected"]
+                item["large_trade_direction"] = lt["direction"]
+                item["large_trade_multiple"] = lt["multiple"]
+                item["large_trade_value_krw"] = lt["value_krw"]
+                item["large_trade_asof"] = lt["asof"]
+            else:
+                for k in ("large_trade_detected", "large_trade_direction",
+                          "large_trade_multiple", "large_trade_value_krw",
+                          "large_trade_asof"):
                     item.pop(k, None)
 
     # 한국 지수(코스피·코스닥·코스피200) 갱신 — 장중/장외 동안 실시간.
@@ -709,7 +1031,8 @@ def main():
     FEED_PATH.write_text(
         json.dumps(feed, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"[intraday] {changed}개 종목 시세 갱신 @ {now_iso} "
-          f"[{session_label}] (소스 {src_log})")
+          f"[{session_label}] (소스 {src_log}, 호가비중 {ask_n}건, "
+          f"호가불균형/대량체결 {micro_n}건)")
     return 0
 
 
