@@ -1,13 +1,12 @@
 {
   "version": 2,
-  "updated_at": "2026-07-10T11:23:42+09:00",
+  "updated_at": "2026-07-10T14:18:41+09:00",
   "updated_by": "app",
   "engine": {
     "analysis_enabled": true,
     "analysis_scope": "market",
     "market_targets": [
-      "KOSPI",
-      "KOSDAQ"
+      "KOSPI"
     ],
     "hold_cap_hours": 48,
     "morning_time_kst": "07:00",
@@ -140,11 +139,11 @@
     "lv_target1": true,
     "lv_target2": true,
     "surge_enabled": false,
-    "hold_enabled": true,
-    "mom_enabled": false,
     "surge_threshold": 3.0,
     "surge_window": 10,
+    "hold_enabled": true,
     "hold_loss_pct": 3.0,
+    "mom_enabled": false,
     "mom_threshold": 1.5
   },
   "holdings_watch": [
