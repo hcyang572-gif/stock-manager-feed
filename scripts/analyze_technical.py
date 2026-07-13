@@ -952,27 +952,37 @@ def apply_microstructure(score, why, breakdown, micro, now=None):
     return max(0, s)
 
 
+MICRO_FIELD_KEYS = (
+    "orderbook_imbalance", "orderbook_imbalance_asof",
+    "orderbook_imbalance_source", "orderbook_imbalance_stable",
+    "large_trade_detected", "large_trade_direction",
+    "large_trade_multiple", "large_trade_value_krw", "large_trade_asof",
+    # ask_ratio 계열도 같은 근본원인(아래 참조)으로 매번 지워지고 있었다 —
+    # 2026-07-13 재발견 시점에 함께 보존 대상에 포함.
+    "ask_ratio", "bid_rem", "ask_rem", "ask_ratio_asof",
+)
+
+
 def load_prev_microstructure():
     """직전 feed.json 의 signals/observations 에 intraday_refresh 가 채워둔 실시간
-    미시구조(호가불균형·대량체결) 필드를 code→dict 로 모은다(재분석 점수 보너스용).
-    이 필드들은 관심종목·직전 선정 신호 대상에만 존재하므로, 없는 종목은 보너스 스킵."""
+    미시구조(호가불균형·대량체결·호가비중) 필드를 code→dict 로 모은다.
+    ①재분석 점수 보너스용(apply_microstructure) ②아래 main() 에서 새로 만든
+    signals/observations 항목에 이 값을 도로 병합해 보존하는 용도(2026-07-13 추가 —
+    근본원인 참조). 이 필드들은 관심종목·직전 선정 신호 대상에만 존재하므로, 없는
+    종목은 스킵."""
     if not FEED_PATH.exists():
         return {}
     try:
         f = json.loads(FEED_PATH.read_text(encoding="utf-8-sig"))
     except Exception:
         return {}
-    keys = ("orderbook_imbalance", "orderbook_imbalance_asof",
-            "orderbook_imbalance_source", "orderbook_imbalance_stable",
-            "large_trade_detected", "large_trade_direction",
-            "large_trade_multiple", "large_trade_value_krw", "large_trade_asof")
     out = {}
     for sec in ("signals", "observations"):
         for it in f.get(sec, []):
             code = str(it.get("code", "")).strip()
             if not code:
                 continue
-            m = {k: it[k] for k in keys if k in it}
+            m = {k: it[k] for k in MICRO_FIELD_KEYS if k in it}
             if m:
                 out[code] = m
     return out
@@ -2403,6 +2413,28 @@ def main():
 
     # feed 에는 두 그룹을 합쳐 싣되 group 태그로 구분(앱이 섹션으로 나눠 표시).
     signals = wl_signals + market_signals
+
+    # ★2026-07-13 근본원인 수정★ orderbook_imbalance/large_trade_*(그리고 ask_ratio
+    # 계열)가 배포(07-09) 이후 feed.json 에 단 한 번도 남지 못했던 진짜 원인은 토스
+    # 403(44e9c20 로 KIS 승격 완료)이 아니라 **이 함수 자체**였다: intraday_refresh.py
+    # 가 5분마다 signals/observations 항목에 이 필드들을 실측으로 써 넣어도, 이 스크립트
+    # (analyze_technical.py, 10분 슬롯마다 재발굴)가 build_signal()/_observation() 으로
+    # 항목을 통째로 새로 만들면서 이 필드들을 전혀 옮겨 담지 않아 매번 사라졌다(실측:
+    # 07-13 05:xx UTC 워크플로 로그에서 intraday_refresh 는 매 회차 "호가불균형/대량체결
+    # 16~21건" 성공을 보고했는데도, 같은 루프에서 뒤이어 도는 analyze_technical 완료 직후
+    # 커밋된 feed.json 에는 orderbook_imbalance·large_trade_*·ask_ratio 가 전 종목에서
+    # 0건이었다 — micro_map 은 위에서 이미 로드해 점수 보너스에는 반영했지만 항목에는
+    # 병합하지 않고 있었다). 같은 micro_map 을 새 항목에도 병합해 값이 살아남게 한다
+    # (날조 아님 — intraday_refresh 가 최근 실측한 값을 그대로 이월, 다음 5분 주기에
+    # intraday_refresh 가 다시 갱신·검증한다).
+    for _it in signals:
+        _m = micro_map.get(str(_it.get("code", "")).strip())
+        if _m:
+            _it.update(_m)
+    for _it in observations:
+        _m = micro_map.get(str(_it.get("code", "")).strip())
+        if _m:
+            _it.update(_m)
 
     # 기존 feed 보존 항목(us_context·kr_context·positions·portfolio·assumptions).
     feed = {}
