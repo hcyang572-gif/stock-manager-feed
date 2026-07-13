@@ -170,8 +170,8 @@ jobs:
               last_rescan_slot="$rescan_slot"
             fi
 
-            if [ -n "$(git status --porcelain feed.json signals_log.json 2>/dev/null)" ]; then
-              git add feed.json signals_log.json 2>/dev/null || git add feed.json
+            if [ -n "$(git status --porcelain feed.json signals_log.json .state/last_intraday_real_run 2>/dev/null)" ]; then
+              git add feed.json signals_log.json .state/last_intraday_real_run 2>/dev/null || git add feed.json
               git commit -q -m "intraday: 시세+기술 재발굴 자동갱신 ($(TZ=Asia/Seoul date '+%m-%d %H:%M KST'))" || true
               git push -q || true
             fi

@@ -14,14 +14,21 @@
 GitHub Actions(.github/workflows/intraday-refresh.yml)가 10분마다 호출한다.
 로컬 점검: `python scripts/intraday_refresh.py --force`(시간 가드 무시).
 
-- **호가불균형(orderbook_imbalance)·대량체결(large_trade_*, 2026-07-09 신규)**:
-  이 루프(control.json robot.interval_min, 기본 5분)에서 함께 갱신한다. 수급
-  (외국인/기관)과 달리 호가·체결테이프는 원천적으로 실시간이라 촘촘히 봐도
-  의미가 있다 — analyze_technical.py 의 고정 10분 재발굴과 무관하게 이 5분
-  루프에 얹는다. 대상은 이미 선정된 signals+observations(전체종목 풀스캔
-  아님)로 한정해 API 레이트리밋을 보호한다. 소스: 호가불균형=KIS(이미 조회된
-  bid_rem/ask_rem 재사용, 신규 호출 0회)→토스 폴백, 대량체결=토스 전용(KIS
-  inquire-ccnl 은 문서상 가능하나 레이트리밋 보호로 이번엔 미사용).
+- **호가불균형(orderbook_imbalance)·대량체결(large_trade_*, 2026-07-09 신규,
+  2026-07-13 소스 재구성)**: 이 루프(control.json robot.interval_min, 기본 5분)
+  에서 함께 갱신한다. 수급(외국인/기관)과 달리 호가·체결테이프는 원천적으로
+  실시간이라 촘촘히 봐도 의미가 있다 — analyze_technical.py 의 고정 10분
+  재발굴과 무관하게 이 5분 루프에 얹는다. 대상은 이미 선정된
+  signals+observations(전체종목 풀스캔 아님)로 한정해 API 레이트리밋을
+  보호한다. 소스: 호가불균형=KIS(이미 조회된 bid_rem/ask_rem 재사용, 신규 호출
+  0회)→토스 폴백, 대량체결=KIS(inquire-ccnl, 신규 호출 1건)→토스 폴백(토스는
+  GitHub Actions IP 에서 OAuth 403 이 상시 관측돼 대량체결 1차 소스에서 제외됨
+  — fetch_microstructure() 참조).
+- **간격 게이트(2026-07-13 드리프트 수정)**: 예전엔 시계 분이 interval_min 의
+  배수일 때만 동작했으나, 내부 sleep 루프의 가변 실행시간 때문에 깨어나는
+  시각이 정각 배수에서 밀리면 영영 못 맞출 수 있었다(실측 1시간 가까이 연속
+  skip). 지금은 `.state/last_intraday_real_run`(마지막 실제 실행 시각, feed.json
+  과 함께 커밋)을 기준으로 경과시간을 재는 방식이라 드리프트에 강하다.
 """
 import base64
 import datetime
@@ -45,6 +52,7 @@ FEED_PATH = REPO_ROOT / "feed.json"
 CONTROL_PATH = REPO_ROOT / "control.json"
 KIS_CONFIG_PATH = REPO_ROOT / "config" / "kis_config.json"
 KIS_TOKEN_PATH = REPO_ROOT / "config" / ".kis_token.json"
+LAST_RUN_STATE_PATH = REPO_ROOT / ".state" / "last_intraday_real_run"
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
 HOSTS = ["query1.finance.yahoo.com", "query2.finance.yahoo.com"]
@@ -931,15 +939,43 @@ def main():
 
     # control.json(앱·PC 설정) 반영 — 운영창·갱신간격.
     WINDOW_OPEN, WINDOW_CLOSE, interval_min = load_control()
-    # 갱신 간격: cron 은 10분마다 깨우지만, interval_min 배수 분에만 실제 동작.
-    if not force and (now.hour * 60 + now.minute) % interval_min != 0:
-        print(f"[intraday] skip (off-interval {interval_min}m) @ {now.isoformat()}")
-        return 0
+    # 갱신 간격 게이트 — ★2026-07-13 드리프트버그 수정★ 예전엔 "시계 분이
+    # interval_min 의 배수일 때만 동작"이었는데, 이 스크립트를 호출하는 내부 sleep
+    # 루프(intraday-refresh.yml)가 매 회차 가변 시간(rescan 등, 수십초~수분)을 먹어
+    # 깨어나는 시각이 정각 배수에서 서서히 밀린다. 실측(2026-07-13 12:51~13:44 KST):
+    # 11회 연속 이 조건에 걸려 전부 skip — 그 한 시간 가까이 가격뿐 아니라
+    # ask_ratio·orderbook_imbalance·large_trade_* 가 전혀 갱신되지 않았다(대량체결
+    # 필드가 배포 후 한 번도 안 채워진 사고의 실제 주범 중 하나 — 토스 403 과 별개).
+    # 마지막 "실제 실행" 이후 경과시간(.state/last_intraday_real_run, 매 실행마다
+    # 갱신·커밋되어 루프의 매 반복 git reset --hard 에도 살아남음) 기준으로 바꿔
+    # 깨어나는 시각이 얼마나 밀리든 interval_min 마다 확실히 동작하게 한다.
+    if not force:
+        last_ts = None
+        try:
+            if LAST_RUN_STATE_PATH.exists():
+                last_ts = float(LAST_RUN_STATE_PATH.read_text(encoding="utf-8").strip())
+        except Exception:
+            last_ts = None
+        now_ts = now.timestamp()
+        if last_ts is not None and (now_ts - last_ts) < (interval_min * 60 - 30):
+            elapsed = now_ts - last_ts
+            print(f"[intraday] skip (off-interval {interval_min}m, {elapsed:.0f}s 경과) "
+                  f"@ {now.isoformat()}")
+            return 0
 
     ok, reason = is_trading_now(now)
     if not ok and not force:
         print(f"[intraday] skip ({reason}) @ {now.isoformat()}")
         return 0
+
+    # 실제 실행 확정 — 다음 회차의 간격 게이트가 참조할 "마지막 실제 실행 시각"을
+    # 기록한다(워크플로가 feed.json 과 함께 커밋해야 루프 반복의 git reset --hard 에
+    # 살아남는다 — .github/workflows/intraday-refresh.yml 의 git add 목록 참조).
+    try:
+        LAST_RUN_STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
+        LAST_RUN_STATE_PATH.write_text(str(now.timestamp()), encoding="utf-8")
+    except Exception as e:
+        print(f"[intraday] 실행시각 기록 실패(무시하고 계속): {e}")
 
     now_iso = now.replace(microsecond=0, second=0).isoformat()
     session_key, session_label = session_of(now)
