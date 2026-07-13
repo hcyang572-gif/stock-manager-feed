@@ -492,9 +492,20 @@ def _to_int(v):
         return None
 
 
+def _to_float(v):
+    """쉼표 포함 숫자 문자열 → float. 실패/빈값 시 None(0.0 날조 금지)."""
+    try:
+        s = str(v).replace(",", "").strip()
+        return float(s) if s not in ("", "None") else None
+    except (TypeError, ValueError):
+        return None
+
+
 def fetch_ask_ratio_kis(code, cfg, token):
     """KIS 호가 API(inquire-asking-price-exp-ccn)로 매수/매도호가 총잔량을 조회해
-    매수비중(ask_ratio, 0~1)을 계산한다. 반환 (bid_rem, ask_rem, ask_ratio) 또는 None.
+    매수비중(ask_ratio, 0~1)을 계산한다.
+    반환 (bid_rem, ask_rem, ask_ratio, best_bid, best_ask) 또는 None
+    (best_bid/best_ask 는 대량체결 방향판정용 매수/매도 1호가 — 파싱 실패 시 None 가능).
 
     ★정합성★ 합이 0이거나 비율이 0~1 밖이면 데이터 오류로 폐기(None) — 날조 금지.
     호가는 장중에만 유효하므로 호출부(fetch_ask_ratio)가 장중에만 부른다.
@@ -531,7 +542,12 @@ def fetch_ask_ratio_kis(code, cfg, token):
         ratio = round(bid / tot, 4)  # 매수비중(>0.5=매수우위)
         if not (0.0 <= ratio <= 1.0):
             return None  # 이상치 폐기
-        return bid, ask, ratio
+        # 매도호가1(askp1)·매수호가1(bidp1) — 대량체결 방향판정(Lee-Ready)에 재사용
+        # (신규 API 호출 없이 이미 받은 응답에서 파생). 파싱 실패해도 ask_ratio 자체는
+        # 유효하니 best_bid/best_ask 는 None 으로 두고 계속 진행.
+        best_bid = _to_float(o.get("bidp1"))
+        best_ask = _to_float(o.get("askp1"))
+        return bid, ask, ratio, best_bid, best_ask
     except Exception:
         return None
 
@@ -630,6 +646,7 @@ def _get_toss_token(cfg, force=False):
     return tok
 
 
+_ccnl_debug_printed = False  # KIS inquire-ccnl 필드명 1회성 검증 로그 출력 여부(임시)
 _toss_cfg = None     # 모듈 레벨 캐시(False=설정 없음 확인됨, None=미확인)
 _toss_token = None   # False=이번 실행 발급 실패(재시도 안 함), None=미확인
 
@@ -723,6 +740,73 @@ def fetch_trades_toss(code, token, count=50):
     return out or None
 
 
+def fetch_trades_kis(code, cfg, token):
+    """KIS OpenAPI 주식현재가 체결(inquire-ccnl, tr_id=FHKST01010300)로 최근 체결틱
+    (최근 30건 내외)을 조회한다 — 대량체결 감지의 1차 소스(2026-07-13 신규).
+
+    ★배경★ 토스 체결테이프(fetch_trades_toss)는 GitHub Actions(클라우드 IP)에서
+    OAuth 토큰 발급이 항상 403 Forbidden 으로 막혀(로컬 PC 에선 동일 키로 정상 동작 —
+    IP 기반 차단으로 추정) large_trade_* 필드가 배포 이후 단 한 번도 채워지지 못했다
+    (실측: 2026-07-09~07-13 feed.json 전체에 large_trade_detected 0건). KIS 는 이미
+    같은 환경에서 시세·호가(ask_ratio)에 정상 동작 중이므로 이를 1차 소스로 쓴다.
+    토스는 IP 차단이 풀리는 경우를 대비해 2차(폴백)로 유지.
+
+    토큰은 호출부가 넘긴 캐시 토큰만 사용(여기서 신규 발급 없음 — KIS 토큰 중복발급
+    금지 불변식 준수). 반환: [{'price','volume','timestamp'}, ...] 또는 None.
+    """
+    tr_id = "FHKST01010300"  # 주식현재가 체결(최근 체결틱)
+    time.sleep(KIS_CALL_GAP)
+    params = urllib.parse.urlencode({
+        "FID_COND_MRKT_DIV_CODE": "J",
+        "FID_INPUT_ISCD": code,
+    })
+    req = urllib.request.Request(
+        f"{KIS_BASE}/uapi/domestic-stock/v1/quotations/inquire-ccnl?{params}",
+        headers={
+            "Authorization": f"Bearer {token}",
+            "appkey": cfg["app_key"],
+            "appsecret": cfg["app_secret"],
+            "tr_id": tr_id,
+            "custtype": "P",
+        },
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=10) as r:
+            data = json.load(r)
+    except Exception:
+        return None
+    rows = data.get("output") or []
+    global _ccnl_debug_printed
+    if rows and not _ccnl_debug_printed:
+        # ★임시 검증 로그(2026-07-13)★ inquire-ccnl 실응답 필드명을 실측 확인하기
+        # 위한 1회성 출력 — 검증 완료 후 제거 예정(data-collector 재검증 시 삭제).
+        print(f"[debug-ccnl] {code} raw row0: {json.dumps(rows[0], ensure_ascii=False)}")
+        _ccnl_debug_printed = True
+    if not isinstance(rows, list) or not rows:
+        return None
+    today = datetime.datetime.now(KST).strftime("%Y-%m-%d")
+    out = []
+    for row in rows:
+        try:
+            price = _to_float(row.get("stck_prpr"))
+            # 체결량(건별 틱 거래량) 필드명이 문서/버전에 따라 다를 수 있어 후보를
+            # 순서대로 시도(누적거래량 acml_vol 은 의미가 달라 후보에서 제외 —
+            # 잘못 섞으면 배수가 완전히 틀어진다). 전부 실패하면 이 건은 버린다.
+            vol_raw = (row.get("cntg_vol") or row.get("cntg_qty")
+                       or row.get("cntg_vol_cnt"))
+            vol = _to_int(vol_raw)
+            hhmmss = str(row.get("stck_cntg_hour", "")).strip().zfill(6)
+            if price is None or vol is None or price <= 0 or vol <= 0:
+                continue
+            ts = None
+            if len(hhmmss) == 6 and hhmmss.isdigit():
+                ts = f"{today}T{hhmmss[0:2]}:{hhmmss[2:4]}:{hhmmss[4:6]}+09:00"
+            out.append({"price": price, "volume": vol, "timestamp": ts})
+        except (TypeError, ValueError):
+            continue
+    return out or None
+
+
 def detect_large_trade(trades, ob, now_kst):
     """최근 체결테이프에서 비정상적으로 큰 단일 체결(대량체결)을 찾는다.
 
@@ -786,13 +870,22 @@ def detect_large_trade(trades, ob, now_kst):
     }
 
 
-def fetch_microstructure(code, market, trading_open, now_kst, kis_bid_rem, kis_ask_rem):
+def fetch_microstructure(code, market, trading_open, now_kst, kis_bid_rem, kis_ask_rem,
+                          kis_cfg=None, kis_token=None, kis_best_bid=None, kis_best_ask=None):
     """호가불균형(orderbook_imbalance)·대량체결(large_trade_*) 통합 조회.
 
-    소스 우선순위 — 호가불균형: ①KIS(이미 조회된 bid_rem/ask_rem 재사용, 신규
-    API 호출 0회) ②토스(호가 10단계 합, 신규 호출) ③미가용. 대량체결: 토스
-    체결테이프 전용(KIS inquire-ccnl [FHKST01010300] 은 문서상 가능하나
-    레이트리밋 보호를 위해 이번엔 미사용 — 필요시 백업으로 추가 가능).
+    소스 우선순위 — 호가불균형: ①KIS(이미 조회된 bid_rem/ask_rem 재사용, 신규 API
+    호출 0회) ②토스(호가 10단계 합, 신규 호출) ③미가용.
+    대량체결: ①KIS(inquire-ccnl, FHKST01010300 — 이미 조회된 ask_ratio 호출의
+    askp1/bidp1 을 방향판정에 재사용, 신규 호출은 체결틱 1건뿐) ②토스(체결테이프)
+    ③미가용.
+
+    ★2026-07-13 변경★ 대량체결을 토스 전용으로 뒀던 최초 구현(2026-07-09)이
+    배포 이후 feed.json 에 단 한 번도 값을 채우지 못한 게 확인됐다 — 토스 OAuth
+    토큰 발급이 GitHub Actions(클라우드 IP)에서 항상 403 Forbidden(로컬 PC 는 동일
+    키로 정상 동작 — IP 기반 차단으로 추정). KIS 는 같은 환경에서 시세·호가가 이미
+    정상 동작 중이므로 대량체결도 KIS 를 1차로 승격했다. 토스는 IP 차단이 풀릴
+    경우를 대비한 2차 폴백으로 유지(신규 호출 비용 있음 — 실패해도 조용히 생략).
 
     반환: (imbalance 또는 None, imb_asof 또는 None, imb_source, large_trade dict 또는 None)
     imb_source 는 항상 "kis"|"toss"|"unavailable" 중 하나.
@@ -806,14 +899,24 @@ def fetch_microstructure(code, market, trading_open, now_kst, kis_bid_rem, kis_a
         imb_source = "kis"
 
     large_trade = None
-    cfg, token = _ensure_toss()
-    if cfg and token:
-        ob = fetch_orderbook_toss(code, token)
-        if imb is None and ob and (ob["ask_sum"] + ob["bid_sum"]) > 0:
-            imb = round((ob["bid_sum"] - ob["ask_sum"]) / (ob["bid_sum"] + ob["ask_sum"]), 4)
-            imb_source = "toss"
-        trades = fetch_trades_toss(code, token)
-        large_trade = detect_large_trade(trades, ob, now_kst)
+    if kis_cfg and kis_token:
+        trades = fetch_trades_kis(code, kis_cfg, kis_token)
+        if trades:
+            ob = None
+            if kis_best_bid is not None and kis_best_ask is not None:
+                ob = {"best_bid": kis_best_bid, "best_ask": kis_best_ask}
+            large_trade = detect_large_trade(trades, ob, now_kst)
+
+    if large_trade is None or imb is None:
+        cfg, token = _ensure_toss()
+        if cfg and token:
+            ob = fetch_orderbook_toss(code, token)
+            if imb is None and ob and (ob["ask_sum"] + ob["bid_sum"]) > 0:
+                imb = round((ob["bid_sum"] - ob["ask_sum"]) / (ob["bid_sum"] + ob["ask_sum"]), 4)
+                imb_source = "toss"
+            if large_trade is None:
+                trades = fetch_trades_toss(code, token)
+                large_trade = detect_large_trade(trades, ob, now_kst)
 
     if imb is None:
         imb_source = "unavailable"
@@ -918,26 +1021,29 @@ def main():
                 ar = fetch_ask_ratio(code, market, kis_cfg_h, kis_tok_h, ok)
                 ask_seen[key] = ar
             if ar is not None:
-                bid_rem, ask_rem, ratio = ar
+                bid_rem, ask_rem, ratio, best_bid, best_ask = ar
                 item["ask_ratio"] = ratio
                 item["bid_rem"] = bid_rem
                 item["ask_rem"] = ask_rem
                 item["ask_ratio_asof"] = now_iso
                 ask_n += 1
             else:
-                bid_rem, ask_rem = None, None
+                bid_rem, ask_rem, best_bid, best_ask = None, None, None, None
                 for k in ("ask_ratio", "bid_rem", "ask_rem", "ask_ratio_asof"):
                     item.pop(k, None)
 
             # 호가불균형(orderbook_imbalance, -1~+1)·대량체결(large_trade_*) —
-            # 종목당 1회만 조회(micro_seen 캐시). KIS bid_rem/ask_rem 이 있으면
-            # 신규 호출 없이 파생(1차), 없으면 토스로 폴백(2차). 대량체결은 토스
-            # 전용. 둘 다 KR·장중 전용 — 그 외엔 직전값 제거(스테일 금지).
+            # 종목당 1회만 조회(micro_seen 캐시). 호가불균형은 KIS bid_rem/ask_rem 이
+            # 있으면 신규 호출 없이 파생(1차), 없으면 토스로 폴백(2차). 대량체결은
+            # KIS 체결틱(inquire-ccnl) 1차·토스 체결테이프 2차(2026-07-13, 토스가
+            # GitHub Actions IP 에서 상시 403 이라 KIS 로 승격 — fetch_microstructure
+            # 참조). 둘 다 KR·장중 전용 — 그 외엔 직전값 제거(스테일 금지).
             if key in micro_seen:
                 imb, imb_asof, imb_source, lt = micro_seen[key]
             else:
                 imb, imb_asof, imb_source, lt = fetch_microstructure(
-                    code, market, ok, now, bid_rem, ask_rem)
+                    code, market, ok, now, bid_rem, ask_rem,
+                    kis_cfg_h, kis_tok_h, best_bid, best_ask)
                 micro_seen[key] = (imb, imb_asof, imb_source, lt)
                 if imb is not None:
                     micro_n += 1
