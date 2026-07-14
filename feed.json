@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0",
   "date": "2026-07-15",
-  "generated_at": "2026-07-15T08:40:00+09:00",
+  "generated_at": "2026-07-15T08:46:00+09:00",
   "horizon_hours": 48,
   "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 수급(외국인·기관) + 재무(PER·PBR) + 미국증시 전일 환경 보정 · 분석 범위: 통합 분석 — 관심종목(3 신호) + 전체종목 거래대금 상위(KOSPI, 5 신호). 뉴스/촉매는 ‘뉴스도 함께’에서만. (뉴스/촉매 1h 전 반영 보존)",
   "market_state": {
     "korea": {
       "status": "pre",
-      "basis": "장전 NXT 프리마켓(08:00~09:00, 네이버 지수 실측)",
-      "asof": "2026-07-15T08:41:00+09:00",
+      "basis": "장전 NXT 프리마켓(08:00~09:00, 10분 자동갱신)",
+      "asof": "2026-07-15T08:46:00+09:00",
       "session": "pre"
     },
     "us": {
@@ -40,7 +40,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 2086000.0,
+      "price": 2095000.0,
       "currency": "KRW",
       "entry": 2086000.0,
       "entry_type": "now",
@@ -66,7 +66,7 @@
       "est_loss_pct": 2.0,
       "data_quality": "good",
       "catalyst_verified": true,
-      "change_pct": 9.04,
+      "change_pct": 9.51,
       "evidence": "촉매: 나스닥 ADR 상장 성공(7월 10일, 약 265억 달러). 기술 분석(뉴스 미확인) — 거래량 급증 1.61x, 강세 마감(종가위치 91.1%), 변동성 돌파 상회, 미국증시 환경 +3.5 (전일 S&P+0.38%·나스닥+0.9%·SOX+2.54%), 외국인 순매도, 기관 순매수, 외국인 매수 전환(최근 확정 2026-07-14 기준(장중이면 D-1)), 기관 매수 전환(최근 확정 2026-07-14 기준(장중이면 D-1)). ATR 13.86%·5일모멘텀 -13.08%.",
       "score_reasons": [
         "기본 점수 +50",
@@ -2401,7 +2401,17 @@
       "group": "watchlist",
       "orderbook_imbalance_source": "unavailable",
       "score": 175,
-      "catalyst": "나스닥 ADR 상장 성공(7월 10일, 약 265억 달러) — <cite index=\"56-2,56-3\">SK하이닉스의 성공적인 미국 나스닥 상장(ADR)이 기관의 대규모 순매수 유입으로 코스피 2.52% 상승 견인</cite>. AI 반도체 수요 기대감 폭발. 메모리 부족 2030년 이후도 지속 전망으로 공급부족 수혜."
+      "catalyst": "나스닥 ADR 상장 성공(7월 10일, 약 265억 달러) — <cite index=\"56-2,56-3\">SK하이닉스의 성공적인 미국 나스닥 상장(ADR)이 기관의 대규모 순매수 유입으로 코스피 2.52% 상승 견인</cite>. AI 반도체 수요 기대감 폭발. 메모리 부족 2030년 이후도 지속 전망으로 공급부족 수혜.",
+      "ext": {
+        "venue": "NXT",
+        "label": "프리마켓(NXT)",
+        "session": "pre",
+        "price": 2095000.0,
+        "asof": "2026-07-15T08:46:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 1913000.0,
+        "delta_pct": 9.51
+      }
     },
     {
       "rank": 2,
@@ -2436,7 +2446,6 @@
       "est_loss_pct": 0.62,
       "data_quality": "good",
       "catalyst_verified": false,
-      "change_pct": null,
       "evidence": "기술 분석(뉴스 미확인) — 강세 마감(종가위치 84.6%), 변동성 돌파 상회, 미국증시 환경 +3.5 (전일 S&P+0.38%·나스닥+0.9%·SOX+2.54%), 외국인 순매도, 기관 순매수, 외국인 매수 전환(최근 확정 2026-07-14 기준(장중이면 D-1)), 기관 매수 가속(최근 확정 2026-07-14 기준(장중이면 D-1)). ATR 5.77%·5일모멘텀 -9.09%.",
       "score_reasons": [
         "기본 점수 +50",
@@ -4769,7 +4778,17 @@
       "group": "watchlist",
       "orderbook_imbalance_source": "unavailable",
       "score": 164,
-      "catalyst": "뚜렷한 촉매 없음 — 최근 임금협약 합의(7월 7일)는 기업비용 증가 신호. 아시아나 통합 완료 예정(12월 17일)은 중장기 이슈로 48시간 단기 영향 제한적."
+      "catalyst": "뚜렷한 촉매 없음 — 최근 임금협약 합의(7월 7일)는 기업비용 증가 신호. 아시아나 통합 완료 예정(12월 17일)은 중장기 이슈로 48시간 단기 영향 제한적.",
+      "ext": {
+        "venue": "NXT",
+        "label": "프리마켓(NXT)",
+        "session": "pre",
+        "price": 26500.0,
+        "asof": "2026-07-15T08:46:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 26500.0,
+        "delta_pct": 0.0
+      }
     },
     {
       "rank": 3,
@@ -4778,7 +4797,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 279000.0,
+      "price": 279500.0,
       "currency": "KRW",
       "entry": 279000.0,
       "entry_type": "now",
@@ -4804,7 +4823,7 @@
       "est_loss_pct": 1.72,
       "data_quality": "good",
       "catalyst_verified": false,
-      "change_pct": 6.08,
+      "change_pct": 6.27,
       "evidence": "기술 분석(뉴스 미확인) — 강세 마감(종가위치 69.6%), 변동성 돌파 상회, 미국증시 환경 +3.5 (전일 S&P+0.38%·나스닥+0.9%·SOX+2.54%), 외국인 순매도, 기관 순매수, 외국인 매도 가속(최근 확정 2026-07-14 기준(장중이면 D-1)), 기관 매수 가속(최근 확정 2026-07-14 기준(장중이면 D-1)). ATR 10.36%·5일모멘텀 -11.15%.",
       "score_reasons": [
         "기본 점수 +50",
@@ -7136,7 +7155,17 @@
       ],
       "group": "watchlist",
       "orderbook_imbalance_source": "unavailable",
-      "score": 89
+      "score": 89,
+      "ext": {
+        "venue": "NXT",
+        "label": "프리마켓(NXT)",
+        "session": "pre",
+        "price": 279500.0,
+        "asof": "2026-07-15T08:46:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 263000.0,
+        "delta_pct": 6.27
+      }
     },
     {
       "rank": 1,
@@ -7145,7 +7174,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 21100.0,
+      "price": 21250.0,
       "currency": "KRW",
       "entry": 21600.0,
       "entry_type": "breakout",
@@ -7171,7 +7200,7 @@
       "est_loss_pct": 0.66,
       "data_quality": "good",
       "catalyst_verified": true,
-      "change_pct": -0.24,
+      "change_pct": 0.71,
       "evidence": "촉매: AI 중심 조직개편·분기 배당 도입(7월 14일). 기술 분석(뉴스 미확인) — 정배열(MA5>MA20), RSI 60.7(상승), 미국증시 환경 +3.5 (전일 S&P+0.38%·나스닥+0.9%·SOX+2.54%), 외국인 순매수, 기관 순매도, 기관 매수 전환(최근 확정 2026-07-14 기준(장중이면 D-1)). ATR 3.88%·5일모멘텀 -1.17%.",
       "score_reasons": [
         "기본 점수 +50",
@@ -8224,7 +8253,17 @@
       "group": "market",
       "orderbook_imbalance_source": "unavailable",
       "score": 138,
-      "catalyst": "AI 중심 조직개편·분기 배당 도입(7월 14일) — AX 컨트롤타워 신설 및 생산적포용금융부 신설로 AI 전환 가속. 7월 31일 배당기준일로 분기 배당 최초 도입 예정으로 주주환원 강화 신호."
+      "catalyst": "AI 중심 조직개편·분기 배당 도입(7월 14일) — AX 컨트롤타워 신설 및 생산적포용금융부 신설로 AI 전환 가속. 7월 31일 배당기준일로 분기 배당 최초 도입 예정으로 주주환원 강화 신호.",
+      "ext": {
+        "venue": "NXT",
+        "label": "프리마켓(NXT)",
+        "session": "pre",
+        "price": 21250.0,
+        "asof": "2026-07-15T08:46:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 21100.0,
+        "delta_pct": 0.71
+      }
     },
     {
       "rank": 2,
@@ -8259,7 +8298,6 @@
       "est_loss_pct": 1.08,
       "data_quality": "good",
       "catalyst_verified": true,
-      "change_pct": 3.0,
       "evidence": "촉매: Galaxy Unpacked 런던 개최(7월 22일 예정). 기술 분석(뉴스 미확인) — 강세 마감(종가위치 72.7%), 미국증시 환경 +3.5 (전일 S&P+0.38%·나스닥+0.9%·SOX+2.54%), 외국인 순매수, 기관 순매수, 기관 매수 전환(최근 확정 2026-07-14 기준(장중이면 D-1)). ATR 10.03%·5일모멘텀 -8.58%.",
       "score_reasons": [
         "기본 점수 +50",
@@ -9310,7 +9348,17 @@
       "group": "market",
       "orderbook_imbalance_source": "unavailable",
       "score": 134,
-      "catalyst": "Galaxy Unpacked 런던 개최(7월 22일 예정) — 폴더블 새 라인업 공개 일정이 일주일 내에 임박. 신제품 발표는 단기 주가 변동성 확대 요인. 7월 9일 패턴 웨이퍼 지원 확대 발표는 소부장 협력사 공급망 강화 신호."
+      "catalyst": "Galaxy Unpacked 런던 개최(7월 22일 예정) — 폴더블 새 라인업 공개 일정이 일주일 내에 임박. 신제품 발표는 단기 주가 변동성 확대 요인. 7월 9일 패턴 웨이퍼 지원 확대 발표는 소부장 협력사 공급망 강화 신호.",
+      "ext": {
+        "venue": "NXT",
+        "label": "프리마켓(NXT)",
+        "session": "pre",
+        "price": 182200.0,
+        "asof": "2026-07-15T08:46:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 182200.0,
+        "delta_pct": 0.0
+      }
     },
     {
       "rank": 3,
@@ -9319,7 +9367,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 63200.0,
+      "price": 64300.0,
       "currency": "KRW",
       "entry": 64600.0,
       "entry_type": "breakout",
@@ -9345,7 +9393,7 @@
       "est_loss_pct": 1.27,
       "data_quality": "good",
       "catalyst_verified": true,
-      "change_pct": 2.6,
+      "change_pct": 1.74,
       "evidence": "촉매: 매출 2배 성장 목표·AI 기술 M&A 추진(7월 9-13일). 기술 분석(뉴스 미확인) — 강세 마감(종가위치 83.3%), RSI 53.8(상승), 미국증시 환경 +3.5 (전일 S&P+0.38%·나스닥+0.9%·SOX+2.54%), 외국인 순매수, 기관 순매수, 외국인 매수 전환(최근 확정 2026-07-14 기준(장중이면 D-1)), 기관 매도 전환(최근 확정 2026-07-14 기준(장중이면 D-1)). ATR 5.71%·5일모멘텀 -2.47%.",
       "score_reasons": [
         "기본 점수 +50",
@@ -10400,7 +10448,17 @@
       "group": "market",
       "orderbook_imbalance_source": "unavailable",
       "score": 112,
-      "catalyst": "매출 2배 성장 목표·AI 기술 M&A 추진(7월 9-13일) — 향후 5년 내 매출 120억 달러 목표 제시. AI·자동화·소프트웨어 전환 전략. Jobsite Companion(AI 음성제어) 올여름 미국 상용화 예정. M&A 전략 재개로 성장 모멘텀."
+      "catalyst": "매출 2배 성장 목표·AI 기술 M&A 추진(7월 9-13일) — 향후 5년 내 매출 120억 달러 목표 제시. AI·자동화·소프트웨어 전환 전략. Jobsite Companion(AI 음성제어) 올여름 미국 상용화 예정. M&A 전략 재개로 성장 모멘텀.",
+      "ext": {
+        "venue": "NXT",
+        "label": "프리마켓(NXT)",
+        "session": "pre",
+        "price": 64300.0,
+        "asof": "2026-07-15T08:46:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 63200.0,
+        "delta_pct": 1.74
+      }
     },
     {
       "rank": 4,
@@ -10409,7 +10467,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 161000.0,
+      "price": 163800.0,
       "currency": "KRW",
       "entry": 164000.0,
       "entry_type": "breakout",
@@ -10435,7 +10493,7 @@
       "est_loss_pct": 1.33,
       "data_quality": "good",
       "catalyst_verified": true,
-      "change_pct": 1.19,
+      "change_pct": 1.74,
       "evidence": "촉매: 자동차보험 브랜드평판 1위 탈환(7월 14일). 기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 급증 1.54x, 미국증시 환경 +3.5 (전일 S&P+0.38%·나스닥+0.9%·SOX+2.54%), 외국인 순매도, 기관 순매수. ATR 4.93%·5일모멘텀 7.26%.",
       "score_reasons": [
         "기본 점수 +50",
@@ -11488,7 +11546,17 @@
       "group": "market",
       "orderbook_imbalance_source": "unavailable",
       "score": 100,
-      "catalyst": "자동차보험 브랜드평판 1위 탈환(7월 14일) — 7월 브랜드평판지수 3,377,833으로 1위 재등극(전월 대비 11.4% 상승). 보험료 비교·갱신 시즌과 맞물려 소비자 관심 고조. 미국 Fortegra 인수 관련 해외 성장 동력 강화."
+      "catalyst": "자동차보험 브랜드평판 1위 탈환(7월 14일) — 7월 브랜드평판지수 3,377,833으로 1위 재등극(전월 대비 11.4% 상승). 보험료 비교·갱신 시즌과 맞물려 소비자 관심 고조. 미국 Fortegra 인수 관련 해외 성장 동력 강화.",
+      "ext": {
+        "venue": "NXT",
+        "label": "프리마켓(NXT)",
+        "session": "pre",
+        "price": 163800.0,
+        "asof": "2026-07-15T08:46:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 161000.0,
+        "delta_pct": 1.74
+      }
     },
     {
       "rank": 5,
@@ -11497,7 +11565,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 83900.0,
+      "price": 86100.0,
       "currency": "KRW",
       "entry": 85800.0,
       "entry_type": "breakout",
@@ -11523,7 +11591,7 @@
       "est_loss_pct": 0.55,
       "data_quality": "good",
       "catalyst_verified": true,
-      "change_pct": -2.1,
+      "change_pct": 2.62,
       "evidence": "촉매: 5G·LTE 통합 요금제 출시·국책 AI 사업자 선정 가능(7월 2일 이후). 기술 분석(뉴스 미확인) — 미국증시 환경 +3.5 (전일 S&P+0.38%·나스닥+0.9%·SOX+2.54%), 외국인 순매수, 기관 순매도, 기관 매수 전환(최근 확정 2026-07-14 기준(장중이면 D-1)). ATR 4.92%·5일모멘텀 -1.53%.",
       "score_reasons": [
         "기본 점수 +50",
@@ -12572,7 +12640,17 @@
       "group": "market",
       "orderbook_imbalance_source": "unavailable",
       "score": 93,
-      "catalyst": "5G·LTE 통합 요금제 출시·국책 AI 사업자 선정 가능(7월 2일 이후) — 기존 67종에서 26종으로 단순화된 통합 요금제 출시. 올여름 국책 AI 사업자 선정 가능성 높아짐. AI RAN 분야에서 가시적 성과 기대."
+      "catalyst": "5G·LTE 통합 요금제 출시·국책 AI 사업자 선정 가능(7월 2일 이후) — 기존 67종에서 26종으로 단순화된 통합 요금제 출시. 올여름 국책 AI 사업자 선정 가능성 높아짐. AI RAN 분야에서 가시적 성과 기대.",
+      "ext": {
+        "venue": "NXT",
+        "label": "프리마켓(NXT)",
+        "session": "pre",
+        "price": 86100.0,
+        "asof": "2026-07-15T08:46:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 83900.0,
+        "delta_pct": 2.62
+      }
     }
   ],
   "observations": [
@@ -12580,10 +12658,10 @@
       "name": "현대차",
       "code": "005380",
       "market": "KR",
-      "price": 433500.0,
+      "price": 435500.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 2.12,
+      "change_pct": 2.59,
       "vol_surge": 1.18,
       "score": 143,
       "score_reasons": [
@@ -14927,16 +15005,26 @@
       "est_loss_pct": 1.46,
       "hold_cap_hours": 48,
       "reachable": false,
-      "orderbook_imbalance_source": "unavailable"
+      "orderbook_imbalance_source": "unavailable",
+      "ext": {
+        "venue": "NXT",
+        "label": "프리마켓(NXT)",
+        "session": "pre",
+        "price": 435500.0,
+        "asof": "2026-07-15T08:46:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 424500.0,
+        "delta_pct": 2.59
+      }
     },
     {
       "name": "현대건설",
       "code": "000720",
       "market": "KR",
-      "price": 100300.0,
+      "price": 101000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 2.35,
+      "change_pct": 3.06,
       "vol_surge": 0.79,
       "score": 103,
       "score_reasons": [
@@ -17275,7 +17363,17 @@
       "est_loss_pct": 1.27,
       "hold_cap_hours": 48,
       "reachable": false,
-      "orderbook_imbalance_source": "unavailable"
+      "orderbook_imbalance_source": "unavailable",
+      "ext": {
+        "venue": "NXT",
+        "label": "프리마켓(NXT)",
+        "session": "pre",
+        "price": 101000.0,
+        "asof": "2026-07-15T08:46:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 98000.0,
+        "delta_pct": 3.06
+      }
     },
     {
       "name": "한화오션",
@@ -19624,16 +19722,26 @@
       "est_loss_pct": 1.24,
       "hold_cap_hours": 48,
       "reachable": false,
-      "orderbook_imbalance_source": "unavailable"
+      "orderbook_imbalance_source": "unavailable",
+      "ext": {
+        "venue": "NXT",
+        "label": "프리마켓(NXT)",
+        "session": "pre",
+        "price": 79000.0,
+        "asof": "2026-07-15T08:46:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 76800.0,
+        "delta_pct": 2.86
+      }
     },
     {
       "name": "한국콜마",
       "code": "161890",
       "market": "KR",
-      "price": 106700.0,
+      "price": 107800.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 0.38,
+      "change_pct": 1.41,
       "vol_surge": 1.08,
       "score": 81,
       "score_reasons": [
@@ -21977,16 +22085,26 @@
       "est_loss_pct": 1.58,
       "hold_cap_hours": 48,
       "reachable": false,
-      "orderbook_imbalance_source": "unavailable"
+      "orderbook_imbalance_source": "unavailable",
+      "ext": {
+        "venue": "NXT",
+        "label": "프리마켓(NXT)",
+        "session": "pre",
+        "price": 107800.0,
+        "asof": "2026-07-15T08:46:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 106300.0,
+        "delta_pct": 1.41
+      }
     },
     {
       "name": "포스코인터내셔널",
       "code": "047050",
       "market": "KR",
-      "price": 51500.0,
+      "price": 52000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 0.39,
+      "change_pct": 1.36,
       "vol_surge": 1.4,
       "score": 72,
       "score_reasons": [
@@ -24327,16 +24445,26 @@
       "est_loss_pct": 1.39,
       "hold_cap_hours": 48,
       "reachable": false,
-      "orderbook_imbalance_source": "unavailable"
+      "orderbook_imbalance_source": "unavailable",
+      "ext": {
+        "venue": "NXT",
+        "label": "프리마켓(NXT)",
+        "session": "pre",
+        "price": 52000.0,
+        "asof": "2026-07-15T08:46:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 51300.0,
+        "delta_pct": 1.36
+      }
     },
     {
       "name": "LS ELECTRIC",
       "code": "010120",
       "market": "KR",
-      "price": 195400.0,
+      "price": 196100.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 4.1,
+      "change_pct": 4.48,
       "vol_surge": 0.93,
       "score": 58,
       "score_reasons": [
@@ -26676,16 +26804,26 @@
       "est_loss_pct": 1.1,
       "hold_cap_hours": 48,
       "reachable": false,
-      "orderbook_imbalance_source": "unavailable"
+      "orderbook_imbalance_source": "unavailable",
+      "ext": {
+        "venue": "NXT",
+        "label": "프리마켓(NXT)",
+        "session": "pre",
+        "price": 196100.0,
+        "asof": "2026-07-15T08:46:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 187700.0,
+        "delta_pct": 4.48
+      }
     },
     {
       "name": "NAVER",
       "code": "035420",
       "market": "KR",
-      "price": 187300.0,
+      "price": 187900.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 2.24,
+      "change_pct": 2.57,
       "vol_surge": 0.83,
       "score": 43,
       "score_reasons": [
@@ -29026,16 +29164,26 @@
       "est_loss_pct": 0.73,
       "hold_cap_hours": 48,
       "reachable": true,
-      "orderbook_imbalance_source": "unavailable"
+      "orderbook_imbalance_source": "unavailable",
+      "ext": {
+        "venue": "NXT",
+        "label": "프리마켓(NXT)",
+        "session": "pre",
+        "price": 187900.0,
+        "asof": "2026-07-15T08:46:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 183200.0,
+        "delta_pct": 2.57
+      }
     },
     {
       "name": "SK",
       "code": "034730",
       "market": "KR",
-      "price": 601000.0,
+      "price": 607000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 6.94,
+      "change_pct": 8.01,
       "vol_surge": 0.95,
       "score": 36,
       "score_reasons": [
@@ -31375,16 +31523,26 @@
       "est_loss_pct": 1.02,
       "hold_cap_hours": 48,
       "reachable": true,
-      "orderbook_imbalance_source": "unavailable"
+      "orderbook_imbalance_source": "unavailable",
+      "ext": {
+        "venue": "NXT",
+        "label": "프리마켓(NXT)",
+        "session": "pre",
+        "price": 607000.0,
+        "asof": "2026-07-15T08:46:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 562000.0,
+        "delta_pct": 8.01
+      }
     },
     {
       "name": "한화에어로스페이스",
       "code": "012450",
       "market": "KR",
-      "price": 900000.0,
+      "price": 903000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 3.21,
+      "change_pct": 3.56,
       "vol_surge": 1.1,
       "score": 35,
       "score_reasons": [
@@ -33726,16 +33884,26 @@
       "est_loss_pct": 0.98,
       "hold_cap_hours": 48,
       "reachable": false,
-      "orderbook_imbalance_source": "unavailable"
+      "orderbook_imbalance_source": "unavailable",
+      "ext": {
+        "venue": "NXT",
+        "label": "프리마켓(NXT)",
+        "session": "pre",
+        "price": 903000.0,
+        "asof": "2026-07-15T08:46:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 872000.0,
+        "delta_pct": 3.56
+      }
     },
     {
       "name": "삼성바이오로직스",
       "code": "207940",
       "market": "KR",
-      "price": 1379000.0,
+      "price": 1384000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 0.8,
+      "change_pct": 1.17,
       "vol_surge": 1.02,
       "score": 27,
       "score_reasons": [
@@ -36071,16 +36239,26 @@
       "est_loss_pct": 1.04,
       "hold_cap_hours": 48,
       "reachable": false,
-      "orderbook_imbalance_source": "unavailable"
+      "orderbook_imbalance_source": "unavailable",
+      "ext": {
+        "venue": "NXT",
+        "label": "프리마켓(NXT)",
+        "session": "pre",
+        "price": 1384000.0,
+        "asof": "2026-07-15T08:46:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 1368000.0,
+        "delta_pct": 1.17
+      }
     },
     {
       "name": "한미반도체",
       "code": "042700",
       "market": "KR",
-      "price": 225000.0,
+      "price": 226000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 8.43,
+      "change_pct": 8.92,
       "vol_surge": 0.88,
       "score": 25,
       "score_reasons": [
@@ -38424,16 +38602,26 @@
       "est_loss_pct": 1.2,
       "hold_cap_hours": 48,
       "reachable": true,
-      "orderbook_imbalance_source": "unavailable"
+      "orderbook_imbalance_source": "unavailable",
+      "ext": {
+        "venue": "NXT",
+        "label": "프리마켓(NXT)",
+        "session": "pre",
+        "price": 226000.0,
+        "asof": "2026-07-15T08:46:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 207500.0,
+        "delta_pct": 8.92
+      }
     },
     {
       "name": "두산에너빌리티",
       "code": "034020",
       "market": "KR",
-      "price": 72800.0,
+      "price": 73200.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 2.68,
+      "change_pct": 3.24,
       "vol_surge": 1.26,
       "score": 20,
       "score_reasons": [
@@ -40772,16 +40960,26 @@
       "est_loss_pct": 1.0,
       "hold_cap_hours": 48,
       "reachable": false,
-      "orderbook_imbalance_source": "unavailable"
+      "orderbook_imbalance_source": "unavailable",
+      "ext": {
+        "venue": "NXT",
+        "label": "프리마켓(NXT)",
+        "session": "pre",
+        "price": 73200.0,
+        "asof": "2026-07-15T08:46:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 70900.0,
+        "delta_pct": 3.24
+      }
     },
     {
       "name": "LG에너지솔루션",
       "code": "373220",
       "market": "KR",
-      "price": 328500.0,
+      "price": 330500.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 2.02,
+      "change_pct": 2.64,
       "vol_surge": 0.83,
       "score": 18,
       "score_reasons": [
@@ -43120,7 +43318,17 @@
       "est_loss_pct": 1.04,
       "hold_cap_hours": 48,
       "reachable": false,
-      "orderbook_imbalance_source": "unavailable"
+      "orderbook_imbalance_source": "unavailable",
+      "ext": {
+        "venue": "NXT",
+        "label": "프리마켓(NXT)",
+        "session": "pre",
+        "price": 330500.0,
+        "asof": "2026-07-15T08:46:00+09:00",
+        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
+        "ref_close": 322000.0,
+        "delta_pct": 2.64
+      }
     }
   ],
   "positions": [],
@@ -43262,7 +43470,7 @@
     ]
   },
   "kr_context": {
-    "asof": "2026-07-15T08:41:00+09:00",
+    "asof": "2026-07-15T08:46:00+09:00",
     "basis": "한국 지수(KIS 실측)",
     "session": "pre",
     "stale": false,
