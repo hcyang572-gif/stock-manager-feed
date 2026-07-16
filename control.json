@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updated_at": "2026-07-15T14:24:59+09:00",
+  "updated_at": "2026-07-16T09:22:03+09:00",
   "updated_by": "app",
   "engine": {
     "analysis_enabled": true,
@@ -136,7 +136,7 @@
     }
   ],
   "run_requested_at": "2026-07-15T14:24:59+09:00",
-  "news_requested_at": "2026-07-15T08:08:15+09:00",
+  "news_requested_at": "2026-07-16T09:22:03+09:00",
   "alerts": {
     "price_enabled": true,
     "lv_entry": true,
@@ -144,11 +144,19 @@
     "lv_target1": true,
     "lv_target2": true,
     "surge_enabled": false,
-    "hold_enabled": true,
-    "mom_enabled": false,
     "surge_threshold": 3.0,
     "surge_window": 10,
+    "hold_enabled": true,
     "hold_loss_pct": 3.0,
+    "mom_enabled": false,
     "mom_threshold": 1.5
-  }
+  },
+  "holdings_watch": [
+    {
+      "code": "047050",
+      "market": "KR",
+      "name": "포스코인터내셔널",
+      "entry": 51000.0
+    }
+  ]
 }
