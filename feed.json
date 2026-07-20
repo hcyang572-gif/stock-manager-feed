@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0",
   "date": "2026-07-21",
-  "generated_at": "2026-07-21T08:40:00+09:00",
+  "generated_at": "2026-07-21T08:45:00+09:00",
   "horizon_hours": 48,
   "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 수급(외국인·기관) + 재무(PER·PBR) + 미국증시 전일 환경 보정 · 분석 범위: 통합 분석 — 관심종목(2 신호) + 전체종목 거래대금 상위(KOSPI, 6 신호). 뉴스/촉매는 ‘뉴스도 함께’에서만.",
   "market_state": {
     "korea": {
       "status": "pre",
       "basis": "장전 NXT 프리마켓(08:00~09:00, 네이버 지수 실측)",
-      "asof": "2026-07-21T08:40:00+09:00",
+      "asof": "2026-07-21T08:46:00+09:00",
       "session": "pre"
     },
     "us": {
@@ -22,14 +22,14 @@
     "observation_count": 14,
     "position_count": 0,
     "top_signal": "NAVER",
-    "headline": "기술 분석 갱신(07-21 08:40 KST) — 차트·거래량·변동성 기준 8개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
+    "headline": "기술 분석 갱신(07-21 08:45 KST) — 차트·거래량·변동성 기준 8개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
     "market_outlook": {
       "regime": "중립",
       "headline": "지수 보합 중립 — 뚜렷한 방향성 부재. 신호 8개 내 고점수 종목만 선별 접근.",
       "buy_view": "방향성 불명확 — 점수 상위 소수 종목에 집중(분산 금지). 주도 테마(기술분석·온디맨드·즉시진입) 위주 선별 진입. 거래량·분봉 확인 후 돌파 진입이 원칙.",
       "sell_view": "보유 중 목표가·손절가 룰 엄격 적용. 수익권 진입 종목은 일부 차익실현 후 트레일링 적용 검토. 48시간 보유캡 이내 청산 원칙 유지.",
       "basis": "매수신호 8개·평균점수 100.9 · 코스피 +0% · 코스닥 +0% · 전일 S&P -0.19% · SOX +0.6% (실측 지표, 날조 없음)",
-      "asof": "2026-07-21T08:40:58+09:00"
+      "asof": "2026-07-21T08:46:23+09:00"
     }
   },
   "signals": [
@@ -40,15 +40,15 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 191000.0,
+      "price": 190300.0,
       "currency": "KRW",
-      "entry": 191000.0,
+      "entry": 190300.0,
       "entry_type": "now",
-      "entry_note": "기술 점수 상위·돌파 상회. 현재가(191,000) 부근 즉시 진입 가능, 거래량 확인.",
+      "entry_note": "기술 점수 상위·돌파 상회. 현재가(190,300) 부근 즉시 진입 가능, 거래량 확인.",
       "stop": 181100,
-      "target1": 201000,
-      "target2": 208000,
-      "rr": 1.01,
+      "target1": 200500,
+      "target2": 207000,
+      "rr": 1.11,
       "atr_pct": 4.56,
       "hold_cap_hours": 48,
       "weight_pct": 15,
@@ -62,11 +62,11 @@
       "combo_winrate": 0.555,
       "combo_sample": 998,
       "combo_lift": 0.062,
-      "stop_pct": 5.2,
-      "est_loss_pct": 0.78,
+      "stop_pct": 4.8,
+      "est_loss_pct": 0.73,
       "data_quality": "good",
       "catalyst_verified": false,
-      "change_pct": 2.74,
+      "change_pct": 2.37,
       "evidence": "기술 분석(뉴스 미확인) — 변동성 돌파 상회, 미국증시 환경 +0.4 (전일 S&P-0.19%·나스닥-0.05%·SOX+0.6%), 외국인 순매수, 기관 순매도, 기관 매수 전환(최근 확정 2026-07-20 기준(장중이면 D-1)). ATR 4.56%·5일모멘텀 -2.82%.",
       "score_reasons": [
         "기본 점수 +50",
@@ -82,7 +82,7 @@
       ],
       "risk_notes": [
         "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
-        "비중 15%는 위험균등 산정 — 손절(5.2%) 도달 시 자본 약 0.78% 손실 수준(위험 2.0%/트레이드 기준).",
+        "비중 15%는 위험균등 산정 — 손절(4.8%) 도달 시 자본 약 0.73% 손실 수준(위험 2.0%/트레이드 기준).",
         "목표1 도달 시 손절을 본전으로 올려 이익 보호 · 보유 48h 경과 시 잔여 청산."
       ],
       "tags": [
@@ -2395,6 +2395,7 @@
         ]
       ],
       "group": "watchlist",
+      "orderbook_imbalance_source": "unavailable",
       "score": 104
     },
     {
@@ -2404,15 +2405,15 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 587000.0,
+      "price": 581000.0,
       "currency": "KRW",
-      "entry": 587000.0,
+      "entry": 581000.0,
       "entry_type": "now",
-      "entry_note": "기술 점수 상위·돌파 상회. 현재가(587,000) 부근 즉시 진입 가능, 거래량 확인.",
+      "entry_note": "기술 점수 상위·돌파 상회. 현재가(581,000) 부근 즉시 진입 가능, 거래량 확인.",
       "stop": 543000,
-      "target1": 665000,
-      "target2": 717000,
-      "rr": 1.77,
+      "target1": 657000,
+      "target2": 695000,
+      "rr": 2.0,
       "atr_pct": 11.26,
       "hold_cap_hours": 48,
       "weight_pct": 15,
@@ -2426,11 +2427,11 @@
       "combo_winrate": 0.546,
       "combo_sample": 903,
       "combo_lift": 0.053,
-      "stop_pct": 7.5,
-      "est_loss_pct": 1.12,
+      "stop_pct": 6.5,
+      "est_loss_pct": 0.98,
       "data_quality": "good",
       "catalyst_verified": false,
-      "change_pct": 1.38,
+      "change_pct": 0.35,
       "evidence": "기술 분석(뉴스 미확인) — 강세 마감(종가위치 61.1%), 변동성 돌파 상회, 미국증시 환경 +0.4 (전일 S&P-0.19%·나스닥-0.05%·SOX+0.6%), 외국인 순매수, 기관 순매수, 외국인 매도 전환(최근 확정 2026-07-20 기준(장중이면 D-1)), 기관 매수 가속(최근 확정 2026-07-20 기준(장중이면 D-1)). ATR 11.26%·5일모멘텀 -11.87%.",
       "score_reasons": [
         "기본 점수 +50",
@@ -2447,7 +2448,7 @@
       ],
       "risk_notes": [
         "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
-        "비중 15%는 위험균등 산정 — 손절(7.5%) 도달 시 자본 약 1.12% 손실 수준(위험 2.0%/트레이드 기준).",
+        "비중 15%는 위험균등 산정 — 손절(6.5%) 도달 시 자본 약 0.98% 손실 수준(위험 2.0%/트레이드 기준).",
         "목표1 도달 시 손절을 본전으로 올려 이익 보호 · 보유 48h 경과 시 잔여 청산."
       ],
       "tags": [
@@ -4760,6 +4761,7 @@
         ]
       ],
       "group": "watchlist",
+      "orderbook_imbalance_source": "unavailable",
       "score": 100
     },
     {
@@ -5846,6 +5848,7 @@
         ]
       ],
       "group": "market",
+      "orderbook_imbalance_source": "unavailable",
       "score": 195
     },
     {
@@ -6933,6 +6936,7 @@
         ]
       ],
       "group": "market",
+      "orderbook_imbalance_source": "unavailable",
       "score": 107
     },
     {
@@ -8019,6 +8023,7 @@
         ]
       ],
       "group": "market",
+      "orderbook_imbalance_source": "unavailable",
       "score": 100
     },
     {
@@ -9100,6 +9105,7 @@
         ]
       ],
       "group": "market",
+      "orderbook_imbalance_source": "unavailable",
       "score": 90
     },
     {
@@ -10182,6 +10188,7 @@
         ]
       ],
       "group": "market",
+      "orderbook_imbalance_source": "unavailable",
       "score": 56
     },
     {
@@ -11266,6 +11273,7 @@
         ]
       ],
       "group": "market",
+      "orderbook_imbalance_source": "unavailable",
       "score": 55
     }
   ],
@@ -11274,10 +11282,10 @@
       "name": "LS ELECTRIC",
       "code": "010120",
       "market": "KR",
-      "price": 181300.0,
+      "price": 180800.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 1.12,
+      "change_pct": 0.84,
       "vol_surge": 0.62,
       "score": 116,
       "score_reasons": [
@@ -13619,7 +13627,8 @@
       "stop_pct": 6.6,
       "est_loss_pct": 0.86,
       "hold_cap_hours": 48,
-      "reachable": false
+      "reachable": false,
+      "orderbook_imbalance_source": "unavailable"
     },
     {
       "name": "포스코인터내셔널",
@@ -15971,16 +15980,17 @@
       "stop_pct": 5.9,
       "est_loss_pct": 0.77,
       "hold_cap_hours": 48,
-      "reachable": false
+      "reachable": false,
+      "orderbook_imbalance_source": "unavailable"
     },
     {
       "name": "삼성바이오로직스",
       "code": "207940",
       "market": "KR",
-      "price": 1385000.0,
+      "price": 1383000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 2.97,
+      "change_pct": 2.83,
       "vol_surge": 0.73,
       "score": 85,
       "score_reasons": [
@@ -18321,16 +18331,17 @@
       "stop_pct": 7.9,
       "est_loss_pct": 1.03,
       "hold_cap_hours": 48,
-      "reachable": false
+      "reachable": false,
+      "orderbook_imbalance_source": "unavailable"
     },
     {
       "name": "한국콜마",
       "code": "161890",
       "market": "KR",
-      "price": 100000.0,
+      "price": 99700.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 0.5,
+      "change_pct": 0.2,
       "vol_surge": 0.53,
       "score": 75,
       "score_reasons": [
@@ -20672,16 +20683,17 @@
       "stop_pct": 8.7,
       "est_loss_pct": 1.13,
       "hold_cap_hours": 48,
-      "reachable": false
+      "reachable": false,
+      "orderbook_imbalance_source": "unavailable"
     },
     {
       "name": "삼성전자",
       "code": "005930",
       "market": "KR",
-      "price": 247000.0,
+      "price": 246000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 1.23,
+      "change_pct": 0.82,
       "vol_surge": 0.84,
       "score": 56,
       "score_reasons": [
@@ -23021,16 +23033,17 @@
       "stop_pct": 6.8,
       "est_loss_pct": 0.88,
       "hold_cap_hours": 48,
-      "reachable": false
+      "reachable": false,
+      "orderbook_imbalance_source": "unavailable"
     },
     {
       "name": "현대차",
       "code": "005380",
       "market": "KR",
-      "price": 397500.0,
+      "price": 397000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -0.38,
+      "change_pct": -0.5,
       "vol_surge": 0.86,
       "score": 55,
       "score_reasons": [
@@ -25369,16 +25382,17 @@
       "stop_pct": 5.5,
       "est_loss_pct": 0.71,
       "hold_cap_hours": 48,
-      "reachable": false
+      "reachable": false,
+      "orderbook_imbalance_source": "unavailable"
     },
     {
       "name": "두산에너빌리티",
       "code": "034020",
       "market": "KR",
-      "price": 64900.0,
+      "price": 64700.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 0.15,
+      "change_pct": -0.15,
       "vol_surge": 0.92,
       "score": 51,
       "score_reasons": [
@@ -27719,7 +27733,8 @@
       "stop_pct": 5.6,
       "est_loss_pct": 0.73,
       "hold_cap_hours": 48,
-      "reachable": false
+      "reachable": false,
+      "orderbook_imbalance_source": "unavailable"
     },
     {
       "name": "LG에너지솔루션",
@@ -30069,16 +30084,17 @@
       "stop_pct": 7.5,
       "est_loss_pct": 0.97,
       "hold_cap_hours": 48,
-      "reachable": false
+      "reachable": false,
+      "orderbook_imbalance_source": "unavailable"
     },
     {
       "name": "SK하이닉스",
       "code": "000660",
       "market": "KR",
-      "price": 1784000.0,
+      "price": 1770000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 1.13,
+      "change_pct": 0.34,
       "vol_surge": 0.9,
       "score": 39,
       "score_reasons": [
@@ -32418,16 +32434,17 @@
       "stop_pct": 11.3,
       "est_loss_pct": 1.02,
       "hold_cap_hours": 48,
-      "reachable": false
+      "reachable": false,
+      "orderbook_imbalance_source": "unavailable"
     },
     {
       "name": "한화오션",
       "code": "042660",
       "market": "KR",
-      "price": 82900.0,
+      "price": 83100.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -0.36,
+      "change_pct": -0.12,
       "vol_surge": 0.9,
       "score": 25,
       "score_reasons": [
@@ -34768,16 +34785,17 @@
       "stop_pct": 20.0,
       "est_loss_pct": 1.0,
       "hold_cap_hours": 48,
-      "reachable": false
+      "reachable": false,
+      "orderbook_imbalance_source": "unavailable"
     },
     {
       "name": "한화에어로스페이스",
       "code": "012450",
       "market": "KR",
-      "price": 877000.0,
+      "price": 876000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 0.23,
+      "change_pct": 0.11,
       "vol_surge": 1.79,
       "score": 11,
       "score_reasons": [
@@ -37114,16 +37132,17 @@
       "stop_pct": 9.5,
       "est_loss_pct": 1.04,
       "hold_cap_hours": 48,
-      "reachable": false
+      "reachable": false,
+      "orderbook_imbalance_source": "unavailable"
     },
     {
       "name": "한미반도체",
       "code": "042700",
       "market": "KR",
-      "price": 227500.0,
+      "price": 225000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 2.48,
+      "change_pct": 1.35,
       "vol_surge": 0.77,
       "score": 0,
       "score_reasons": [
@@ -39464,7 +39483,8 @@
       "stop_pct": 21.7,
       "est_loss_pct": 1.08,
       "hold_cap_hours": 48,
-      "reachable": false
+      "reachable": false,
+      "orderbook_imbalance_source": "unavailable"
     },
     {
       "name": "대한항공",
@@ -41810,16 +41830,17 @@
       "stop_pct": 5.1,
       "est_loss_pct": 0.66,
       "hold_cap_hours": 48,
-      "reachable": false
+      "reachable": false,
+      "orderbook_imbalance_source": "unavailable"
     },
     {
       "name": "현대건설",
       "code": "000720",
       "market": "KR",
-      "price": 91100.0,
+      "price": 90800.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 0.11,
+      "change_pct": -0.22,
       "vol_surge": 0.9,
       "score": 0,
       "score_reasons": [
@@ -44158,7 +44179,8 @@
       "stop_pct": 7.1,
       "est_loss_pct": 0.92,
       "hold_cap_hours": 48,
-      "reachable": false
+      "reachable": false,
+      "orderbook_imbalance_source": "unavailable"
     }
   ],
   "positions": [],
@@ -44300,8 +44322,8 @@
     ]
   },
   "kr_context": {
-    "asof": "2026-07-21T08:40:00+09:00",
-    "basis": "한국 지수(KIS 실측 — 07/20 피드 확인값)",
+    "asof": "2026-07-21T08:46:00+09:00",
+    "basis": "한국 지수(KIS 실측)",
     "session": "pre",
     "stale": false,
     "indices": [
@@ -44332,13 +44354,14 @@
     "regime_pct": 0.17,
     "adj": 0.4
   },
-  "analyzed_at": "2026-07-21T08:40:00+09:00",
+  "analyzed_at": "2026-07-21T08:45:00+09:00",
   "watch_advice": {
     "level": "normal",
     "headline": "매수 신호 8건 — 상위 후보 NAVER(104점)",
     "bullets": [
       "최상위 NAVER 104점 · 진입 전 재료·시초가 갭 확인.",
       "전일 미국증시 보합(+0.17%) — 종목 선별 중심.",
+      "현재 NXT 연장(장전/장후) 시간 — 유동성 얇음, 호가 슬리피지 유의.",
       "공통 유의: 뉴스/촉매 미반영(기술 신호만). 실주문은 본인 판단·실행."
     ],
     "action": "선별 진입 — 상위 후보 우선 검토",
@@ -44347,7 +44370,7 @@
     "top_score": 104
   },
   "integrity": {
-    "checked_at": "2026-07-21T08:40:00+09:00",
+    "checked_at": "2026-07-21T08:45:00+09:00",
     "critical": [],
     "warn": []
   }
