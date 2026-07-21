@@ -148,7 +148,7 @@ jobs:
             # 막히면(403·재시도 backoff) 한 회차가 오래 걸려 이후 주기 전체가
             # 밀릴 수 있다. 각 스크립트를 timeout 으로 감싸 한 회차 지연이 다음
             # 주기를 잡아먹지 않게 한다(실패해도 다음 반복이 재시도).
-            refresh_out=$(timeout 120 python scripts/intraday_refresh.py $FORCE 2>&1)
+            refresh_out=$(timeout 120 python scripts/intraday_refresh.py $FORCE 2>&1) || echo "[intraday] 시세 갱신 실패/타임아웃(exit=$?) — 다음 회차 재시도"
             printf '%s\n' "$refresh_out"
 
             if printf '%s' "$refresh_out" | grep -qE '^\[intraday\] skip \((weekend|holiday|krx-yearend)\)' && [ -z "$FORCE" ]; then
