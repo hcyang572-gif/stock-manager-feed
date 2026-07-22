@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updated_at": "2026-07-22T09:30:55+09:00",
+  "updated_at": "2026-07-22T10:22:14+09:00",
   "updated_by": "app",
   "engine": {
     "analysis_enabled": true,
@@ -8,7 +8,7 @@
     "market_targets": [
       "KOSPI"
     ],
-    "hold_cap_hours": 48,
+    "hold_cap_hours": 72,
     "morning_time_kst": "07:00",
     "morning_days": [
       1,
@@ -144,19 +144,25 @@
     "lv_target1": true,
     "lv_target2": true,
     "surge_enabled": false,
-    "hold_enabled": true,
-    "mom_enabled": false,
     "surge_threshold": 3.0,
     "surge_window": 10,
+    "hold_enabled": true,
     "hold_loss_pct": 3.0,
+    "mom_enabled": false,
     "mom_threshold": 1.5
   },
   "holdings_watch": [
     {
-      "code": "047050",
+      "code": "000660",
       "market": "KR",
-      "name": "포스코인터내셔널",
-      "entry": 51000.0
+      "name": "SK하이닉스",
+      "entry": 1826000.0
+    },
+    {
+      "code": "005930",
+      "market": "KR",
+      "name": "삼성전자",
+      "entry": 253000.0
     }
   ]
 }
