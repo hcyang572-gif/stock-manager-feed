@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0",
   "date": "2026-07-24",
-  "generated_at": "2026-07-24T16:26:00+09:00",
+  "generated_at": "2026-07-24T16:34:00+09:00",
   "horizon_hours": 72,
   "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 수급(외국인·기관) + 재무(PER·PBR) + 미국증시 전일 환경 보정 · 분석 범위: 통합 분석 — 관심종목(1 신호) + 전체종목 거래대금 상위(KOSPI, 12 신호). 뉴스/촉매는 ‘뉴스도 함께’에서만. (뉴스/촉매 7h 전 반영 보존)",
   "market_state": {
     "korea": {
       "status": "post",
-      "basis": "장후 NXT 애프터마켓(15:30~20:00, 10분 자동갱신)",
-      "asof": "2026-07-24T16:26:00+09:00",
+      "basis": "장후 NXT 애프터마켓(15:30~20:00, 네이버 지수 실측)",
+      "asof": "2026-07-24T16:35:00+09:00",
       "session": "after"
     },
     "us": {
@@ -22,14 +22,14 @@
     "observation_count": 15,
     "position_count": 0,
     "top_signal": "대한항공",
-    "headline": "기술 분석 갱신(07-24 16:20 KST) — 차트·거래량·변동성 기준 13개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
+    "headline": "기술 분석 갱신(07-24 16:34 KST) — 차트·거래량·변동성 기준 13개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
     "market_outlook": {
       "regime": "약세",
       "headline": "지수 약세 — 진입 기회 제한(13개 신호). 손절 규율 최우선, 현금 비중 확대 검토.",
       "buy_view": "신호 수 제한적 — 고점수·고확신 종목만 소량 진입(비중 절제). 주도 테마(기술분석·온디맨드·즉시진입) 위주 선별 진입. 지수 낙폭 확대 시 신규 진입 전면 보류.",
       "sell_view": "지수 하락 환경 — 보유 비중 축소 우선. 손절가 이탈 즉시 기계적 청산. 반등 시도도 매도 기회로 활용.",
       "basis": "매수신호 13개·평균점수 109.1 · 코스피 -5.72% · 코스닥 -5.32% · 전일 S&P -1.21% · SOX -0.54% (실측 지표, 날조 없음)",
-      "asof": "2026-07-24T16:21:10+09:00"
+      "asof": "2026-07-24T16:35:01+09:00"
     }
   },
   "signals": [
@@ -52,7 +52,7 @@
       "atr_pct": 4.87,
       "hold_cap_hours": 72,
       "weight_pct": 13,
-      "vol_surge": 0.99,
+      "vol_surge": 0.98,
       "foreign_net": -58417.0,
       "inst_net": -448589.0,
       "supply_days": 5,
@@ -1427,7 +1427,7 @@
           25700.0,
           24900.0,
           25450.0,
-          3058613
+          3023457
         ]
       ],
       "daily_30d": [
@@ -1669,7 +1669,7 @@
           25700.0,
           24900.0,
           25450.0,
-          3058613
+          3023457
         ]
       ],
       "daily_90d": [
@@ -2391,12 +2391,12 @@
           25700.0,
           24900.0,
           25450.0,
-          3058613
+          3023457
         ]
       ],
       "group": "watchlist",
       "orderbook_imbalance": -0.0929,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -2407,19 +2407,9 @@
       "ask_ratio": 0.4535,
       "bid_rem": 110257,
       "ask_rem": 132853,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00",
       "score": 85,
-      "catalyst": "2Q 실적 서프라이즈, 신한투자 목표가 3만8000원 상향 — 7월 15일 2Q26 실적 발표에서 유류비 부담에도 불구하고 국제선 여객·화물 호조로 서프라이즈 기록. 신한투자증권이 목표가를 35,000원에서 38,000원으로 9% 상향 조정.",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 25450.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 25450.0,
-        "delta_pct": 0.0
-      }
+      "catalyst": "2Q 실적 서프라이즈, 신한투자 목표가 3만8000원 상향 — 7월 15일 2Q26 실적 발표에서 유류비 부담에도 불구하고 국제선 여객·화물 호조로 서프라이즈 기록. 신한투자증권이 목표가를 35,000원에서 38,000원으로 9% 상향 조정."
     },
     {
       "rank": 1,
@@ -2428,7 +2418,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 40200.0,
+      "price": 40350.0,
       "currency": "KRW",
       "entry": 40350.0,
       "entry_type": "now",
@@ -3507,7 +3497,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.3653,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -3518,18 +3508,8 @@
       "ask_ratio": 0.3174,
       "bid_rem": 8520,
       "ask_rem": 18326,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
-      "score": 142,
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 40200.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 40350.0,
-        "delta_pct": -0.37
-      }
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00",
+      "score": 142
     },
     {
       "rank": 2,
@@ -3538,7 +3518,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 122100.0,
+      "price": 123300.0,
       "currency": "KRW",
       "entry": 123300.0,
       "entry_type": "now",
@@ -3649,7 +3629,7 @@
           123300.0,
           114900.0,
           123300.0,
-          454947
+          454950
         ]
       ],
       "daily_30d": [
@@ -3891,7 +3871,7 @@
           123300.0,
           114900.0,
           123300.0,
-          454947
+          454950
         ]
       ],
       "daily_90d": [
@@ -4613,12 +4593,12 @@
           123300.0,
           114900.0,
           123300.0,
-          454947
+          454950
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.6293,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -4629,19 +4609,9 @@
       "ask_ratio": 0.1853,
       "bid_rem": 4121,
       "ask_rem": 18114,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00",
       "score": 136,
-      "catalyst": "뚜렷한 촉매 없음 — 최근 48시간 내 주가에 영향을 줄 구체적인 촉매나 공시 없음.",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 122100.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 123300.0,
-        "delta_pct": -0.97
-      }
+      "catalyst": "뚜렷한 촉매 없음 — 최근 48시간 내 주가에 영향을 줄 구체적인 촉매나 공시 없음."
     },
     {
       "rank": 3,
@@ -4650,7 +4620,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 1145000.0,
+      "price": 1151000.0,
       "currency": "KRW",
       "entry": 1151000.0,
       "entry_type": "now",
@@ -5729,7 +5699,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.4448,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -5740,18 +5710,8 @@
       "ask_ratio": 0.2776,
       "bid_rem": 395,
       "ask_rem": 1028,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
-      "score": 124,
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 1145000.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 1151000.0,
-        "delta_pct": -0.52
-      }
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00",
+      "score": 124
     },
     {
       "rank": 4,
@@ -5760,7 +5720,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 132000.0,
+      "price": 132400.0,
       "currency": "KRW",
       "entry": 132400.0,
       "entry_type": "now",
@@ -6840,7 +6800,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": 0.306,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -6851,19 +6811,9 @@
       "ask_ratio": 0.653,
       "bid_rem": 29247,
       "ask_rem": 15540,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00",
       "score": 122,
-      "catalyst": "글로벌 투자자들 지분 확대, 2Q 분기 최대 실적 전망 — 7월 초 블랙록과 캐피털그룹 등 글로벌 대형 투자기관들이 지분을 잇달아 늘리며 외국인 지분율이 51% 돌파. 2Q 경상 기준 분기 최대 실적 전망.",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 132000.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 132400.0,
-        "delta_pct": -0.3
-      }
+      "catalyst": "글로벌 투자자들 지분 확대, 2Q 분기 최대 실적 전망 — 7월 초 블랙록과 캐피털그룹 등 글로벌 대형 투자기관들이 지분을 잇달아 늘리며 외국인 지분율이 51% 돌파. 2Q 경상 기준 분기 최대 실적 전망."
     },
     {
       "rank": 5,
@@ -6872,7 +6822,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 21550.0,
+      "price": 21650.0,
       "currency": "KRW",
       "entry": 21650.0,
       "entry_type": "now",
@@ -7954,7 +7904,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.7562,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -7965,19 +7915,9 @@
       "ask_ratio": 0.1219,
       "bid_rem": 44049,
       "ask_rem": 317342,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00",
       "score": 116,
-      "catalyst": "하나증권 신규 리포트 NEUTRAL, 목표가 21,000원 — 7월 21일 하나증권 신규 리포트에서 1분기 영업이익 58% 감소 예상, 컨테이너선 부문 부진 지속. 벌크선/유조선 호조와 충분한 현금(13조원)이 하방 버팀목.",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 21550.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 21650.0,
-        "delta_pct": -0.46
-      }
+      "catalyst": "하나증권 신규 리포트 NEUTRAL, 목표가 21,000원 — 7월 21일 하나증권 신규 리포트에서 1분기 영업이익 58% 감소 예상, 컨테이너선 부문 부진 지속. 벌크선/유조선 호조와 충분한 현금(13조원)이 하방 버팀목."
     },
     {
       "rank": 6,
@@ -7986,7 +7926,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 389000.0,
+      "price": 392000.0,
       "currency": "KRW",
       "entry": 398500.0,
       "entry_type": "breakout",
@@ -9061,7 +9001,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.2989,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -9072,18 +9012,8 @@
       "ask_ratio": 0.3506,
       "bid_rem": 922,
       "ask_rem": 1708,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
-      "score": 113,
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 389000.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 392000.0,
-        "delta_pct": -0.77
-      }
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00",
+      "score": 113
     },
     {
       "rank": 7,
@@ -10170,7 +10100,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": 0.0017,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -10181,19 +10111,9 @@
       "ask_ratio": 0.5008,
       "bid_rem": 69183,
       "ask_rem": 68955,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00",
       "score": 112,
-      "catalyst": "뚜렷한 촉매 없음 — 검색 결과에서 최근 촉매 정보 미확인.",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 30850.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 30850.0,
-        "delta_pct": 0.0
-      }
+      "catalyst": "뚜렷한 촉매 없음 — 검색 결과에서 최근 촉매 정보 미확인."
     },
     {
       "rank": 8,
@@ -10202,7 +10122,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 181400.0,
+      "price": 182600.0,
       "currency": "KRW",
       "entry": 182600.0,
       "entry_type": "now",
@@ -11279,7 +11199,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": 0.366,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -11290,19 +11210,9 @@
       "ask_ratio": 0.683,
       "bid_rem": 6892,
       "ask_rem": 3199,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00",
       "score": 100,
-      "catalyst": "글로벌 투자자 지분 확대, 외국인 지분율 51% 돌파 — 7월 초 캐피털 그룹이 지분을 신규 매입하여 외국인 지분율이 51%를 돌파. 해외 성장과 주주환원에 대한 글로벌 투자자들의 신뢰 증가.",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 181400.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 182600.0,
-        "delta_pct": -0.66
-      }
+      "catalyst": "글로벌 투자자 지분 확대, 외국인 지분율 51% 돌파 — 7월 초 캐피털 그룹이 지분을 신규 매입하여 외국인 지분율이 51%를 돌파. 해외 성장과 주주환원에 대한 글로벌 투자자들의 신뢰 증가."
     },
     {
       "rank": 9,
@@ -11311,7 +11221,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 168200.0,
+      "price": 167900.0,
       "currency": "KRW",
       "entry": 167900.0,
       "entry_type": "now",
@@ -12390,7 +12300,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.0799,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -12401,18 +12311,8 @@
       "ask_ratio": 0.4601,
       "bid_rem": 2793,
       "ask_rem": 3278,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
-      "score": 100,
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 168200.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 167900.0,
-        "delta_pct": 0.18
-      }
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00",
+      "score": 100
     },
     {
       "rank": 10,
@@ -12421,7 +12321,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 53800.0,
+      "price": 54100.0,
       "currency": "KRW",
       "entry": 54100.0,
       "entry_type": "now",
@@ -13499,7 +13399,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.4704,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -13510,19 +13410,9 @@
       "ask_ratio": 0.2648,
       "bid_rem": 14231,
       "ask_rem": 39511,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00",
       "score": 100,
-      "catalyst": "뚜렷한 촉매 없음 — 검색 결과에서 최근 촉매 정보 미확인.",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 53800.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 54100.0,
-        "delta_pct": -0.55
-      }
+      "catalyst": "뚜렷한 촉매 없음 — 검색 결과에서 최근 촉매 정보 미확인."
     },
     {
       "rank": 11,
@@ -13531,7 +13421,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 642000.0,
+      "price": 644000.0,
       "currency": "KRW",
       "entry": 644000.0,
       "entry_type": "now",
@@ -14608,7 +14498,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.4673,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -14619,18 +14509,8 @@
       "ask_ratio": 0.2663,
       "bid_rem": 2005,
       "ask_rem": 5523,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
-      "score": 89,
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 642000.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 644000.0,
-        "delta_pct": -0.31
-      }
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00",
+      "score": 89
     },
     {
       "rank": 12,
@@ -14639,7 +14519,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 177300.0,
+      "price": 177600.0,
       "currency": "KRW",
       "entry": 177600.0,
       "entry_type": "now",
@@ -15718,7 +15598,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.6439,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -15729,19 +15609,9 @@
       "ask_ratio": 0.178,
       "bid_rem": 5469,
       "ask_rem": 25251,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00",
       "score": 79,
-      "catalyst": "뚜렷한 촉매 없음 — 검색 결과에서 최근 촉매 정보 미확인.",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 177300.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 177600.0,
-        "delta_pct": -0.17
-      }
+      "catalyst": "뚜렷한 촉매 없음 — 검색 결과에서 최근 촉매 정보 미확인."
     }
   ],
   "observations": [
@@ -15749,7 +15619,7 @@
       "name": "LS ELECTRIC",
       "code": "010120",
       "market": "KR",
-      "price": 203500.0,
+      "price": 204000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -9.62,
@@ -18098,7 +17968,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.3158,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -18109,23 +17979,13 @@
       "ask_ratio": 0.6579,
       "bid_rem": 32156,
       "ask_rem": 16719,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 203500.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 202000.0,
-        "delta_pct": 0.74
-      }
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00"
     },
     {
       "name": "SK하이닉스",
       "code": "000660",
       "market": "KR",
-      "price": 1787000.0,
+      "price": 1791000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -8.34,
@@ -20471,7 +20331,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.9759,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -20482,23 +20342,13 @@
       "ask_ratio": 0.988,
       "bid_rem": 187800,
       "ask_rem": 2289,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 1787000.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 1759000.0,
-        "delta_pct": 1.59
-      }
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00"
     },
     {
       "name": "현대건설",
       "code": "000720",
       "market": "KR",
-      "price": 106200.0,
+      "price": 106100.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -2.48,
@@ -22844,7 +22694,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": -0.3247,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -22855,23 +22705,13 @@
       "ask_ratio": 0.3377,
       "bid_rem": 4559,
       "ask_rem": 8943,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 106200.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 106200.0,
-        "delta_pct": 0.0
-      }
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00"
     },
     {
       "name": "NAVER",
       "code": "035420",
       "market": "KR",
-      "price": 208500.0,
+      "price": 207500.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -5.68,
@@ -25219,7 +25059,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.1474,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -25230,17 +25070,7 @@
       "ask_ratio": 0.5737,
       "bid_rem": 44835,
       "ask_rem": 33318,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 208500.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 207500.0,
-        "delta_pct": 0.48
-      }
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00"
     },
     {
       "name": "두산에너빌리티",
@@ -26611,7 +26441,7 @@
           74000.0,
           71200.0,
           72100.0,
-          2017877
+          2017878
         ]
       ],
       "daily_30d": [
@@ -26853,7 +26683,7 @@
           74000.0,
           71200.0,
           72100.0,
-          2017877
+          2017878
         ]
       ],
       "daily_90d": [
@@ -27575,7 +27405,7 @@
           74000.0,
           71200.0,
           72100.0,
-          2017877
+          2017878
         ]
       ],
       "plan_tentative": true,
@@ -27592,7 +27422,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": -0.277,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -27603,17 +27433,7 @@
       "ask_ratio": 0.3615,
       "bid_rem": 49083,
       "ask_rem": 86695,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 72000.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 72100.0,
-        "delta_pct": -0.14
-      }
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00"
     },
     {
       "name": "현대차",
@@ -28985,7 +28805,7 @@
           418500.0,
           390000.0,
           401000.0,
-          896061
+          896066
         ]
       ],
       "daily_30d": [
@@ -29227,7 +29047,7 @@
           418500.0,
           390000.0,
           401000.0,
-          896061
+          896066
         ]
       ],
       "daily_90d": [
@@ -29949,7 +29769,7 @@
           418500.0,
           390000.0,
           401000.0,
-          896061
+          896066
         ]
       ],
       "plan_tentative": true,
@@ -29966,7 +29786,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": -0.4291,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -29977,32 +29797,22 @@
       "ask_ratio": 0.2855,
       "bid_rem": 14104,
       "ask_rem": 35302,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 400500.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 401000.0,
-        "delta_pct": -0.12
-      }
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00"
     },
     {
       "name": "한화에어로스페이스",
       "code": "012450",
       "market": "KR",
-      "price": 976000.0,
+      "price": 977000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": 2.19,
-      "vol_surge": 1.08,
+      "vol_surge": 1.04,
       "score": 85,
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
-        "거래량 양호 1.08배 +7",
+        "거래량 양호 1.04배 +7",
         "윗꼬리/분배(종가위치 16.5%) -12",
         "RSI 33.4 (침체 반등 기대 <35) +4",
         "5일 모멘텀 +3.82% (양) +8",
@@ -31360,7 +31170,7 @@
           1050000.0,
           965000.0,
           979000.0,
-          253649
+          243326
         ]
       ],
       "daily_30d": [
@@ -31602,7 +31412,7 @@
           1050000.0,
           965000.0,
           979000.0,
-          253649
+          243326
         ]
       ],
       "daily_90d": [
@@ -32324,7 +32134,7 @@
           1050000.0,
           965000.0,
           979000.0,
-          253649
+          243326
         ]
       ],
       "plan_tentative": true,
@@ -32341,7 +32151,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": -0.3019,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -32352,17 +32162,7 @@
       "ask_ratio": 0.3491,
       "bid_rem": 3482,
       "ask_rem": 6493,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 976000.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 979000.0,
-        "delta_pct": -0.31
-      }
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00"
     },
     {
       "name": "한화오션",
@@ -34713,7 +34513,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.128,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -34724,23 +34524,13 @@
       "ask_ratio": 0.564,
       "bid_rem": 35307,
       "ask_rem": 27293,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 87900.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 87900.0,
-        "delta_pct": 0.0
-      }
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00"
     },
     {
       "name": "포스코인터내셔널",
       "code": "047050",
       "market": "KR",
-      "price": 56100.0,
+      "price": 56000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -0.53,
@@ -37086,7 +36876,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": -0.1466,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -37097,23 +36887,13 @@
       "ask_ratio": 0.4267,
       "bid_rem": 11521,
       "ask_rem": 15480,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 56100.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 56300.0,
-        "delta_pct": -0.36
-      }
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00"
     },
     {
       "name": "삼성전자",
       "code": "005930",
       "market": "KR",
-      "price": 252500.0,
+      "price": 253000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -7.59,
@@ -39457,7 +39237,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.7435,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -39468,2391 +39248,13 @@
       "ask_ratio": 0.8718,
       "bid_rem": 2463919,
       "ask_rem": 362425,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 252500.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 249500.0,
-        "delta_pct": 1.2
-      }
-    },
-    {
-      "name": "LG에너지솔루션",
-      "code": "373220",
-      "market": "KR",
-      "price": 330500.0,
-      "currency": "KRW",
-      "watch_trigger": null,
-      "change_pct": -5.32,
-      "vol_surge": 0.62,
-      "score": 40,
-      "score_reasons": [
-        "기본 점수 +50",
-        "역배열(MA5<MA20) -8",
-        "윗꼬리/분배(종가위치 21.9%) -12",
-        "미국증시 환경 -3.1 (전일 S&P-1.21%·나스닥-2.15%·SOX-0.54%)",
-        "외국인 순매수(최근 5일) +14",
-        "기관 순매수(최근 5일) +11",
-        "외국인 매도 전환 감지(최근 확정 2026-07-23 기준(장중이면 D-1): 직전 순매수/보합→순매도) — 압도적 우선 감점 -50",
-        "기관 매수 전환 감지(최근 확정 2026-07-23 기준(장중이면 D-1): 직전 순매도/보합→순매수) — 압도적 우선 반영 +38"
-      ],
-      "foreign_net": 7782.0,
-      "inst_net": 36955.0,
-      "supply_days": 5,
-      "foreign_net_1d": -9871.0,
-      "inst_net_1d": 85026.0,
-      "supply_1d_date": "2026-07-23",
-      "reason": "기술 점수 40점 — 조건 미충족(관망). 윗꼬리/분배(종가위치 21.9%), 미국증시 환경 -3.1 (전일 S&P-1.21%·나스닥-2.15%·SOX-0.54%), 외국인 순매수, 기관 순매수, 외국인 매도 전환(최근 확정 2026-07-23 기준(장중이면 D-1)), 기관 매수 전환(최근 확정 2026-07-23 기준(장중이면 D-1)). ATR 6.13%.",
-      "intraday_5m": [
-        [
-          "2026-07-22T13:40:00+09:00",
-          328500.0,
-          329500.0,
-          328000.0,
-          328000.0,
-          1099
-        ],
-        [
-          "2026-07-22T13:45:00+09:00",
-          328000.0,
-          328500.0,
-          327500.0,
-          327500.0,
-          1036
-        ],
-        [
-          "2026-07-22T13:50:00+09:00",
-          327500.0,
-          328000.0,
-          326000.0,
-          326000.0,
-          1627
-        ],
-        [
-          "2026-07-22T13:55:00+09:00",
-          326000.0,
-          327500.0,
-          325500.0,
-          327500.0,
-          3135
-        ],
-        [
-          "2026-07-22T14:00:00+09:00",
-          327000.0,
-          327500.0,
-          325500.0,
-          325500.0,
-          1861
-        ],
-        [
-          "2026-07-22T14:05:00+09:00",
-          325500.0,
-          326500.0,
-          325000.0,
-          325000.0,
-          1739
-        ],
-        [
-          "2026-07-22T14:10:00+09:00",
-          325000.0,
-          325500.0,
-          323500.0,
-          323500.0,
-          3198
-        ],
-        [
-          "2026-07-22T14:15:00+09:00",
-          323500.0,
-          324500.0,
-          323000.0,
-          323500.0,
-          3067
-        ],
-        [
-          "2026-07-22T14:20:00+09:00",
-          323500.0,
-          324000.0,
-          322500.0,
-          323000.0,
-          3971
-        ],
-        [
-          "2026-07-22T14:25:00+09:00",
-          323000.0,
-          324500.0,
-          323000.0,
-          324000.0,
-          1808
-        ],
-        [
-          "2026-07-22T14:30:00+09:00",
-          324000.0,
-          326250.0,
-          324000.0,
-          325750.0,
-          3086
-        ],
-        [
-          "2026-07-22T14:35:00+09:00",
-          326000.0,
-          326000.0,
-          323500.0,
-          324000.0,
-          3294
-        ],
-        [
-          "2026-07-22T14:40:00+09:00",
-          324000.0,
-          324500.0,
-          322500.0,
-          322500.0,
-          2523
-        ],
-        [
-          "2026-07-22T14:45:00+09:00",
-          322750.0,
-          324000.0,
-          322500.0,
-          324000.0,
-          5702
-        ],
-        [
-          "2026-07-22T14:50:00+09:00",
-          324000.0,
-          325500.0,
-          323500.0,
-          324250.0,
-          4332
-        ],
-        [
-          "2026-07-22T14:55:00+09:00",
-          324250.0,
-          326250.0,
-          324000.0,
-          324500.0,
-          6094
-        ],
-        [
-          "2026-07-23T09:00:00+09:00",
-          322000.0,
-          326500.0,
-          322000.0,
-          326500.0,
-          7045
-        ],
-        [
-          "2026-07-23T09:05:00+09:00",
-          326000.0,
-          327500.0,
-          325000.0,
-          327000.0,
-          4525
-        ],
-        [
-          "2026-07-23T09:10:00+09:00",
-          327000.0,
-          327000.0,
-          325000.0,
-          325000.0,
-          2843
-        ],
-        [
-          "2026-07-23T09:15:00+09:00",
-          325000.0,
-          328000.0,
-          325000.0,
-          328000.0,
-          2178
-        ],
-        [
-          "2026-07-23T09:20:00+09:00",
-          328000.0,
-          329500.0,
-          328000.0,
-          328500.0,
-          2172
-        ],
-        [
-          "2026-07-23T09:25:00+09:00",
-          329000.0,
-          330500.0,
-          328500.0,
-          330000.0,
-          2637
-        ],
-        [
-          "2026-07-23T09:30:00+09:00",
-          330000.0,
-          331000.0,
-          328500.0,
-          330000.0,
-          2579
-        ],
-        [
-          "2026-07-23T09:35:00+09:00",
-          330000.0,
-          331500.0,
-          329500.0,
-          331000.0,
-          3173
-        ],
-        [
-          "2026-07-23T09:40:00+09:00",
-          331000.0,
-          331500.0,
-          330000.0,
-          330500.0,
-          2180
-        ],
-        [
-          "2026-07-23T09:45:00+09:00",
-          330500.0,
-          331500.0,
-          330000.0,
-          330000.0,
-          1725
-        ],
-        [
-          "2026-07-23T09:50:00+09:00",
-          330000.0,
-          330500.0,
-          328500.0,
-          329500.0,
-          1761
-        ],
-        [
-          "2026-07-23T09:55:00+09:00",
-          329500.0,
-          331000.0,
-          329000.0,
-          329500.0,
-          1174
-        ],
-        [
-          "2026-07-23T10:00:00+09:00",
-          329500.0,
-          330500.0,
-          328500.0,
-          329500.0,
-          2147
-        ],
-        [
-          "2026-07-23T10:05:00+09:00",
-          330000.0,
-          331000.0,
-          329000.0,
-          330500.0,
-          1424
-        ],
-        [
-          "2026-07-23T10:10:00+09:00",
-          330500.0,
-          331000.0,
-          330000.0,
-          330500.0,
-          1341
-        ],
-        [
-          "2026-07-23T10:15:00+09:00",
-          330500.0,
-          331500.0,
-          329500.0,
-          330500.0,
-          1399
-        ],
-        [
-          "2026-07-23T10:20:00+09:00",
-          330500.0,
-          331500.0,
-          329500.0,
-          331000.0,
-          1815
-        ],
-        [
-          "2026-07-23T10:25:00+09:00",
-          331500.0,
-          331500.0,
-          330500.0,
-          331000.0,
-          1651
-        ],
-        [
-          "2026-07-23T10:30:00+09:00",
-          331500.0,
-          331500.0,
-          329000.0,
-          330500.0,
-          6266
-        ],
-        [
-          "2026-07-23T10:35:00+09:00",
-          330000.0,
-          331500.0,
-          329500.0,
-          330000.0,
-          8584
-        ],
-        [
-          "2026-07-23T10:40:00+09:00",
-          330000.0,
-          331000.0,
-          330000.0,
-          330500.0,
-          1471
-        ],
-        [
-          "2026-07-23T10:45:00+09:00",
-          330500.0,
-          331500.0,
-          330000.0,
-          331000.0,
-          2064
-        ],
-        [
-          "2026-07-23T10:50:00+09:00",
-          331000.0,
-          333000.0,
-          331000.0,
-          332000.0,
-          6103
-        ],
-        [
-          "2026-07-23T10:55:00+09:00",
-          332500.0,
-          333500.0,
-          330500.0,
-          331000.0,
-          3824
-        ],
-        [
-          "2026-07-23T11:00:00+09:00",
-          331000.0,
-          333500.0,
-          330500.0,
-          333500.0,
-          3410
-        ],
-        [
-          "2026-07-23T11:05:00+09:00",
-          333500.0,
-          333500.0,
-          332000.0,
-          333000.0,
-          1999
-        ],
-        [
-          "2026-07-23T11:10:00+09:00",
-          332500.0,
-          333000.0,
-          331000.0,
-          332000.0,
-          1367
-        ],
-        [
-          "2026-07-23T11:15:00+09:00",
-          331500.0,
-          333000.0,
-          331500.0,
-          332000.0,
-          1758
-        ],
-        [
-          "2026-07-23T11:20:00+09:00",
-          332000.0,
-          332500.0,
-          331000.0,
-          331500.0,
-          1494
-        ],
-        [
-          "2026-07-23T11:25:00+09:00",
-          331500.0,
-          332000.0,
-          330500.0,
-          331500.0,
-          1689
-        ],
-        [
-          "2026-07-23T11:30:00+09:00",
-          331500.0,
-          333500.0,
-          331000.0,
-          333000.0,
-          2212
-        ],
-        [
-          "2026-07-23T11:35:00+09:00",
-          332750.0,
-          334000.0,
-          331500.0,
-          332500.0,
-          2265
-        ],
-        [
-          "2026-07-23T11:40:00+09:00",
-          332500.0,
-          333500.0,
-          331000.0,
-          333000.0,
-          1301
-        ],
-        [
-          "2026-07-23T11:45:00+09:00",
-          333000.0,
-          334000.0,
-          332500.0,
-          333000.0,
-          1812
-        ],
-        [
-          "2026-07-23T11:50:00+09:00",
-          333000.0,
-          336000.0,
-          332500.0,
-          336000.0,
-          4606
-        ],
-        [
-          "2026-07-23T11:55:00+09:00",
-          335500.0,
-          336500.0,
-          335000.0,
-          336000.0,
-          1933
-        ],
-        [
-          "2026-07-23T12:00:00+09:00",
-          335500.0,
-          336000.0,
-          334500.0,
-          335000.0,
-          2400
-        ],
-        [
-          "2026-07-23T12:05:00+09:00",
-          335000.0,
-          335500.0,
-          334500.0,
-          335000.0,
-          1579
-        ],
-        [
-          "2026-07-23T12:10:00+09:00",
-          335000.0,
-          336000.0,
-          334250.0,
-          335500.0,
-          1808
-        ],
-        [
-          "2026-07-23T12:15:00+09:00",
-          335500.0,
-          336000.0,
-          335500.0,
-          336000.0,
-          1041
-        ],
-        [
-          "2026-07-23T12:20:00+09:00",
-          336000.0,
-          337000.0,
-          335500.0,
-          336000.0,
-          1420
-        ],
-        [
-          "2026-07-23T12:25:00+09:00",
-          336500.0,
-          338000.0,
-          336000.0,
-          337500.0,
-          3586
-        ],
-        [
-          "2026-07-23T12:30:00+09:00",
-          337500.0,
-          337500.0,
-          335500.0,
-          336000.0,
-          2701
-        ],
-        [
-          "2026-07-23T12:35:00+09:00",
-          335500.0,
-          337500.0,
-          335500.0,
-          337000.0,
-          1796
-        ],
-        [
-          "2026-07-23T12:40:00+09:00",
-          337500.0,
-          338000.0,
-          336500.0,
-          338000.0,
-          1720
-        ],
-        [
-          "2026-07-23T12:45:00+09:00",
-          338000.0,
-          338000.0,
-          337000.0,
-          338000.0,
-          1720
-        ],
-        [
-          "2026-07-23T12:50:00+09:00",
-          338000.0,
-          338000.0,
-          337500.0,
-          338000.0,
-          1336
-        ],
-        [
-          "2026-07-23T12:55:00+09:00",
-          337500.0,
-          339500.0,
-          337500.0,
-          339000.0,
-          3276
-        ],
-        [
-          "2026-07-23T13:00:00+09:00",
-          339000.0,
-          339500.0,
-          338000.0,
-          338500.0,
-          3489
-        ],
-        [
-          "2026-07-23T13:05:00+09:00",
-          338000.0,
-          338500.0,
-          336000.0,
-          337500.0,
-          3368
-        ],
-        [
-          "2026-07-23T13:10:00+09:00",
-          337500.0,
-          338000.0,
-          335500.0,
-          337000.0,
-          2609
-        ],
-        [
-          "2026-07-23T13:15:00+09:00",
-          337000.0,
-          338000.0,
-          336500.0,
-          336500.0,
-          2355
-        ],
-        [
-          "2026-07-23T13:20:00+09:00",
-          337000.0,
-          338000.0,
-          336500.0,
-          338000.0,
-          2478
-        ],
-        [
-          "2026-07-23T13:25:00+09:00",
-          338000.0,
-          339500.0,
-          337500.0,
-          338000.0,
-          4787
-        ],
-        [
-          "2026-07-23T13:30:00+09:00",
-          338000.0,
-          338500.0,
-          336500.0,
-          338500.0,
-          2596
-        ],
-        [
-          "2026-07-23T13:35:00+09:00",
-          338000.0,
-          338500.0,
-          337000.0,
-          337500.0,
-          1635
-        ],
-        [
-          "2026-07-23T13:40:00+09:00",
-          338500.0,
-          339000.0,
-          337500.0,
-          338500.0,
-          3714
-        ],
-        [
-          "2026-07-23T13:45:00+09:00",
-          338500.0,
-          339500.0,
-          338000.0,
-          339500.0,
-          2227
-        ],
-        [
-          "2026-07-23T13:50:00+09:00",
-          339500.0,
-          339500.0,
-          337500.0,
-          339000.0,
-          2461
-        ],
-        [
-          "2026-07-23T13:55:00+09:00",
-          339000.0,
-          339500.0,
-          338000.0,
-          339500.0,
-          2762
-        ],
-        [
-          "2026-07-23T14:00:00+09:00",
-          339500.0,
-          340000.0,
-          338000.0,
-          339000.0,
-          2832
-        ],
-        [
-          "2026-07-23T14:05:00+09:00",
-          339000.0,
-          341000.0,
-          339000.0,
-          340000.0,
-          7518
-        ],
-        [
-          "2026-07-23T14:10:00+09:00",
-          340500.0,
-          341000.0,
-          339000.0,
-          340000.0,
-          4106
-        ],
-        [
-          "2026-07-23T14:15:00+09:00",
-          340500.0,
-          340500.0,
-          339500.0,
-          340000.0,
-          3518
-        ],
-        [
-          "2026-07-23T14:20:00+09:00",
-          340000.0,
-          342000.0,
-          340000.0,
-          341500.0,
-          6964
-        ],
-        [
-          "2026-07-23T14:25:00+09:00",
-          341500.0,
-          345500.0,
-          341500.0,
-          345000.0,
-          10973
-        ],
-        [
-          "2026-07-23T14:30:00+09:00",
-          345000.0,
-          345500.0,
-          344000.0,
-          344500.0,
-          4939
-        ],
-        [
-          "2026-07-23T14:35:00+09:00",
-          345000.0,
-          345500.0,
-          343500.0,
-          344500.0,
-          3307
-        ],
-        [
-          "2026-07-23T14:40:00+09:00",
-          344000.0,
-          348000.0,
-          343000.0,
-          347500.0,
-          8219
-        ],
-        [
-          "2026-07-23T14:45:00+09:00",
-          347500.0,
-          348000.0,
-          345000.0,
-          345500.0,
-          9950
-        ],
-        [
-          "2026-07-23T14:50:00+09:00",
-          346000.0,
-          347500.0,
-          345000.0,
-          347000.0,
-          8500
-        ],
-        [
-          "2026-07-23T14:55:00+09:00",
-          347000.0,
-          348000.0,
-          346000.0,
-          347500.0,
-          9481
-        ],
-        [
-          "2026-07-24T09:00:00+09:00",
-          337500.0,
-          342000.0,
-          334000.0,
-          334500.0,
-          12624
-        ],
-        [
-          "2026-07-24T09:05:00+09:00",
-          334500.0,
-          336000.0,
-          333000.0,
-          335500.0,
-          2498
-        ],
-        [
-          "2026-07-24T09:10:00+09:00",
-          335500.0,
-          336500.0,
-          334000.0,
-          335000.0,
-          1680
-        ],
-        [
-          "2026-07-24T09:15:00+09:00",
-          335000.0,
-          337000.0,
-          335000.0,
-          336500.0,
-          2553
-        ],
-        [
-          "2026-07-24T09:20:00+09:00",
-          336500.0,
-          336500.0,
-          334500.0,
-          336000.0,
-          2005
-        ],
-        [
-          "2026-07-24T09:25:00+09:00",
-          336000.0,
-          337000.0,
-          334500.0,
-          334500.0,
-          1403
-        ],
-        [
-          "2026-07-24T09:30:00+09:00",
-          334500.0,
-          334500.0,
-          332000.0,
-          332500.0,
-          5282
-        ],
-        [
-          "2026-07-24T09:35:00+09:00",
-          332000.0,
-          334500.0,
-          332000.0,
-          334000.0,
-          2557
-        ],
-        [
-          "2026-07-24T09:40:00+09:00",
-          334000.0,
-          335000.0,
-          333500.0,
-          335000.0,
-          1804
-        ],
-        [
-          "2026-07-24T09:45:00+09:00",
-          335000.0,
-          336500.0,
-          333500.0,
-          334500.0,
-          2395
-        ],
-        [
-          "2026-07-24T09:50:00+09:00",
-          334500.0,
-          336500.0,
-          334500.0,
-          335500.0,
-          2101
-        ],
-        [
-          "2026-07-24T09:55:00+09:00",
-          335500.0,
-          336000.0,
-          334500.0,
-          335500.0,
-          1929
-        ],
-        [
-          "2026-07-24T10:00:00+09:00",
-          335000.0,
-          337000.0,
-          335000.0,
-          336500.0,
-          1741
-        ],
-        [
-          "2026-07-24T10:05:00+09:00",
-          337000.0,
-          337000.0,
-          335000.0,
-          335000.0,
-          1652
-        ],
-        [
-          "2026-07-24T10:10:00+09:00",
-          335000.0,
-          335500.0,
-          333000.0,
-          333500.0,
-          4652
-        ],
-        [
-          "2026-07-24T10:15:00+09:00",
-          333500.0,
-          335500.0,
-          333000.0,
-          334000.0,
-          3101
-        ],
-        [
-          "2026-07-24T10:20:00+09:00",
-          334000.0,
-          334500.0,
-          333000.0,
-          333000.0,
-          1876
-        ],
-        [
-          "2026-07-24T10:25:00+09:00",
-          333000.0,
-          335500.0,
-          333000.0,
-          334000.0,
-          2867
-        ],
-        [
-          "2026-07-24T10:30:00+09:00",
-          334000.0,
-          335500.0,
-          333500.0,
-          335000.0,
-          1809
-        ],
-        [
-          "2026-07-24T10:35:00+09:00",
-          335000.0,
-          335500.0,
-          333500.0,
-          333500.0,
-          1489
-        ],
-        [
-          "2026-07-24T10:40:00+09:00",
-          333500.0,
-          335000.0,
-          333000.0,
-          334000.0,
-          1977
-        ],
-        [
-          "2026-07-24T10:45:00+09:00",
-          334000.0,
-          334000.0,
-          333000.0,
-          333000.0,
-          1022
-        ],
-        [
-          "2026-07-24T10:50:00+09:00",
-          333000.0,
-          334000.0,
-          332500.0,
-          332500.0,
-          2055
-        ],
-        [
-          "2026-07-24T10:55:00+09:00",
-          332500.0,
-          333000.0,
-          332500.0,
-          332500.0,
-          616
-        ],
-        [
-          "2026-07-24T11:00:00+09:00",
-          333000.0,
-          333000.0,
-          332000.0,
-          332500.0,
-          2225
-        ],
-        [
-          "2026-07-24T11:05:00+09:00",
-          332500.0,
-          333500.0,
-          332000.0,
-          333000.0,
-          1424
-        ],
-        [
-          "2026-07-24T11:10:00+09:00",
-          333500.0,
-          333500.0,
-          332000.0,
-          333000.0,
-          1418
-        ],
-        [
-          "2026-07-24T11:15:00+09:00",
-          333000.0,
-          334000.0,
-          331500.0,
-          332000.0,
-          3848
-        ],
-        [
-          "2026-07-24T11:20:00+09:00",
-          332000.0,
-          332500.0,
-          331000.0,
-          331500.0,
-          3572
-        ],
-        [
-          "2026-07-24T11:25:00+09:00",
-          331500.0,
-          332000.0,
-          330500.0,
-          331000.0,
-          2807
-        ],
-        [
-          "2026-07-24T11:30:00+09:00",
-          331000.0,
-          331500.0,
-          329500.0,
-          330000.0,
-          3946
-        ],
-        [
-          "2026-07-24T11:35:00+09:00",
-          329500.0,
-          330000.0,
-          329000.0,
-          329500.0,
-          2013
-        ],
-        [
-          "2026-07-24T11:40:00+09:00",
-          329500.0,
-          329500.0,
-          329000.0,
-          329500.0,
-          1298
-        ],
-        [
-          "2026-07-24T11:45:00+09:00",
-          329000.0,
-          329500.0,
-          328000.0,
-          328000.0,
-          7296
-        ],
-        [
-          "2026-07-24T11:50:00+09:00",
-          328000.0,
-          328500.0,
-          326000.0,
-          327000.0,
-          4439
-        ],
-        [
-          "2026-07-24T11:55:00+09:00",
-          327000.0,
-          328000.0,
-          326500.0,
-          326500.0,
-          2118
-        ],
-        [
-          "2026-07-24T12:00:00+09:00",
-          326500.0,
-          328500.0,
-          326500.0,
-          328000.0,
-          2369
-        ],
-        [
-          "2026-07-24T12:05:00+09:00",
-          328000.0,
-          328500.0,
-          326500.0,
-          327500.0,
-          2783
-        ],
-        [
-          "2026-07-24T12:10:00+09:00",
-          328000.0,
-          328500.0,
-          327000.0,
-          328000.0,
-          1812
-        ],
-        [
-          "2026-07-24T12:15:00+09:00",
-          328000.0,
-          329500.0,
-          327500.0,
-          327500.0,
-          2467
-        ],
-        [
-          "2026-07-24T12:20:00+09:00",
-          327500.0,
-          329000.0,
-          326500.0,
-          328000.0,
-          2433
-        ],
-        [
-          "2026-07-24T12:25:00+09:00",
-          328000.0,
-          329500.0,
-          327500.0,
-          328500.0,
-          1502
-        ],
-        [
-          "2026-07-24T12:30:00+09:00",
-          328500.0,
-          329500.0,
-          328000.0,
-          329000.0,
-          1903
-        ],
-        [
-          "2026-07-24T12:35:00+09:00",
-          328500.0,
-          330000.0,
-          327500.0,
-          329500.0,
-          1506
-        ],
-        [
-          "2026-07-24T12:40:00+09:00",
-          329500.0,
-          330500.0,
-          329000.0,
-          330000.0,
-          1260
-        ],
-        [
-          "2026-07-24T12:45:00+09:00",
-          329500.0,
-          330000.0,
-          328500.0,
-          329500.0,
-          1308
-        ],
-        [
-          "2026-07-24T12:50:00+09:00",
-          329000.0,
-          330000.0,
-          328500.0,
-          328500.0,
-          1705
-        ],
-        [
-          "2026-07-24T12:55:00+09:00",
-          328500.0,
-          328500.0,
-          327000.0,
-          327000.0,
-          897
-        ],
-        [
-          "2026-07-24T13:00:00+09:00",
-          327500.0,
-          328500.0,
-          326500.0,
-          326500.0,
-          3126
-        ],
-        [
-          "2026-07-24T13:05:00+09:00",
-          326500.0,
-          329500.0,
-          326500.0,
-          329000.0,
-          3298
-        ],
-        [
-          "2026-07-24T13:10:00+09:00",
-          329000.0,
-          330000.0,
-          327500.0,
-          328500.0,
-          3349
-        ],
-        [
-          "2026-07-24T13:15:00+09:00",
-          328500.0,
-          330500.0,
-          328000.0,
-          329500.0,
-          2359
-        ],
-        [
-          "2026-07-24T13:20:00+09:00",
-          329500.0,
-          332000.0,
-          329500.0,
-          331500.0,
-          2468
-        ],
-        [
-          "2026-07-24T13:25:00+09:00",
-          331500.0,
-          333000.0,
-          331000.0,
-          332500.0,
-          3064
-        ],
-        [
-          "2026-07-24T13:30:00+09:00",
-          332500.0,
-          332500.0,
-          331500.0,
-          332000.0,
-          1630
-        ],
-        [
-          "2026-07-24T13:35:00+09:00",
-          332000.0,
-          332500.0,
-          331000.0,
-          331500.0,
-          1611
-        ],
-        [
-          "2026-07-24T13:40:00+09:00",
-          331500.0,
-          332000.0,
-          330500.0,
-          330500.0,
-          1930
-        ],
-        [
-          "2026-07-24T13:45:00+09:00",
-          331000.0,
-          331000.0,
-          329500.0,
-          330000.0,
-          2392
-        ],
-        [
-          "2026-07-24T13:50:00+09:00",
-          329500.0,
-          333000.0,
-          329500.0,
-          332000.0,
-          4084
-        ],
-        [
-          "2026-07-24T13:55:00+09:00",
-          332500.0,
-          333000.0,
-          331000.0,
-          332500.0,
-          2391
-        ],
-        [
-          "2026-07-24T14:00:00+09:00",
-          333000.0,
-          333000.0,
-          331500.0,
-          332000.0,
-          1589
-        ],
-        [
-          "2026-07-24T14:05:00+09:00",
-          332000.0,
-          334500.0,
-          332000.0,
-          333500.0,
-          2667
-        ],
-        [
-          "2026-07-24T14:10:00+09:00",
-          333500.0,
-          335000.0,
-          333000.0,
-          334500.0,
-          1356
-        ],
-        [
-          "2026-07-24T14:15:00+09:00",
-          334500.0,
-          335000.0,
-          331500.0,
-          332000.0,
-          1934
-        ],
-        [
-          "2026-07-24T14:20:00+09:00",
-          332500.0,
-          335000.0,
-          332000.0,
-          334000.0,
-          2252
-        ],
-        [
-          "2026-07-24T14:25:00+09:00",
-          334500.0,
-          335000.0,
-          333500.0,
-          333500.0,
-          2313
-        ],
-        [
-          "2026-07-24T14:30:00+09:00",
-          333500.0,
-          335000.0,
-          333000.0,
-          333500.0,
-          2642
-        ],
-        [
-          "2026-07-24T14:35:00+09:00",
-          333000.0,
-          334500.0,
-          332500.0,
-          333500.0,
-          3114
-        ],
-        [
-          "2026-07-24T14:40:00+09:00",
-          333500.0,
-          334000.0,
-          332000.0,
-          332500.0,
-          3782
-        ],
-        [
-          "2026-07-24T14:45:00+09:00",
-          332000.0,
-          332500.0,
-          331000.0,
-          331500.0,
-          4329
-        ],
-        [
-          "2026-07-24T14:50:00+09:00",
-          332000.0,
-          332500.0,
-          331000.0,
-          331000.0,
-          5315
-        ],
-        [
-          "2026-07-24T14:55:00+09:00",
-          331000.0,
-          331500.0,
-          329000.0,
-          329000.0,
-          5592
-        ]
-      ],
-      "daily_7d": [
-        [
-          "2026-07-15T00:00:00+09:00",
-          329500.0,
-          341500.0,
-          328000.0,
-          335000.0,
-          323299
-        ],
-        [
-          "2026-07-16T00:00:00+09:00",
-          338000.0,
-          349000.0,
-          329000.0,
-          334000.0,
-          314975
-        ],
-        [
-          "2026-07-20T00:00:00+09:00",
-          331000.0,
-          333500.0,
-          315500.0,
-          317500.0,
-          310401
-        ],
-        [
-          "2026-07-21T00:00:00+09:00",
-          315500.0,
-          324000.0,
-          312000.0,
-          317000.0,
-          222065
-        ],
-        [
-          "2026-07-22T00:00:00+09:00",
-          324000.0,
-          333500.0,
-          321000.0,
-          321000.0,
-          217211
-        ],
-        [
-          "2026-07-23T00:00:00+09:00",
-          322000.0,
-          350000.0,
-          322000.0,
-          348000.0,
-          327080
-        ],
-        [
-          "2026-07-24T00:00:00+09:00",
-          337500.0,
-          342000.0,
-          326000.0,
-          329500.0,
-          243819
-        ]
-      ],
-      "daily_30d": [
-        [
-          "2026-06-12T00:00:00+09:00",
-          399500.0,
-          414000.0,
-          392000.0,
-          400000.0,
-          460043
-        ],
-        [
-          "2026-06-15T00:00:00+09:00",
-          412000.0,
-          425000.0,
-          407000.0,
-          420500.0,
-          312604
-        ],
-        [
-          "2026-06-16T00:00:00+09:00",
-          423000.0,
-          423500.0,
-          406500.0,
-          410500.0,
-          327489
-        ],
-        [
-          "2026-06-17T00:00:00+09:00",
-          414000.0,
-          421500.0,
-          406000.0,
-          416000.0,
-          224023
-        ],
-        [
-          "2026-06-18T00:00:00+09:00",
-          411500.0,
-          415000.0,
-          398000.0,
-          400000.0,
-          342610
-        ],
-        [
-          "2026-06-19T00:00:00+09:00",
-          402000.0,
-          422000.0,
-          391000.0,
-          404500.0,
-          753314
-        ],
-        [
-          "2026-06-22T00:00:00+09:00",
-          407500.0,
-          407500.0,
-          385000.0,
-          385500.0,
-          358905
-        ],
-        [
-          "2026-06-23T00:00:00+09:00",
-          387500.0,
-          399500.0,
-          360000.0,
-          362000.0,
-          484181
-        ],
-        [
-          "2026-06-24T00:00:00+09:00",
-          364500.0,
-          368500.0,
-          354000.0,
-          365500.0,
-          353220
-        ],
-        [
-          "2026-06-25T00:00:00+09:00",
-          371000.0,
-          374000.0,
-          352000.0,
-          352000.0,
-          448999
-        ],
-        [
-          "2026-06-26T00:00:00+09:00",
-          353000.0,
-          356500.0,
-          323000.0,
-          331500.0,
-          582932
-        ],
-        [
-          "2026-06-29T00:00:00+09:00",
-          336000.0,
-          400500.0,
-          334000.0,
-          400500.0,
-          833095
-        ],
-        [
-          "2026-06-30T00:00:00+09:00",
-          391500.0,
-          392000.0,
-          362000.0,
-          362000.0,
-          672385
-        ],
-        [
-          "2026-07-01T00:00:00+09:00",
-          366500.0,
-          366500.0,
-          345000.0,
-          348000.0,
-          395443
-        ],
-        [
-          "2026-07-02T00:00:00+09:00",
-          348500.0,
-          363500.0,
-          339000.0,
-          354000.0,
-          358138
-        ],
-        [
-          "2026-07-03T00:00:00+09:00",
-          359500.0,
-          363500.0,
-          342500.0,
-          362500.0,
-          397490
-        ],
-        [
-          "2026-07-06T00:00:00+09:00",
-          362000.0,
-          362500.0,
-          347500.0,
-          354500.0,
-          330389
-        ],
-        [
-          "2026-07-07T00:00:00+09:00",
-          350000.0,
-          352000.0,
-          323000.0,
-          332000.0,
-          567089
-        ],
-        [
-          "2026-07-08T00:00:00+09:00",
-          329000.0,
-          329500.0,
-          312500.0,
-          315500.0,
-          372285
-        ],
-        [
-          "2026-07-09T00:00:00+09:00",
-          316000.0,
-          333500.0,
-          309500.0,
-          313500.0,
-          505757
-        ],
-        [
-          "2026-07-10T00:00:00+09:00",
-          323000.0,
-          333000.0,
-          321500.0,
-          326000.0,
-          263154
-        ],
-        [
-          "2026-07-13T00:00:00+09:00",
-          328000.0,
-          346000.0,
-          325500.0,
-          328500.0,
-          313372
-        ],
-        [
-          "2026-07-14T00:00:00+09:00",
-          332000.0,
-          332000.0,
-          316500.0,
-          322000.0,
-          368900
-        ],
-        [
-          "2026-07-15T00:00:00+09:00",
-          329500.0,
-          341500.0,
-          328000.0,
-          335000.0,
-          323299
-        ],
-        [
-          "2026-07-16T00:00:00+09:00",
-          338000.0,
-          349000.0,
-          329000.0,
-          334000.0,
-          314975
-        ],
-        [
-          "2026-07-20T00:00:00+09:00",
-          331000.0,
-          333500.0,
-          315500.0,
-          317500.0,
-          310401
-        ],
-        [
-          "2026-07-21T00:00:00+09:00",
-          315500.0,
-          324000.0,
-          312000.0,
-          317000.0,
-          222065
-        ],
-        [
-          "2026-07-22T00:00:00+09:00",
-          324000.0,
-          333500.0,
-          321000.0,
-          321000.0,
-          217211
-        ],
-        [
-          "2026-07-23T00:00:00+09:00",
-          322000.0,
-          350000.0,
-          322000.0,
-          348000.0,
-          327080
-        ],
-        [
-          "2026-07-24T00:00:00+09:00",
-          337500.0,
-          342000.0,
-          326000.0,
-          329500.0,
-          243819
-        ]
-      ],
-      "daily_90d": [
-        [
-          "2026-03-16T00:00:00+09:00",
-          368500.0,
-          373000.0,
-          363500.0,
-          366000.0,
-          280349
-        ],
-        [
-          "2026-03-17T00:00:00+09:00",
-          371000.0,
-          380500.0,
-          370000.0,
-          380500.0,
-          345242
-        ],
-        [
-          "2026-03-18T00:00:00+09:00",
-          390500.0,
-          390500.0,
-          381500.0,
-          383500.0,
-          279721
-        ],
-        [
-          "2026-03-19T00:00:00+09:00",
-          374500.0,
-          378500.0,
-          371000.0,
-          371000.0,
-          213253
-        ],
-        [
-          "2026-03-20T00:00:00+09:00",
-          377000.0,
-          378000.0,
-          372000.0,
-          375500.0,
-          200932
-        ],
-        [
-          "2026-03-23T00:00:00+09:00",
-          362000.0,
-          365000.0,
-          355000.0,
-          356000.0,
-          302070
-        ],
-        [
-          "2026-03-24T00:00:00+09:00",
-          371500.0,
-          392500.0,
-          368000.0,
-          392500.0,
-          656541
-        ],
-        [
-          "2026-03-25T00:00:00+09:00",
-          392000.0,
-          400000.0,
-          386500.0,
-          394000.0,
-          352715
-        ],
-        [
-          "2026-03-26T00:00:00+09:00",
-          392500.0,
-          393000.0,
-          380000.0,
-          384500.0,
-          274503
-        ],
-        [
-          "2026-03-27T00:00:00+09:00",
-          374000.0,
-          396000.0,
-          366000.0,
-          394500.0,
-          372863
-        ],
-        [
-          "2026-03-30T00:00:00+09:00",
-          379500.0,
-          414000.0,
-          377000.0,
-          410000.0,
-          747897
-        ],
-        [
-          "2026-03-31T00:00:00+09:00",
-          406000.0,
-          410000.0,
-          390500.0,
-          394500.0,
-          518297
-        ],
-        [
-          "2026-04-01T00:00:00+09:00",
-          409500.0,
-          410000.0,
-          393500.0,
-          407000.0,
-          343583
-        ],
-        [
-          "2026-04-02T00:00:00+09:00",
-          407500.0,
-          421500.0,
-          399500.0,
-          404500.0,
-          532803
-        ],
-        [
-          "2026-04-03T00:00:00+09:00",
-          410000.0,
-          414500.0,
-          396500.0,
-          398500.0,
-          254074
-        ],
-        [
-          "2026-04-06T00:00:00+09:00",
-          399500.0,
-          418000.0,
-          399500.0,
-          412500.0,
-          393045
-        ],
-        [
-          "2026-04-07T00:00:00+09:00",
-          408000.0,
-          423000.0,
-          406000.0,
-          408500.0,
-          311134
-        ],
-        [
-          "2026-04-08T00:00:00+09:00",
-          419500.0,
-          422000.0,
-          400500.0,
-          406000.0,
-          521932
-        ],
-        [
-          "2026-04-09T00:00:00+09:00",
-          408000.0,
-          422000.0,
-          403000.0,
-          421000.0,
-          719468
-        ],
-        [
-          "2026-04-10T00:00:00+09:00",
-          421000.0,
-          421000.0,
-          410500.0,
-          412000.0,
-          273394
-        ],
-        [
-          "2026-04-13T00:00:00+09:00",
-          409500.0,
-          414500.0,
-          399000.0,
-          401500.0,
-          218403
-        ],
-        [
-          "2026-04-14T00:00:00+09:00",
-          406500.0,
-          406500.0,
-          399500.0,
-          400000.0,
-          269254
-        ],
-        [
-          "2026-04-15T00:00:00+09:00",
-          406000.0,
-          412000.0,
-          403500.0,
-          408000.0,
-          272401
-        ],
-        [
-          "2026-04-16T00:00:00+09:00",
-          412000.0,
-          416500.0,
-          408500.0,
-          416000.0,
-          317064
-        ],
-        [
-          "2026-04-17T00:00:00+09:00",
-          415500.0,
-          422000.0,
-          412000.0,
-          418000.0,
-          336530
-        ],
-        [
-          "2026-04-20T00:00:00+09:00",
-          419500.0,
-          435500.0,
-          416500.0,
-          429000.0,
-          563779
-        ],
-        [
-          "2026-04-21T00:00:00+09:00",
-          441500.0,
-          478000.0,
-          434000.0,
-          478000.0,
-          1363543
-        ],
-        [
-          "2026-04-22T00:00:00+09:00",
-          491500.0,
-          493000.0,
-          468000.0,
-          484500.0,
-          880220
-        ],
-        [
-          "2026-04-23T00:00:00+09:00",
-          481500.0,
-          484000.0,
-          460000.0,
-          466500.0,
-          529996
-        ],
-        [
-          "2026-04-24T00:00:00+09:00",
-          473000.0,
-          486000.0,
-          464000.0,
-          481000.0,
-          402718
-        ],
-        [
-          "2026-04-27T00:00:00+09:00",
-          478500.0,
-          481000.0,
-          461000.0,
-          464000.0,
-          433687
-        ],
-        [
-          "2026-04-28T00:00:00+09:00",
-          471500.0,
-          478000.0,
-          465000.0,
-          472000.0,
-          431570
-        ],
-        [
-          "2026-04-29T00:00:00+09:00",
-          472000.0,
-          476000.0,
-          464000.0,
-          473000.0,
-          306780
-        ],
-        [
-          "2026-04-30T00:00:00+09:00",
-          471000.0,
-          471500.0,
-          457000.0,
-          460500.0,
-          485223
-        ],
-        [
-          "2026-05-04T00:00:00+09:00",
-          469000.0,
-          478000.0,
-          461000.0,
-          472000.0,
-          425260
-        ],
-        [
-          "2026-05-06T00:00:00+09:00",
-          476000.0,
-          486500.0,
-          466000.0,
-          482000.0,
-          589631
-        ],
-        [
-          "2026-05-07T00:00:00+09:00",
-          482000.0,
-          483000.0,
-          464000.0,
-          483000.0,
-          463457
-        ],
-        [
-          "2026-05-08T00:00:00+09:00",
-          479500.0,
-          489500.0,
-          471500.0,
-          476500.0,
-          353449
-        ],
-        [
-          "2026-05-11T00:00:00+09:00",
-          478000.0,
-          478500.0,
-          463000.0,
-          468000.0,
-          407574
-        ],
-        [
-          "2026-05-12T00:00:00+09:00",
-          470000.0,
-          480000.0,
-          430500.0,
-          443000.0,
-          668326
-        ],
-        [
-          "2026-05-13T00:00:00+09:00",
-          443500.0,
-          445000.0,
-          425000.0,
-          430000.0,
-          455234
-        ],
-        [
-          "2026-05-14T00:00:00+09:00",
-          447000.0,
-          447000.0,
-          432000.0,
-          442000.0,
-          368128
-        ],
-        [
-          "2026-05-15T00:00:00+09:00",
-          450000.0,
-          470000.0,
-          410500.0,
-          417000.0,
-          798242
-        ],
-        [
-          "2026-05-18T00:00:00+09:00",
-          414500.0,
-          416500.0,
-          391500.0,
-          408000.0,
-          373359
-        ],
-        [
-          "2026-05-19T00:00:00+09:00",
-          411000.0,
-          416000.0,
-          389500.0,
-          400000.0,
-          376633
-        ],
-        [
-          "2026-05-20T00:00:00+09:00",
-          404000.0,
-          406000.0,
-          382000.0,
-          384500.0,
-          411862
-        ],
-        [
-          "2026-05-21T00:00:00+09:00",
-          397500.0,
-          401000.0,
-          391000.0,
-          401000.0,
-          300978
-        ],
-        [
-          "2026-05-22T00:00:00+09:00",
-          411500.0,
-          416000.0,
-          394500.0,
-          398500.0,
-          435706
-        ],
-        [
-          "2026-05-26T00:00:00+09:00",
-          408000.0,
-          411000.0,
-          397000.0,
-          399500.0,
-          321431
-        ],
-        [
-          "2026-05-27T00:00:00+09:00",
-          400500.0,
-          404000.0,
-          383000.0,
-          383500.0,
-          463463
-        ],
-        [
-          "2026-05-28T00:00:00+09:00",
-          429500.0,
-          447000.0,
-          413000.0,
-          442000.0,
-          1665103
-        ],
-        [
-          "2026-05-29T00:00:00+09:00",
-          444500.0,
-          465000.0,
-          432000.0,
-          458000.0,
-          1287237
-        ],
-        [
-          "2026-06-01T00:00:00+09:00",
-          469500.0,
-          476000.0,
-          446000.0,
-          455000.0,
-          778389
-        ],
-        [
-          "2026-06-02T00:00:00+09:00",
-          458500.0,
-          497500.0,
-          438000.0,
-          442500.0,
-          1496902
-        ],
-        [
-          "2026-06-04T00:00:00+09:00",
-          448000.0,
-          463000.0,
-          413500.0,
-          422000.0,
-          708012
-        ],
-        [
-          "2026-06-05T00:00:00+09:00",
-          422500.0,
-          428500.0,
-          405500.0,
-          414000.0,
-          445122
-        ],
-        [
-          "2026-06-08T00:00:00+09:00",
-          388500.0,
-          404000.0,
-          383000.0,
-          388500.0,
-          422550
-        ],
-        [
-          "2026-06-09T00:00:00+09:00",
-          393500.0,
-          401500.0,
-          385500.0,
-          396500.0,
-          420962
-        ],
-        [
-          "2026-06-10T00:00:00+09:00",
-          393000.0,
-          407000.0,
-          375000.0,
-          385500.0,
-          52
-        ],
-        [
-          "2026-06-11T00:00:00+09:00",
-          377000.0,
-          392000.0,
-          367000.0,
-          384500.0,
-          450781
-        ],
-        [
-          "2026-06-12T00:00:00+09:00",
-          399500.0,
-          414000.0,
-          392000.0,
-          400000.0,
-          460043
-        ],
-        [
-          "2026-06-15T00:00:00+09:00",
-          412000.0,
-          425000.0,
-          407000.0,
-          420500.0,
-          312604
-        ],
-        [
-          "2026-06-16T00:00:00+09:00",
-          423000.0,
-          423500.0,
-          406500.0,
-          410500.0,
-          327489
-        ],
-        [
-          "2026-06-17T00:00:00+09:00",
-          414000.0,
-          421500.0,
-          406000.0,
-          416000.0,
-          224023
-        ],
-        [
-          "2026-06-18T00:00:00+09:00",
-          411500.0,
-          415000.0,
-          398000.0,
-          400000.0,
-          342610
-        ],
-        [
-          "2026-06-19T00:00:00+09:00",
-          402000.0,
-          422000.0,
-          391000.0,
-          404500.0,
-          753314
-        ],
-        [
-          "2026-06-22T00:00:00+09:00",
-          407500.0,
-          407500.0,
-          385000.0,
-          385500.0,
-          358905
-        ],
-        [
-          "2026-06-23T00:00:00+09:00",
-          387500.0,
-          399500.0,
-          360000.0,
-          362000.0,
-          484181
-        ],
-        [
-          "2026-06-24T00:00:00+09:00",
-          364500.0,
-          368500.0,
-          354000.0,
-          365500.0,
-          353220
-        ],
-        [
-          "2026-06-25T00:00:00+09:00",
-          371000.0,
-          374000.0,
-          352000.0,
-          352000.0,
-          448999
-        ],
-        [
-          "2026-06-26T00:00:00+09:00",
-          353000.0,
-          356500.0,
-          323000.0,
-          331500.0,
-          582932
-        ],
-        [
-          "2026-06-29T00:00:00+09:00",
-          336000.0,
-          400500.0,
-          334000.0,
-          400500.0,
-          833095
-        ],
-        [
-          "2026-06-30T00:00:00+09:00",
-          391500.0,
-          392000.0,
-          362000.0,
-          362000.0,
-          672385
-        ],
-        [
-          "2026-07-01T00:00:00+09:00",
-          366500.0,
-          366500.0,
-          345000.0,
-          348000.0,
-          395443
-        ],
-        [
-          "2026-07-02T00:00:00+09:00",
-          348500.0,
-          363500.0,
-          339000.0,
-          354000.0,
-          358138
-        ],
-        [
-          "2026-07-03T00:00:00+09:00",
-          359500.0,
-          363500.0,
-          342500.0,
-          362500.0,
-          397490
-        ],
-        [
-          "2026-07-06T00:00:00+09:00",
-          362000.0,
-          362500.0,
-          347500.0,
-          354500.0,
-          330389
-        ],
-        [
-          "2026-07-07T00:00:00+09:00",
-          350000.0,
-          352000.0,
-          323000.0,
-          332000.0,
-          567089
-        ],
-        [
-          "2026-07-08T00:00:00+09:00",
-          329000.0,
-          329500.0,
-          312500.0,
-          315500.0,
-          372285
-        ],
-        [
-          "2026-07-09T00:00:00+09:00",
-          316000.0,
-          333500.0,
-          309500.0,
-          313500.0,
-          505757
-        ],
-        [
-          "2026-07-10T00:00:00+09:00",
-          323000.0,
-          333000.0,
-          321500.0,
-          326000.0,
-          263154
-        ],
-        [
-          "2026-07-13T00:00:00+09:00",
-          328000.0,
-          346000.0,
-          325500.0,
-          328500.0,
-          313372
-        ],
-        [
-          "2026-07-14T00:00:00+09:00",
-          332000.0,
-          332000.0,
-          316500.0,
-          322000.0,
-          368900
-        ],
-        [
-          "2026-07-15T00:00:00+09:00",
-          329500.0,
-          341500.0,
-          328000.0,
-          335000.0,
-          323299
-        ],
-        [
-          "2026-07-16T00:00:00+09:00",
-          338000.0,
-          349000.0,
-          329000.0,
-          334000.0,
-          314975
-        ],
-        [
-          "2026-07-20T00:00:00+09:00",
-          331000.0,
-          333500.0,
-          315500.0,
-          317500.0,
-          310401
-        ],
-        [
-          "2026-07-21T00:00:00+09:00",
-          315500.0,
-          324000.0,
-          312000.0,
-          317000.0,
-          222065
-        ],
-        [
-          "2026-07-22T00:00:00+09:00",
-          324000.0,
-          333500.0,
-          321000.0,
-          321000.0,
-          217211
-        ],
-        [
-          "2026-07-23T00:00:00+09:00",
-          322000.0,
-          350000.0,
-          322000.0,
-          348000.0,
-          327080
-        ],
-        [
-          "2026-07-24T00:00:00+09:00",
-          337500.0,
-          342000.0,
-          326000.0,
-          329500.0,
-          243819
-        ]
-      ],
-      "plan_tentative": true,
-      "entry": 351500.0,
-      "entry_type": "breakout",
-      "stop": 312000,
-      "target1": 376000,
-      "target2": 392000,
-      "rr": 0.62,
-      "atr_pct": 6.13,
-      "weight_pct": 9,
-      "stop_pct": 11.2,
-      "est_loss_pct": 1.01,
-      "hold_cap_hours": 72,
-      "reachable": false,
-      "orderbook_imbalance": 0.0525,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
-      "orderbook_imbalance_source": "kis",
-      "orderbook_imbalance_stable": true,
-      "large_trade_detected": false,
-      "large_trade_direction": null,
-      "large_trade_multiple": 2192.2,
-      "large_trade_value_krw": 3611649500,
-      "large_trade_asof": "2026-07-24T15:30:27+09:00",
-      "ask_ratio": 0.5263,
-      "bid_rem": 8595,
-      "ask_rem": 7737,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 330500.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 329500.0,
-        "delta_pct": 0.3
-      }
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00"
     },
     {
       "name": "한국콜마",
       "code": "161890",
       "market": "KR",
-      "price": 99500.0,
+      "price": 99600.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -2.15,
@@ -44198,7 +41600,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": -0.5432,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -44209,33 +41611,2382 @@
       "ask_ratio": 0.2284,
       "bid_rem": 1442,
       "ask_rem": 4872,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 99500.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 100200.0,
-        "delta_pct": -0.7
-      }
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00"
+    },
+    {
+      "name": "LG에너지솔루션",
+      "code": "373220",
+      "market": "KR",
+      "price": 331000.0,
+      "currency": "KRW",
+      "watch_trigger": null,
+      "change_pct": -5.32,
+      "vol_surge": 0.59,
+      "score": 32,
+      "score_reasons": [
+        "기본 점수 +50",
+        "역배열(MA5<MA20) -8",
+        "거래량 위축(매수세 이탈) 0.59배 -8",
+        "윗꼬리/분배(종가위치 21.9%) -12",
+        "미국증시 환경 -3.1 (전일 S&P-1.21%·나스닥-2.15%·SOX-0.54%)",
+        "외국인 순매수(최근 5일) +14",
+        "기관 순매수(최근 5일) +11",
+        "외국인 매도 전환 감지(최근 확정 2026-07-23 기준(장중이면 D-1): 직전 순매수/보합→순매도) — 압도적 우선 감점 -50",
+        "기관 매수 전환 감지(최근 확정 2026-07-23 기준(장중이면 D-1): 직전 순매도/보합→순매수) — 압도적 우선 반영 +38"
+      ],
+      "foreign_net": 7782.0,
+      "inst_net": 36955.0,
+      "supply_days": 5,
+      "foreign_net_1d": -9871.0,
+      "inst_net_1d": 85026.0,
+      "supply_1d_date": "2026-07-23",
+      "reason": "기술 점수 32점 — 조건 미충족(관망). 거래량 위축 0.59x, 윗꼬리/분배(종가위치 21.9%), 미국증시 환경 -3.1 (전일 S&P-1.21%·나스닥-2.15%·SOX-0.54%), 외국인 순매수, 기관 순매수, 외국인 매도 전환(최근 확정 2026-07-23 기준(장중이면 D-1)), 기관 매수 전환(최근 확정 2026-07-23 기준(장중이면 D-1)). ATR 6.13%.",
+      "intraday_5m": [
+        [
+          "2026-07-22T13:40:00+09:00",
+          328500.0,
+          329500.0,
+          328000.0,
+          328000.0,
+          1099
+        ],
+        [
+          "2026-07-22T13:45:00+09:00",
+          328000.0,
+          328500.0,
+          327500.0,
+          327500.0,
+          1036
+        ],
+        [
+          "2026-07-22T13:50:00+09:00",
+          327500.0,
+          328000.0,
+          326000.0,
+          326000.0,
+          1627
+        ],
+        [
+          "2026-07-22T13:55:00+09:00",
+          326000.0,
+          327500.0,
+          325500.0,
+          327500.0,
+          3135
+        ],
+        [
+          "2026-07-22T14:00:00+09:00",
+          327000.0,
+          327500.0,
+          325500.0,
+          325500.0,
+          1861
+        ],
+        [
+          "2026-07-22T14:05:00+09:00",
+          325500.0,
+          326500.0,
+          325000.0,
+          325000.0,
+          1739
+        ],
+        [
+          "2026-07-22T14:10:00+09:00",
+          325000.0,
+          325500.0,
+          323500.0,
+          323500.0,
+          3198
+        ],
+        [
+          "2026-07-22T14:15:00+09:00",
+          323500.0,
+          324500.0,
+          323000.0,
+          323500.0,
+          3067
+        ],
+        [
+          "2026-07-22T14:20:00+09:00",
+          323500.0,
+          324000.0,
+          322500.0,
+          323000.0,
+          3971
+        ],
+        [
+          "2026-07-22T14:25:00+09:00",
+          323000.0,
+          324500.0,
+          323000.0,
+          324000.0,
+          1808
+        ],
+        [
+          "2026-07-22T14:30:00+09:00",
+          324000.0,
+          326250.0,
+          324000.0,
+          325750.0,
+          3086
+        ],
+        [
+          "2026-07-22T14:35:00+09:00",
+          326000.0,
+          326000.0,
+          323500.0,
+          324000.0,
+          3294
+        ],
+        [
+          "2026-07-22T14:40:00+09:00",
+          324000.0,
+          324500.0,
+          322500.0,
+          322500.0,
+          2523
+        ],
+        [
+          "2026-07-22T14:45:00+09:00",
+          322750.0,
+          324000.0,
+          322500.0,
+          324000.0,
+          5702
+        ],
+        [
+          "2026-07-22T14:50:00+09:00",
+          324000.0,
+          325500.0,
+          323500.0,
+          324250.0,
+          4332
+        ],
+        [
+          "2026-07-22T14:55:00+09:00",
+          324250.0,
+          326250.0,
+          324000.0,
+          324500.0,
+          6094
+        ],
+        [
+          "2026-07-23T09:00:00+09:00",
+          322000.0,
+          326500.0,
+          322000.0,
+          326500.0,
+          7045
+        ],
+        [
+          "2026-07-23T09:05:00+09:00",
+          326000.0,
+          327500.0,
+          325000.0,
+          327000.0,
+          4525
+        ],
+        [
+          "2026-07-23T09:10:00+09:00",
+          327000.0,
+          327000.0,
+          325000.0,
+          325000.0,
+          2843
+        ],
+        [
+          "2026-07-23T09:15:00+09:00",
+          325000.0,
+          328000.0,
+          325000.0,
+          328000.0,
+          2178
+        ],
+        [
+          "2026-07-23T09:20:00+09:00",
+          328000.0,
+          329500.0,
+          328000.0,
+          328500.0,
+          2172
+        ],
+        [
+          "2026-07-23T09:25:00+09:00",
+          329000.0,
+          330500.0,
+          328500.0,
+          330000.0,
+          2637
+        ],
+        [
+          "2026-07-23T09:30:00+09:00",
+          330000.0,
+          331000.0,
+          328500.0,
+          330000.0,
+          2579
+        ],
+        [
+          "2026-07-23T09:35:00+09:00",
+          330000.0,
+          331500.0,
+          329500.0,
+          331000.0,
+          3173
+        ],
+        [
+          "2026-07-23T09:40:00+09:00",
+          331000.0,
+          331500.0,
+          330000.0,
+          330500.0,
+          2180
+        ],
+        [
+          "2026-07-23T09:45:00+09:00",
+          330500.0,
+          331500.0,
+          330000.0,
+          330000.0,
+          1725
+        ],
+        [
+          "2026-07-23T09:50:00+09:00",
+          330000.0,
+          330500.0,
+          328500.0,
+          329500.0,
+          1761
+        ],
+        [
+          "2026-07-23T09:55:00+09:00",
+          329500.0,
+          331000.0,
+          329000.0,
+          329500.0,
+          1174
+        ],
+        [
+          "2026-07-23T10:00:00+09:00",
+          329500.0,
+          330500.0,
+          328500.0,
+          329500.0,
+          2147
+        ],
+        [
+          "2026-07-23T10:05:00+09:00",
+          330000.0,
+          331000.0,
+          329000.0,
+          330500.0,
+          1424
+        ],
+        [
+          "2026-07-23T10:10:00+09:00",
+          330500.0,
+          331000.0,
+          330000.0,
+          330500.0,
+          1341
+        ],
+        [
+          "2026-07-23T10:15:00+09:00",
+          330500.0,
+          331500.0,
+          329500.0,
+          330500.0,
+          1399
+        ],
+        [
+          "2026-07-23T10:20:00+09:00",
+          330500.0,
+          331500.0,
+          329500.0,
+          331000.0,
+          1815
+        ],
+        [
+          "2026-07-23T10:25:00+09:00",
+          331500.0,
+          331500.0,
+          330500.0,
+          331000.0,
+          1651
+        ],
+        [
+          "2026-07-23T10:30:00+09:00",
+          331500.0,
+          331500.0,
+          329000.0,
+          330500.0,
+          6266
+        ],
+        [
+          "2026-07-23T10:35:00+09:00",
+          330000.0,
+          331500.0,
+          329500.0,
+          330000.0,
+          8584
+        ],
+        [
+          "2026-07-23T10:40:00+09:00",
+          330000.0,
+          331000.0,
+          330000.0,
+          330500.0,
+          1471
+        ],
+        [
+          "2026-07-23T10:45:00+09:00",
+          330500.0,
+          331500.0,
+          330000.0,
+          331000.0,
+          2064
+        ],
+        [
+          "2026-07-23T10:50:00+09:00",
+          331000.0,
+          333000.0,
+          331000.0,
+          332000.0,
+          6103
+        ],
+        [
+          "2026-07-23T10:55:00+09:00",
+          332500.0,
+          333500.0,
+          330500.0,
+          331000.0,
+          3824
+        ],
+        [
+          "2026-07-23T11:00:00+09:00",
+          331000.0,
+          333500.0,
+          330500.0,
+          333500.0,
+          3410
+        ],
+        [
+          "2026-07-23T11:05:00+09:00",
+          333500.0,
+          333500.0,
+          332000.0,
+          333000.0,
+          1999
+        ],
+        [
+          "2026-07-23T11:10:00+09:00",
+          332500.0,
+          333000.0,
+          331000.0,
+          332000.0,
+          1367
+        ],
+        [
+          "2026-07-23T11:15:00+09:00",
+          331500.0,
+          333000.0,
+          331500.0,
+          332000.0,
+          1758
+        ],
+        [
+          "2026-07-23T11:20:00+09:00",
+          332000.0,
+          332500.0,
+          331000.0,
+          331500.0,
+          1494
+        ],
+        [
+          "2026-07-23T11:25:00+09:00",
+          331500.0,
+          332000.0,
+          330500.0,
+          331500.0,
+          1689
+        ],
+        [
+          "2026-07-23T11:30:00+09:00",
+          331500.0,
+          333500.0,
+          331000.0,
+          333000.0,
+          2212
+        ],
+        [
+          "2026-07-23T11:35:00+09:00",
+          332750.0,
+          334000.0,
+          331500.0,
+          332500.0,
+          2265
+        ],
+        [
+          "2026-07-23T11:40:00+09:00",
+          332500.0,
+          333500.0,
+          331000.0,
+          333000.0,
+          1301
+        ],
+        [
+          "2026-07-23T11:45:00+09:00",
+          333000.0,
+          334000.0,
+          332500.0,
+          333000.0,
+          1812
+        ],
+        [
+          "2026-07-23T11:50:00+09:00",
+          333000.0,
+          336000.0,
+          332500.0,
+          336000.0,
+          4606
+        ],
+        [
+          "2026-07-23T11:55:00+09:00",
+          335500.0,
+          336500.0,
+          335000.0,
+          336000.0,
+          1933
+        ],
+        [
+          "2026-07-23T12:00:00+09:00",
+          335500.0,
+          336000.0,
+          334500.0,
+          335000.0,
+          2400
+        ],
+        [
+          "2026-07-23T12:05:00+09:00",
+          335000.0,
+          335500.0,
+          334500.0,
+          335000.0,
+          1579
+        ],
+        [
+          "2026-07-23T12:10:00+09:00",
+          335000.0,
+          336000.0,
+          334250.0,
+          335500.0,
+          1808
+        ],
+        [
+          "2026-07-23T12:15:00+09:00",
+          335500.0,
+          336000.0,
+          335500.0,
+          336000.0,
+          1041
+        ],
+        [
+          "2026-07-23T12:20:00+09:00",
+          336000.0,
+          337000.0,
+          335500.0,
+          336000.0,
+          1420
+        ],
+        [
+          "2026-07-23T12:25:00+09:00",
+          336500.0,
+          338000.0,
+          336000.0,
+          337500.0,
+          3586
+        ],
+        [
+          "2026-07-23T12:30:00+09:00",
+          337500.0,
+          337500.0,
+          335500.0,
+          336000.0,
+          2701
+        ],
+        [
+          "2026-07-23T12:35:00+09:00",
+          335500.0,
+          337500.0,
+          335500.0,
+          337000.0,
+          1796
+        ],
+        [
+          "2026-07-23T12:40:00+09:00",
+          337500.0,
+          338000.0,
+          336500.0,
+          338000.0,
+          1720
+        ],
+        [
+          "2026-07-23T12:45:00+09:00",
+          338000.0,
+          338000.0,
+          337000.0,
+          338000.0,
+          1720
+        ],
+        [
+          "2026-07-23T12:50:00+09:00",
+          338000.0,
+          338000.0,
+          337500.0,
+          338000.0,
+          1336
+        ],
+        [
+          "2026-07-23T12:55:00+09:00",
+          337500.0,
+          339500.0,
+          337500.0,
+          339000.0,
+          3276
+        ],
+        [
+          "2026-07-23T13:00:00+09:00",
+          339000.0,
+          339500.0,
+          338000.0,
+          338500.0,
+          3489
+        ],
+        [
+          "2026-07-23T13:05:00+09:00",
+          338000.0,
+          338500.0,
+          336000.0,
+          337500.0,
+          3368
+        ],
+        [
+          "2026-07-23T13:10:00+09:00",
+          337500.0,
+          338000.0,
+          335500.0,
+          337000.0,
+          2609
+        ],
+        [
+          "2026-07-23T13:15:00+09:00",
+          337000.0,
+          338000.0,
+          336500.0,
+          336500.0,
+          2355
+        ],
+        [
+          "2026-07-23T13:20:00+09:00",
+          337000.0,
+          338000.0,
+          336500.0,
+          338000.0,
+          2478
+        ],
+        [
+          "2026-07-23T13:25:00+09:00",
+          338000.0,
+          339500.0,
+          337500.0,
+          338000.0,
+          4787
+        ],
+        [
+          "2026-07-23T13:30:00+09:00",
+          338000.0,
+          338500.0,
+          336500.0,
+          338500.0,
+          2596
+        ],
+        [
+          "2026-07-23T13:35:00+09:00",
+          338000.0,
+          338500.0,
+          337000.0,
+          337500.0,
+          1635
+        ],
+        [
+          "2026-07-23T13:40:00+09:00",
+          338500.0,
+          339000.0,
+          337500.0,
+          338500.0,
+          3714
+        ],
+        [
+          "2026-07-23T13:45:00+09:00",
+          338500.0,
+          339500.0,
+          338000.0,
+          339500.0,
+          2227
+        ],
+        [
+          "2026-07-23T13:50:00+09:00",
+          339500.0,
+          339500.0,
+          337500.0,
+          339000.0,
+          2461
+        ],
+        [
+          "2026-07-23T13:55:00+09:00",
+          339000.0,
+          339500.0,
+          338000.0,
+          339500.0,
+          2762
+        ],
+        [
+          "2026-07-23T14:00:00+09:00",
+          339500.0,
+          340000.0,
+          338000.0,
+          339000.0,
+          2832
+        ],
+        [
+          "2026-07-23T14:05:00+09:00",
+          339000.0,
+          341000.0,
+          339000.0,
+          340000.0,
+          7518
+        ],
+        [
+          "2026-07-23T14:10:00+09:00",
+          340500.0,
+          341000.0,
+          339000.0,
+          340000.0,
+          4106
+        ],
+        [
+          "2026-07-23T14:15:00+09:00",
+          340500.0,
+          340500.0,
+          339500.0,
+          340000.0,
+          3518
+        ],
+        [
+          "2026-07-23T14:20:00+09:00",
+          340000.0,
+          342000.0,
+          340000.0,
+          341500.0,
+          6964
+        ],
+        [
+          "2026-07-23T14:25:00+09:00",
+          341500.0,
+          345500.0,
+          341500.0,
+          345000.0,
+          10973
+        ],
+        [
+          "2026-07-23T14:30:00+09:00",
+          345000.0,
+          345500.0,
+          344000.0,
+          344500.0,
+          4939
+        ],
+        [
+          "2026-07-23T14:35:00+09:00",
+          345000.0,
+          345500.0,
+          343500.0,
+          344500.0,
+          3307
+        ],
+        [
+          "2026-07-23T14:40:00+09:00",
+          344000.0,
+          348000.0,
+          343000.0,
+          347500.0,
+          8219
+        ],
+        [
+          "2026-07-23T14:45:00+09:00",
+          347500.0,
+          348000.0,
+          345000.0,
+          345500.0,
+          9950
+        ],
+        [
+          "2026-07-23T14:50:00+09:00",
+          346000.0,
+          347500.0,
+          345000.0,
+          347000.0,
+          8500
+        ],
+        [
+          "2026-07-23T14:55:00+09:00",
+          347000.0,
+          348000.0,
+          346000.0,
+          347500.0,
+          9481
+        ],
+        [
+          "2026-07-24T09:00:00+09:00",
+          337500.0,
+          342000.0,
+          334000.0,
+          334500.0,
+          12624
+        ],
+        [
+          "2026-07-24T09:05:00+09:00",
+          334500.0,
+          336000.0,
+          333000.0,
+          335500.0,
+          2498
+        ],
+        [
+          "2026-07-24T09:10:00+09:00",
+          335500.0,
+          336500.0,
+          334000.0,
+          335000.0,
+          1680
+        ],
+        [
+          "2026-07-24T09:15:00+09:00",
+          335000.0,
+          337000.0,
+          335000.0,
+          336500.0,
+          2553
+        ],
+        [
+          "2026-07-24T09:20:00+09:00",
+          336500.0,
+          336500.0,
+          334500.0,
+          336000.0,
+          2005
+        ],
+        [
+          "2026-07-24T09:25:00+09:00",
+          336000.0,
+          337000.0,
+          334500.0,
+          334500.0,
+          1403
+        ],
+        [
+          "2026-07-24T09:30:00+09:00",
+          334500.0,
+          334500.0,
+          332000.0,
+          332500.0,
+          5282
+        ],
+        [
+          "2026-07-24T09:35:00+09:00",
+          332000.0,
+          334500.0,
+          332000.0,
+          334000.0,
+          2557
+        ],
+        [
+          "2026-07-24T09:40:00+09:00",
+          334000.0,
+          335000.0,
+          333500.0,
+          335000.0,
+          1804
+        ],
+        [
+          "2026-07-24T09:45:00+09:00",
+          335000.0,
+          336500.0,
+          333500.0,
+          334500.0,
+          2395
+        ],
+        [
+          "2026-07-24T09:50:00+09:00",
+          334500.0,
+          336500.0,
+          334500.0,
+          335500.0,
+          2101
+        ],
+        [
+          "2026-07-24T09:55:00+09:00",
+          335500.0,
+          336000.0,
+          334500.0,
+          335500.0,
+          1929
+        ],
+        [
+          "2026-07-24T10:00:00+09:00",
+          335000.0,
+          337000.0,
+          335000.0,
+          336500.0,
+          1741
+        ],
+        [
+          "2026-07-24T10:05:00+09:00",
+          337000.0,
+          337000.0,
+          335000.0,
+          335000.0,
+          1652
+        ],
+        [
+          "2026-07-24T10:10:00+09:00",
+          335000.0,
+          335500.0,
+          333000.0,
+          333500.0,
+          4652
+        ],
+        [
+          "2026-07-24T10:15:00+09:00",
+          333500.0,
+          335500.0,
+          333000.0,
+          334000.0,
+          3101
+        ],
+        [
+          "2026-07-24T10:20:00+09:00",
+          334000.0,
+          334500.0,
+          333000.0,
+          333000.0,
+          1876
+        ],
+        [
+          "2026-07-24T10:25:00+09:00",
+          333000.0,
+          335500.0,
+          333000.0,
+          334000.0,
+          2867
+        ],
+        [
+          "2026-07-24T10:30:00+09:00",
+          334000.0,
+          335500.0,
+          333500.0,
+          335000.0,
+          1809
+        ],
+        [
+          "2026-07-24T10:35:00+09:00",
+          335000.0,
+          335500.0,
+          333500.0,
+          333500.0,
+          1489
+        ],
+        [
+          "2026-07-24T10:40:00+09:00",
+          333500.0,
+          335000.0,
+          333000.0,
+          334000.0,
+          1977
+        ],
+        [
+          "2026-07-24T10:45:00+09:00",
+          334000.0,
+          334000.0,
+          333000.0,
+          333000.0,
+          1022
+        ],
+        [
+          "2026-07-24T10:50:00+09:00",
+          333000.0,
+          334000.0,
+          332500.0,
+          332500.0,
+          2055
+        ],
+        [
+          "2026-07-24T10:55:00+09:00",
+          332500.0,
+          333000.0,
+          332500.0,
+          332500.0,
+          616
+        ],
+        [
+          "2026-07-24T11:00:00+09:00",
+          333000.0,
+          333000.0,
+          332000.0,
+          332500.0,
+          2225
+        ],
+        [
+          "2026-07-24T11:05:00+09:00",
+          332500.0,
+          333500.0,
+          332000.0,
+          333000.0,
+          1424
+        ],
+        [
+          "2026-07-24T11:10:00+09:00",
+          333500.0,
+          333500.0,
+          332000.0,
+          333000.0,
+          1418
+        ],
+        [
+          "2026-07-24T11:15:00+09:00",
+          333000.0,
+          334000.0,
+          331500.0,
+          332000.0,
+          3848
+        ],
+        [
+          "2026-07-24T11:20:00+09:00",
+          332000.0,
+          332500.0,
+          331000.0,
+          331500.0,
+          3572
+        ],
+        [
+          "2026-07-24T11:25:00+09:00",
+          331500.0,
+          332000.0,
+          330500.0,
+          331000.0,
+          2807
+        ],
+        [
+          "2026-07-24T11:30:00+09:00",
+          331000.0,
+          331500.0,
+          329500.0,
+          330000.0,
+          3946
+        ],
+        [
+          "2026-07-24T11:35:00+09:00",
+          329500.0,
+          330000.0,
+          329000.0,
+          329500.0,
+          2013
+        ],
+        [
+          "2026-07-24T11:40:00+09:00",
+          329500.0,
+          329500.0,
+          329000.0,
+          329500.0,
+          1298
+        ],
+        [
+          "2026-07-24T11:45:00+09:00",
+          329000.0,
+          329500.0,
+          328000.0,
+          328000.0,
+          7296
+        ],
+        [
+          "2026-07-24T11:50:00+09:00",
+          328000.0,
+          328500.0,
+          326000.0,
+          327000.0,
+          4439
+        ],
+        [
+          "2026-07-24T11:55:00+09:00",
+          327000.0,
+          328000.0,
+          326500.0,
+          326500.0,
+          2118
+        ],
+        [
+          "2026-07-24T12:00:00+09:00",
+          326500.0,
+          328500.0,
+          326500.0,
+          328000.0,
+          2369
+        ],
+        [
+          "2026-07-24T12:05:00+09:00",
+          328000.0,
+          328500.0,
+          326500.0,
+          327500.0,
+          2783
+        ],
+        [
+          "2026-07-24T12:10:00+09:00",
+          328000.0,
+          328500.0,
+          327000.0,
+          328000.0,
+          1812
+        ],
+        [
+          "2026-07-24T12:15:00+09:00",
+          328000.0,
+          329500.0,
+          327500.0,
+          327500.0,
+          2467
+        ],
+        [
+          "2026-07-24T12:20:00+09:00",
+          327500.0,
+          329000.0,
+          326500.0,
+          328000.0,
+          2433
+        ],
+        [
+          "2026-07-24T12:25:00+09:00",
+          328000.0,
+          329500.0,
+          327500.0,
+          328500.0,
+          1502
+        ],
+        [
+          "2026-07-24T12:30:00+09:00",
+          328500.0,
+          329500.0,
+          328000.0,
+          329000.0,
+          1903
+        ],
+        [
+          "2026-07-24T12:35:00+09:00",
+          328500.0,
+          330000.0,
+          327500.0,
+          329500.0,
+          1506
+        ],
+        [
+          "2026-07-24T12:40:00+09:00",
+          329500.0,
+          330500.0,
+          329000.0,
+          330000.0,
+          1260
+        ],
+        [
+          "2026-07-24T12:45:00+09:00",
+          329500.0,
+          330000.0,
+          328500.0,
+          329500.0,
+          1308
+        ],
+        [
+          "2026-07-24T12:50:00+09:00",
+          329000.0,
+          330000.0,
+          328500.0,
+          328500.0,
+          1705
+        ],
+        [
+          "2026-07-24T12:55:00+09:00",
+          328500.0,
+          328500.0,
+          327000.0,
+          327000.0,
+          897
+        ],
+        [
+          "2026-07-24T13:00:00+09:00",
+          327500.0,
+          328500.0,
+          326500.0,
+          326500.0,
+          3126
+        ],
+        [
+          "2026-07-24T13:05:00+09:00",
+          326500.0,
+          329500.0,
+          326500.0,
+          329000.0,
+          3298
+        ],
+        [
+          "2026-07-24T13:10:00+09:00",
+          329000.0,
+          330000.0,
+          327500.0,
+          328500.0,
+          3349
+        ],
+        [
+          "2026-07-24T13:15:00+09:00",
+          328500.0,
+          330500.0,
+          328000.0,
+          329500.0,
+          2359
+        ],
+        [
+          "2026-07-24T13:20:00+09:00",
+          329500.0,
+          332000.0,
+          329500.0,
+          331500.0,
+          2468
+        ],
+        [
+          "2026-07-24T13:25:00+09:00",
+          331500.0,
+          333000.0,
+          331000.0,
+          332500.0,
+          3064
+        ],
+        [
+          "2026-07-24T13:30:00+09:00",
+          332500.0,
+          332500.0,
+          331500.0,
+          332000.0,
+          1630
+        ],
+        [
+          "2026-07-24T13:35:00+09:00",
+          332000.0,
+          332500.0,
+          331000.0,
+          331500.0,
+          1611
+        ],
+        [
+          "2026-07-24T13:40:00+09:00",
+          331500.0,
+          332000.0,
+          330500.0,
+          330500.0,
+          1930
+        ],
+        [
+          "2026-07-24T13:45:00+09:00",
+          331000.0,
+          331000.0,
+          329500.0,
+          330000.0,
+          2392
+        ],
+        [
+          "2026-07-24T13:50:00+09:00",
+          329500.0,
+          333000.0,
+          329500.0,
+          332000.0,
+          4084
+        ],
+        [
+          "2026-07-24T13:55:00+09:00",
+          332500.0,
+          333000.0,
+          331000.0,
+          332500.0,
+          2391
+        ],
+        [
+          "2026-07-24T14:00:00+09:00",
+          333000.0,
+          333000.0,
+          331500.0,
+          332000.0,
+          1589
+        ],
+        [
+          "2026-07-24T14:05:00+09:00",
+          332000.0,
+          334500.0,
+          332000.0,
+          333500.0,
+          2667
+        ],
+        [
+          "2026-07-24T14:10:00+09:00",
+          333500.0,
+          335000.0,
+          333000.0,
+          334500.0,
+          1356
+        ],
+        [
+          "2026-07-24T14:15:00+09:00",
+          334500.0,
+          335000.0,
+          331500.0,
+          332000.0,
+          1934
+        ],
+        [
+          "2026-07-24T14:20:00+09:00",
+          332500.0,
+          335000.0,
+          332000.0,
+          334000.0,
+          2252
+        ],
+        [
+          "2026-07-24T14:25:00+09:00",
+          334500.0,
+          335000.0,
+          333500.0,
+          333500.0,
+          2313
+        ],
+        [
+          "2026-07-24T14:30:00+09:00",
+          333500.0,
+          335000.0,
+          333000.0,
+          333500.0,
+          2642
+        ],
+        [
+          "2026-07-24T14:35:00+09:00",
+          333000.0,
+          334500.0,
+          332500.0,
+          333500.0,
+          3114
+        ],
+        [
+          "2026-07-24T14:40:00+09:00",
+          333500.0,
+          334000.0,
+          332000.0,
+          332500.0,
+          3782
+        ],
+        [
+          "2026-07-24T14:45:00+09:00",
+          332000.0,
+          332500.0,
+          331000.0,
+          331500.0,
+          4329
+        ],
+        [
+          "2026-07-24T14:50:00+09:00",
+          332000.0,
+          332500.0,
+          331000.0,
+          331000.0,
+          5315
+        ],
+        [
+          "2026-07-24T14:55:00+09:00",
+          331000.0,
+          331500.0,
+          329000.0,
+          329000.0,
+          5592
+        ]
+      ],
+      "daily_7d": [
+        [
+          "2026-07-15T00:00:00+09:00",
+          329500.0,
+          341500.0,
+          328000.0,
+          335000.0,
+          323299
+        ],
+        [
+          "2026-07-16T00:00:00+09:00",
+          338000.0,
+          349000.0,
+          329000.0,
+          334000.0,
+          314975
+        ],
+        [
+          "2026-07-20T00:00:00+09:00",
+          331000.0,
+          333500.0,
+          315500.0,
+          317500.0,
+          310401
+        ],
+        [
+          "2026-07-21T00:00:00+09:00",
+          315500.0,
+          324000.0,
+          312000.0,
+          317000.0,
+          222065
+        ],
+        [
+          "2026-07-22T00:00:00+09:00",
+          324000.0,
+          333500.0,
+          321000.0,
+          321000.0,
+          217211
+        ],
+        [
+          "2026-07-23T00:00:00+09:00",
+          322000.0,
+          350000.0,
+          322000.0,
+          348000.0,
+          327080
+        ],
+        [
+          "2026-07-24T00:00:00+09:00",
+          337500.0,
+          342000.0,
+          326000.0,
+          329500.0,
+          232863
+        ]
+      ],
+      "daily_30d": [
+        [
+          "2026-06-12T00:00:00+09:00",
+          399500.0,
+          414000.0,
+          392000.0,
+          400000.0,
+          460043
+        ],
+        [
+          "2026-06-15T00:00:00+09:00",
+          412000.0,
+          425000.0,
+          407000.0,
+          420500.0,
+          312604
+        ],
+        [
+          "2026-06-16T00:00:00+09:00",
+          423000.0,
+          423500.0,
+          406500.0,
+          410500.0,
+          327489
+        ],
+        [
+          "2026-06-17T00:00:00+09:00",
+          414000.0,
+          421500.0,
+          406000.0,
+          416000.0,
+          224023
+        ],
+        [
+          "2026-06-18T00:00:00+09:00",
+          411500.0,
+          415000.0,
+          398000.0,
+          400000.0,
+          342610
+        ],
+        [
+          "2026-06-19T00:00:00+09:00",
+          402000.0,
+          422000.0,
+          391000.0,
+          404500.0,
+          753314
+        ],
+        [
+          "2026-06-22T00:00:00+09:00",
+          407500.0,
+          407500.0,
+          385000.0,
+          385500.0,
+          358905
+        ],
+        [
+          "2026-06-23T00:00:00+09:00",
+          387500.0,
+          399500.0,
+          360000.0,
+          362000.0,
+          484181
+        ],
+        [
+          "2026-06-24T00:00:00+09:00",
+          364500.0,
+          368500.0,
+          354000.0,
+          365500.0,
+          353220
+        ],
+        [
+          "2026-06-25T00:00:00+09:00",
+          371000.0,
+          374000.0,
+          352000.0,
+          352000.0,
+          448999
+        ],
+        [
+          "2026-06-26T00:00:00+09:00",
+          353000.0,
+          356500.0,
+          323000.0,
+          331500.0,
+          582932
+        ],
+        [
+          "2026-06-29T00:00:00+09:00",
+          336000.0,
+          400500.0,
+          334000.0,
+          400500.0,
+          833095
+        ],
+        [
+          "2026-06-30T00:00:00+09:00",
+          391500.0,
+          392000.0,
+          362000.0,
+          362000.0,
+          672385
+        ],
+        [
+          "2026-07-01T00:00:00+09:00",
+          366500.0,
+          366500.0,
+          345000.0,
+          348000.0,
+          395443
+        ],
+        [
+          "2026-07-02T00:00:00+09:00",
+          348500.0,
+          363500.0,
+          339000.0,
+          354000.0,
+          358138
+        ],
+        [
+          "2026-07-03T00:00:00+09:00",
+          359500.0,
+          363500.0,
+          342500.0,
+          362500.0,
+          397490
+        ],
+        [
+          "2026-07-06T00:00:00+09:00",
+          362000.0,
+          362500.0,
+          347500.0,
+          354500.0,
+          330389
+        ],
+        [
+          "2026-07-07T00:00:00+09:00",
+          350000.0,
+          352000.0,
+          323000.0,
+          332000.0,
+          567089
+        ],
+        [
+          "2026-07-08T00:00:00+09:00",
+          329000.0,
+          329500.0,
+          312500.0,
+          315500.0,
+          372285
+        ],
+        [
+          "2026-07-09T00:00:00+09:00",
+          316000.0,
+          333500.0,
+          309500.0,
+          313500.0,
+          505757
+        ],
+        [
+          "2026-07-10T00:00:00+09:00",
+          323000.0,
+          333000.0,
+          321500.0,
+          326000.0,
+          263154
+        ],
+        [
+          "2026-07-13T00:00:00+09:00",
+          328000.0,
+          346000.0,
+          325500.0,
+          328500.0,
+          313372
+        ],
+        [
+          "2026-07-14T00:00:00+09:00",
+          332000.0,
+          332000.0,
+          316500.0,
+          322000.0,
+          368900
+        ],
+        [
+          "2026-07-15T00:00:00+09:00",
+          329500.0,
+          341500.0,
+          328000.0,
+          335000.0,
+          323299
+        ],
+        [
+          "2026-07-16T00:00:00+09:00",
+          338000.0,
+          349000.0,
+          329000.0,
+          334000.0,
+          314975
+        ],
+        [
+          "2026-07-20T00:00:00+09:00",
+          331000.0,
+          333500.0,
+          315500.0,
+          317500.0,
+          310401
+        ],
+        [
+          "2026-07-21T00:00:00+09:00",
+          315500.0,
+          324000.0,
+          312000.0,
+          317000.0,
+          222065
+        ],
+        [
+          "2026-07-22T00:00:00+09:00",
+          324000.0,
+          333500.0,
+          321000.0,
+          321000.0,
+          217211
+        ],
+        [
+          "2026-07-23T00:00:00+09:00",
+          322000.0,
+          350000.0,
+          322000.0,
+          348000.0,
+          327080
+        ],
+        [
+          "2026-07-24T00:00:00+09:00",
+          337500.0,
+          342000.0,
+          326000.0,
+          329500.0,
+          232863
+        ]
+      ],
+      "daily_90d": [
+        [
+          "2026-03-16T00:00:00+09:00",
+          368500.0,
+          373000.0,
+          363500.0,
+          366000.0,
+          280349
+        ],
+        [
+          "2026-03-17T00:00:00+09:00",
+          371000.0,
+          380500.0,
+          370000.0,
+          380500.0,
+          345242
+        ],
+        [
+          "2026-03-18T00:00:00+09:00",
+          390500.0,
+          390500.0,
+          381500.0,
+          383500.0,
+          279721
+        ],
+        [
+          "2026-03-19T00:00:00+09:00",
+          374500.0,
+          378500.0,
+          371000.0,
+          371000.0,
+          213253
+        ],
+        [
+          "2026-03-20T00:00:00+09:00",
+          377000.0,
+          378000.0,
+          372000.0,
+          375500.0,
+          200932
+        ],
+        [
+          "2026-03-23T00:00:00+09:00",
+          362000.0,
+          365000.0,
+          355000.0,
+          356000.0,
+          302070
+        ],
+        [
+          "2026-03-24T00:00:00+09:00",
+          371500.0,
+          392500.0,
+          368000.0,
+          392500.0,
+          656541
+        ],
+        [
+          "2026-03-25T00:00:00+09:00",
+          392000.0,
+          400000.0,
+          386500.0,
+          394000.0,
+          352715
+        ],
+        [
+          "2026-03-26T00:00:00+09:00",
+          392500.0,
+          393000.0,
+          380000.0,
+          384500.0,
+          274503
+        ],
+        [
+          "2026-03-27T00:00:00+09:00",
+          374000.0,
+          396000.0,
+          366000.0,
+          394500.0,
+          372863
+        ],
+        [
+          "2026-03-30T00:00:00+09:00",
+          379500.0,
+          414000.0,
+          377000.0,
+          410000.0,
+          747897
+        ],
+        [
+          "2026-03-31T00:00:00+09:00",
+          406000.0,
+          410000.0,
+          390500.0,
+          394500.0,
+          518297
+        ],
+        [
+          "2026-04-01T00:00:00+09:00",
+          409500.0,
+          410000.0,
+          393500.0,
+          407000.0,
+          343583
+        ],
+        [
+          "2026-04-02T00:00:00+09:00",
+          407500.0,
+          421500.0,
+          399500.0,
+          404500.0,
+          532803
+        ],
+        [
+          "2026-04-03T00:00:00+09:00",
+          410000.0,
+          414500.0,
+          396500.0,
+          398500.0,
+          254074
+        ],
+        [
+          "2026-04-06T00:00:00+09:00",
+          399500.0,
+          418000.0,
+          399500.0,
+          412500.0,
+          393045
+        ],
+        [
+          "2026-04-07T00:00:00+09:00",
+          408000.0,
+          423000.0,
+          406000.0,
+          408500.0,
+          311134
+        ],
+        [
+          "2026-04-08T00:00:00+09:00",
+          419500.0,
+          422000.0,
+          400500.0,
+          406000.0,
+          521932
+        ],
+        [
+          "2026-04-09T00:00:00+09:00",
+          408000.0,
+          422000.0,
+          403000.0,
+          421000.0,
+          719468
+        ],
+        [
+          "2026-04-10T00:00:00+09:00",
+          421000.0,
+          421000.0,
+          410500.0,
+          412000.0,
+          273394
+        ],
+        [
+          "2026-04-13T00:00:00+09:00",
+          409500.0,
+          414500.0,
+          399000.0,
+          401500.0,
+          218403
+        ],
+        [
+          "2026-04-14T00:00:00+09:00",
+          406500.0,
+          406500.0,
+          399500.0,
+          400000.0,
+          269254
+        ],
+        [
+          "2026-04-15T00:00:00+09:00",
+          406000.0,
+          412000.0,
+          403500.0,
+          408000.0,
+          272401
+        ],
+        [
+          "2026-04-16T00:00:00+09:00",
+          412000.0,
+          416500.0,
+          408500.0,
+          416000.0,
+          317064
+        ],
+        [
+          "2026-04-17T00:00:00+09:00",
+          415500.0,
+          422000.0,
+          412000.0,
+          418000.0,
+          336530
+        ],
+        [
+          "2026-04-20T00:00:00+09:00",
+          419500.0,
+          435500.0,
+          416500.0,
+          429000.0,
+          563779
+        ],
+        [
+          "2026-04-21T00:00:00+09:00",
+          441500.0,
+          478000.0,
+          434000.0,
+          478000.0,
+          1363543
+        ],
+        [
+          "2026-04-22T00:00:00+09:00",
+          491500.0,
+          493000.0,
+          468000.0,
+          484500.0,
+          880220
+        ],
+        [
+          "2026-04-23T00:00:00+09:00",
+          481500.0,
+          484000.0,
+          460000.0,
+          466500.0,
+          529996
+        ],
+        [
+          "2026-04-24T00:00:00+09:00",
+          473000.0,
+          486000.0,
+          464000.0,
+          481000.0,
+          402718
+        ],
+        [
+          "2026-04-27T00:00:00+09:00",
+          478500.0,
+          481000.0,
+          461000.0,
+          464000.0,
+          433687
+        ],
+        [
+          "2026-04-28T00:00:00+09:00",
+          471500.0,
+          478000.0,
+          465000.0,
+          472000.0,
+          431570
+        ],
+        [
+          "2026-04-29T00:00:00+09:00",
+          472000.0,
+          476000.0,
+          464000.0,
+          473000.0,
+          306780
+        ],
+        [
+          "2026-04-30T00:00:00+09:00",
+          471000.0,
+          471500.0,
+          457000.0,
+          460500.0,
+          485223
+        ],
+        [
+          "2026-05-04T00:00:00+09:00",
+          469000.0,
+          478000.0,
+          461000.0,
+          472000.0,
+          425260
+        ],
+        [
+          "2026-05-06T00:00:00+09:00",
+          476000.0,
+          486500.0,
+          466000.0,
+          482000.0,
+          589631
+        ],
+        [
+          "2026-05-07T00:00:00+09:00",
+          482000.0,
+          483000.0,
+          464000.0,
+          483000.0,
+          463457
+        ],
+        [
+          "2026-05-08T00:00:00+09:00",
+          479500.0,
+          489500.0,
+          471500.0,
+          476500.0,
+          353449
+        ],
+        [
+          "2026-05-11T00:00:00+09:00",
+          478000.0,
+          478500.0,
+          463000.0,
+          468000.0,
+          407574
+        ],
+        [
+          "2026-05-12T00:00:00+09:00",
+          470000.0,
+          480000.0,
+          430500.0,
+          443000.0,
+          668326
+        ],
+        [
+          "2026-05-13T00:00:00+09:00",
+          443500.0,
+          445000.0,
+          425000.0,
+          430000.0,
+          455234
+        ],
+        [
+          "2026-05-14T00:00:00+09:00",
+          447000.0,
+          447000.0,
+          432000.0,
+          442000.0,
+          368128
+        ],
+        [
+          "2026-05-15T00:00:00+09:00",
+          450000.0,
+          470000.0,
+          410500.0,
+          417000.0,
+          798242
+        ],
+        [
+          "2026-05-18T00:00:00+09:00",
+          414500.0,
+          416500.0,
+          391500.0,
+          408000.0,
+          373359
+        ],
+        [
+          "2026-05-19T00:00:00+09:00",
+          411000.0,
+          416000.0,
+          389500.0,
+          400000.0,
+          376633
+        ],
+        [
+          "2026-05-20T00:00:00+09:00",
+          404000.0,
+          406000.0,
+          382000.0,
+          384500.0,
+          411862
+        ],
+        [
+          "2026-05-21T00:00:00+09:00",
+          397500.0,
+          401000.0,
+          391000.0,
+          401000.0,
+          300978
+        ],
+        [
+          "2026-05-22T00:00:00+09:00",
+          411500.0,
+          416000.0,
+          394500.0,
+          398500.0,
+          435706
+        ],
+        [
+          "2026-05-26T00:00:00+09:00",
+          408000.0,
+          411000.0,
+          397000.0,
+          399500.0,
+          321431
+        ],
+        [
+          "2026-05-27T00:00:00+09:00",
+          400500.0,
+          404000.0,
+          383000.0,
+          383500.0,
+          463463
+        ],
+        [
+          "2026-05-28T00:00:00+09:00",
+          429500.0,
+          447000.0,
+          413000.0,
+          442000.0,
+          1665103
+        ],
+        [
+          "2026-05-29T00:00:00+09:00",
+          444500.0,
+          465000.0,
+          432000.0,
+          458000.0,
+          1287237
+        ],
+        [
+          "2026-06-01T00:00:00+09:00",
+          469500.0,
+          476000.0,
+          446000.0,
+          455000.0,
+          778389
+        ],
+        [
+          "2026-06-02T00:00:00+09:00",
+          458500.0,
+          497500.0,
+          438000.0,
+          442500.0,
+          1496902
+        ],
+        [
+          "2026-06-04T00:00:00+09:00",
+          448000.0,
+          463000.0,
+          413500.0,
+          422000.0,
+          708012
+        ],
+        [
+          "2026-06-05T00:00:00+09:00",
+          422500.0,
+          428500.0,
+          405500.0,
+          414000.0,
+          445122
+        ],
+        [
+          "2026-06-08T00:00:00+09:00",
+          388500.0,
+          404000.0,
+          383000.0,
+          388500.0,
+          422550
+        ],
+        [
+          "2026-06-09T00:00:00+09:00",
+          393500.0,
+          401500.0,
+          385500.0,
+          396500.0,
+          420962
+        ],
+        [
+          "2026-06-10T00:00:00+09:00",
+          393000.0,
+          407000.0,
+          375000.0,
+          385500.0,
+          52
+        ],
+        [
+          "2026-06-11T00:00:00+09:00",
+          377000.0,
+          392000.0,
+          367000.0,
+          384500.0,
+          450781
+        ],
+        [
+          "2026-06-12T00:00:00+09:00",
+          399500.0,
+          414000.0,
+          392000.0,
+          400000.0,
+          460043
+        ],
+        [
+          "2026-06-15T00:00:00+09:00",
+          412000.0,
+          425000.0,
+          407000.0,
+          420500.0,
+          312604
+        ],
+        [
+          "2026-06-16T00:00:00+09:00",
+          423000.0,
+          423500.0,
+          406500.0,
+          410500.0,
+          327489
+        ],
+        [
+          "2026-06-17T00:00:00+09:00",
+          414000.0,
+          421500.0,
+          406000.0,
+          416000.0,
+          224023
+        ],
+        [
+          "2026-06-18T00:00:00+09:00",
+          411500.0,
+          415000.0,
+          398000.0,
+          400000.0,
+          342610
+        ],
+        [
+          "2026-06-19T00:00:00+09:00",
+          402000.0,
+          422000.0,
+          391000.0,
+          404500.0,
+          753314
+        ],
+        [
+          "2026-06-22T00:00:00+09:00",
+          407500.0,
+          407500.0,
+          385000.0,
+          385500.0,
+          358905
+        ],
+        [
+          "2026-06-23T00:00:00+09:00",
+          387500.0,
+          399500.0,
+          360000.0,
+          362000.0,
+          484181
+        ],
+        [
+          "2026-06-24T00:00:00+09:00",
+          364500.0,
+          368500.0,
+          354000.0,
+          365500.0,
+          353220
+        ],
+        [
+          "2026-06-25T00:00:00+09:00",
+          371000.0,
+          374000.0,
+          352000.0,
+          352000.0,
+          448999
+        ],
+        [
+          "2026-06-26T00:00:00+09:00",
+          353000.0,
+          356500.0,
+          323000.0,
+          331500.0,
+          582932
+        ],
+        [
+          "2026-06-29T00:00:00+09:00",
+          336000.0,
+          400500.0,
+          334000.0,
+          400500.0,
+          833095
+        ],
+        [
+          "2026-06-30T00:00:00+09:00",
+          391500.0,
+          392000.0,
+          362000.0,
+          362000.0,
+          672385
+        ],
+        [
+          "2026-07-01T00:00:00+09:00",
+          366500.0,
+          366500.0,
+          345000.0,
+          348000.0,
+          395443
+        ],
+        [
+          "2026-07-02T00:00:00+09:00",
+          348500.0,
+          363500.0,
+          339000.0,
+          354000.0,
+          358138
+        ],
+        [
+          "2026-07-03T00:00:00+09:00",
+          359500.0,
+          363500.0,
+          342500.0,
+          362500.0,
+          397490
+        ],
+        [
+          "2026-07-06T00:00:00+09:00",
+          362000.0,
+          362500.0,
+          347500.0,
+          354500.0,
+          330389
+        ],
+        [
+          "2026-07-07T00:00:00+09:00",
+          350000.0,
+          352000.0,
+          323000.0,
+          332000.0,
+          567089
+        ],
+        [
+          "2026-07-08T00:00:00+09:00",
+          329000.0,
+          329500.0,
+          312500.0,
+          315500.0,
+          372285
+        ],
+        [
+          "2026-07-09T00:00:00+09:00",
+          316000.0,
+          333500.0,
+          309500.0,
+          313500.0,
+          505757
+        ],
+        [
+          "2026-07-10T00:00:00+09:00",
+          323000.0,
+          333000.0,
+          321500.0,
+          326000.0,
+          263154
+        ],
+        [
+          "2026-07-13T00:00:00+09:00",
+          328000.0,
+          346000.0,
+          325500.0,
+          328500.0,
+          313372
+        ],
+        [
+          "2026-07-14T00:00:00+09:00",
+          332000.0,
+          332000.0,
+          316500.0,
+          322000.0,
+          368900
+        ],
+        [
+          "2026-07-15T00:00:00+09:00",
+          329500.0,
+          341500.0,
+          328000.0,
+          335000.0,
+          323299
+        ],
+        [
+          "2026-07-16T00:00:00+09:00",
+          338000.0,
+          349000.0,
+          329000.0,
+          334000.0,
+          314975
+        ],
+        [
+          "2026-07-20T00:00:00+09:00",
+          331000.0,
+          333500.0,
+          315500.0,
+          317500.0,
+          310401
+        ],
+        [
+          "2026-07-21T00:00:00+09:00",
+          315500.0,
+          324000.0,
+          312000.0,
+          317000.0,
+          222065
+        ],
+        [
+          "2026-07-22T00:00:00+09:00",
+          324000.0,
+          333500.0,
+          321000.0,
+          321000.0,
+          217211
+        ],
+        [
+          "2026-07-23T00:00:00+09:00",
+          322000.0,
+          350000.0,
+          322000.0,
+          348000.0,
+          327080
+        ],
+        [
+          "2026-07-24T00:00:00+09:00",
+          337500.0,
+          342000.0,
+          326000.0,
+          329500.0,
+          232863
+        ]
+      ],
+      "plan_tentative": true,
+      "entry": 351500.0,
+      "entry_type": "breakout",
+      "stop": 312000,
+      "target1": 376000,
+      "target2": 392000,
+      "rr": 0.62,
+      "atr_pct": 6.13,
+      "weight_pct": 9,
+      "stop_pct": 11.2,
+      "est_loss_pct": 1.01,
+      "hold_cap_hours": 72,
+      "reachable": false,
+      "orderbook_imbalance": 0.0525,
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
+      "orderbook_imbalance_source": "kis",
+      "orderbook_imbalance_stable": true,
+      "large_trade_detected": false,
+      "large_trade_direction": null,
+      "large_trade_multiple": 2192.2,
+      "large_trade_value_krw": 3611649500,
+      "large_trade_asof": "2026-07-24T15:30:27+09:00",
+      "ask_ratio": 0.5263,
+      "bid_rem": 8595,
+      "ask_rem": 7737,
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00"
     },
     {
       "name": "삼성바이오로직스",
       "code": "207940",
       "market": "KR",
-      "price": 1494000.0,
+      "price": 1497000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": 10.08,
-      "vol_surge": 3.5,
+      "vol_surge": 3.43,
       "score": 10,
       "score_reasons": [
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 급증 3.5배 +15",
+        "거래량 급증 3.43배 +15",
         "강세 마감(종가위치 87.9%) +14",
         "RSI 59.1 (상승 구간 50~70) +13",
         "변동성 돌파선 상회 +14",
@@ -44253,7 +44004,7 @@
       "foreign_net_1d": -5110.0,
       "inst_net_1d": -1231.0,
       "supply_1d_date": "2026-07-23",
-      "reason": "기술 점수 10점 — 조건 미충족(관망). 정배열(MA5>MA20), 거래량 급증 3.5x, 강세 마감(종가위치 87.9%), RSI 59.1(상승), 변동성 돌파 상회, 미국증시 환경 -3.1 (전일 S&P-1.21%·나스닥-2.15%·SOX-0.54%), 외국인 순매도, 기관 순매수, 외국인 매도 가속(최근 확정 2026-07-23 기준(장중이면 D-1)), 기관 매도 전환(최근 확정 2026-07-23 기준(장중이면 D-1)). ATR 4.73%.",
+      "reason": "기술 점수 10점 — 조건 미충족(관망). 정배열(MA5>MA20), 거래량 급증 3.43x, 강세 마감(종가위치 87.9%), RSI 59.1(상승), 변동성 돌파 상회, 미국증시 환경 -3.1 (전일 S&P-1.21%·나스닥-2.15%·SOX-0.54%), 외국인 순매도, 기관 순매수, 외국인 매도 가속(최근 확정 2026-07-23 기준(장중이면 D-1)), 기관 매도 전환(최근 확정 2026-07-23 기준(장중이면 D-1)). ATR 4.73%.",
       "intraday_5m": [
         [
           "2026-07-22T13:40:00+09:00",
@@ -45591,7 +45342,7 @@
           1537000.0,
           1380000.0,
           1518000.0,
-          203071
+          198056
         ]
       ],
       "daily_30d": [
@@ -45833,7 +45584,7 @@
           1537000.0,
           1380000.0,
           1518000.0,
-          203071
+          198056
         ]
       ],
       "daily_90d": [
@@ -46555,24 +46306,24 @@
           1537000.0,
           1380000.0,
           1518000.0,
-          203071
+          198056
         ]
       ],
       "plan_tentative": true,
-      "entry": 1489000.0,
+      "entry": 1497000.0,
       "entry_type": "now",
       "stop": 1341000,
-      "target1": 1575000,
-      "target2": 1633000,
-      "rr": 0.58,
+      "target1": 1583000,
+      "target2": 1641000,
+      "rr": 0.55,
       "atr_pct": 4.73,
       "weight_pct": 12,
-      "stop_pct": 9.9,
+      "stop_pct": 10.4,
       "est_loss_pct": 1.2,
       "hold_cap_hours": 72,
       "reachable": true,
       "orderbook_imbalance": -0.3466,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -46583,17 +46334,7 @@
       "ask_ratio": 0.3267,
       "bid_rem": 757,
       "ask_rem": 1560,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 1494000.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 1518000.0,
-        "delta_pct": -1.58
-      }
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00"
     },
     {
       "name": "SK",
@@ -48943,7 +48684,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.0385,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -48954,17 +48695,7 @@
       "ask_ratio": 0.5193,
       "bid_rem": 5376,
       "ask_rem": 4977,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 631000.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 630000.0,
-        "delta_pct": 0.16
-      }
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00"
     },
     {
       "name": "한미반도체",
@@ -51318,7 +51049,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.0016,
-      "orderbook_imbalance_asof": "2026-07-24T16:26:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:32:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -51329,17 +51060,7 @@
       "ask_ratio": 0.5008,
       "bid_rem": 21568,
       "ask_rem": 21497,
-      "ask_ratio_asof": "2026-07-24T16:26:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 202000.0,
-        "asof": "2026-07-24T16:26:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 200000.0,
-        "delta_pct": 1.0
-      }
+      "ask_ratio_asof": "2026-07-24T16:32:00+09:00"
     }
   ],
   "positions": [],
@@ -51481,7 +51202,7 @@
     ]
   },
   "kr_context": {
-    "asof": "2026-07-24T16:26:00+09:00",
+    "asof": "2026-07-24T16:35:00+09:00",
     "basis": "한국 지수(KIS 실측)",
     "session": "after",
     "stale": false,
@@ -51513,7 +51234,7 @@
     "regime_pct": -1.22,
     "adj": -3.1
   },
-  "analyzed_at": "2026-07-24T16:20:00+09:00",
+  "analyzed_at": "2026-07-24T16:34:00+09:00",
   "watch_advice": {
     "level": "normal",
     "headline": "매수 신호 13건 — 상위 후보 대한항공(85점)",
@@ -51529,7 +51250,7 @@
     "top_score": 85
   },
   "integrity": {
-    "checked_at": "2026-07-24T16:20:00+09:00",
+    "checked_at": "2026-07-24T16:34:00+09:00",
     "critical": [],
     "warn": []
   },
