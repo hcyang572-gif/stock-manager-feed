@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0",
   "date": "2026-07-24",
-  "generated_at": "2026-07-24T15:57:00+09:00",
+  "generated_at": "2026-07-24T16:05:00+09:00",
   "horizon_hours": 72,
-  "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 수급(외국인·기관) + 재무(PER·PBR) + 미국증시 전일 환경 보정 · 분석 범위: 통합 분석 — 관심종목(1 신호) + 전체종목 거래대금 상위(KOSPI, 12 신호). 뉴스/촉매는 ‘뉴스도 함께’에서만. (뉴스/촉매 6h 전 반영 보존)",
+  "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 수급(외국인·기관) + 재무(PER·PBR) + 미국증시 전일 환경 보정 · 분석 범위: 통합 분석 — 관심종목(1 신호) + 전체종목 거래대금 상위(KOSPI, 12 신호). 뉴스/촉매는 ‘뉴스도 함께’에서만. (뉴스/촉매 7h 전 반영 보존)",
   "market_state": {
     "korea": {
       "status": "post",
-      "basis": "장후 NXT 애프터마켓(15:30~20:00, 10분 자동갱신)",
-      "asof": "2026-07-24T15:57:00+09:00",
+      "basis": "장후 NXT 애프터마켓(15:30~20:00, 네이버 지수 실측)",
+      "asof": "2026-07-24T16:06:00+09:00",
       "session": "after"
     },
     "us": {
@@ -22,14 +22,14 @@
     "observation_count": 15,
     "position_count": 0,
     "top_signal": "대한항공",
-    "headline": "기술 분석 갱신(07-24 15:52 KST) — 차트·거래량·변동성 기준 13개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
+    "headline": "기술 분석 갱신(07-24 16:05 KST) — 차트·거래량·변동성 기준 13개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
     "market_outlook": {
       "regime": "약세",
       "headline": "지수 약세 — 진입 기회 제한(13개 신호). 손절 규율 최우선, 현금 비중 확대 검토.",
       "buy_view": "신호 수 제한적 — 고점수·고확신 종목만 소량 진입(비중 절제). 주도 테마(기술분석·온디맨드·즉시진입) 위주 선별 진입. 지수 낙폭 확대 시 신규 진입 전면 보류.",
       "sell_view": "지수 하락 환경 — 보유 비중 축소 우선. 손절가 이탈 즉시 기계적 청산. 반등 시도도 매도 기회로 활용.",
       "basis": "매수신호 13개·평균점수 109.1 · 코스피 -5.72% · 코스닥 -5.32% · 전일 S&P -1.21% · SOX -0.54% (실측 지표, 날조 없음)",
-      "asof": "2026-07-24T15:52:43+09:00"
+      "asof": "2026-07-24T16:06:35+09:00"
     }
   },
   "signals": [
@@ -1427,7 +1427,7 @@
           25700.0,
           24900.0,
           25450.0,
-          3021455
+          3021801
         ]
       ],
       "daily_30d": [
@@ -1669,7 +1669,7 @@
           25700.0,
           24900.0,
           25450.0,
-          3021455
+          3021801
         ]
       ],
       "daily_90d": [
@@ -2391,35 +2391,25 @@
           25700.0,
           24900.0,
           25450.0,
-          3021455
+          3021801
         ]
       ],
       "group": "watchlist",
       "orderbook_imbalance": -0.0929,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
       "large_trade_direction": null,
-      "large_trade_multiple": 5081.14,
+      "large_trade_multiple": 3556.8,
       "large_trade_value_krw": 905205600,
       "large_trade_asof": "2026-07-24T15:30:22+09:00",
       "ask_ratio": 0.4535,
       "bid_rem": 110257,
       "ask_rem": 132853,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00",
       "score": 85,
-      "catalyst": "2Q 실적 서프라이즈, 신한투자 목표가 3만8000원 상향 — 7월 15일 2Q26 실적 발표에서 유류비 부담에도 불구하고 국제선 여객·화물 호조로 서프라이즈 기록. 신한투자증권이 목표가를 35,000원에서 38,000원으로 9% 상향 조정.",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 25450.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 25450.0,
-        "delta_pct": 0.0
-      }
+      "catalyst": "2Q 실적 서프라이즈, 신한투자 목표가 3만8000원 상향 — 7월 15일 2Q26 실적 발표에서 유류비 부담에도 불구하고 국제선 여객·화물 호조로 서프라이즈 기록. 신한투자증권이 목표가를 35,000원에서 38,000원으로 9% 상향 조정."
     },
     {
       "rank": 1,
@@ -2428,7 +2418,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 40150.0,
+      "price": 40350.0,
       "currency": "KRW",
       "entry": 40350.0,
       "entry_type": "now",
@@ -2440,7 +2430,7 @@
       "atr_pct": 5.61,
       "hold_cap_hours": 72,
       "weight_pct": 15,
-      "vol_surge": 1.45,
+      "vol_surge": 1.47,
       "foreign_net": 10195.0,
       "inst_net": 255086.0,
       "supply_days": 5,
@@ -2460,7 +2450,7 @@
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 양호 1.45배 +7",
+        "거래량 양호 1.47배 +7",
         "RSI 63.1 (상승 구간 50~70) +13",
         "변동성 돌파선 상회 +14",
         "5일 모멘텀 +5.35% (양) +8",
@@ -2538,7 +2528,7 @@
           41900.0,
           38100.0,
           40350.0,
-          652086
+          661493
         ]
       ],
       "daily_30d": [
@@ -2780,7 +2770,7 @@
           41900.0,
           38100.0,
           40350.0,
-          652086
+          661493
         ]
       ],
       "daily_90d": [
@@ -3502,12 +3492,12 @@
           41900.0,
           38100.0,
           40350.0,
-          652086
+          661493
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.3653,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -3518,18 +3508,8 @@
       "ask_ratio": 0.3174,
       "bid_rem": 8520,
       "ask_rem": 18326,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
-      "score": 142,
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 40150.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 40350.0,
-        "delta_pct": -0.5
-      }
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00",
+      "score": 142
     },
     {
       "rank": 2,
@@ -3538,7 +3518,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 122100.0,
+      "price": 123300.0,
       "currency": "KRW",
       "entry": 123300.0,
       "entry_type": "now",
@@ -3649,7 +3629,7 @@
           123300.0,
           114900.0,
           123300.0,
-          468471
+          468502
         ]
       ],
       "daily_30d": [
@@ -3891,7 +3871,7 @@
           123300.0,
           114900.0,
           123300.0,
-          468471
+          468502
         ]
       ],
       "daily_90d": [
@@ -4613,12 +4593,12 @@
           123300.0,
           114900.0,
           123300.0,
-          468471
+          468502
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.6293,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -4629,19 +4609,9 @@
       "ask_ratio": 0.1853,
       "bid_rem": 4121,
       "ask_rem": 18114,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00",
       "score": 136,
-      "catalyst": "뚜렷한 촉매 없음 — 최근 48시간 내 주가에 영향을 줄 구체적인 촉매나 공시 없음.",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 122100.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 123300.0,
-        "delta_pct": -0.97
-      }
+      "catalyst": "뚜렷한 촉매 없음 — 최근 48시간 내 주가에 영향을 줄 구체적인 촉매나 공시 없음."
     },
     {
       "rank": 3,
@@ -4650,7 +4620,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 1141000.0,
+      "price": 1151000.0,
       "currency": "KRW",
       "entry": 1151000.0,
       "entry_type": "now",
@@ -5729,7 +5699,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.4448,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -5740,18 +5710,8 @@
       "ask_ratio": 0.2776,
       "bid_rem": 395,
       "ask_rem": 1028,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
-      "score": 124,
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 1141000.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 1151000.0,
-        "delta_pct": -0.87
-      }
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00",
+      "score": 124
     },
     {
       "rank": 4,
@@ -5760,7 +5720,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 132100.0,
+      "price": 132400.0,
       "currency": "KRW",
       "entry": 132400.0,
       "entry_type": "now",
@@ -5772,7 +5732,7 @@
       "atr_pct": 5.19,
       "hold_cap_hours": 72,
       "weight_pct": 15,
-      "vol_surge": 1.35,
+      "vol_surge": 1.27,
       "foreign_net": 98658.0,
       "inst_net": -20609.0,
       "supply_days": 5,
@@ -5792,7 +5752,7 @@
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 양호 1.35배 +7",
+        "거래량 양호 1.27배 +7",
         "RSI 61.3 (상승 구간 50~70) +13",
         "변동성 돌파선 상회 +14",
         "미국증시 환경 -3.1 (전일 S&P-1.21%·나스닥-2.15%·SOX-0.54%)",
@@ -5871,7 +5831,7 @@
           134900.0,
           129200.0,
           132400.0,
-          1347227
+          1257540
         ]
       ],
       "daily_30d": [
@@ -6113,7 +6073,7 @@
           134900.0,
           129200.0,
           132400.0,
-          1347227
+          1257540
         ]
       ],
       "daily_90d": [
@@ -6835,12 +6795,12 @@
           134900.0,
           129200.0,
           132400.0,
-          1347227
+          1257540
         ]
       ],
       "group": "market",
       "orderbook_imbalance": 0.306,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -6851,19 +6811,9 @@
       "ask_ratio": 0.653,
       "bid_rem": 29247,
       "ask_rem": 15540,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00",
       "score": 122,
-      "catalyst": "글로벌 투자자들 지분 확대, 2Q 분기 최대 실적 전망 — 7월 초 블랙록과 캐피털그룹 등 글로벌 대형 투자기관들이 지분을 잇달아 늘리며 외국인 지분율이 51% 돌파. 2Q 경상 기준 분기 최대 실적 전망.",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 132100.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 132400.0,
-        "delta_pct": -0.23
-      }
+      "catalyst": "글로벌 투자자들 지분 확대, 2Q 분기 최대 실적 전망 — 7월 초 블랙록과 캐피털그룹 등 글로벌 대형 투자기관들이 지분을 잇달아 늘리며 외국인 지분율이 51% 돌파. 2Q 경상 기준 분기 최대 실적 전망."
     },
     {
       "rank": 5,
@@ -6884,7 +6834,7 @@
       "atr_pct": 3.83,
       "hold_cap_hours": 72,
       "weight_pct": 15,
-      "vol_surge": 2.08,
+      "vol_surge": 2.12,
       "foreign_net": 1767654.0,
       "inst_net": 784101.0,
       "supply_days": 5,
@@ -6899,12 +6849,12 @@
       "data_quality": "good",
       "catalyst_verified": true,
       "change_pct": 3.1,
-      "evidence": "촉매: 하나증권 신규 리포트 NEUTRAL, 목표가 21,000원. 기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 급증 2.08x, 강세 마감(종가위치 66.7%), RSI 77.4(과열), 변동성 돌파 상회, 미국증시 환경 -3.1 (전일 S&P-1.21%·나스닥-2.15%·SOX-0.54%), 외국인 순매수, 기관 순매수, 외국인 매수 가속(최근 확정 2026-07-23 기준(장중이면 D-1)), 호가 매도우위(-76%). ATR 3.83%·5일모멘텀 7.98%.",
+      "evidence": "촉매: 하나증권 신규 리포트 NEUTRAL, 목표가 21,000원. 기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 급증 2.12x, 강세 마감(종가위치 66.7%), RSI 77.4(과열), 변동성 돌파 상회, 미국증시 환경 -3.1 (전일 S&P-1.21%·나스닥-2.15%·SOX-0.54%), 외국인 순매수, 기관 순매수, 외국인 매수 가속(최근 확정 2026-07-23 기준(장중이면 D-1)), 호가 매도우위(-76%). ATR 3.83%·5일모멘텀 7.98%.",
       "score_reasons": [
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 급증 2.08배 +15",
+        "거래량 급증 2.12배 +15",
         "강세 마감(종가위치 66.7%) +14",
         "RSI 77.4 (과열 >75) -10",
         "변동성 돌파선 상회 +14",
@@ -6985,7 +6935,7 @@
           22100.0,
           20750.0,
           21650.0,
-          2872528
+          2939531
         ]
       ],
       "daily_30d": [
@@ -7227,7 +7177,7 @@
           22100.0,
           20750.0,
           21650.0,
-          2872528
+          2939531
         ]
       ],
       "daily_90d": [
@@ -7949,12 +7899,12 @@
           22100.0,
           20750.0,
           21650.0,
-          2872528
+          2939531
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.7562,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -7965,19 +7915,9 @@
       "ask_ratio": 0.1219,
       "bid_rem": 44049,
       "ask_rem": 317342,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00",
       "score": 116,
-      "catalyst": "하나증권 신규 리포트 NEUTRAL, 목표가 21,000원 — 7월 21일 하나증권 신규 리포트에서 1분기 영업이익 58% 감소 예상, 컨테이너선 부문 부진 지속. 벌크선/유조선 호조와 충분한 현금(13조원)이 하방 버팀목.",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 21650.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 21650.0,
-        "delta_pct": 0.0
-      }
+      "catalyst": "하나증권 신규 리포트 NEUTRAL, 목표가 21,000원 — 7월 21일 하나증권 신규 리포트에서 1분기 영업이익 58% 감소 예상, 컨테이너선 부문 부진 지속. 벌크선/유조선 호조와 충분한 현금(13조원)이 하방 버팀목."
     },
     {
       "rank": 6,
@@ -7986,7 +7926,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 390500.0,
+      "price": 392000.0,
       "currency": "KRW",
       "entry": 398500.0,
       "entry_type": "breakout",
@@ -7998,7 +7938,7 @@
       "atr_pct": 7.02,
       "hold_cap_hours": 72,
       "weight_pct": 13,
-      "vol_surge": 0.68,
+      "vol_surge": 0.67,
       "foreign_net": 44278.0,
       "inst_net": -9385.0,
       "supply_days": 5,
@@ -8092,7 +8032,7 @@
           398500.0,
           381000.0,
           392000.0,
-          72376
+          71326
         ]
       ],
       "daily_30d": [
@@ -8334,7 +8274,7 @@
           398500.0,
           381000.0,
           392000.0,
-          72376
+          71326
         ]
       ],
       "daily_90d": [
@@ -9056,12 +8996,12 @@
           398500.0,
           381000.0,
           392000.0,
-          72376
+          71326
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.2989,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -9072,18 +9012,8 @@
       "ask_ratio": 0.3506,
       "bid_rem": 922,
       "ask_rem": 1708,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
-      "score": 113,
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 390500.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 392000.0,
-        "delta_pct": -0.38
-      }
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00",
+      "score": 113
     },
     {
       "rank": 7,
@@ -9092,7 +9022,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 30650.0,
+      "price": 30850.0,
       "currency": "KRW",
       "entry": 31150.0,
       "entry_type": "breakout",
@@ -9104,7 +9034,7 @@
       "atr_pct": 4.43,
       "hold_cap_hours": 72,
       "weight_pct": 13,
-      "vol_surge": 0.88,
+      "vol_surge": 0.81,
       "foreign_net": 38684.0,
       "inst_net": -28479.0,
       "supply_days": 5,
@@ -9201,7 +9131,7 @@
           31150.0,
           30100.0,
           30850.0,
-          1899954
+          1736181
         ]
       ],
       "daily_30d": [
@@ -9443,7 +9373,7 @@
           31150.0,
           30100.0,
           30850.0,
-          1899954
+          1736181
         ]
       ],
       "daily_90d": [
@@ -10165,12 +10095,12 @@
           31150.0,
           30100.0,
           30850.0,
-          1899954
+          1736181
         ]
       ],
       "group": "market",
       "orderbook_imbalance": 0.0017,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -10181,19 +10111,9 @@
       "ask_ratio": 0.5008,
       "bid_rem": 69183,
       "ask_rem": 68955,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00",
       "score": 112,
-      "catalyst": "뚜렷한 촉매 없음 — 검색 결과에서 최근 촉매 정보 미확인.",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 30650.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 30850.0,
-        "delta_pct": -0.65
-      }
+      "catalyst": "뚜렷한 촉매 없음 — 검색 결과에서 최근 촉매 정보 미확인."
     },
     {
       "rank": 8,
@@ -10202,7 +10122,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 181500.0,
+      "price": 182600.0,
       "currency": "KRW",
       "entry": 182600.0,
       "entry_type": "now",
@@ -10214,7 +10134,7 @@
       "atr_pct": 4.13,
       "hold_cap_hours": 72,
       "weight_pct": 15,
-      "vol_surge": 0.96,
+      "vol_surge": 0.89,
       "foreign_net": 136747.0,
       "inst_net": -117347.0,
       "supply_days": 5,
@@ -10310,7 +10230,7 @@
           184000.0,
           177800.0,
           182600.0,
-          260529
+          240828
         ]
       ],
       "daily_30d": [
@@ -10552,7 +10472,7 @@
           184000.0,
           177800.0,
           182600.0,
-          260529
+          240828
         ]
       ],
       "daily_90d": [
@@ -11274,12 +11194,12 @@
           184000.0,
           177800.0,
           182600.0,
-          260529
+          240828
         ]
       ],
       "group": "market",
       "orderbook_imbalance": 0.366,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -11290,19 +11210,9 @@
       "ask_ratio": 0.683,
       "bid_rem": 6892,
       "ask_rem": 3199,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00",
       "score": 100,
-      "catalyst": "글로벌 투자자 지분 확대, 외국인 지분율 51% 돌파 — 7월 초 캐피털 그룹이 지분을 신규 매입하여 외국인 지분율이 51%를 돌파. 해외 성장과 주주환원에 대한 글로벌 투자자들의 신뢰 증가.",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 181500.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 182600.0,
-        "delta_pct": -0.6
-      }
+      "catalyst": "글로벌 투자자 지분 확대, 외국인 지분율 51% 돌파 — 7월 초 캐피털 그룹이 지분을 신규 매입하여 외국인 지분율이 51%를 돌파. 해외 성장과 주주환원에 대한 글로벌 투자자들의 신뢰 증가."
     },
     {
       "rank": 9,
@@ -11311,7 +11221,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 168000.0,
+      "price": 167900.0,
       "currency": "KRW",
       "entry": 167900.0,
       "entry_type": "now",
@@ -11323,7 +11233,7 @@
       "atr_pct": 5.02,
       "hold_cap_hours": 72,
       "weight_pct": 15,
-      "vol_surge": 0.84,
+      "vol_surge": 0.89,
       "foreign_net": -262306.0,
       "inst_net": 298663.0,
       "supply_days": 5,
@@ -11421,7 +11331,7 @@
           172400.0,
           161100.0,
           167900.0,
-          196274
+          208178
         ]
       ],
       "daily_30d": [
@@ -11663,7 +11573,7 @@
           172400.0,
           161100.0,
           167900.0,
-          196274
+          208178
         ]
       ],
       "daily_90d": [
@@ -12385,12 +12295,12 @@
           172400.0,
           161100.0,
           167900.0,
-          196274
+          208178
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.0799,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -12401,18 +12311,8 @@
       "ask_ratio": 0.4601,
       "bid_rem": 2793,
       "ask_rem": 3278,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
-      "score": 100,
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 168000.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 167900.0,
-        "delta_pct": 0.06
-      }
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00",
+      "score": 100
     },
     {
       "rank": 10,
@@ -12421,7 +12321,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 53800.0,
+      "price": 54100.0,
       "currency": "KRW",
       "entry": 54100.0,
       "entry_type": "now",
@@ -12530,7 +12430,7 @@
           54500.0,
           52900.0,
           54100.0,
-          411075
+          411076
         ]
       ],
       "daily_30d": [
@@ -12772,7 +12672,7 @@
           54500.0,
           52900.0,
           54100.0,
-          411075
+          411076
         ]
       ],
       "daily_90d": [
@@ -13494,12 +13394,12 @@
           54500.0,
           52900.0,
           54100.0,
-          411075
+          411076
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.4704,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -13510,19 +13410,9 @@
       "ask_ratio": 0.2648,
       "bid_rem": 14231,
       "ask_rem": 39511,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00",
       "score": 100,
-      "catalyst": "뚜렷한 촉매 없음 — 검색 결과에서 최근 촉매 정보 미확인.",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 53800.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 54100.0,
-        "delta_pct": -0.55
-      }
+      "catalyst": "뚜렷한 촉매 없음 — 검색 결과에서 최근 촉매 정보 미확인."
     },
     {
       "rank": 11,
@@ -13531,7 +13421,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 639000.0,
+      "price": 644000.0,
       "currency": "KRW",
       "entry": 644000.0,
       "entry_type": "now",
@@ -14608,7 +14498,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.4673,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -14619,18 +14509,8 @@
       "ask_ratio": 0.2663,
       "bid_rem": 2005,
       "ask_rem": 5523,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
-      "score": 89,
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 639000.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 644000.0,
-        "delta_pct": -0.78
-      }
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00",
+      "score": 89
     },
     {
       "rank": 12,
@@ -14639,7 +14519,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 177300.0,
+      "price": 177600.0,
       "currency": "KRW",
       "entry": 177600.0,
       "entry_type": "now",
@@ -14749,7 +14629,7 @@
           179400.0,
           170800.0,
           177600.0,
-          834494
+          834549
         ]
       ],
       "daily_30d": [
@@ -14991,7 +14871,7 @@
           179400.0,
           170800.0,
           177600.0,
-          834494
+          834549
         ]
       ],
       "daily_90d": [
@@ -15713,12 +15593,12 @@
           179400.0,
           170800.0,
           177600.0,
-          834494
+          834549
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.6439,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -15729,19 +15609,9 @@
       "ask_ratio": 0.178,
       "bid_rem": 5469,
       "ask_rem": 25251,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00",
       "score": 79,
-      "catalyst": "뚜렷한 촉매 없음 — 검색 결과에서 최근 촉매 정보 미확인.",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 177300.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 177600.0,
-        "delta_pct": -0.17
-      }
+      "catalyst": "뚜렷한 촉매 없음 — 검색 결과에서 최근 촉매 정보 미확인."
     }
   ],
   "observations": [
@@ -15749,16 +15619,16 @@
       "name": "LS ELECTRIC",
       "code": "010120",
       "market": "KR",
-      "price": 201500.0,
+      "price": 203000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -9.62,
-      "vol_surge": 1.07,
+      "vol_surge": 1.09,
       "score": 174,
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
-        "거래량 양호 1.07배 +7",
+        "거래량 양호 1.09배 +7",
         "윗꼬리/분배(종가위치 7.7%) -12",
         "5일 모멘텀 +6.32% (양) +8",
         "미국증시 환경 -3.1 (전일 S&P-1.21%·나스닥-2.15%·SOX-0.54%)",
@@ -17117,7 +16987,7 @@
           226000.0,
           200000.0,
           202000.0,
-          1120382
+          1138895
         ]
       ],
       "daily_30d": [
@@ -17359,7 +17229,7 @@
           226000.0,
           200000.0,
           202000.0,
-          1120382
+          1138895
         ]
       ],
       "daily_90d": [
@@ -18081,7 +17951,7 @@
           226000.0,
           200000.0,
           202000.0,
-          1120382
+          1138895
         ]
       ],
       "plan_tentative": true,
@@ -18098,7 +17968,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.3158,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -18109,27 +17979,17 @@
       "ask_ratio": 0.6579,
       "bid_rem": 32156,
       "ask_rem": 16719,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 201500.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 202000.0,
-        "delta_pct": -0.25
-      }
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00"
     },
     {
       "name": "SK하이닉스",
       "code": "000660",
       "market": "KR",
-      "price": 1782000.0,
+      "price": 1783000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -8.34,
-      "vol_surge": 0.82,
+      "vol_surge": 0.89,
       "score": 135,
       "score_reasons": [
         "기본 점수 +50",
@@ -19490,7 +19350,7 @@
           1894000.0,
           1752000.0,
           1759000.0,
-          4935463
+          5411390
         ]
       ],
       "daily_30d": [
@@ -19732,7 +19592,7 @@
           1894000.0,
           1752000.0,
           1759000.0,
-          4935463
+          5411390
         ]
       ],
       "daily_90d": [
@@ -20454,7 +20314,7 @@
           1894000.0,
           1752000.0,
           1759000.0,
-          4935463
+          5411390
         ]
       ],
       "plan_tentative": true,
@@ -20471,7 +20331,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.9759,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -20482,17 +20342,7 @@
       "ask_ratio": 0.988,
       "bid_rem": 187800,
       "ask_rem": 2289,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 1782000.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 1759000.0,
-        "delta_pct": 1.31
-      }
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00"
     },
     {
       "name": "현대건설",
@@ -20502,7 +20352,7 @@
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -2.48,
-      "vol_surge": 0.91,
+      "vol_surge": 0.93,
       "score": 106,
       "score_reasons": [
         "기본 점수 +50",
@@ -21863,7 +21713,7 @@
           111150.0,
           105500.0,
           106200.0,
-          531110
+          546385
         ]
       ],
       "daily_30d": [
@@ -22105,7 +21955,7 @@
           111150.0,
           105500.0,
           106200.0,
-          531110
+          546385
         ]
       ],
       "daily_90d": [
@@ -22827,7 +22677,7 @@
           111150.0,
           105500.0,
           106200.0,
-          531110
+          546385
         ]
       ],
       "plan_tentative": true,
@@ -22844,7 +22694,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": -0.3247,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -22855,23 +22705,13 @@
       "ask_ratio": 0.3377,
       "bid_rem": 4559,
       "ask_rem": 8943,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 105800.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 106200.0,
-        "delta_pct": -0.38
-      }
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00"
     },
     {
       "name": "NAVER",
       "code": "035420",
       "market": "KR",
-      "price": 207500.0,
+      "price": 208500.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -5.68,
@@ -24238,7 +24078,7 @@
           216500.0,
           202000.0,
           207500.0,
-          1094995
+          1095008
         ]
       ],
       "daily_30d": [
@@ -24480,7 +24320,7 @@
           216500.0,
           202000.0,
           207500.0,
-          1094995
+          1095008
         ]
       ],
       "daily_90d": [
@@ -25202,7 +25042,7 @@
           216500.0,
           202000.0,
           207500.0,
-          1094995
+          1095008
         ]
       ],
       "plan_tentative": true,
@@ -25219,7 +25059,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.1474,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -25230,23 +25070,13 @@
       "ask_ratio": 0.5737,
       "bid_rem": 44835,
       "ask_rem": 33318,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 207500.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 207500.0,
-        "delta_pct": 0.0
-      }
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00"
     },
     {
       "name": "두산에너빌리티",
       "code": "034020",
       "market": "KR",
-      "price": 71900.0,
+      "price": 71400.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -1.5,
@@ -26611,7 +26441,7 @@
           74000.0,
           71200.0,
           72100.0,
-          2093374
+          2093607
         ]
       ],
       "daily_30d": [
@@ -26853,7 +26683,7 @@
           74000.0,
           71200.0,
           72100.0,
-          2093374
+          2093607
         ]
       ],
       "daily_90d": [
@@ -27575,7 +27405,7 @@
           74000.0,
           71200.0,
           72100.0,
-          2093374
+          2093607
         ]
       ],
       "plan_tentative": true,
@@ -27592,7 +27422,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": -0.277,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -27603,27 +27433,17 @@
       "ask_ratio": 0.3615,
       "bid_rem": 49083,
       "ask_rem": 86695,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 71900.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 72100.0,
-        "delta_pct": -0.28
-      }
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00"
     },
     {
       "name": "현대차",
       "code": "005380",
       "market": "KR",
-      "price": 399500.0,
+      "price": 400000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -7.18,
-      "vol_surge": 0.92,
+      "vol_surge": 0.97,
       "score": 86,
       "score_reasons": [
         "기본 점수 +50",
@@ -28985,7 +28805,7 @@
           418500.0,
           390000.0,
           401000.0,
-          896023
+          942764
         ]
       ],
       "daily_30d": [
@@ -29227,7 +29047,7 @@
           418500.0,
           390000.0,
           401000.0,
-          896023
+          942764
         ]
       ],
       "daily_90d": [
@@ -29949,7 +29769,7 @@
           418500.0,
           390000.0,
           401000.0,
-          896023
+          942764
         ]
       ],
       "plan_tentative": true,
@@ -29966,7 +29786,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": -0.4291,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -29977,32 +29797,22 @@
       "ask_ratio": 0.2855,
       "bid_rem": 14104,
       "ask_rem": 35302,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 399500.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 401000.0,
-        "delta_pct": -0.37
-      }
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00"
     },
     {
       "name": "한화에어로스페이스",
       "code": "012450",
       "market": "KR",
-      "price": 972000.0,
+      "price": 973000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": 2.19,
-      "vol_surge": 1.04,
+      "vol_surge": 1.08,
       "score": 85,
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
-        "거래량 양호 1.04배 +7",
+        "거래량 양호 1.08배 +7",
         "윗꼬리/분배(종가위치 16.5%) -12",
         "RSI 33.4 (침체 반등 기대 <35) +4",
         "5일 모멘텀 +3.82% (양) +8",
@@ -31360,7 +31170,7 @@
           1050000.0,
           965000.0,
           979000.0,
-          243299
+          253649
         ]
       ],
       "daily_30d": [
@@ -31602,7 +31412,7 @@
           1050000.0,
           965000.0,
           979000.0,
-          243299
+          253649
         ]
       ],
       "daily_90d": [
@@ -32324,7 +32134,7 @@
           1050000.0,
           965000.0,
           979000.0,
-          243299
+          253649
         ]
       ],
       "plan_tentative": true,
@@ -32341,7 +32151,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": -0.3019,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -32352,17 +32162,7 @@
       "ask_ratio": 0.3491,
       "bid_rem": 3482,
       "ask_rem": 6493,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 972000.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 979000.0,
-        "delta_pct": -0.72
-      }
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00"
     },
     {
       "name": "한화오션",
@@ -33732,7 +33532,7 @@
           91600.0,
           86600.0,
           87900.0,
-          1589694
+          1589795
         ]
       ],
       "daily_30d": [
@@ -33974,7 +33774,7 @@
           91600.0,
           86600.0,
           87900.0,
-          1589694
+          1589795
         ]
       ],
       "daily_90d": [
@@ -34696,7 +34496,7 @@
           91600.0,
           86600.0,
           87900.0,
-          1589694
+          1589795
         ]
       ],
       "plan_tentative": true,
@@ -34713,7 +34513,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.128,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -34724,23 +34524,13 @@
       "ask_ratio": 0.564,
       "bid_rem": 35307,
       "ask_rem": 27293,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 88000.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 87900.0,
-        "delta_pct": 0.11
-      }
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00"
     },
     {
       "name": "포스코인터내셔널",
       "code": "047050",
       "market": "KR",
-      "price": 56000.0,
+      "price": 56100.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -0.53,
@@ -36105,7 +35895,7 @@
           57800.0,
           55300.0,
           56300.0,
-          494984
+          494986
         ]
       ],
       "daily_30d": [
@@ -36347,7 +36137,7 @@
           57800.0,
           55300.0,
           56300.0,
-          494984
+          494986
         ]
       ],
       "daily_90d": [
@@ -37069,7 +36859,7 @@
           57800.0,
           55300.0,
           56300.0,
-          494984
+          494986
         ]
       ],
       "plan_tentative": true,
@@ -37086,7 +36876,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": -0.1466,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -37097,31 +36887,22 @@
       "ask_ratio": 0.4267,
       "bid_rem": 11521,
       "ask_rem": 15480,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 56000.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 56300.0,
-        "delta_pct": -0.53
-      }
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00"
     },
     {
       "name": "삼성전자",
       "code": "005930",
       "market": "KR",
-      "price": 251000.0,
+      "price": 251500.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -7.59,
-      "vol_surge": 0.91,
-      "score": 63,
+      "vol_surge": 1.0,
+      "score": 70,
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
+        "거래량 양호 1.0배 +7",
         "윗꼬리/분배(종가위치 12.8%) -12",
         "RSI 34.5 (침체 반등 기대 <35) +4",
         "미국증시 환경 -3.1 (전일 S&P-1.21%·나스닥-2.15%·SOX-0.54%)",
@@ -37135,10 +36916,7 @@
       "foreign_net_1d": 1299490.0,
       "inst_net_1d": -120579.0,
       "supply_1d_date": "2026-07-23",
-      "combo_winrate": 0.495,
-      "combo_sample": 303,
-      "combo_lift": 0.0,
-      "reason": "기술 점수 63점 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 윗꼬리/분배(종가위치 12.8%), 미국증시 환경 -3.1 (전일 S&P-1.21%·나스닥-2.15%·SOX-0.54%), 외국인 순매수, 기관 순매도, 호가 매수우위(+74%). ATR 9.33%.",
+      "reason": "기술 점수 70점 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 윗꼬리/분배(종가위치 12.8%), 미국증시 환경 -3.1 (전일 S&P-1.21%·나스닥-2.15%·SOX-0.54%), 외국인 순매수, 기관 순매도, 호가 매수우위(+74%). ATR 9.33%.",
       "intraday_5m": [
         [
           "2026-07-22T13:40:00+09:00",
@@ -38476,7 +38254,7 @@
           266500.0,
           247000.0,
           249500.0,
-          26174898
+          28961108
         ]
       ],
       "daily_30d": [
@@ -38718,7 +38496,7 @@
           266500.0,
           247000.0,
           249500.0,
-          26174898
+          28961108
         ]
       ],
       "daily_90d": [
@@ -39440,7 +39218,7 @@
           266500.0,
           247000.0,
           249500.0,
-          26174898
+          28961108
         ]
       ],
       "plan_tentative": true,
@@ -39451,13 +39229,13 @@
       "target2": 317500,
       "rr": 0.9,
       "atr_pct": 9.33,
-      "weight_pct": 10,
+      "weight_pct": 12,
       "stop_pct": 11.4,
-      "est_loss_pct": 1.14,
+      "est_loss_pct": 1.37,
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.7435,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -39468,17 +39246,7 @@
       "ask_ratio": 0.8718,
       "bid_rem": 2463919,
       "ask_rem": 362425,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 251000.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 249500.0,
-        "delta_pct": 0.6
-      }
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00"
     },
     {
       "name": "LG에너지솔루션",
@@ -40844,7 +40612,7 @@
           342000.0,
           326000.0,
           329500.0,
-          243800
+          243804
         ]
       ],
       "daily_30d": [
@@ -41086,7 +40854,7 @@
           342000.0,
           326000.0,
           329500.0,
-          243800
+          243804
         ]
       ],
       "daily_90d": [
@@ -41808,7 +41576,7 @@
           342000.0,
           326000.0,
           329500.0,
-          243800
+          243804
         ]
       ],
       "plan_tentative": true,
@@ -41825,7 +41593,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.0525,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -41836,17 +41604,7 @@
       "ask_ratio": 0.5263,
       "bid_rem": 8595,
       "ask_rem": 7737,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 329500.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 329500.0,
-        "delta_pct": 0.0
-      }
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00"
     },
     {
       "name": "한국콜마",
@@ -43217,7 +42975,7 @@
           105400.0,
           99400.0,
           100200.0,
-          170864
+          170885
         ]
       ],
       "daily_30d": [
@@ -43459,7 +43217,7 @@
           105400.0,
           99400.0,
           100200.0,
-          170864
+          170885
         ]
       ],
       "daily_90d": [
@@ -44181,7 +43939,7 @@
           105400.0,
           99400.0,
           100200.0,
-          170864
+          170885
         ]
       ],
       "plan_tentative": true,
@@ -44198,7 +43956,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": -0.5432,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -44209,23 +43967,13 @@
       "ask_ratio": 0.2284,
       "bid_rem": 1442,
       "ask_rem": 4872,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 100000.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 100200.0,
-        "delta_pct": -0.2
-      }
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00"
     },
     {
       "name": "삼성바이오로직스",
       "code": "207940",
       "market": "KR",
-      "price": 1488000.0,
+      "price": 1496000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": 10.08,
@@ -45591,7 +45339,7 @@
           1537000.0,
           1380000.0,
           1518000.0,
-          203066
+          203067
         ]
       ],
       "daily_30d": [
@@ -45833,7 +45581,7 @@
           1537000.0,
           1380000.0,
           1518000.0,
-          203066
+          203067
         ]
       ],
       "daily_90d": [
@@ -46555,24 +46303,24 @@
           1537000.0,
           1380000.0,
           1518000.0,
-          203066
+          203067
         ]
       ],
       "plan_tentative": true,
-      "entry": 1504000.0,
+      "entry": 1496000.0,
       "entry_type": "now",
       "stop": 1341000,
-      "target1": 1590000,
-      "target2": 1648000,
-      "rr": 0.53,
+      "target1": 1582000,
+      "target2": 1640000,
+      "rr": 0.55,
       "atr_pct": 4.73,
-      "weight_pct": 11,
-      "stop_pct": 10.8,
+      "weight_pct": 12,
+      "stop_pct": 10.4,
       "est_loss_pct": 1.2,
       "hold_cap_hours": 72,
       "reachable": true,
       "orderbook_imbalance": -0.3466,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -46583,17 +46331,7 @@
       "ask_ratio": 0.3267,
       "bid_rem": 757,
       "ask_rem": 1560,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 1488000.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 1518000.0,
-        "delta_pct": -1.98
-      }
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00"
     },
     {
       "name": "SK",
@@ -47962,7 +47700,7 @@
           673000.0,
           623000.0,
           630000.0,
-          241808
+          241809
         ]
       ],
       "daily_30d": [
@@ -48204,7 +47942,7 @@
           673000.0,
           623000.0,
           630000.0,
-          241808
+          241809
         ]
       ],
       "daily_90d": [
@@ -48926,7 +48664,7 @@
           673000.0,
           623000.0,
           630000.0,
-          241808
+          241809
         ]
       ],
       "plan_tentative": true,
@@ -48943,7 +48681,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.0385,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -48954,23 +48692,13 @@
       "ask_ratio": 0.5193,
       "bid_rem": 5376,
       "ask_rem": 4977,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 629000.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 630000.0,
-        "delta_pct": -0.16
-      }
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00"
     },
     {
       "name": "한미반도체",
       "code": "042700",
       "market": "KR",
-      "price": 200500.0,
+      "price": 201500.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -7.41,
@@ -50337,7 +50065,7 @@
           213000.0,
           199600.0,
           200000.0,
-          587748
+          587813
         ]
       ],
       "daily_30d": [
@@ -50579,7 +50307,7 @@
           213000.0,
           199600.0,
           200000.0,
-          587748
+          587813
         ]
       ],
       "daily_90d": [
@@ -51301,7 +51029,7 @@
           213000.0,
           199600.0,
           200000.0,
-          587748
+          587813
         ]
       ],
       "plan_tentative": true,
@@ -51318,7 +51046,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.0016,
-      "orderbook_imbalance_asof": "2026-07-24T15:57:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-24T16:04:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -51329,17 +51057,7 @@
       "ask_ratio": 0.5008,
       "bid_rem": 21568,
       "ask_rem": 21497,
-      "ask_ratio_asof": "2026-07-24T15:57:00+09:00",
-      "ext": {
-        "venue": "NXT",
-        "label": "애프터마켓(NXT)",
-        "session": "after",
-        "price": 200500.0,
-        "asof": "2026-07-24T15:57:00+09:00",
-        "basis": "KIS 통합(KRX+NXT) 연장거래 08:00~20:00 실시간, 정규장 종가 대비",
-        "ref_close": 200000.0,
-        "delta_pct": 0.25
-      }
+      "ask_ratio_asof": "2026-07-24T16:04:00+09:00"
     }
   ],
   "positions": [],
@@ -51356,7 +51074,7 @@
     "tax_pct_us": 0.0
   },
   "risk_notes": [
-    "뉴스/촉매 분석 결과를 보존 반영(약 6시간 전). 시점에 따라 정정될 수 있으니 진입 전 원문 확인.",
+    "뉴스/촉매 분석 결과를 보존 반영(약 7시간 전). 시점에 따라 정정될 수 있으니 진입 전 원문 확인.",
     "지표는 KIS 현재가 + yfinance 일봉 실측(날조 없음). 변동성 장세 보수적 대응.",
     "시장 환경 보정: 전일 미국증시 가중 -1.22% (S&P -1.21%·나스닥 -2.15%·SOX -0.54%) → 모든 종목 점수 -3.1점 반영. 금리·지정학은 숫자 보정 없이 뉴스 종합분석의 정성 판단으로만 반영.",
     "본 신호는 투자 참고용이며 매수·매도를 보장하지 않는다. 실주문은 본인 판단·실행.",
@@ -51481,7 +51199,7 @@
     ]
   },
   "kr_context": {
-    "asof": "2026-07-24T15:57:00+09:00",
+    "asof": "2026-07-24T16:06:00+09:00",
     "basis": "한국 지수(KIS 실측)",
     "session": "after",
     "stale": false,
@@ -51513,7 +51231,7 @@
     "regime_pct": -1.22,
     "adj": -3.1
   },
-  "analyzed_at": "2026-07-24T15:52:00+09:00",
+  "analyzed_at": "2026-07-24T16:05:00+09:00",
   "watch_advice": {
     "level": "normal",
     "headline": "매수 신호 13건 — 상위 후보 대한항공(85점)",
@@ -51529,7 +51247,7 @@
     "top_score": 85
   },
   "integrity": {
-    "checked_at": "2026-07-24T15:52:00+09:00",
+    "checked_at": "2026-07-24T16:05:00+09:00",
     "critical": [],
     "warn": []
   },
