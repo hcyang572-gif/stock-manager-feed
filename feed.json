@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0",
   "date": "2026-07-29",
-  "generated_at": "2026-07-29T16:14:00+09:00",
+  "generated_at": "2026-07-29T16:21:00+09:00",
   "horizon_hours": 72,
   "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 수급(외국인·기관) + 재무(PER·PBR) + 미국증시 전일 환경 보정 · 분석 범위: 통합 분석 — 관심종목(0 신호) + 전체종목 거래대금 상위(KOSPI, 1 신호). 뉴스/촉매는 ‘뉴스도 함께’에서만.",
   "market_state": {
     "korea": {
       "status": "post",
       "basis": "장후 NXT 애프터마켓(15:30~20:00, 네이버 지수 실측)",
-      "asof": "2026-07-29T16:15:00+09:00",
+      "asof": "2026-07-29T16:22:00+09:00",
       "session": "after"
     },
     "us": {
@@ -22,14 +22,14 @@
     "observation_count": 16,
     "position_count": 0,
     "top_signal": "오리온",
-    "headline": "기술 분석 갱신(07-29 16:14 KST) — 차트·거래량·변동성 기준 1개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
+    "headline": "기술 분석 갱신(07-29 16:21 KST) — 차트·거래량·변동성 기준 1개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
     "market_outlook": {
       "regime": "약세",
       "headline": "지수 약세 — 진입 기회 제한(1개 신호). 손절 규율 최우선, 현금 비중 확대 검토.",
       "buy_view": "신호 수 제한적 — 고점수·고확신 종목만 소량 진입(비중 절제). 주도 테마(기술분석·온디맨드·즉시진입) 위주 선별 진입. 지수 낙폭 확대 시 신규 진입 전면 보류.",
       "sell_view": "지수 하락 환경 — 보유 비중 축소 우선. 미 반도체 약세(SOX -4.49%)로 반도체 비중 경계. 손절가 이탈 즉시 기계적 청산. 반등 시도도 매도 기회로 활용.",
       "basis": "매수신호 1개·평균점수 53.0 · 코스피 -5.98% · 코스닥 -6.12% · 전일 S&P +0.21% · SOX -4.49% (실측 지표, 날조 없음)",
-      "asof": "2026-07-29T16:15:33+09:00"
+      "asof": "2026-07-29T16:22:14+09:00"
     }
   },
   "signals": [
@@ -1115,7 +1115,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.5969,
-      "orderbook_imbalance_asof": "2026-07-29T16:13:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-29T16:20:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -1126,7 +1126,7 @@
       "ask_ratio": 0.2016,
       "bid_rem": 896,
       "ask_rem": 3549,
-      "ask_ratio_asof": "2026-07-29T16:13:00+09:00",
+      "ask_ratio_asof": "2026-07-29T16:20:00+09:00",
       "score": 53
     }
   ],
@@ -1135,16 +1135,16 @@
       "name": "SK",
       "code": "034730",
       "market": "KR",
-      "price": 493500.0,
+      "price": 494000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -9.61,
-      "vol_surge": 1.55,
+      "vol_surge": 1.5,
       "score": 95,
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
-        "거래량 급증 1.55배 +15",
+        "거래량 급증 1.5배 +15",
         "미국증시 환경 -4.5 (전일 S&P+0.21%·나스닥-0.22%·SOX-4.49%)",
         "외국인 순매도(최근 5일) -14",
         "기관 순매수(최근 5일) +11",
@@ -1164,7 +1164,7 @@
       "combo_winrate": 0.533,
       "combo_sample": 587,
       "combo_lift": 0.036,
-      "reason": "기술 점수 95점 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 거래량 급증 1.55x, 미국증시 환경 -4.5 (전일 S&P+0.21%·나스닥-0.22%·SOX-4.49%), 외국인 순매도, 기관 순매수, 외국인 매수 전환(최근 확정 2026-07-28 기준(장중이면 D-1)), 기관 매도 전환(최근 확정 2026-07-28 기준(장중이면 D-1)), 호가 매수우위(+65%). ATR 12.04%.",
+      "reason": "기술 점수 95점 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 거래량 급증 1.5x, 미국증시 환경 -4.5 (전일 S&P+0.21%·나스닥-0.22%·SOX-4.49%), 외국인 순매도, 기관 순매수, 외국인 매수 전환(최근 확정 2026-07-28 기준(장중이면 D-1)), 기관 매도 전환(최근 확정 2026-07-28 기준(장중이면 D-1)), 호가 매수우위(+65%). ATR 12.04%.",
       "intraday_5m": [
         [
           "2026-07-27T12:50:00+09:00",
@@ -2502,7 +2502,7 @@
           552000.0,
           450000.0,
           489000.0,
-          424980
+          410372
         ]
       ],
       "daily_30d": [
@@ -2744,7 +2744,7 @@
           552000.0,
           450000.0,
           489000.0,
-          424980
+          410372
         ]
       ],
       "daily_90d": [
@@ -3466,7 +3466,7 @@
           552000.0,
           450000.0,
           489000.0,
-          424980
+          410372
         ]
       ],
       "plan_tentative": true,
@@ -3483,7 +3483,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.6501,
-      "orderbook_imbalance_asof": "2026-07-29T16:13:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-29T16:20:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -3494,7 +3494,7 @@
       "ask_ratio": 0.825,
       "bid_rem": 10120,
       "ask_rem": 2146,
-      "ask_ratio_asof": "2026-07-29T16:13:00+09:00"
+      "ask_ratio_asof": "2026-07-29T16:20:00+09:00"
     },
     {
       "name": "NAVER",
@@ -3504,13 +3504,13 @@
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -4.05,
-      "vol_surge": 1.73,
+      "vol_surge": 1.68,
       "score": 94,
       "score_reasons": [
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 급증 1.73배 +15",
+        "거래량 급증 1.68배 +15",
         "RSI 53.6 (상승 구간 50~70) +13",
         "5일 모멘텀 +2.34% (양) +8",
         "미국증시 환경 -4.5 (전일 S&P+0.21%·나스닥-0.22%·SOX-4.49%)",
@@ -3527,7 +3527,7 @@
       "combo_winrate": 0.533,
       "combo_sample": 587,
       "combo_lift": 0.036,
-      "reason": "기술 점수 94점 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 정배열(MA5>MA20), 거래량 급증 1.73x, RSI 53.6(상승), 미국증시 환경 -4.5 (전일 S&P+0.21%·나스닥-0.22%·SOX-4.49%), 외국인 순매도, 기관 순매수. ATR 6.85%.",
+      "reason": "기술 점수 94점 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 정배열(MA5>MA20), 거래량 급증 1.68x, RSI 53.6(상승), 미국증시 환경 -4.5 (전일 S&P+0.21%·나스닥-0.22%·SOX-4.49%), 외국인 순매도, 기관 순매수. ATR 6.85%.",
       "intraday_5m": [
         [
           "2026-07-27T12:50:00+09:00",
@@ -4865,7 +4865,7 @@
           213500.0,
           194600.0,
           201500.0,
-          2039911
+          1978345
         ]
       ],
       "daily_30d": [
@@ -5107,7 +5107,7 @@
           213500.0,
           194600.0,
           201500.0,
-          2039911
+          1978345
         ]
       ],
       "daily_90d": [
@@ -5829,7 +5829,7 @@
           213500.0,
           194600.0,
           201500.0,
-          2039911
+          1978345
         ]
       ],
       "plan_tentative": true,
@@ -5846,7 +5846,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": -0.3294,
-      "orderbook_imbalance_asof": "2026-07-29T16:13:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-29T16:20:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -5857,22 +5857,22 @@
       "ask_ratio": 0.3353,
       "bid_rem": 15599,
       "ask_rem": 30921,
-      "ask_ratio_asof": "2026-07-29T16:13:00+09:00"
+      "ask_ratio_asof": "2026-07-29T16:20:00+09:00"
     },
     {
       "name": "LG에너지솔루션",
       "code": "373220",
       "market": "KR",
-      "price": 299500.0,
+      "price": 300000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -4.3,
-      "vol_surge": 1.25,
+      "vol_surge": 1.19,
       "score": 83,
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
-        "거래량 양호 1.25배 +7",
+        "거래량 양호 1.19배 +7",
         "미국증시 환경 -4.5 (전일 S&P+0.21%·나스닥-0.22%·SOX-4.49%)",
         "외국인 순매수(최근 5일) +14",
         "기관 순매수(최근 5일) +11",
@@ -6214,7 +6214,7 @@
         [
           "2026-07-28T10:10:00+09:00",
           316500.0,
-          318000.0,
+          317500.0,
           316000.0,
           317500.0,
           1554
@@ -7227,7 +7227,7 @@
           319000.0,
           290500.0,
           300500.0,
-          417768
+          397135
         ]
       ],
       "daily_30d": [
@@ -7469,7 +7469,7 @@
           319000.0,
           290500.0,
           300500.0,
-          417768
+          397135
         ]
       ],
       "daily_90d": [
@@ -8191,7 +8191,7 @@
           319000.0,
           290500.0,
           300500.0,
-          417768
+          397135
         ]
       ],
       "plan_tentative": true,
@@ -8208,7 +8208,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": -0.4841,
-      "orderbook_imbalance_asof": "2026-07-29T16:13:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-29T16:20:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -8219,7 +8219,7 @@
       "ask_ratio": 0.2579,
       "bid_rem": 4388,
       "ask_rem": 12624,
-      "ask_ratio_asof": "2026-07-29T16:13:00+09:00"
+      "ask_ratio_asof": "2026-07-29T16:20:00+09:00"
     },
     {
       "name": "대한항공",
@@ -9588,7 +9588,7 @@
           25750.0,
           23950.0,
           24800.0,
-          3277225
+          3277438
         ]
       ],
       "daily_30d": [
@@ -9830,7 +9830,7 @@
           25750.0,
           23950.0,
           24800.0,
-          3277225
+          3277438
         ]
       ],
       "daily_90d": [
@@ -10552,7 +10552,7 @@
           25750.0,
           23950.0,
           24800.0,
-          3277225
+          3277438
         ]
       ],
       "plan_tentative": true,
@@ -10569,7 +10569,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": -0.1329,
-      "orderbook_imbalance_asof": "2026-07-29T16:13:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-29T16:20:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -10580,22 +10580,22 @@
       "ask_ratio": 0.4335,
       "bid_rem": 71218,
       "ask_rem": 93058,
-      "ask_ratio_asof": "2026-07-29T16:13:00+09:00"
+      "ask_ratio_asof": "2026-07-29T16:20:00+09:00"
     },
     {
       "name": "한미반도체",
       "code": "042700",
       "market": "KR",
-      "price": 168600.0,
+      "price": 167700.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -6.63,
-      "vol_surge": 1.42,
+      "vol_surge": 1.37,
       "score": 64,
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
-        "거래량 양호 1.42배 +7",
+        "거래량 양호 1.37배 +7",
         "미국증시 환경 -4.5 (전일 S&P+0.21%·나스닥-0.22%·SOX-4.49%)",
         "외국인 순매도(최근 5일) -14",
         "기관 순매도(최근 5일) -11",
@@ -11947,7 +11947,7 @@
           184300.0,
           148900.0,
           167600.0,
-          1425876
+          1378514
         ]
       ],
       "daily_30d": [
@@ -12189,7 +12189,7 @@
           184300.0,
           148900.0,
           167600.0,
-          1425876
+          1378514
         ]
       ],
       "daily_90d": [
@@ -12911,7 +12911,7 @@
           184300.0,
           148900.0,
           167600.0,
-          1425876
+          1378514
         ]
       ],
       "plan_tentative": true,
@@ -12928,7 +12928,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.3875,
-      "orderbook_imbalance_asof": "2026-07-29T16:13:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-29T16:20:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -12939,7 +12939,7 @@
       "ask_ratio": 0.6937,
       "bid_rem": 12184,
       "ask_rem": 5379,
-      "ask_ratio_asof": "2026-07-29T16:13:00+09:00"
+      "ask_ratio_asof": "2026-07-29T16:20:00+09:00"
     },
     {
       "name": "두산에너빌리티",
@@ -14307,7 +14307,7 @@
           66600.0,
           57000.0,
           60800.0,
-          4961408
+          4974257
         ]
       ],
       "daily_30d": [
@@ -14549,7 +14549,7 @@
           66600.0,
           57000.0,
           60800.0,
-          4961408
+          4974257
         ]
       ],
       "daily_90d": [
@@ -15271,7 +15271,7 @@
           66600.0,
           57000.0,
           60800.0,
-          4961408
+          4974257
         ]
       ],
       "plan_tentative": true,
@@ -15288,7 +15288,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.5509,
-      "orderbook_imbalance_asof": "2026-07-29T16:13:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-29T16:20:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -15299,13 +15299,13 @@
       "ask_ratio": 0.7754,
       "bid_rem": 107567,
       "ask_rem": 31151,
-      "ask_ratio_asof": "2026-07-29T16:13:00+09:00"
+      "ask_ratio_asof": "2026-07-29T16:20:00+09:00"
     },
     {
       "name": "삼성바이오로직스",
       "code": "207940",
       "market": "KR",
-      "price": 1469000.0,
+      "price": 1470000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -4.52,
@@ -17651,7 +17651,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": -0.7282,
-      "orderbook_imbalance_asof": "2026-07-29T16:13:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-29T16:20:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -17662,22 +17662,22 @@
       "ask_ratio": 0.1359,
       "bid_rem": 326,
       "ask_rem": 2073,
-      "ask_ratio_asof": "2026-07-29T16:13:00+09:00"
+      "ask_ratio_asof": "2026-07-29T16:20:00+09:00"
     },
     {
       "name": "포스코인터내셔널",
       "code": "047050",
       "market": "KR",
-      "price": 48550.0,
+      "price": 48600.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -3.67,
-      "vol_surge": 1.03,
+      "vol_surge": 1.0,
       "score": 49,
       "score_reasons": [
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
-        "거래량 양호 1.03배 +7",
+        "거래량 양호 1.0배 +7",
         "미국증시 환경 -4.5 (전일 S&P+0.21%·나스닥-0.22%·SOX-4.49%)",
         "외국인 순매도(최근 5일) -14",
         "기관 순매수(최근 5일) +11",
@@ -19030,7 +19030,7 @@
           50800.0,
           47400.0,
           48550.0,
-          491185
+          475367
         ]
       ],
       "daily_30d": [
@@ -19272,7 +19272,7 @@
           50800.0,
           47400.0,
           48550.0,
-          491185
+          475367
         ]
       ],
       "daily_90d": [
@@ -19994,7 +19994,7 @@
           50800.0,
           47400.0,
           48550.0,
-          491185
+          475367
         ]
       ],
       "plan_tentative": true,
@@ -20011,7 +20011,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": -0.6168,
-      "orderbook_imbalance_asof": "2026-07-29T16:13:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-29T16:20:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -20022,13 +20022,13 @@
       "ask_ratio": 0.1916,
       "bid_rem": 4242,
       "ask_rem": 17897,
-      "ask_ratio_asof": "2026-07-29T16:13:00+09:00"
+      "ask_ratio_asof": "2026-07-29T16:20:00+09:00"
     },
     {
       "name": "SK하이닉스",
       "code": "000660",
       "market": "KR",
-      "price": 1438000.0,
+      "price": 1431000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -9.61,
@@ -21391,7 +21391,7 @@
           1619000.0,
           1246000.0,
           1401000.0,
-          12696574
+          12696671
         ]
       ],
       "daily_30d": [
@@ -21633,7 +21633,7 @@
           1619000.0,
           1246000.0,
           1401000.0,
-          12696574
+          12696671
         ]
       ],
       "daily_90d": [
@@ -22355,7 +22355,7 @@
           1619000.0,
           1246000.0,
           1401000.0,
-          12696574
+          12696671
         ]
       ],
       "plan_tentative": true,
@@ -22372,7 +22372,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.7077,
-      "orderbook_imbalance_asof": "2026-07-29T16:13:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-29T16:20:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -22383,22 +22383,22 @@
       "ask_ratio": 0.8539,
       "bid_rem": 148622,
       "ask_rem": 25435,
-      "ask_ratio_asof": "2026-07-29T16:13:00+09:00"
+      "ask_ratio_asof": "2026-07-29T16:20:00+09:00"
     },
     {
       "name": "한국콜마",
       "code": "161890",
       "market": "KR",
-      "price": 97800.0,
+      "price": 97400.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -1.52,
-      "vol_surge": 1.1,
+      "vol_surge": 1.09,
       "score": 39,
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
-        "거래량 양호 1.1배 +7",
+        "거래량 양호 1.09배 +7",
         "윗꼬리/분배(종가위치 14.9%) -12",
         "미국증시 환경 -4.5 (전일 S&P+0.21%·나스닥-0.22%·SOX-4.49%)",
         "외국인 순매수(최근 5일) +14",
@@ -23753,7 +23753,7 @@
           107100.0,
           95700.0,
           97400.0,
-          471021
+          465040
         ]
       ],
       "daily_30d": [
@@ -23995,7 +23995,7 @@
           107100.0,
           95700.0,
           97400.0,
-          471021
+          465040
         ]
       ],
       "daily_90d": [
@@ -24717,7 +24717,7 @@
           107100.0,
           95700.0,
           97400.0,
-          471021
+          465040
         ]
       ],
       "plan_tentative": true,
@@ -24734,7 +24734,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": -0.4907,
-      "orderbook_imbalance_asof": "2026-07-29T16:13:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-29T16:20:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -24745,22 +24745,22 @@
       "ask_ratio": 0.2547,
       "bid_rem": 2379,
       "ask_rem": 6963,
-      "ask_ratio_asof": "2026-07-29T16:13:00+09:00"
+      "ask_ratio_asof": "2026-07-29T16:20:00+09:00"
     },
     {
       "name": "한화에어로스페이스",
       "code": "012450",
       "market": "KR",
-      "price": 806000.0,
+      "price": 808000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -7.43,
-      "vol_surge": 1.27,
+      "vol_surge": 1.34,
       "score": 33,
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
-        "거래량 양호 1.27배 +7",
+        "거래량 양호 1.34배 +7",
         "윗꼬리/분배(종가위치 28.4%) -12",
         "RSI 31.5 (침체 반등 기대 <35) +4",
         "미국증시 환경 -4.5 (전일 S&P+0.21%·나스닥-0.22%·SOX-4.49%)",
@@ -26111,7 +26111,7 @@
           878000.0,
           783000.0,
           810000.0,
-          292412
+          307868
         ]
       ],
       "daily_30d": [
@@ -26353,7 +26353,7 @@
           878000.0,
           783000.0,
           810000.0,
-          292412
+          307868
         ]
       ],
       "daily_90d": [
@@ -27075,7 +27075,7 @@
           878000.0,
           783000.0,
           810000.0,
-          292412
+          307868
         ]
       ],
       "plan_tentative": true,
@@ -27092,7 +27092,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.486,
-      "orderbook_imbalance_asof": "2026-07-29T16:13:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-29T16:20:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -27103,13 +27103,13 @@
       "ask_ratio": 0.743,
       "bid_rem": 10120,
       "ask_rem": 3500,
-      "ask_ratio_asof": "2026-07-29T16:13:00+09:00"
+      "ask_ratio_asof": "2026-07-29T16:20:00+09:00"
     },
     {
       "name": "삼성전자",
       "code": "005930",
       "market": "KR",
-      "price": 216500.0,
+      "price": 215500.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -5.23,
@@ -28470,7 +28470,7 @@
           234000.0,
           189200.0,
           208500.0,
-          65206461
+          65206573
         ]
       ],
       "daily_30d": [
@@ -28712,7 +28712,7 @@
           234000.0,
           189200.0,
           208500.0,
-          65206461
+          65206573
         ]
       ],
       "daily_90d": [
@@ -29434,7 +29434,7 @@
           234000.0,
           189200.0,
           208500.0,
-          65206461
+          65206573
         ]
       ],
       "plan_tentative": true,
@@ -29451,7 +29451,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.7086,
-      "orderbook_imbalance_asof": "2026-07-29T16:13:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-29T16:20:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -29462,13 +29462,13 @@
       "ask_ratio": 0.8543,
       "bid_rem": 2088964,
       "ask_rem": 356228,
-      "ask_ratio_asof": "2026-07-29T16:13:00+09:00"
+      "ask_ratio_asof": "2026-07-29T16:20:00+09:00"
     },
     {
       "name": "현대건설",
       "code": "000720",
       "market": "KR",
-      "price": 84200.0,
+      "price": 84500.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -10.29,
@@ -31808,7 +31808,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.0926,
-      "orderbook_imbalance_asof": "2026-07-29T16:13:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-29T16:20:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -31819,22 +31819,22 @@
       "ask_ratio": 0.5463,
       "bid_rem": 9609,
       "ask_rem": 7981,
-      "ask_ratio_asof": "2026-07-29T16:13:00+09:00"
+      "ask_ratio_asof": "2026-07-29T16:20:00+09:00"
     },
     {
       "name": "LS ELECTRIC",
       "code": "010120",
       "market": "KR",
-      "price": 164700.0,
+      "price": 164800.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -6.67,
-      "vol_surge": 1.35,
+      "vol_surge": 1.37,
       "score": 0,
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
-        "거래량 양호 1.35배 +7",
+        "거래량 양호 1.37배 +7",
         "미국증시 환경 -4.5 (전일 S&P+0.21%·나스닥-0.22%·SOX-4.49%)",
         "외국인 순매도(최근 5일) -14",
         "기관 순매도(최근 5일) -11",
@@ -33191,7 +33191,7 @@
           183300.0,
           150500.0,
           163800.0,
-          1393248
+          1421864
         ]
       ],
       "daily_30d": [
@@ -33433,7 +33433,7 @@
           183300.0,
           150500.0,
           163800.0,
-          1393248
+          1421864
         ]
       ],
       "daily_90d": [
@@ -34155,7 +34155,7 @@
           183300.0,
           150500.0,
           163800.0,
-          1393248
+          1421864
         ]
       ],
       "plan_tentative": true,
@@ -34172,7 +34172,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.0403,
-      "orderbook_imbalance_asof": "2026-07-29T16:13:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-29T16:20:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -34183,13 +34183,13 @@
       "ask_ratio": 0.5202,
       "bid_rem": 10126,
       "ask_rem": 9341,
-      "ask_ratio_asof": "2026-07-29T16:13:00+09:00"
+      "ask_ratio_asof": "2026-07-29T16:20:00+09:00"
     },
     {
       "name": "한화오션",
       "code": "042660",
       "market": "KR",
-      "price": 74800.0,
+      "price": 74900.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -7.9,
@@ -35553,7 +35553,7 @@
           81700.0,
           71300.0,
           74600.0,
-          2417561
+          2419139
         ]
       ],
       "daily_30d": [
@@ -35795,7 +35795,7 @@
           81700.0,
           71300.0,
           74600.0,
-          2417561
+          2419139
         ]
       ],
       "daily_90d": [
@@ -36517,7 +36517,7 @@
           81700.0,
           71300.0,
           74600.0,
-          2417561
+          2419139
         ]
       ],
       "plan_tentative": true,
@@ -36534,7 +36534,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.3098,
-      "orderbook_imbalance_asof": "2026-07-29T16:13:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-29T16:20:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -36545,22 +36545,22 @@
       "ask_ratio": 0.6549,
       "bid_rem": 54542,
       "ask_rem": 28740,
-      "ask_ratio_asof": "2026-07-29T16:13:00+09:00"
+      "ask_ratio_asof": "2026-07-29T16:20:00+09:00"
     },
     {
       "name": "현대차",
       "code": "005380",
       "market": "KR",
-      "price": 354000.0,
+      "price": 354500.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -2.88,
-      "vol_surge": 1.66,
+      "vol_surge": 1.58,
       "score": 0,
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
-        "거래량 급증 1.66배 +15",
+        "거래량 급증 1.58배 +15",
         "RSI 25.5 (침체 반등 기대 <35) +4",
         "미국증시 환경 -4.5 (전일 S&P+0.21%·나스닥-0.22%·SOX-4.49%)",
         "외국인 순매도(최근 5일) -14",
@@ -36575,7 +36575,7 @@
       "foreign_net_1d": -164263.0,
       "inst_net_1d": -5205.0,
       "supply_1d_date": "2026-07-28",
-      "reason": "기술 점수 0점 — 조건 미충족(관망). 거래량 급증 1.66x, 미국증시 환경 -4.5 (전일 S&P+0.21%·나스닥-0.22%·SOX-4.49%), 외국인 순매도, 기관 순매도, 외국인 매도 가속(최근 확정 2026-07-28 기준(장중이면 D-1)). ATR 8.55%.",
+      "reason": "기술 점수 0점 — 조건 미충족(관망). 거래량 급증 1.58x, 미국증시 환경 -4.5 (전일 S&P+0.21%·나스닥-0.22%·SOX-4.49%), 외국인 순매도, 기관 순매도, 외국인 매도 가속(최근 확정 2026-07-28 기준(장중이면 D-1)). ATR 8.55%.",
       "intraday_5m": [
         [
           "2026-07-27T12:50:00+09:00",
@@ -37913,7 +37913,7 @@
           382000.0,
           338500.0,
           353500.0,
-          1575625
+          1496493
         ]
       ],
       "daily_30d": [
@@ -38155,7 +38155,7 @@
           382000.0,
           338500.0,
           353500.0,
-          1575625
+          1496493
         ]
       ],
       "daily_90d": [
@@ -38877,7 +38877,7 @@
           382000.0,
           338500.0,
           353500.0,
-          1575625
+          1496493
         ]
       ],
       "plan_tentative": true,
@@ -38894,7 +38894,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.4636,
-      "orderbook_imbalance_asof": "2026-07-29T16:13:00+09:00",
+      "orderbook_imbalance_asof": "2026-07-29T16:20:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -38905,7 +38905,7 @@
       "ask_ratio": 0.7318,
       "bid_rem": 35501,
       "ask_rem": 13010,
-      "ask_ratio_asof": "2026-07-29T16:13:00+09:00"
+      "ask_ratio_asof": "2026-07-29T16:20:00+09:00"
     }
   ],
   "positions": [],
@@ -38985,7 +38985,7 @@
         "symbol": "MU",
         "price": 820.53,
         "change_pct": -7.28,
-        "asof": "2026-07-27",
+        "asof": "2026-07-28",
         "live": false
       },
       {
@@ -39047,7 +39047,7 @@
     ]
   },
   "kr_context": {
-    "asof": "2026-07-29T16:15:00+09:00",
+    "asof": "2026-07-29T16:22:00+09:00",
     "basis": "한국 지수(KIS 실측)",
     "session": "after",
     "stale": false,
@@ -39079,7 +39079,7 @@
     "regime_pct": -1.8,
     "adj": -4.5
   },
-  "analyzed_at": "2026-07-29T16:14:00+09:00",
+  "analyzed_at": "2026-07-29T16:21:00+09:00",
   "watch_advice": {
     "level": "caution",
     "headline": "신호 1건이나 확신도 낮음 — 신중 접근",
@@ -39095,7 +39095,7 @@
     "top_score": 53
   },
   "integrity": {
-    "checked_at": "2026-07-29T16:14:00+09:00",
+    "checked_at": "2026-07-29T16:21:00+09:00",
     "critical": [],
     "warn": []
   }
