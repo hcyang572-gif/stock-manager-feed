@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-16T06:36:00+09:00",
+  "generated_at": "2026-08-17T06:35:18+09:00",
   "backtest": {
     "period_days": 240,
     "universe": "관심종목",
@@ -97,28 +97,28 @@
         "avg_r": 0.11
       },
       "하락": {
-        "signals": 369,
-        "filled": 256,
-        "no_fill": 113,
-        "hit_target1": 31,
-        "hit_target2": 8,
+        "signals": 348,
+        "filled": 241,
+        "no_fill": 107,
+        "hit_target1": 30,
+        "hit_target2": 7,
         "hit_stop": 32,
-        "timecut": 185,
-        "win_rate": 43.8,
-        "target_hit_rate": 15.2,
-        "avg_r": 0.01
+        "timecut": 172,
+        "win_rate": 41.5,
+        "target_hit_rate": 15.4,
+        "avg_r": -0.02
       },
       "횡보": {
-        "signals": 115,
-        "filled": 68,
-        "no_fill": 47,
-        "hit_target1": 5,
-        "hit_target2": 5,
+        "signals": 136,
+        "filled": 83,
+        "no_fill": 53,
+        "hit_target1": 6,
+        "hit_target2": 6,
         "hit_stop": 7,
-        "timecut": 51,
-        "win_rate": 42.6,
-        "target_hit_rate": 14.7,
-        "avg_r": 0.02
+        "timecut": 64,
+        "win_rate": 49.4,
+        "target_hit_rate": 14.5,
+        "avg_r": 0.11
       }
     },
     "regime_method": "KOSPI(^KS11) 20일 이동평균 기준 국면 분류: 종가>MA20×1.005='상승', 종가<MA20×0.995='하락', 나머지='횡보'. 결측일='횡보'. KOSPI 미확보 시 by_regime 전 버킷 빈 집계.",
@@ -192,18 +192,18 @@
   },
   "forward": {
     "status": "ok",
-    "matured": 815,
+    "matured": 906,
     "logged": 1000,
     "agg": {
-      "signals": 815,
-      "filled": 745,
-      "no_fill": 70,
-      "hit_target1": 146,
-      "hit_target2": 63,
+      "signals": 906,
+      "filled": 820,
+      "no_fill": 86,
+      "hit_target1": 157,
+      "hit_target2": 65,
       "hit_stop": 21,
-      "timecut": 515,
-      "win_rate": 69.1,
-      "target_hit_rate": 28.1,
+      "timecut": 577,
+      "win_rate": 68.8,
+      "target_hit_rate": 27.1,
       "avg_r": 0.29
     }
   },
@@ -327,12 +327,12 @@
       "learned_val_auc": 0.516
     },
     "recommended": false,
-    "generated_at": "2026-08-16T06:36:46+09:00",
+    "generated_at": "2026-08-17T06:36:17+09:00",
     "sample_count": 23434,
     "applied": false
   },
   "winrate_combos": {
-    "generated_at": "2026-08-16T06:36:46+09:00",
+    "generated_at": "2026-08-17T06:36:17+09:00",
     "base_winrate": 0.498,
     "n_total": 23434,
     "n_combos": 44,
