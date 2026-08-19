@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0",
   "date": "2026-08-19",
-  "generated_at": "2026-08-19T16:24:00+09:00",
+  "generated_at": "2026-08-19T16:31:00+09:00",
   "horizon_hours": 72,
-  "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 수급(외국인·기관) + 재무(PER·PBR) + 미국증시 전일 환경 보정 · 분석 범위: 통합 분석 — 관심종목(5 신호) + 전체종목 거래대금 상위(KOSPI, 30 신호). 뉴스/촉매는 ‘뉴스도 함께’에서만.",
+  "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 수급(외국인·기관) + 재무(PER·PBR) + 미국증시 전일 환경 보정 · 분석 범위: 통합 분석 — 관심종목(5 신호) + 전체종목 거래대금 상위(KOSPI, 29 신호). 뉴스/촉매는 ‘뉴스도 함께’에서만.",
   "market_state": {
     "korea": {
       "status": "post",
       "basis": "장후 NXT 애프터마켓(15:30~20:00, 네이버 지수 실측)",
-      "asof": "2026-08-19T16:24:00+09:00",
+      "asof": "2026-08-19T16:32:00+09:00",
       "session": "after"
     },
     "us": {
@@ -18,18 +18,18 @@
     }
   },
   "summary": {
-    "signal_count": 35,
+    "signal_count": 34,
     "observation_count": 6,
     "position_count": 0,
     "top_signal": "한미반도체",
-    "headline": "기술 분석 갱신(08-19 16:24 KST) — 차트·거래량·변동성 기준 35개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
+    "headline": "기술 분석 갱신(08-19 16:31 KST) — 차트·거래량·변동성 기준 34개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
     "market_outlook": {
       "regime": "약세",
-      "headline": "지수 약세 — 진입 기회 제한(35개 신호). 손절 규율 최우선, 현금 비중 확대 검토.",
+      "headline": "지수 약세 — 진입 기회 제한(34개 신호). 손절 규율 최우선, 현금 비중 확대 검토.",
       "buy_view": "신호 수 제한적 — 고점수·고확신 종목만 소량 진입(비중 절제). 주도 테마(기술분석·온디맨드·즉시진입) 위주 선별 진입. 지수 낙폭 확대 시 신규 진입 전면 보류.",
       "sell_view": "지수 하락 환경 — 보유 비중 축소 우선. 미 반도체 약세(SOX -4.98%)로 반도체 비중 경계. 손절가 이탈 즉시 기계적 청산. 반등 시도도 매도 기회로 활용.",
-      "basis": "매수신호 35개·평균점수 98.6 · 코스피 -5.8% · 코스닥 -1.17% · 전일 S&P -0.69% · SOX -4.98% (실측 지표, 날조 없음)",
-      "asof": "2026-08-19T16:24:33+09:00"
+      "basis": "매수신호 34개·평균점수 98.8 · 코스피 -5.8% · 코스닥 -1.17% · 전일 S&P -0.69% · SOX -4.98% (실측 지표, 날조 없음)",
+      "asof": "2026-08-19T16:32:00+09:00"
     }
   },
   "signals": [
@@ -40,15 +40,15 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 224500.0,
+      "price": 225500.0,
       "currency": "KRW",
-      "entry": 224500.0,
+      "entry": 225500.0,
       "entry_type": "now",
-      "entry_note": "기술 점수 상위·돌파 상회. 현재가(224,500) 부근 즉시 진입 가능, 거래량 확인.",
+      "entry_note": "기술 점수 상위·돌파 상회. 현재가(225,500) 부근 즉시 진입 가능, 거래량 확인.",
       "stop": 209000,
-      "target1": 246000,
-      "target2": 260500,
-      "rr": 1.39,
+      "target1": 247000,
+      "target2": 261500,
+      "rr": 1.3,
       "atr_pct": 8.1,
       "hold_cap_hours": 72,
       "weight_pct": 15,
@@ -62,8 +62,8 @@
       "combo_winrate": 0.532,
       "combo_sample": 846,
       "combo_lift": 0.034,
-      "stop_pct": 6.9,
-      "est_loss_pct": 1.04,
+      "stop_pct": 7.3,
+      "est_loss_pct": 1.1,
       "data_quality": "good",
       "catalyst_verified": false,
       "change_pct": -3.49,
@@ -85,7 +85,7 @@
       ],
       "risk_notes": [
         "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
-        "비중 15%는 위험균등 산정 — 손절(6.9%) 도달 시 자본 약 1.04% 손실 수준(위험 2.0%/트레이드 기준).",
+        "비중 15%는 위험균등 산정 — 손절(7.3%) 도달 시 자본 약 1.1% 손실 수준(위험 2.0%/트레이드 기준).",
         "목표1 도달 시 손절을 본전으로 올려 이익 보호 · 보유 72h 경과 시 잔여 청산."
       ],
       "tags": [
@@ -2399,7 +2399,7 @@
       ],
       "group": "watchlist",
       "orderbook_imbalance": 0.1903,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -2410,7 +2410,7 @@
       "ask_ratio": 0.5952,
       "bid_rem": 16700,
       "ask_rem": 11360,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 162
     },
     {
@@ -4777,7 +4777,7 @@
       ],
       "group": "watchlist",
       "orderbook_imbalance": -0.4423,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -4788,7 +4788,7 @@
       "ask_ratio": 0.2789,
       "bid_rem": 570,
       "ask_rem": 1474,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 95
     },
     {
@@ -4798,7 +4798,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 257500.0,
+      "price": 257000.0,
       "currency": "KRW",
       "entry": 263000.0,
       "entry_type": "breakout",
@@ -6187,7 +6187,7 @@
           254500.0,
           246500.0,
           247500.0,
-          25185804
+          25185953
         ]
       ],
       "daily_30d": [
@@ -6429,7 +6429,7 @@
           254500.0,
           246500.0,
           247500.0,
-          25185804
+          25185953
         ]
       ],
       "daily_90d": [
@@ -7151,12 +7151,12 @@
           254500.0,
           246500.0,
           247500.0,
-          25185804
+          25185953
         ]
       ],
       "group": "watchlist",
       "orderbook_imbalance": 0.7632,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -7167,7 +7167,7 @@
       "ask_ratio": 0.8816,
       "bid_rem": 2041664,
       "ask_rem": 274231,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 93
     },
     {
@@ -7177,7 +7177,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 571000.0,
+      "price": 574000.0,
       "currency": "KRW",
       "entry": 576000.0,
       "entry_type": "breakout",
@@ -7189,7 +7189,7 @@
       "atr_pct": 7.86,
       "hold_cap_hours": 72,
       "weight_pct": 13,
-      "vol_surge": 0.52,
+      "vol_surge": 0.58,
       "foreign_net": 63024.0,
       "inst_net": -22835.0,
       "supply_days": 5,
@@ -7204,12 +7204,12 @@
       "data_quality": "good",
       "catalyst_verified": false,
       "change_pct": -6.61,
-      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 위축 0.52x, 강세 마감(종가위치 61.5%), RSI 58.4(상승), 미국증시 환경 -6.5 (전일 S&P-0.69%·나스닥-1.33%·SOX-4.98%), 외국인 순매수, 기관 순매도, 외국인 매도 전환(최근 확정 2026-08-18 기준(장중이면 D-1)), 기관 매수 전환(최근 확정 2026-08-18 기준(장중이면 D-1)). ATR 7.86%·5일모멘텀 5.15%.",
+      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 위축 0.58x, 강세 마감(종가위치 61.5%), RSI 58.4(상승), 미국증시 환경 -6.5 (전일 S&P-0.69%·나스닥-1.33%·SOX-4.98%), 외국인 순매수, 기관 순매도, 외국인 매도 전환(최근 확정 2026-08-18 기준(장중이면 D-1)), 기관 매수 전환(최근 확정 2026-08-18 기준(장중이면 D-1)). ATR 7.86%·5일모멘텀 5.15%.",
       "score_reasons": [
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 위축(매수세 이탈) 0.52배 -8",
+        "거래량 위축(매수세 이탈) 0.58배 -8",
         "강세 마감(종가위치 61.5%) +14",
         "RSI 58.4 (상승 구간 50~70) +13",
         "5일 모멘텀 +5.15% (양) +8",
@@ -8566,7 +8566,7 @@
           561000.0,
           535000.0,
           551000.0,
-          106571
+          118495
         ]
       ],
       "daily_30d": [
@@ -8808,7 +8808,7 @@
           561000.0,
           535000.0,
           551000.0,
-          106571
+          118495
         ]
       ],
       "daily_90d": [
@@ -9530,12 +9530,12 @@
           561000.0,
           535000.0,
           551000.0,
-          106571
+          118495
         ]
       ],
       "group": "watchlist",
       "orderbook_imbalance": -0.4754,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -9546,7 +9546,7 @@
       "ask_ratio": 0.2623,
       "bid_rem": 2930,
       "ask_rem": 8241,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 85
     },
     {
@@ -9556,7 +9556,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 1620000.0,
+      "price": 1614000.0,
       "currency": "KRW",
       "entry": 1621000.0,
       "entry_type": "breakout",
@@ -10946,7 +10946,7 @@
           1559000.0,
           1486000.0,
           1500000.0,
-          4627605
+          4627613
         ]
       ],
       "daily_30d": [
@@ -11188,7 +11188,7 @@
           1559000.0,
           1486000.0,
           1500000.0,
-          4627605
+          4627613
         ]
       ],
       "daily_90d": [
@@ -11910,12 +11910,12 @@
           1559000.0,
           1486000.0,
           1500000.0,
-          4627605
+          4627613
         ]
       ],
       "group": "watchlist",
       "orderbook_imbalance": 0.8888,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -11926,7 +11926,7 @@
       "ask_ratio": 0.9444,
       "bid_rem": 161866,
       "ask_rem": 9530,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 80
     },
     {
@@ -13012,7 +13012,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.289,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -13023,7 +13023,7 @@
       "ask_ratio": 0.3555,
       "bid_rem": 486,
       "ask_rem": 881,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 157
     },
     {
@@ -13144,7 +13144,7 @@
           35900.0,
           32100.0,
           34950.0,
-          2865787
+          2867513
         ]
       ],
       "daily_30d": [
@@ -13386,7 +13386,7 @@
           35900.0,
           32100.0,
           34950.0,
-          2865787
+          2867513
         ]
       ],
       "daily_90d": [
@@ -14108,12 +14108,12 @@
           35900.0,
           32100.0,
           34950.0,
-          2865787
+          2867513
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.1421,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -14124,7 +14124,7 @@
       "ask_ratio": 0.4289,
       "bid_rem": 33943,
       "ask_rem": 45192,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 150
     },
     {
@@ -15211,7 +15211,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.2999,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -15222,7 +15222,7 @@
       "ask_ratio": 0.3501,
       "bid_rem": 67189,
       "ask_rem": 124749,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 138
     },
     {
@@ -15343,7 +15343,7 @@
           35550.0,
           32300.0,
           34650.0,
-          2658774
+          2661180
         ]
       ],
       "daily_30d": [
@@ -15585,7 +15585,7 @@
           35550.0,
           32300.0,
           34650.0,
-          2658774
+          2661180
         ]
       ],
       "daily_90d": [
@@ -16307,12 +16307,12 @@
           35550.0,
           32300.0,
           34650.0,
-          2658774
+          2661180
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.0739,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -16323,7 +16323,7 @@
       "ask_ratio": 0.4631,
       "bid_rem": 58197,
       "ask_rem": 67479,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 124
     },
     {
@@ -17415,7 +17415,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": 0.5355,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -17426,7 +17426,7 @@
       "ask_ratio": 0.7678,
       "bid_rem": 28684,
       "ask_rem": 8677,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 121
     },
     {
@@ -17448,26 +17448,27 @@
       "atr_pct": 7.8,
       "hold_cap_hours": 72,
       "weight_pct": 13,
-      "vol_surge": 0.63,
+      "vol_surge": 0.59,
       "foreign_net": 121977.0,
       "inst_net": -28554.0,
       "supply_days": 5,
       "foreign_net_1d": 4420.0,
       "inst_net_1d": 37708.0,
       "supply_1d_date": "2026-08-18",
-      "combo_winrate": 0.555,
-      "combo_sample": 892,
-      "combo_lift": 0.057,
+      "combo_winrate": 0.514,
+      "combo_sample": 216,
+      "combo_lift": 0.016,
       "stop_pct": 5.2,
       "est_loss_pct": 0.68,
       "data_quality": "good",
       "catalyst_verified": false,
       "change_pct": -5.96,
-      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 강세 마감(종가위치 76.7%), RSI 66.1(상승), 미국증시 환경 -6.5 (전일 S&P-0.69%·나스닥-1.33%·SOX-4.98%), 외국인 순매수, 기관 순매도, 기관 매수 전환(최근 확정 2026-08-18 기준(장중이면 D-1)), 호가 매도우위(-52%). ATR 7.8%·5일모멘텀 0.73%.",
+      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 위축 0.59x, 강세 마감(종가위치 76.7%), RSI 66.1(상승), 미국증시 환경 -6.5 (전일 S&P-0.69%·나스닥-1.33%·SOX-4.98%), 외국인 순매수, 기관 순매도, 기관 매수 전환(최근 확정 2026-08-18 기준(장중이면 D-1)), 호가 매도우위(-52%). ATR 7.8%·5일모멘텀 0.73%.",
       "score_reasons": [
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
+        "거래량 위축(매수세 이탈) 0.59배 -8",
         "강세 마감(종가위치 76.7%) +14",
         "RSI 66.1 (상승 구간 50~70) +13",
         "5일 모멘텀 +0.73% (양) +8",
@@ -17476,8 +17477,7 @@
         "기관 순매도(최근 5일) -11",
         "PBR 0.91 자산가치 이하 +3",
         "기관 매수 전환 감지(최근 확정 2026-08-18 기준(장중이면 D-1): 직전 순매도/보합→순매수) — 압도적 우선 반영 +38",
-        "호가 불균형 강한 매도우위(-52%, 방금) — 빠른 회피 감점 -21",
-        "조합 보정(과거 승률 55.5%·표본 892) +2"
+        "호가 불균형 강한 매도우위(-52%, 방금) — 빠른 회피 감점 -21"
       ],
       "risk_notes": [
         "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
@@ -17545,7 +17545,7 @@
           350500.0,
           335500.0,
           347000.0,
-          295401
+          275062
         ]
       ],
       "daily_30d": [
@@ -17787,7 +17787,7 @@
           350500.0,
           335500.0,
           347000.0,
-          295401
+          275062
         ]
       ],
       "daily_90d": [
@@ -18509,12 +18509,12 @@
           350500.0,
           335500.0,
           347000.0,
-          295401
+          275062
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.5193,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -18525,7 +18525,7 @@
       "ask_ratio": 0.2403,
       "bid_rem": 5290,
       "ask_rem": 16720,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 117
     },
     {
@@ -18645,7 +18645,7 @@
           14630.0,
           13350.0,
           14140.0,
-          4155046
+          4161722
         ]
       ],
       "daily_30d": [
@@ -18887,7 +18887,7 @@
           14630.0,
           13350.0,
           14140.0,
-          4155046
+          4161722
         ]
       ],
       "daily_90d": [
@@ -19609,12 +19609,12 @@
           14630.0,
           13350.0,
           14140.0,
-          4155046
+          4161722
         ]
       ],
       "group": "market",
       "orderbook_imbalance": 0.5798,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -19625,7 +19625,7 @@
       "ask_ratio": 0.7899,
       "bid_rem": 29213,
       "ask_rem": 7770,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 117
     },
     {
@@ -19647,34 +19647,34 @@
       "atr_pct": 6.09,
       "hold_cap_hours": 72,
       "weight_pct": 13,
-      "vol_surge": 0.58,
+      "vol_surge": 0.6,
       "foreign_net": 84696.0,
       "inst_net": 45854.0,
       "supply_days": 5,
       "foreign_net_1d": 41160.0,
       "inst_net_1d": -27813.0,
       "supply_1d_date": "2026-08-18",
-      "combo_winrate": 0.493,
-      "combo_sample": 215,
-      "combo_lift": -0.005,
+      "combo_winrate": 0.532,
+      "combo_sample": 846,
+      "combo_lift": 0.034,
       "stop_pct": 5.2,
       "est_loss_pct": 0.68,
       "data_quality": "good",
       "catalyst_verified": false,
       "change_pct": -1.09,
-      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 위축 0.58x, 강세 마감(종가위치 77.3%), RSI 65.2(상승), 미국증시 환경 -6.5 (전일 S&P-0.69%·나스닥-1.33%·SOX-4.98%), 외국인 순매수, 기관 순매수, 외국인 매수 가속(최근 확정 2026-08-18 기준(장중이면 D-1)), 기관 매도 전환(최근 확정 2026-08-18 기준(장중이면 D-1)). ATR 6.09%·5일모멘텀 -4.64%.",
+      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 강세 마감(종가위치 77.3%), RSI 65.2(상승), 미국증시 환경 -6.5 (전일 S&P-0.69%·나스닥-1.33%·SOX-4.98%), 외국인 순매수, 기관 순매수, 외국인 매수 가속(최근 확정 2026-08-18 기준(장중이면 D-1)), 기관 매도 전환(최근 확정 2026-08-18 기준(장중이면 D-1)). ATR 6.09%·5일모멘텀 -4.64%.",
       "score_reasons": [
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 위축(매수세 이탈) 0.58배 -8",
         "강세 마감(종가위치 77.3%) +14",
         "RSI 65.2 (상승 구간 50~70) +13",
         "미국증시 환경 -6.5 (전일 S&P-0.69%·나스닥-1.33%·SOX-4.98%)",
         "외국인 순매수(최근 5일) +14",
         "기관 순매수(최근 5일) +11",
         "외국인 매수 가속(최근 확정 2026-08-18 기준(장중이면 D-1): 평소 대비 3.8배) — 압도적 우선 반영 +54",
-        "기관 매도 전환 감지(최근 확정 2026-08-18 기준(장중이면 D-1): 직전 순매수/보합→순매도) — 압도적 우선 감점 -38"
+        "기관 매도 전환 감지(최근 확정 2026-08-18 기준(장중이면 D-1): 직전 순매수/보합→순매도) — 압도적 우선 감점 -38",
+        "조합 보정(과거 승률 53.2%·표본 846) +1"
       ],
       "risk_notes": [
         "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
@@ -19742,7 +19742,7 @@
           228500.0,
           217500.0,
           226000.0,
-          195973
+          205122
         ]
       ],
       "daily_30d": [
@@ -19984,7 +19984,7 @@
           228500.0,
           217500.0,
           226000.0,
-          195973
+          205122
         ]
       ],
       "daily_90d": [
@@ -20706,12 +20706,12 @@
           228500.0,
           217500.0,
           226000.0,
-          195973
+          205122
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.337,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -20722,7 +20722,7 @@
       "ask_ratio": 0.3315,
       "bid_rem": 6808,
       "ask_rem": 13728,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 116
     },
     {
@@ -21812,7 +21812,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.325,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -21823,7 +21823,7 @@
       "ask_ratio": 0.3375,
       "bid_rem": 3237,
       "ask_rem": 6354,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 112
     },
     {
@@ -21845,7 +21845,7 @@
       "atr_pct": 6.74,
       "hold_cap_hours": 72,
       "weight_pct": 13,
-      "vol_surge": 0.61,
+      "vol_surge": 0.65,
       "foreign_net": 860.0,
       "inst_net": -10260.0,
       "supply_days": 5,
@@ -21940,7 +21940,7 @@
           161600.0,
           153300.0,
           160300.0,
-          189626
+          200751
         ]
       ],
       "daily_30d": [
@@ -22182,7 +22182,7 @@
           161600.0,
           153300.0,
           160300.0,
-          189626
+          200751
         ]
       ],
       "daily_90d": [
@@ -22904,12 +22904,12 @@
           161600.0,
           153300.0,
           160300.0,
-          189626
+          200751
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.2237,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -22920,7 +22920,7 @@
       "ask_ratio": 0.3881,
       "bid_rem": 2925,
       "ask_rem": 4611,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 107
     },
     {
@@ -24011,7 +24011,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": 0.2818,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -24022,7 +24022,7 @@
       "ask_ratio": 0.6409,
       "bid_rem": 9411,
       "ask_rem": 5273,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 101
     },
     {
@@ -24044,7 +24044,7 @@
       "atr_pct": 10.43,
       "hold_cap_hours": 72,
       "weight_pct": 15,
-      "vol_surge": 0.72,
+      "vol_surge": 0.73,
       "foreign_net": 95640.0,
       "inst_net": 26236.0,
       "supply_days": 5,
@@ -24142,7 +24142,7 @@
           291000.0,
           256500.0,
           277500.0,
-          325349
+          329777
         ]
       ],
       "daily_30d": [
@@ -24384,7 +24384,7 @@
           291000.0,
           256500.0,
           277500.0,
-          325349
+          329777
         ]
       ],
       "daily_90d": [
@@ -25106,12 +25106,12 @@
           291000.0,
           256500.0,
           277500.0,
-          325349
+          329777
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.4527,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -25122,7 +25122,7 @@
       "ask_ratio": 0.2737,
       "bid_rem": 2719,
       "ask_rem": 7217,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 100
     },
     {
@@ -25144,7 +25144,7 @@
       "atr_pct": 4.17,
       "hold_cap_hours": 72,
       "weight_pct": 13,
-      "vol_surge": 0.68,
+      "vol_surge": 0.76,
       "foreign_net": 512102.0,
       "inst_net": -420253.0,
       "supply_days": 5,
@@ -25238,7 +25238,7 @@
           133600.0,
           130000.0,
           133000.0,
-          628844
+          709511
         ]
       ],
       "daily_30d": [
@@ -25480,7 +25480,7 @@
           133600.0,
           130000.0,
           133000.0,
-          628844
+          709511
         ]
       ],
       "daily_90d": [
@@ -26202,12 +26202,12 @@
           133600.0,
           130000.0,
           133000.0,
-          628844
+          709511
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.3952,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -26218,7 +26218,7 @@
       "ask_ratio": 0.3024,
       "bid_rem": 17983,
       "ask_rem": 41485,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 100
     },
     {
@@ -27303,7 +27303,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.4815,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -27314,7 +27314,7 @@
       "ask_ratio": 0.2592,
       "bid_rem": 1318,
       "ask_rem": 3766,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 95
     },
     {
@@ -28403,7 +28403,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.6942,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -28414,7 +28414,7 @@
       "ask_ratio": 0.1529,
       "bid_rem": 89,
       "ask_rem": 493,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 93
     },
     {
@@ -28530,7 +28530,7 @@
           49600.0,
           45300.0,
           48500.0,
-          1594377
+          1595970
         ]
       ],
       "daily_30d": [
@@ -28772,7 +28772,7 @@
           49600.0,
           45300.0,
           48500.0,
-          1594377
+          1595970
         ]
       ],
       "daily_90d": [
@@ -29494,12 +29494,12 @@
           49600.0,
           45300.0,
           48500.0,
-          1594377
+          1595970
         ]
       ],
       "group": "market",
       "orderbook_imbalance": 0.2836,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -29510,7 +29510,7 @@
       "ask_ratio": 0.6418,
       "bid_rem": 31487,
       "ask_rem": 17575,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 93
     },
     {
@@ -30595,7 +30595,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.0907,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -30606,7 +30606,7 @@
       "ask_ratio": 0.4547,
       "bid_rem": 5562,
       "ask_rem": 6671,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 92
     },
     {
@@ -31690,7 +31690,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.3163,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -31701,7 +31701,7 @@
       "ask_ratio": 0.3418,
       "bid_rem": 3376,
       "ask_rem": 6500,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 91
     },
     {
@@ -32790,7 +32790,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": 0.0403,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -32801,7 +32801,7 @@
       "ask_ratio": 0.5202,
       "bid_rem": 80913,
       "ask_rem": 74642,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 90
     },
     {
@@ -33889,7 +33889,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.5807,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -33900,7 +33900,7 @@
       "ask_ratio": 0.2096,
       "bid_rem": 3772,
       "ask_rem": 14222,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 90
     },
     {
@@ -34989,7 +34989,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.0088,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -35000,7 +35000,7 @@
       "ask_ratio": 0.4956,
       "bid_rem": 4375,
       "ask_rem": 4453,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 89
     },
     {
@@ -35022,7 +35022,7 @@
       "atr_pct": 6.76,
       "hold_cap_hours": 72,
       "weight_pct": 15,
-      "vol_surge": 0.8,
+      "vol_surge": 0.82,
       "foreign_net": -287201.0,
       "inst_net": 555221.0,
       "supply_days": 5,
@@ -35119,7 +35119,7 @@
           100100.0,
           92000.0,
           98000.0,
-          1590158
+          1635442
         ]
       ],
       "daily_30d": [
@@ -35361,7 +35361,7 @@
           100100.0,
           92000.0,
           98000.0,
-          1590158
+          1635442
         ]
       ],
       "daily_90d": [
@@ -36083,12 +36083,12 @@
           100100.0,
           92000.0,
           98000.0,
-          1590158
+          1635442
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.0226,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -36099,7 +36099,7 @@
       "ask_ratio": 0.4887,
       "bid_rem": 29133,
       "ask_rem": 30483,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 88
     },
     {
@@ -36216,7 +36216,7 @@
           17500.0,
           16050.0,
           17200.0,
-          3921085
+          3924107
         ]
       ],
       "daily_30d": [
@@ -36458,7 +36458,7 @@
           17500.0,
           16050.0,
           17200.0,
-          3921085
+          3924107
         ]
       ],
       "daily_90d": [
@@ -37180,12 +37180,12 @@
           17500.0,
           16050.0,
           17200.0,
-          3921085
+          3924107
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.3638,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -37196,7 +37196,7 @@
       "ask_ratio": 0.3181,
       "bid_rem": 19504,
       "ask_rem": 41811,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 86
     },
     {
@@ -38282,7 +38282,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.5866,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -38293,2182 +38293,11 @@
       "ask_ratio": 0.2067,
       "bid_rem": 1393,
       "ask_rem": 5346,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 85
     },
     {
       "rank": 25,
-      "name": "GS",
-      "code": "078930",
-      "market": "KR",
-      "direction": "long",
-      "confidence": "low",
-      "price": 119700.0,
-      "currency": "KRW",
-      "entry": 120800.0,
-      "entry_type": "breakout",
-      "entry_note": "120,800 돌파 + 거래량 동반 시 진입(미돌파 시 미진입). 추격금지.",
-      "stop": 98600,
-      "target1": 131400,
-      "target2": 138400,
-      "rr": 0.48,
-      "atr_pct": 7.37,
-      "hold_cap_hours": 72,
-      "weight_pct": 8,
-      "vol_surge": 0.73,
-      "foreign_net": -862273.0,
-      "inst_net": 794985.0,
-      "supply_days": 5,
-      "foreign_net_1d": -197491.0,
-      "inst_net_1d": 186625.0,
-      "supply_1d_date": "2026-08-18",
-      "combo_winrate": 0.522,
-      "combo_sample": 186,
-      "combo_lift": 0.024,
-      "stop_pct": 18.4,
-      "est_loss_pct": 1.47,
-      "data_quality": "good",
-      "catalyst_verified": false,
-      "change_pct": 0.34,
-      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 강세 마감(종가위치 83.6%), RSI 84.6(과열), 미국증시 환경 -6.5 (전일 S&P-0.69%·나스닥-1.33%·SOX-4.98%), 외국인 순매도, 기관 순매수. ATR 7.37%·5일모멘텀 22.77%.",
-      "score_reasons": [
-        "기본 점수 +50",
-        "정배열(MA5>MA20) +18",
-        "현재가가 20일선(MA20) 위 +8",
-        "강세 마감(종가위치 83.6%) +14",
-        "RSI 84.6 (과열 >75) -10",
-        "5일 모멘텀 +22.77% (양) +8",
-        "MA20 이격 과대(고점추격 주의) -6",
-        "단기 급등 과열(5일) -5",
-        "전고점+RSI 동반 과열 -4",
-        "미국증시 환경 -6.5 (전일 S&P-0.69%·나스닥-1.33%·SOX-4.98%)",
-        "외국인 순매도(최근 5일) -14",
-        "기관 순매수(최근 5일) +11",
-        "PER 8.61 저평가 +5",
-        "PBR 0.74 자산가치 이하 +3",
-        "조합 보정(과거 승률 52.2%·표본 186) +1"
-      ],
-      "risk_notes": [
-        "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
-        "비중 8%는 위험균등 산정 — 손절(18.4%) 도달 시 자본 약 1.47% 손실 수준(위험 2.0%/트레이드 기준).",
-        "목표1 도달 시 손절을 본전으로 올려 이익 보호 · 보유 72h 경과 시 잔여 청산."
-      ],
-      "tags": [
-        "기술분석",
-        "온디맨드",
-        "돌파대기",
-        "추격주의"
-      ],
-      "intraday_5m": [],
-      "daily_7d": [
-        [
-          "2026-08-10T00:00:00+00:00",
-          98300.0,
-          98300.0,
-          94450.0,
-          97300.0,
-          294032
-        ],
-        [
-          "2026-08-11T00:00:00+00:00",
-          98500.0,
-          101700.0,
-          96000.0,
-          97500.0,
-          452811
-        ],
-        [
-          "2026-08-12T00:00:00+00:00",
-          101100.0,
-          106400.0,
-          98600.0,
-          101000.0,
-          827960
-        ],
-        [
-          "2026-08-13T00:00:00+00:00",
-          101000.0,
-          113000.0,
-          99800.0,
-          107400.0,
-          942502
-        ],
-        [
-          "2026-08-14T00:00:00+00:00",
-          107000.0,
-          118700.0,
-          106900.0,
-          117000.0,
-          805628
-        ],
-        [
-          "2026-08-18T00:00:00+00:00",
-          115800.0,
-          120100.0,
-          115000.0,
-          119300.0,
-          642730
-        ],
-        [
-          "2026-08-19T00:00:00+00:00",
-          117500.0,
-          120800.0,
-          114100.0,
-          119700.0,
-          443707
-        ]
-      ],
-      "daily_30d": [
-        [
-          "2026-07-07T00:00:00+00:00",
-          77900.0,
-          82300.0,
-          76400.0,
-          80100.0,
-          572219
-        ],
-        [
-          "2026-07-08T00:00:00+00:00",
-          79900.0,
-          81900.0,
-          77000.0,
-          78600.0,
-          466846
-        ],
-        [
-          "2026-07-09T00:00:00+00:00",
-          79200.0,
-          80800.0,
-          75000.0,
-          75600.0,
-          525644
-        ],
-        [
-          "2026-07-10T00:00:00+00:00",
-          78500.0,
-          82200.0,
-          76000.0,
-          80200.0,
-          317335
-        ],
-        [
-          "2026-07-13T00:00:00+00:00",
-          80700.0,
-          86300.0,
-          78800.0,
-          79500.0,
-          611420
-        ],
-        [
-          "2026-07-14T00:00:00+00:00",
-          81200.0,
-          81400.0,
-          77800.0,
-          79000.0,
-          448138
-        ],
-        [
-          "2026-07-15T00:00:00+00:00",
-          80100.0,
-          83300.0,
-          79500.0,
-          81800.0,
-          361049
-        ],
-        [
-          "2026-07-16T00:00:00+00:00",
-          82500.0,
-          85300.0,
-          81100.0,
-          82800.0,
-          369644
-        ],
-        [
-          "2026-07-20T00:00:00+00:00",
-          82700.0,
-          87600.0,
-          79400.0,
-          83200.0,
-          629872
-        ],
-        [
-          "2026-07-21T00:00:00+00:00",
-          81100.0,
-          84000.0,
-          79500.0,
-          82500.0,
-          274593
-        ],
-        [
-          "2026-07-22T00:00:00+00:00",
-          83100.0,
-          86800.0,
-          83100.0,
-          84200.0,
-          345413
-        ],
-        [
-          "2026-07-23T00:00:00+00:00",
-          84300.0,
-          94900.0,
-          84200.0,
-          93600.0,
-          1010935
-        ],
-        [
-          "2026-07-24T00:00:00+00:00",
-          92300.0,
-          99800.0,
-          92200.0,
-          95300.0,
-          978453
-        ],
-        [
-          "2026-07-27T00:00:00+00:00",
-          95600.0,
-          96400.0,
-          90800.0,
-          91600.0,
-          392831
-        ],
-        [
-          "2026-07-28T00:00:00+00:00",
-          90400.0,
-          92100.0,
-          86800.0,
-          87500.0,
-          362822
-        ],
-        [
-          "2026-07-29T00:00:00+00:00",
-          88400.0,
-          89700.0,
-          80100.0,
-          84100.0,
-          515176
-        ],
-        [
-          "2026-07-30T00:00:00+00:00",
-          86100.0,
-          92500.0,
-          85700.0,
-          86500.0,
-          648002
-        ],
-        [
-          "2026-07-31T00:00:00+00:00",
-          88000.0,
-          89900.0,
-          69500.0,
-          89000.0,
-          971534
-        ],
-        [
-          "2026-08-03T00:00:00+00:00",
-          85700.0,
-          88600.0,
-          83900.0,
-          84600.0,
-          383507
-        ],
-        [
-          "2026-08-04T00:00:00+00:00",
-          83800.0,
-          98400.0,
-          83500.0,
-          96900.0,
-          756290
-        ],
-        [
-          "2026-08-05T00:00:00+00:00",
-          95100.0,
-          101900.0,
-          93100.0,
-          95000.0,
-          532973
-        ],
-        [
-          "2026-08-06T00:00:00+00:00",
-          96200.0,
-          100000.0,
-          96000.0,
-          98800.0,
-          531141
-        ],
-        [
-          "2026-08-07T00:00:00+00:00",
-          97900.0,
-          101700.0,
-          96600.0,
-          98900.0,
-          370060
-        ],
-        [
-          "2026-08-10T00:00:00+00:00",
-          98300.0,
-          98300.0,
-          94450.0,
-          97300.0,
-          294032
-        ],
-        [
-          "2026-08-11T00:00:00+00:00",
-          98500.0,
-          101700.0,
-          96000.0,
-          97500.0,
-          452811
-        ],
-        [
-          "2026-08-12T00:00:00+00:00",
-          101100.0,
-          106400.0,
-          98600.0,
-          101000.0,
-          827960
-        ],
-        [
-          "2026-08-13T00:00:00+00:00",
-          101000.0,
-          113000.0,
-          99800.0,
-          107400.0,
-          942502
-        ],
-        [
-          "2026-08-14T00:00:00+00:00",
-          107000.0,
-          118700.0,
-          106900.0,
-          117000.0,
-          805628
-        ],
-        [
-          "2026-08-18T00:00:00+00:00",
-          115800.0,
-          120100.0,
-          115000.0,
-          119300.0,
-          642730
-        ],
-        [
-          "2026-08-19T00:00:00+00:00",
-          117500.0,
-          120800.0,
-          114100.0,
-          119700.0,
-          443707
-        ]
-      ],
-      "daily_90d": [
-        [
-          "2026-04-08T00:00:00+00:00",
-          67300.0,
-          68900.0,
-          66900.0,
-          68600.0,
-          291249
-        ],
-        [
-          "2026-04-09T00:00:00+00:00",
-          67700.0,
-          70500.0,
-          67650.0,
-          69400.0,
-          308158
-        ],
-        [
-          "2026-04-10T00:00:00+00:00",
-          69500.0,
-          72600.0,
-          69100.0,
-          71700.0,
-          280913
-        ],
-        [
-          "2026-04-13T00:00:00+00:00",
-          72600.0,
-          74300.0,
-          71500.0,
-          72700.0,
-          368210
-        ],
-        [
-          "2026-04-14T00:00:00+00:00",
-          72800.0,
-          74200.0,
-          72400.0,
-          73200.0,
-          208489
-        ],
-        [
-          "2026-04-15T00:00:00+00:00",
-          73200.0,
-          74000.0,
-          71200.0,
-          72300.0,
-          268031
-        ],
-        [
-          "2026-04-16T00:00:00+00:00",
-          72200.0,
-          73300.0,
-          71100.0,
-          73000.0,
-          161168
-        ],
-        [
-          "2026-04-17T00:00:00+00:00",
-          72800.0,
-          73800.0,
-          71100.0,
-          71900.0,
-          220267
-        ],
-        [
-          "2026-04-20T00:00:00+00:00",
-          72900.0,
-          72900.0,
-          70800.0,
-          71000.0,
-          153343
-        ],
-        [
-          "2026-04-21T00:00:00+00:00",
-          71000.0,
-          71500.0,
-          69800.0,
-          70800.0,
-          166409
-        ],
-        [
-          "2026-04-22T00:00:00+00:00",
-          70900.0,
-          71000.0,
-          69400.0,
-          70800.0,
-          168093
-        ],
-        [
-          "2026-04-23T00:00:00+00:00",
-          72900.0,
-          77600.0,
-          71100.0,
-          76800.0,
-          419097
-        ],
-        [
-          "2026-04-24T00:00:00+00:00",
-          76600.0,
-          77200.0,
-          74900.0,
-          75700.0,
-          164379
-        ],
-        [
-          "2026-04-27T00:00:00+00:00",
-          76200.0,
-          77800.0,
-          73800.0,
-          76500.0,
-          231845
-        ],
-        [
-          "2026-04-28T00:00:00+00:00",
-          76500.0,
-          78900.0,
-          76200.0,
-          76800.0,
-          268802
-        ],
-        [
-          "2026-04-29T00:00:00+00:00",
-          79700.0,
-          82400.0,
-          77300.0,
-          82100.0,
-          586780
-        ],
-        [
-          "2026-04-30T00:00:00+00:00",
-          81300.0,
-          84000.0,
-          81000.0,
-          81900.0,
-          369316
-        ],
-        [
-          "2026-05-04T00:00:00+00:00",
-          82400.0,
-          83200.0,
-          79800.0,
-          80900.0,
-          293831
-        ],
-        [
-          "2026-05-06T00:00:00+00:00",
-          78700.0,
-          79600.0,
-          75700.0,
-          76900.0,
-          450215
-        ],
-        [
-          "2026-05-07T00:00:00+00:00",
-          77000.0,
-          78800.0,
-          75600.0,
-          78600.0,
-          290566
-        ],
-        [
-          "2026-05-08T00:00:00+00:00",
-          78900.0,
-          79800.0,
-          76500.0,
-          79400.0,
-          301513
-        ],
-        [
-          "2026-05-11T00:00:00+00:00",
-          78600.0,
-          81200.0,
-          76500.0,
-          77400.0,
-          347913
-        ],
-        [
-          "2026-05-12T00:00:00+00:00",
-          78000.0,
-          78500.0,
-          72900.0,
-          76200.0,
-          266116
-        ],
-        [
-          "2026-05-13T00:00:00+00:00",
-          77400.0,
-          79800.0,
-          70900.0,
-          71900.0,
-          485790
-        ],
-        [
-          "2026-05-14T00:00:00+00:00",
-          71700.0,
-          76100.0,
-          68200.0,
-          74700.0,
-          466242
-        ],
-        [
-          "2026-05-15T00:00:00+00:00",
-          75500.0,
-          86700.0,
-          75500.0,
-          77300.0,
-          969065
-        ],
-        [
-          "2026-05-18T00:00:00+00:00",
-          78800.0,
-          78900.0,
-          71300.0,
-          74800.0,
-          292378
-        ],
-        [
-          "2026-05-19T00:00:00+00:00",
-          74000.0,
-          76300.0,
-          71300.0,
-          75500.0,
-          461912
-        ],
-        [
-          "2026-05-20T00:00:00+00:00",
-          76000.0,
-          76600.0,
-          72200.0,
-          73900.0,
-          224195
-        ],
-        [
-          "2026-05-21T00:00:00+00:00",
-          74200.0,
-          76000.0,
-          73350.0,
-          75400.0,
-          356531
-        ],
-        [
-          "2026-05-22T00:00:00+00:00",
-          76200.0,
-          77000.0,
-          74400.0,
-          76900.0,
-          155741
-        ],
-        [
-          "2026-05-26T00:00:00+00:00",
-          79500.0,
-          79900.0,
-          75900.0,
-          77000.0,
-          170035
-        ],
-        [
-          "2026-05-27T00:00:00+00:00",
-          77100.0,
-          77400.0,
-          73700.0,
-          74800.0,
-          233272
-        ],
-        [
-          "2026-05-28T00:00:00+00:00",
-          75200.0,
-          75400.0,
-          71100.0,
-          74100.0,
-          246173
-        ],
-        [
-          "2026-05-29T00:00:00+00:00",
-          74600.0,
-          74800.0,
-          70400.0,
-          72500.0,
-          309759
-        ],
-        [
-          "2026-06-01T00:00:00+00:00",
-          72400.0,
-          73900.0,
-          70000.0,
-          73200.0,
-          298336
-        ],
-        [
-          "2026-06-02T00:00:00+00:00",
-          73900.0,
-          73900.0,
-          70300.0,
-          72600.0,
-          261773
-        ],
-        [
-          "2026-06-04T00:00:00+00:00",
-          74000.0,
-          77400.0,
-          72600.0,
-          76300.0,
-          377612
-        ],
-        [
-          "2026-06-05T00:00:00+00:00",
-          76300.0,
-          76300.0,
-          71600.0,
-          74100.0,
-          193277
-        ],
-        [
-          "2026-06-08T00:00:00+00:00",
-          71400.0,
-          73000.0,
-          68700.0,
-          69900.0,
-          299068
-        ],
-        [
-          "2026-06-09T00:00:00+00:00",
-          71000.0,
-          74400.0,
-          69900.0,
-          73800.0,
-          325268
-        ],
-        [
-          "2026-06-10T00:00:00+00:00",
-          73100.0,
-          74500.0,
-          70500.0,
-          72600.0,
-          236397
-        ],
-        [
-          "2026-06-11T00:00:00+00:00",
-          71500.0,
-          73700.0,
-          69600.0,
-          71700.0,
-          417549
-        ],
-        [
-          "2026-06-12T00:00:00+00:00",
-          73500.0,
-          74700.0,
-          72000.0,
-          72500.0,
-          285709
-        ],
-        [
-          "2026-06-15T00:00:00+00:00",
-          75000.0,
-          78300.0,
-          73200.0,
-          75600.0,
-          235071
-        ],
-        [
-          "2026-06-16T00:00:00+00:00",
-          76000.0,
-          79400.0,
-          74300.0,
-          79200.0,
-          317762
-        ],
-        [
-          "2026-06-17T00:00:00+00:00",
-          79200.0,
-          79200.0,
-          72900.0,
-          72900.0,
-          268457
-        ],
-        [
-          "2026-06-18T00:00:00+00:00",
-          72300.0,
-          73200.0,
-          70700.0,
-          71300.0,
-          414772
-        ],
-        [
-          "2026-06-19T00:00:00+00:00",
-          71500.0,
-          71800.0,
-          67600.0,
-          70000.0,
-          380845
-        ],
-        [
-          "2026-06-22T00:00:00+00:00",
-          69400.0,
-          69700.0,
-          67000.0,
-          67600.0,
-          233269
-        ],
-        [
-          "2026-06-23T00:00:00+00:00",
-          67200.0,
-          68000.0,
-          64400.0,
-          65000.0,
-          233831
-        ],
-        [
-          "2026-06-24T00:00:00+00:00",
-          65300.0,
-          66800.0,
-          63000.0,
-          66100.0,
-          219509
-        ],
-        [
-          "2026-06-25T00:00:00+00:00",
-          66000.0,
-          67700.0,
-          64200.0,
-          64200.0,
-          309125
-        ],
-        [
-          "2026-06-26T00:00:00+00:00",
-          64800.0,
-          64900.0,
-          60800.0,
-          62500.0,
-          242591
-        ],
-        [
-          "2026-06-29T00:00:00+00:00",
-          63300.0,
-          67900.0,
-          62600.0,
-          67300.0,
-          346506
-        ],
-        [
-          "2026-06-30T00:00:00+00:00",
-          67300.0,
-          68000.0,
-          64900.0,
-          66300.0,
-          290995
-        ],
-        [
-          "2026-07-01T00:00:00+00:00",
-          68200.0,
-          73100.0,
-          67000.0,
-          73000.0,
-          382159
-        ],
-        [
-          "2026-07-02T00:00:00+00:00",
-          72500.0,
-          78500.0,
-          70900.0,
-          76900.0,
-          540324
-        ],
-        [
-          "2026-07-03T00:00:00+00:00",
-          77400.0,
-          78000.0,
-          71900.0,
-          73000.0,
-          365061
-        ],
-        [
-          "2026-07-06T00:00:00+00:00",
-          73000.0,
-          81100.0,
-          73000.0,
-          78100.0,
-          378100
-        ],
-        [
-          "2026-07-07T00:00:00+00:00",
-          77900.0,
-          82300.0,
-          76400.0,
-          80100.0,
-          572219
-        ],
-        [
-          "2026-07-08T00:00:00+00:00",
-          79900.0,
-          81900.0,
-          77000.0,
-          78600.0,
-          466846
-        ],
-        [
-          "2026-07-09T00:00:00+00:00",
-          79200.0,
-          80800.0,
-          75000.0,
-          75600.0,
-          525644
-        ],
-        [
-          "2026-07-10T00:00:00+00:00",
-          78500.0,
-          82200.0,
-          76000.0,
-          80200.0,
-          317335
-        ],
-        [
-          "2026-07-13T00:00:00+00:00",
-          80700.0,
-          86300.0,
-          78800.0,
-          79500.0,
-          611420
-        ],
-        [
-          "2026-07-14T00:00:00+00:00",
-          81200.0,
-          81400.0,
-          77800.0,
-          79000.0,
-          448138
-        ],
-        [
-          "2026-07-15T00:00:00+00:00",
-          80100.0,
-          83300.0,
-          79500.0,
-          81800.0,
-          361049
-        ],
-        [
-          "2026-07-16T00:00:00+00:00",
-          82500.0,
-          85300.0,
-          81100.0,
-          82800.0,
-          369644
-        ],
-        [
-          "2026-07-20T00:00:00+00:00",
-          82700.0,
-          87600.0,
-          79400.0,
-          83200.0,
-          629872
-        ],
-        [
-          "2026-07-21T00:00:00+00:00",
-          81100.0,
-          84000.0,
-          79500.0,
-          82500.0,
-          274593
-        ],
-        [
-          "2026-07-22T00:00:00+00:00",
-          83100.0,
-          86800.0,
-          83100.0,
-          84200.0,
-          345413
-        ],
-        [
-          "2026-07-23T00:00:00+00:00",
-          84300.0,
-          94900.0,
-          84200.0,
-          93600.0,
-          1010935
-        ],
-        [
-          "2026-07-24T00:00:00+00:00",
-          92300.0,
-          99800.0,
-          92200.0,
-          95300.0,
-          978453
-        ],
-        [
-          "2026-07-27T00:00:00+00:00",
-          95600.0,
-          96400.0,
-          90800.0,
-          91600.0,
-          392831
-        ],
-        [
-          "2026-07-28T00:00:00+00:00",
-          90400.0,
-          92100.0,
-          86800.0,
-          87500.0,
-          362822
-        ],
-        [
-          "2026-07-29T00:00:00+00:00",
-          88400.0,
-          89700.0,
-          80100.0,
-          84100.0,
-          515176
-        ],
-        [
-          "2026-07-30T00:00:00+00:00",
-          86100.0,
-          92500.0,
-          85700.0,
-          86500.0,
-          648002
-        ],
-        [
-          "2026-07-31T00:00:00+00:00",
-          88000.0,
-          89900.0,
-          69500.0,
-          89000.0,
-          971534
-        ],
-        [
-          "2026-08-03T00:00:00+00:00",
-          85700.0,
-          88600.0,
-          83900.0,
-          84600.0,
-          383507
-        ],
-        [
-          "2026-08-04T00:00:00+00:00",
-          83800.0,
-          98400.0,
-          83500.0,
-          96900.0,
-          756290
-        ],
-        [
-          "2026-08-05T00:00:00+00:00",
-          95100.0,
-          101900.0,
-          93100.0,
-          95000.0,
-          532973
-        ],
-        [
-          "2026-08-06T00:00:00+00:00",
-          96200.0,
-          100000.0,
-          96000.0,
-          98800.0,
-          531141
-        ],
-        [
-          "2026-08-07T00:00:00+00:00",
-          97900.0,
-          101700.0,
-          96600.0,
-          98900.0,
-          370060
-        ],
-        [
-          "2026-08-10T00:00:00+00:00",
-          98300.0,
-          98300.0,
-          94450.0,
-          97300.0,
-          294032
-        ],
-        [
-          "2026-08-11T00:00:00+00:00",
-          98500.0,
-          101700.0,
-          96000.0,
-          97500.0,
-          452811
-        ],
-        [
-          "2026-08-12T00:00:00+00:00",
-          101100.0,
-          106400.0,
-          98600.0,
-          101000.0,
-          827960
-        ],
-        [
-          "2026-08-13T00:00:00+00:00",
-          101000.0,
-          113000.0,
-          99800.0,
-          107400.0,
-          942502
-        ],
-        [
-          "2026-08-14T00:00:00+00:00",
-          107000.0,
-          118700.0,
-          106900.0,
-          117000.0,
-          805628
-        ],
-        [
-          "2026-08-18T00:00:00+00:00",
-          115800.0,
-          120100.0,
-          115000.0,
-          119300.0,
-          642730
-        ],
-        [
-          "2026-08-19T00:00:00+00:00",
-          117500.0,
-          120800.0,
-          114100.0,
-          119700.0,
-          443707
-        ]
-      ],
-      "group": "market",
-      "score": 72
-    },
-    {
-      "rank": 26,
-      "name": "KB금융",
-      "code": "105560",
-      "market": "KR",
-      "direction": "long",
-      "confidence": "low",
-      "price": 166400.0,
-      "currency": "KRW",
-      "entry": 167100.0,
-      "entry_type": "breakout",
-      "entry_note": "167,100 돌파 + 거래량 동반 시 진입(미돌파 시 미진입). 추격금지.",
-      "stop": 159900,
-      "target1": 174600,
-      "target2": 179500,
-      "rr": 1.04,
-      "atr_pct": 3.73,
-      "hold_cap_hours": 72,
-      "weight_pct": 13,
-      "vol_surge": 0.96,
-      "foreign_net": 322647.0,
-      "inst_net": -482483.0,
-      "supply_days": 5,
-      "foreign_net_1d": 37590.0,
-      "inst_net_1d": -25935.0,
-      "supply_1d_date": "2026-08-18",
-      "combo_winrate": 0.531,
-      "combo_sample": 243,
-      "combo_lift": 0.033,
-      "stop_pct": 4.3,
-      "est_loss_pct": 0.56,
-      "data_quality": "good",
-      "catalyst_verified": false,
-      "change_pct": -1.25,
-      "evidence": "기술 분석(뉴스 미확인) — 강세 마감(종가위치 97.0%), RSI 60.0(상승), 미국증시 환경 -6.5 (전일 S&P-0.69%·나스닥-1.33%·SOX-4.98%), 외국인 순매수, 기관 순매도. ATR 3.73%·5일모멘텀 -0.12%.",
-      "score_reasons": [
-        "기본 점수 +50",
-        "역배열(MA5<MA20) -8",
-        "강세 마감(종가위치 97.0%) +14",
-        "RSI 60.0 (상승 구간 50~70) +13",
-        "미국증시 환경 -6.5 (전일 S&P-0.69%·나스닥-1.33%·SOX-4.98%)",
-        "외국인 순매수(최근 5일) +14",
-        "기관 순매도(최근 5일) -11",
-        "PER 10.52 저평가 +5",
-        "조합 보정(과거 승률 53.1%·표본 243) +1"
-      ],
-      "risk_notes": [
-        "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
-        "비중 13%는 위험균등 산정 — 손절(4.3%) 도달 시 자본 약 0.56% 손실 수준(위험 2.0%/트레이드 기준).",
-        "목표1 도달 시 손절을 본전으로 올려 이익 보호 · 보유 72h 경과 시 잔여 청산."
-      ],
-      "tags": [
-        "기술분석",
-        "온디맨드",
-        "돌파대기"
-      ],
-      "intraday_5m": [],
-      "daily_7d": [
-        [
-          "2026-08-10T00:00:00+00:00",
-          174600.0,
-          175400.0,
-          168600.0,
-          171700.0,
-          690184
-        ],
-        [
-          "2026-08-11T00:00:00+00:00",
-          172600.0,
-          172700.0,
-          166000.0,
-          166600.0,
-          1039635
-        ],
-        [
-          "2026-08-12T00:00:00+00:00",
-          168200.0,
-          170300.0,
-          165600.0,
-          166000.0,
-          920851
-        ],
-        [
-          "2026-08-13T00:00:00+00:00",
-          167400.0,
-          170400.0,
-          165800.0,
-          168100.0,
-          1281602
-        ],
-        [
-          "2026-08-14T00:00:00+00:00",
-          167100.0,
-          169800.0,
-          166400.0,
-          168500.0,
-          951351
-        ],
-        [
-          "2026-08-18T00:00:00+00:00",
-          168400.0,
-          168500.0,
-          166100.0,
-          168500.0,
-          856473
-        ],
-        [
-          "2026-08-19T00:00:00+00:00",
-          165900.0,
-          166600.0,
-          159900.0,
-          166400.0,
-          996480
-        ]
-      ],
-      "daily_30d": [
-        [
-          "2026-07-07T00:00:00+00:00",
-          171000.0,
-          176900.0,
-          168500.0,
-          173200.0,
-          1562593
-        ],
-        [
-          "2026-07-08T00:00:00+00:00",
-          176200.0,
-          176600.0,
-          169200.0,
-          171000.0,
-          2208396
-        ],
-        [
-          "2026-07-09T00:00:00+00:00",
-          175900.0,
-          176000.0,
-          169400.0,
-          171400.0,
-          2385649
-        ],
-        [
-          "2026-07-10T00:00:00+00:00",
-          179900.0,
-          189900.0,
-          175000.0,
-          184400.0,
-          2152385
-        ],
-        [
-          "2026-07-13T00:00:00+00:00",
-          186300.0,
-          194500.0,
-          184100.0,
-          186200.0,
-          2401881
-        ],
-        [
-          "2026-07-14T00:00:00+00:00",
-          189800.0,
-          190200.0,
-          179600.0,
-          180000.0,
-          2315220
-        ],
-        [
-          "2026-07-15T00:00:00+00:00",
-          182800.0,
-          185200.0,
-          180000.0,
-          181600.0,
-          1769738
-        ],
-        [
-          "2026-07-16T00:00:00+00:00",
-          183700.0,
-          187500.0,
-          177500.0,
-          181100.0,
-          1299467
-        ],
-        [
-          "2026-07-20T00:00:00+00:00",
-          180000.0,
-          180000.0,
-          165600.0,
-          168800.0,
-          1831119
-        ],
-        [
-          "2026-07-21T00:00:00+00:00",
-          166700.0,
-          174500.0,
-          164100.0,
-          174000.0,
-          1022673
-        ],
-        [
-          "2026-07-22T00:00:00+00:00",
-          177700.0,
-          179800.0,
-          174200.0,
-          175100.0,
-          848625
-        ],
-        [
-          "2026-07-23T00:00:00+00:00",
-          175200.0,
-          180100.0,
-          174000.0,
-          176300.0,
-          1044277
-        ],
-        [
-          "2026-07-24T00:00:00+00:00",
-          174900.0,
-          176400.0,
-          165600.0,
-          171500.0,
-          1122770
-        ],
-        [
-          "2026-07-27T00:00:00+00:00",
-          172500.0,
-          175000.0,
-          169600.0,
-          172600.0,
-          784284
-        ],
-        [
-          "2026-07-28T00:00:00+00:00",
-          171000.0,
-          174200.0,
-          163700.0,
-          165200.0,
-          1297643
-        ],
-        [
-          "2026-07-29T00:00:00+00:00",
-          165300.0,
-          170500.0,
-          156000.0,
-          160100.0,
-          1626420
-        ],
-        [
-          "2026-07-30T00:00:00+00:00",
-          160100.0,
-          171700.0,
-          160000.0,
-          167400.0,
-          1676656
-        ],
-        [
-          "2026-07-31T00:00:00+00:00",
-          167500.0,
-          169300.0,
-          161600.0,
-          168500.0,
-          1520142
-        ],
-        [
-          "2026-08-03T00:00:00+00:00",
-          168000.0,
-          170600.0,
-          164600.0,
-          169500.0,
-          921537
-        ],
-        [
-          "2026-08-04T00:00:00+00:00",
-          169800.0,
-          170600.0,
-          165800.0,
-          168800.0,
-          743858
-        ],
-        [
-          "2026-08-05T00:00:00+00:00",
-          172000.0,
-          176800.0,
-          170400.0,
-          170700.0,
-          834785
-        ],
-        [
-          "2026-08-06T00:00:00+00:00",
-          172000.0,
-          173200.0,
-          169700.0,
-          171500.0,
-          729378
-        ],
-        [
-          "2026-08-07T00:00:00+00:00",
-          169200.0,
-          176900.0,
-          169200.0,
-          175800.0,
-          802418
-        ],
-        [
-          "2026-08-10T00:00:00+00:00",
-          174600.0,
-          175400.0,
-          168600.0,
-          171700.0,
-          690184
-        ],
-        [
-          "2026-08-11T00:00:00+00:00",
-          172600.0,
-          172700.0,
-          166000.0,
-          166600.0,
-          1039635
-        ],
-        [
-          "2026-08-12T00:00:00+00:00",
-          168200.0,
-          170300.0,
-          165600.0,
-          166000.0,
-          920851
-        ],
-        [
-          "2026-08-13T00:00:00+00:00",
-          167400.0,
-          170400.0,
-          165800.0,
-          168100.0,
-          1281602
-        ],
-        [
-          "2026-08-14T00:00:00+00:00",
-          167100.0,
-          169800.0,
-          166400.0,
-          168500.0,
-          951351
-        ],
-        [
-          "2026-08-18T00:00:00+00:00",
-          168400.0,
-          168500.0,
-          166100.0,
-          168500.0,
-          856473
-        ],
-        [
-          "2026-08-19T00:00:00+00:00",
-          165900.0,
-          166600.0,
-          159900.0,
-          166400.0,
-          996480
-        ]
-      ],
-      "daily_90d": [
-        [
-          "2026-04-08T00:00:00+00:00",
-          158200.0,
-          159100.0,
-          155000.0,
-          156000.0,
-          1252002
-        ],
-        [
-          "2026-04-09T00:00:00+00:00",
-          162700.0,
-          162700.0,
-          154100.0,
-          154200.0,
-          1002806
-        ],
-        [
-          "2026-04-10T00:00:00+00:00",
-          156000.0,
-          159500.0,
-          156000.0,
-          158300.0,
-          625014
-        ],
-        [
-          "2026-04-13T00:00:00+00:00",
-          156800.0,
-          158100.0,
-          155300.0,
-          156600.0,
-          889890
-        ],
-        [
-          "2026-04-14T00:00:00+00:00",
-          157600.0,
-          159800.0,
-          155800.0,
-          155900.0,
-          1033864
-        ],
-        [
-          "2026-04-15T00:00:00+00:00",
-          157400.0,
-          161000.0,
-          157400.0,
-          158200.0,
-          1706000
-        ],
-        [
-          "2026-04-16T00:00:00+00:00",
-          161000.0,
-          163700.0,
-          159500.0,
-          162300.0,
-          1216078
-        ],
-        [
-          "2026-04-17T00:00:00+00:00",
-          163000.0,
-          163400.0,
-          161100.0,
-          162300.0,
-          762368
-        ],
-        [
-          "2026-04-20T00:00:00+00:00",
-          166500.0,
-          166500.0,
-          160900.0,
-          160900.0,
-          747973
-        ],
-        [
-          "2026-04-21T00:00:00+00:00",
-          161200.0,
-          162100.0,
-          159600.0,
-          160400.0,
-          594032
-        ],
-        [
-          "2026-04-22T00:00:00+00:00",
-          159000.0,
-          159000.0,
-          155400.0,
-          157400.0,
-          1086402
-        ],
-        [
-          "2026-04-23T00:00:00+00:00",
-          155900.0,
-          158000.0,
-          155000.0,
-          158000.0,
-          1225606
-        ],
-        [
-          "2026-04-24T00:00:00+00:00",
-          157000.0,
-          159000.0,
-          156300.0,
-          157400.0,
-          1072760
-        ],
-        [
-          "2026-04-27T00:00:00+00:00",
-          157400.0,
-          157800.0,
-          155200.0,
-          157400.0,
-          884797
-        ],
-        [
-          "2026-04-28T00:00:00+00:00",
-          158900.0,
-          159900.0,
-          157100.0,
-          158800.0,
-          1175120
-        ],
-        [
-          "2026-04-29T00:00:00+00:00",
-          159300.0,
-          161100.0,
-          158000.0,
-          160600.0,
-          1014447
-        ],
-        [
-          "2026-04-30T00:00:00+00:00",
-          162200.0,
-          163900.0,
-          159400.0,
-          160500.0,
-          1640619
-        ],
-        [
-          "2026-05-04T00:00:00+00:00",
-          161500.0,
-          163000.0,
-          157700.0,
-          157800.0,
-          1452794
-        ],
-        [
-          "2026-05-06T00:00:00+00:00",
-          162100.0,
-          162400.0,
-          158000.0,
-          158900.0,
-          1597573
-        ],
-        [
-          "2026-05-07T00:00:00+00:00",
-          162300.0,
-          162300.0,
-          157900.0,
-          161200.0,
-          1342933
-        ],
-        [
-          "2026-05-08T00:00:00+00:00",
-          163200.0,
-          164200.0,
-          160300.0,
-          161700.0,
-          1223978
-        ],
-        [
-          "2026-05-11T00:00:00+00:00",
-          161000.0,
-          163200.0,
-          158200.0,
-          158800.0,
-          1775411
-        ],
-        [
-          "2026-05-12T00:00:00+00:00",
-          159400.0,
-          159500.0,
-          150800.0,
-          153600.0,
-          1749942
-        ],
-        [
-          "2026-05-13T00:00:00+00:00",
-          152800.0,
-          155000.0,
-          150900.0,
-          152000.0,
-          1284353
-        ],
-        [
-          "2026-05-14T00:00:00+00:00",
-          153500.0,
-          156500.0,
-          150700.0,
-          156000.0,
-          1283678
-        ],
-        [
-          "2026-05-15T00:00:00+00:00",
-          157500.0,
-          159700.0,
-          153300.0,
-          155600.0,
-          1530297
-        ],
-        [
-          "2026-05-18T00:00:00+00:00",
-          154900.0,
-          155900.0,
-          149300.0,
-          153000.0,
-          986810
-        ],
-        [
-          "2026-05-19T00:00:00+00:00",
-          150200.0,
-          155300.0,
-          149200.0,
-          152800.0,
-          1157980
-        ],
-        [
-          "2026-05-20T00:00:00+00:00",
-          155100.0,
-          155500.0,
-          149200.0,
-          151700.0,
-          1337443
-        ],
-        [
-          "2026-05-21T00:00:00+00:00",
-          154200.0,
-          157200.0,
-          153900.0,
-          155800.0,
-          827912
-        ],
-        [
-          "2026-05-22T00:00:00+00:00",
-          158000.0,
-          161300.0,
-          156100.0,
-          160000.0,
-          1111571
-        ],
-        [
-          "2026-05-26T00:00:00+00:00",
-          160100.0,
-          162000.0,
-          157300.0,
-          157300.0,
-          1048890
-        ],
-        [
-          "2026-05-27T00:00:00+00:00",
-          157800.0,
-          158400.0,
-          153300.0,
-          153800.0,
-          1180209
-        ],
-        [
-          "2026-05-28T00:00:00+00:00",
-          155100.0,
-          155100.0,
-          146700.0,
-          149700.0,
-          1497632
-        ],
-        [
-          "2026-05-29T00:00:00+00:00",
-          150100.0,
-          153500.0,
-          148200.0,
-          150600.0,
-          2006731
-        ],
-        [
-          "2026-06-01T00:00:00+00:00",
-          149100.0,
-          155500.0,
-          149100.0,
-          152100.0,
-          1706556
-        ],
-        [
-          "2026-06-02T00:00:00+00:00",
-          155800.0,
-          156900.0,
-          150000.0,
-          156600.0,
-          1307922
-        ],
-        [
-          "2026-06-04T00:00:00+00:00",
-          156600.0,
-          165900.0,
-          154600.0,
-          164200.0,
-          2143129
-        ],
-        [
-          "2026-06-05T00:00:00+00:00",
-          171500.0,
-          175700.0,
-          166000.0,
-          171600.0,
-          2955491
-        ],
-        [
-          "2026-06-08T00:00:00+00:00",
-          168900.0,
-          169500.0,
-          150000.0,
-          151500.0,
-          2364470
-        ],
-        [
-          "2026-06-09T00:00:00+00:00",
-          157200.0,
-          157200.0,
-          151000.0,
-          154800.0,
-          1775435
-        ],
-        [
-          "2026-06-10T00:00:00+00:00",
-          152800.0,
-          156800.0,
-          149300.0,
-          154000.0,
-          1
-        ],
-        [
-          "2026-06-11T00:00:00+00:00",
-          153800.0,
-          153800.0,
-          147400.0,
-          151500.0,
-          1776398
-        ],
-        [
-          "2026-06-12T00:00:00+00:00",
-          156000.0,
-          167200.0,
-          153700.0,
-          161200.0,
-          1564173
-        ],
-        [
-          "2026-06-15T00:00:00+00:00",
-          163500.0,
-          175000.0,
-          162200.0,
-          169600.0,
-          1412182
-        ],
-        [
-          "2026-06-16T00:00:00+00:00",
-          174600.0,
-          182700.0,
-          170600.0,
-          172000.0,
-          1678455
-        ],
-        [
-          "2026-06-17T00:00:00+00:00",
-          175400.0,
-          176500.0,
-          163500.0,
-          164000.0,
-          1530191
-        ],
-        [
-          "2026-06-18T00:00:00+00:00",
-          162500.0,
-          164500.0,
-          158700.0,
-          163100.0,
-          1519100
-        ],
-        [
-          "2026-06-19T00:00:00+00:00",
-          164100.0,
-          165900.0,
-          155000.0,
-          158300.0,
-          2181977
-        ],
-        [
-          "2026-06-22T00:00:00+00:00",
-          158400.0,
-          158600.0,
-          155100.0,
-          157000.0,
-          956909
-        ],
-        [
-          "2026-06-23T00:00:00+00:00",
-          157400.0,
-          163800.0,
-          151400.0,
-          153700.0,
-          1749820
-        ],
-        [
-          "2026-06-24T00:00:00+00:00",
-          154000.0,
-          156400.0,
-          149100.0,
-          151800.0,
-          1422437
-        ],
-        [
-          "2026-06-25T00:00:00+00:00",
-          153900.0,
-          156400.0,
-          151400.0,
-          151900.0,
-          1076476
-        ],
-        [
-          "2026-06-26T00:00:00+00:00",
-          151300.0,
-          153000.0,
-          145000.0,
-          149300.0,
-          1103176
-        ],
-        [
-          "2026-06-29T00:00:00+00:00",
-          149400.0,
-          154500.0,
-          146200.0,
-          153700.0,
-          1318055
-        ],
-        [
-          "2026-06-30T00:00:00+00:00",
-          156300.0,
-          161800.0,
-          155200.0,
-          159000.0,
-          1512863
-        ],
-        [
-          "2026-07-01T00:00:00+00:00",
-          159600.0,
-          162500.0,
-          154600.0,
-          158500.0,
-          1193889
-        ],
-        [
-          "2026-07-02T00:00:00+00:00",
-          161700.0,
-          173800.0,
-          158700.0,
-          165000.0,
-          2309641
-        ],
-        [
-          "2026-07-03T00:00:00+00:00",
-          165200.0,
-          172600.0,
-          165000.0,
-          170100.0,
-          1562948
-        ],
-        [
-          "2026-07-06T00:00:00+00:00",
-          170200.0,
-          177000.0,
-          168500.0,
-          170900.0,
-          1018511
-        ],
-        [
-          "2026-07-07T00:00:00+00:00",
-          171000.0,
-          176900.0,
-          168500.0,
-          173200.0,
-          1562593
-        ],
-        [
-          "2026-07-08T00:00:00+00:00",
-          176200.0,
-          176600.0,
-          169200.0,
-          171000.0,
-          2208396
-        ],
-        [
-          "2026-07-09T00:00:00+00:00",
-          175900.0,
-          176000.0,
-          169400.0,
-          171400.0,
-          2385649
-        ],
-        [
-          "2026-07-10T00:00:00+00:00",
-          179900.0,
-          189900.0,
-          175000.0,
-          184400.0,
-          2152385
-        ],
-        [
-          "2026-07-13T00:00:00+00:00",
-          186300.0,
-          194500.0,
-          184100.0,
-          186200.0,
-          2401881
-        ],
-        [
-          "2026-07-14T00:00:00+00:00",
-          189800.0,
-          190200.0,
-          179600.0,
-          180000.0,
-          2315220
-        ],
-        [
-          "2026-07-15T00:00:00+00:00",
-          182800.0,
-          185200.0,
-          180000.0,
-          181600.0,
-          1769738
-        ],
-        [
-          "2026-07-16T00:00:00+00:00",
-          183700.0,
-          187500.0,
-          177500.0,
-          181100.0,
-          1299467
-        ],
-        [
-          "2026-07-20T00:00:00+00:00",
-          180000.0,
-          180000.0,
-          165600.0,
-          168800.0,
-          1831119
-        ],
-        [
-          "2026-07-21T00:00:00+00:00",
-          166700.0,
-          174500.0,
-          164100.0,
-          174000.0,
-          1022673
-        ],
-        [
-          "2026-07-22T00:00:00+00:00",
-          177700.0,
-          179800.0,
-          174200.0,
-          175100.0,
-          848625
-        ],
-        [
-          "2026-07-23T00:00:00+00:00",
-          175200.0,
-          180100.0,
-          174000.0,
-          176300.0,
-          1044277
-        ],
-        [
-          "2026-07-24T00:00:00+00:00",
-          174900.0,
-          176400.0,
-          165600.0,
-          171500.0,
-          1122770
-        ],
-        [
-          "2026-07-27T00:00:00+00:00",
-          172500.0,
-          175000.0,
-          169600.0,
-          172600.0,
-          784284
-        ],
-        [
-          "2026-07-28T00:00:00+00:00",
-          171000.0,
-          174200.0,
-          163700.0,
-          165200.0,
-          1297643
-        ],
-        [
-          "2026-07-29T00:00:00+00:00",
-          165300.0,
-          170500.0,
-          156000.0,
-          160100.0,
-          1626420
-        ],
-        [
-          "2026-07-30T00:00:00+00:00",
-          160100.0,
-          171700.0,
-          160000.0,
-          167400.0,
-          1676656
-        ],
-        [
-          "2026-07-31T00:00:00+00:00",
-          167500.0,
-          169300.0,
-          161600.0,
-          168500.0,
-          1520142
-        ],
-        [
-          "2026-08-03T00:00:00+00:00",
-          168000.0,
-          170600.0,
-          164600.0,
-          169500.0,
-          921537
-        ],
-        [
-          "2026-08-04T00:00:00+00:00",
-          169800.0,
-          170600.0,
-          165800.0,
-          168800.0,
-          743858
-        ],
-        [
-          "2026-08-05T00:00:00+00:00",
-          172000.0,
-          176800.0,
-          170400.0,
-          170700.0,
-          834785
-        ],
-        [
-          "2026-08-06T00:00:00+00:00",
-          172000.0,
-          173200.0,
-          169700.0,
-          171500.0,
-          729378
-        ],
-        [
-          "2026-08-07T00:00:00+00:00",
-          169200.0,
-          176900.0,
-          169200.0,
-          175800.0,
-          802418
-        ],
-        [
-          "2026-08-10T00:00:00+00:00",
-          174600.0,
-          175400.0,
-          168600.0,
-          171700.0,
-          690184
-        ],
-        [
-          "2026-08-11T00:00:00+00:00",
-          172600.0,
-          172700.0,
-          166000.0,
-          166600.0,
-          1039635
-        ],
-        [
-          "2026-08-12T00:00:00+00:00",
-          168200.0,
-          170300.0,
-          165600.0,
-          166000.0,
-          920851
-        ],
-        [
-          "2026-08-13T00:00:00+00:00",
-          167400.0,
-          170400.0,
-          165800.0,
-          168100.0,
-          1281602
-        ],
-        [
-          "2026-08-14T00:00:00+00:00",
-          167100.0,
-          169800.0,
-          166400.0,
-          168500.0,
-          951351
-        ],
-        [
-          "2026-08-18T00:00:00+00:00",
-          168400.0,
-          168500.0,
-          166100.0,
-          168500.0,
-          856473
-        ],
-        [
-          "2026-08-19T00:00:00+00:00",
-          165900.0,
-          166600.0,
-          159900.0,
-          166400.0,
-          996480
-        ]
-      ],
-      "group": "market",
-      "score": 71
-    },
-    {
-      "rank": 27,
       "name": "DB손해보험",
       "code": "005830",
       "market": "KR",
@@ -40486,7 +38315,7 @@
       "atr_pct": 5.21,
       "hold_cap_hours": 72,
       "weight_pct": 10,
-      "vol_surge": 1.7,
+      "vol_surge": 1.6,
       "foreign_net": -33513.0,
       "inst_net": 87282.0,
       "supply_days": 5,
@@ -40498,12 +38327,12 @@
       "data_quality": "good",
       "catalyst_verified": false,
       "change_pct": 3.02,
-      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 급증 1.7x, 강세 마감(종가위치 60.4%), 미국증시 환경 -6.5 (전일 S&P-0.69%·나스닥-1.33%·SOX-4.98%), 외국인 순매도, 기관 순매수, 외국인 매도 가속(최근 확정 2026-08-18 기준(장중이면 D-1)), 기관 매수 가속(최근 확정 2026-08-18 기준(장중이면 D-1)). ATR 5.21%·5일모멘텀 13.98%.",
+      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 급증 1.6x, 강세 마감(종가위치 60.4%), 미국증시 환경 -6.5 (전일 S&P-0.69%·나스닥-1.33%·SOX-4.98%), 외국인 순매도, 기관 순매수, 외국인 매도 가속(최근 확정 2026-08-18 기준(장중이면 D-1)), 기관 매수 가속(최근 확정 2026-08-18 기준(장중이면 D-1)). ATR 5.21%·5일모멘텀 13.98%.",
       "score_reasons": [
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 급증 1.7배 +15",
+        "거래량 급증 1.6배 +15",
         "강세 마감(종가위치 60.4%) +14",
         "5일 모멘텀 +13.98% (양) +8",
         "MA20 이격 과대(고점추격 주의) -6",
@@ -40582,7 +38411,7 @@
           191100.0,
           182000.0,
           187500.0,
-          358513
+          334149
         ]
       ],
       "daily_30d": [
@@ -40824,7 +38653,7 @@
           191100.0,
           182000.0,
           187500.0,
-          358513
+          334149
         ]
       ],
       "daily_90d": [
@@ -41546,12 +39375,12 @@
           191100.0,
           182000.0,
           187500.0,
-          358513
+          334149
         ]
       ],
       "group": "market",
       "orderbook_imbalance": 0.3011,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -41562,11 +39391,11 @@
       "ask_ratio": 0.6506,
       "bid_rem": 6166,
       "ask_rem": 3312,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 71
     },
     {
-      "rank": 28,
+      "rank": 26,
       "name": "하나금융지주",
       "code": "086790",
       "market": "KR",
@@ -42649,7 +40478,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.5536,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -42660,11 +40489,11 @@
       "ask_ratio": 0.2232,
       "bid_rem": 10090,
       "ask_rem": 35113,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 64
     },
     {
-      "rank": 29,
+      "rank": 27,
       "name": "셀트리온",
       "code": "068270",
       "market": "KR",
@@ -43744,7 +41573,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.5045,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -43755,11 +41584,1095 @@
       "ask_ratio": 0.2477,
       "bid_rem": 4963,
       "ask_rem": 15071,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 57
     },
     {
-      "rank": 30,
+      "rank": 28,
+      "name": "POSCO홀딩스",
+      "code": "005490",
+      "market": "KR",
+      "direction": "long",
+      "confidence": "mid",
+      "price": 320000.0,
+      "currency": "KRW",
+      "entry": 320000.0,
+      "entry_type": "now",
+      "entry_note": "기술 점수 상위·돌파 상회. 현재가(320,000) 부근 즉시 진입 가능, 거래량 확인.",
+      "stop": 308000,
+      "target1": 335000,
+      "target2": 345500,
+      "rr": 1.25,
+      "atr_pct": 3.96,
+      "hold_cap_hours": 72,
+      "weight_pct": 15,
+      "vol_surge": 0.64,
+      "foreign_net": 106268.0,
+      "inst_net": -286832.0,
+      "supply_days": 5,
+      "foreign_net_1d": -4672.0,
+      "inst_net_1d": -29394.0,
+      "supply_1d_date": "2026-08-18",
+      "combo_winrate": 0.507,
+      "combo_sample": 428,
+      "combo_lift": 0.009,
+      "stop_pct": 3.8,
+      "est_loss_pct": 0.56,
+      "data_quality": "good",
+      "catalyst_verified": false,
+      "change_pct": -1.39,
+      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 강세 마감(종가위치 100.0%), RSI 65.8(상승), 변동성 돌파 상회, 미국증시 환경 -6.5 (전일 S&P-0.69%·나스닥-1.33%·SOX-4.98%), 외국인 순매수, 기관 순매도, 외국인 매도 전환(최근 확정 2026-08-18 기준(장중이면 D-1)). ATR 3.96%·5일모멘텀 -1.99%.",
+      "score_reasons": [
+        "기본 점수 +50",
+        "정배열(MA5>MA20) +18",
+        "현재가가 20일선(MA20) 위 +8",
+        "강세 마감(종가위치 100.0%) +14",
+        "RSI 65.8 (상승 구간 50~70) +13",
+        "변동성 돌파선 상회 +14",
+        "미국증시 환경 -6.5 (전일 S&P-0.69%·나스닥-1.33%·SOX-4.98%)",
+        "외국인 순매수(최근 5일) +14",
+        "기관 순매도(최근 5일) -11",
+        "PBR 0.43 자산가치 이하 +3",
+        "외국인 매도 전환 감지(최근 확정 2026-08-18 기준(장중이면 D-1): 직전 순매수/보합→순매도) — 압도적 우선 감점 -50"
+      ],
+      "risk_notes": [
+        "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
+        "비중 15%는 위험균등 산정 — 손절(3.8%) 도달 시 자본 약 0.56% 손실 수준(위험 2.0%/트레이드 기준).",
+        "목표1 도달 시 손절을 본전으로 올려 이익 보호 · 보유 72h 경과 시 잔여 청산."
+      ],
+      "tags": [
+        "기술분석",
+        "온디맨드",
+        "즉시진입"
+      ],
+      "intraday_5m": [],
+      "daily_7d": [
+        [
+          "2026-08-10T00:00:00+00:00",
+          330500.0,
+          337000.0,
+          323500.0,
+          336000.0,
+          272691
+        ],
+        [
+          "2026-08-11T00:00:00+00:00",
+          332500.0,
+          334000.0,
+          324500.0,
+          326500.0,
+          222094
+        ],
+        [
+          "2026-08-12T00:00:00+00:00",
+          327000.0,
+          329000.0,
+          321000.0,
+          325000.0,
+          187542
+        ],
+        [
+          "2026-08-13T00:00:00+00:00",
+          326500.0,
+          328500.0,
+          320500.0,
+          325500.0,
+          450110
+        ],
+        [
+          "2026-08-14T00:00:00+00:00",
+          326500.0,
+          335000.0,
+          326000.0,
+          334000.0,
+          322904
+        ],
+        [
+          "2026-08-18T00:00:00+00:00",
+          332500.0,
+          333500.0,
+          320500.0,
+          324500.0,
+          245400
+        ],
+        [
+          "2026-08-19T00:00:00+00:00",
+          312500.0,
+          320000.0,
+          308000.0,
+          320000.0,
+          195126
+        ]
+      ],
+      "daily_30d": [
+        [
+          "2026-07-07T00:00:00+00:00",
+          320500.0,
+          321000.0,
+          306500.0,
+          315500.0,
+          279795
+        ],
+        [
+          "2026-07-08T00:00:00+00:00",
+          311000.0,
+          316000.0,
+          301000.0,
+          304000.0,
+          289364
+        ],
+        [
+          "2026-07-09T00:00:00+00:00",
+          306000.0,
+          310000.0,
+          292000.0,
+          297000.0,
+          444238
+        ],
+        [
+          "2026-07-10T00:00:00+00:00",
+          304000.0,
+          320500.0,
+          304000.0,
+          313500.0,
+          298245
+        ],
+        [
+          "2026-07-13T00:00:00+00:00",
+          313500.0,
+          324000.0,
+          306500.0,
+          308000.0,
+          337638
+        ],
+        [
+          "2026-07-14T00:00:00+00:00",
+          308500.0,
+          311500.0,
+          299000.0,
+          303500.0,
+          341126
+        ],
+        [
+          "2026-07-15T00:00:00+00:00",
+          309000.0,
+          319500.0,
+          309000.0,
+          314500.0,
+          313817
+        ],
+        [
+          "2026-07-16T00:00:00+00:00",
+          312000.0,
+          320000.0,
+          305500.0,
+          311500.0,
+          287682
+        ],
+        [
+          "2026-07-20T00:00:00+00:00",
+          309000.0,
+          310000.0,
+          298500.0,
+          302500.0,
+          307990
+        ],
+        [
+          "2026-07-21T00:00:00+00:00",
+          298500.0,
+          303000.0,
+          293000.0,
+          303000.0,
+          254065
+        ],
+        [
+          "2026-07-22T00:00:00+00:00",
+          307500.0,
+          314000.0,
+          301500.0,
+          303000.0,
+          254159
+        ],
+        [
+          "2026-07-23T00:00:00+00:00",
+          303500.0,
+          325000.0,
+          303000.0,
+          323500.0,
+          326824
+        ],
+        [
+          "2026-07-24T00:00:00+00:00",
+          316500.0,
+          319500.0,
+          308500.0,
+          313000.0,
+          257402
+        ],
+        [
+          "2026-07-27T00:00:00+00:00",
+          319000.0,
+          322000.0,
+          313500.0,
+          316000.0,
+          201640
+        ],
+        [
+          "2026-07-28T00:00:00+00:00",
+          309000.0,
+          310000.0,
+          293000.0,
+          299000.0,
+          367586
+        ],
+        [
+          "2026-07-29T00:00:00+00:00",
+          300000.0,
+          303500.0,
+          275000.0,
+          288500.0,
+          467638
+        ],
+        [
+          "2026-07-30T00:00:00+00:00",
+          282000.0,
+          305000.0,
+          282000.0,
+          300500.0,
+          485070
+        ],
+        [
+          "2026-07-31T00:00:00+00:00",
+          311500.0,
+          317500.0,
+          301000.0,
+          312500.0,
+          431276
+        ],
+        [
+          "2026-08-03T00:00:00+00:00",
+          310000.0,
+          311500.0,
+          298000.0,
+          303500.0,
+          294993
+        ],
+        [
+          "2026-08-04T00:00:00+00:00",
+          305500.0,
+          313000.0,
+          303000.0,
+          313000.0,
+          276520
+        ],
+        [
+          "2026-08-05T00:00:00+00:00",
+          317500.0,
+          322500.0,
+          315000.0,
+          317000.0,
+          230639
+        ],
+        [
+          "2026-08-06T00:00:00+00:00",
+          315000.0,
+          321500.0,
+          311000.0,
+          319000.0,
+          249364
+        ],
+        [
+          "2026-08-07T00:00:00+00:00",
+          327000.0,
+          331000.0,
+          318500.0,
+          331000.0,
+          322295
+        ],
+        [
+          "2026-08-10T00:00:00+00:00",
+          330500.0,
+          337000.0,
+          323500.0,
+          336000.0,
+          272691
+        ],
+        [
+          "2026-08-11T00:00:00+00:00",
+          332500.0,
+          334000.0,
+          324500.0,
+          326500.0,
+          222094
+        ],
+        [
+          "2026-08-12T00:00:00+00:00",
+          327000.0,
+          329000.0,
+          321000.0,
+          325000.0,
+          187542
+        ],
+        [
+          "2026-08-13T00:00:00+00:00",
+          326500.0,
+          328500.0,
+          320500.0,
+          325500.0,
+          450110
+        ],
+        [
+          "2026-08-14T00:00:00+00:00",
+          326500.0,
+          335000.0,
+          326000.0,
+          334000.0,
+          322904
+        ],
+        [
+          "2026-08-18T00:00:00+00:00",
+          332500.0,
+          333500.0,
+          320500.0,
+          324500.0,
+          245400
+        ],
+        [
+          "2026-08-19T00:00:00+00:00",
+          312500.0,
+          320000.0,
+          308000.0,
+          320000.0,
+          195126
+        ]
+      ],
+      "daily_90d": [
+        [
+          "2026-04-08T00:00:00+00:00",
+          358000.0,
+          363500.0,
+          351000.0,
+          362500.0,
+          454015
+        ],
+        [
+          "2026-04-09T00:00:00+00:00",
+          360000.0,
+          370000.0,
+          357500.0,
+          367000.0,
+          474808
+        ],
+        [
+          "2026-04-10T00:00:00+00:00",
+          370500.0,
+          373500.0,
+          365000.0,
+          369000.0,
+          246719
+        ],
+        [
+          "2026-04-13T00:00:00+00:00",
+          362500.0,
+          365000.0,
+          355500.0,
+          360000.0,
+          284457
+        ],
+        [
+          "2026-04-14T00:00:00+00:00",
+          367000.0,
+          367500.0,
+          361000.0,
+          361500.0,
+          213490
+        ],
+        [
+          "2026-04-15T00:00:00+00:00",
+          367000.0,
+          372000.0,
+          365500.0,
+          368000.0,
+          276230
+        ],
+        [
+          "2026-04-16T00:00:00+00:00",
+          373000.0,
+          374500.0,
+          368500.0,
+          370000.0,
+          204289
+        ],
+        [
+          "2026-04-17T00:00:00+00:00",
+          377000.0,
+          386000.0,
+          375500.0,
+          385000.0,
+          608037
+        ],
+        [
+          "2026-04-20T00:00:00+00:00",
+          386500.0,
+          394500.0,
+          385000.0,
+          389500.0,
+          354709
+        ],
+        [
+          "2026-04-21T00:00:00+00:00",
+          398000.0,
+          422000.0,
+          396000.0,
+          421500.0,
+          1024414
+        ],
+        [
+          "2026-04-22T00:00:00+00:00",
+          420000.0,
+          423000.0,
+          410500.0,
+          418500.0,
+          561752
+        ],
+        [
+          "2026-04-23T00:00:00+00:00",
+          421000.0,
+          421000.0,
+          401500.0,
+          410500.0,
+          558290
+        ],
+        [
+          "2026-04-24T00:00:00+00:00",
+          411500.0,
+          416500.0,
+          407000.0,
+          415000.0,
+          292559
+        ],
+        [
+          "2026-04-27T00:00:00+00:00",
+          422000.0,
+          422000.0,
+          411000.0,
+          417500.0,
+          309760
+        ],
+        [
+          "2026-04-28T00:00:00+00:00",
+          442000.0,
+          482000.0,
+          441000.0,
+          466500.0,
+          1962453
+        ],
+        [
+          "2026-04-29T00:00:00+00:00",
+          477000.0,
+          478000.0,
+          462500.0,
+          469000.0,
+          599954
+        ],
+        [
+          "2026-04-30T00:00:00+00:00",
+          471500.0,
+          471500.0,
+          455500.0,
+          462000.0,
+          568870
+        ],
+        [
+          "2026-05-04T00:00:00+00:00",
+          486000.0,
+          512000.0,
+          485000.0,
+          502000.0,
+          1080353
+        ],
+        [
+          "2026-05-06T00:00:00+00:00",
+          518000.0,
+          519000.0,
+          497500.0,
+          506000.0,
+          602095
+        ],
+        [
+          "2026-05-07T00:00:00+00:00",
+          515000.0,
+          542000.0,
+          505000.0,
+          535000.0,
+          947299
+        ],
+        [
+          "2026-05-08T00:00:00+00:00",
+          528000.0,
+          529000.0,
+          512000.0,
+          525000.0,
+          462890
+        ],
+        [
+          "2026-05-11T00:00:00+00:00",
+          521000.0,
+          525000.0,
+          504000.0,
+          512000.0,
+          501971
+        ],
+        [
+          "2026-05-12T00:00:00+00:00",
+          511000.0,
+          516000.0,
+          465500.0,
+          479000.0,
+          1308740
+        ],
+        [
+          "2026-05-13T00:00:00+00:00",
+          475000.0,
+          487000.0,
+          464000.0,
+          478500.0,
+          657568
+        ],
+        [
+          "2026-05-14T00:00:00+00:00",
+          494500.0,
+          495000.0,
+          475000.0,
+          486500.0,
+          600393
+        ],
+        [
+          "2026-05-15T00:00:00+00:00",
+          487500.0,
+          505000.0,
+          457000.0,
+          467500.0,
+          713593
+        ],
+        [
+          "2026-05-18T00:00:00+00:00",
+          460500.0,
+          466000.0,
+          435500.0,
+          463000.0,
+          503785
+        ],
+        [
+          "2026-05-19T00:00:00+00:00",
+          467000.0,
+          467500.0,
+          430000.0,
+          440500.0,
+          578283
+        ],
+        [
+          "2026-05-20T00:00:00+00:00",
+          440500.0,
+          444000.0,
+          410000.0,
+          417000.0,
+          735059
+        ],
+        [
+          "2026-05-21T00:00:00+00:00",
+          434000.0,
+          443500.0,
+          427000.0,
+          443500.0,
+          402848
+        ],
+        [
+          "2026-05-22T00:00:00+00:00",
+          453500.0,
+          458500.0,
+          444000.0,
+          447500.0,
+          369792
+        ],
+        [
+          "2026-05-26T00:00:00+00:00",
+          457500.0,
+          459500.0,
+          440000.0,
+          442000.0,
+          359994
+        ],
+        [
+          "2026-05-27T00:00:00+00:00",
+          440000.0,
+          442000.0,
+          422500.0,
+          423500.0,
+          512005
+        ],
+        [
+          "2026-05-28T00:00:00+00:00",
+          433500.0,
+          435500.0,
+          405000.0,
+          420000.0,
+          593623
+        ],
+        [
+          "2026-05-29T00:00:00+00:00",
+          424000.0,
+          424000.0,
+          407500.0,
+          423500.0,
+          775543
+        ],
+        [
+          "2026-06-01T00:00:00+00:00",
+          418000.0,
+          426000.0,
+          412000.0,
+          413000.0,
+          530828
+        ],
+        [
+          "2026-06-02T00:00:00+00:00",
+          405500.0,
+          416500.0,
+          392500.0,
+          399000.0,
+          592760
+        ],
+        [
+          "2026-06-04T00:00:00+00:00",
+          405000.0,
+          412500.0,
+          393000.0,
+          402000.0,
+          481991
+        ],
+        [
+          "2026-06-05T00:00:00+00:00",
+          401500.0,
+          405000.0,
+          375000.0,
+          390000.0,
+          432637
+        ],
+        [
+          "2026-06-08T00:00:00+00:00",
+          361000.0,
+          368000.0,
+          356000.0,
+          359000.0,
+          411313
+        ],
+        [
+          "2026-06-09T00:00:00+00:00",
+          366000.0,
+          370500.0,
+          356000.0,
+          364500.0,
+          503818
+        ],
+        [
+          "2026-06-10T00:00:00+00:00",
+          361500.0,
+          372000.0,
+          352000.0,
+          363000.0,
+          39
+        ],
+        [
+          "2026-06-11T00:00:00+00:00",
+          350000.0,
+          360000.0,
+          342500.0,
+          358000.0,
+          418533
+        ],
+        [
+          "2026-06-12T00:00:00+00:00",
+          377500.0,
+          389500.0,
+          373500.0,
+          377000.0,
+          483611
+        ],
+        [
+          "2026-06-15T00:00:00+00:00",
+          396000.0,
+          398000.0,
+          388000.0,
+          395000.0,
+          288778
+        ],
+        [
+          "2026-06-16T00:00:00+00:00",
+          396500.0,
+          396500.0,
+          386500.0,
+          390000.0,
+          319132
+        ],
+        [
+          "2026-06-17T00:00:00+00:00",
+          396500.0,
+          397000.0,
+          382500.0,
+          384500.0,
+          308208
+        ],
+        [
+          "2026-06-18T00:00:00+00:00",
+          381000.0,
+          381000.0,
+          367000.0,
+          367000.0,
+          429197
+        ],
+        [
+          "2026-06-19T00:00:00+00:00",
+          366000.0,
+          372000.0,
+          350000.0,
+          356500.0,
+          537087
+        ],
+        [
+          "2026-06-22T00:00:00+00:00",
+          356000.0,
+          356500.0,
+          345500.0,
+          346500.0,
+          329691
+        ],
+        [
+          "2026-06-23T00:00:00+00:00",
+          345500.0,
+          352000.0,
+          320000.0,
+          322000.0,
+          568511
+        ],
+        [
+          "2026-06-24T00:00:00+00:00",
+          322000.0,
+          334000.0,
+          316500.0,
+          331500.0,
+          418516
+        ],
+        [
+          "2026-06-25T00:00:00+00:00",
+          332000.0,
+          334500.0,
+          322000.0,
+          323000.0,
+          359066
+        ],
+        [
+          "2026-06-26T00:00:00+00:00",
+          316500.0,
+          319500.0,
+          296500.0,
+          305000.0,
+          555199
+        ],
+        [
+          "2026-06-29T00:00:00+00:00",
+          308000.0,
+          334500.0,
+          300000.0,
+          333000.0,
+          512476
+        ],
+        [
+          "2026-06-30T00:00:00+00:00",
+          327500.0,
+          328000.0,
+          315500.0,
+          317000.0,
+          401319
+        ],
+        [
+          "2026-07-01T00:00:00+00:00",
+          325000.0,
+          326000.0,
+          309000.0,
+          315000.0,
+          264203
+        ],
+        [
+          "2026-07-02T00:00:00+00:00",
+          311000.0,
+          325000.0,
+          301500.0,
+          317500.0,
+          369482
+        ],
+        [
+          "2026-07-03T00:00:00+00:00",
+          319000.0,
+          321000.0,
+          304500.0,
+          320000.0,
+          325126
+        ],
+        [
+          "2026-07-06T00:00:00+00:00",
+          325000.0,
+          326000.0,
+          311000.0,
+          321500.0,
+          205753
+        ],
+        [
+          "2026-07-07T00:00:00+00:00",
+          320500.0,
+          321000.0,
+          306500.0,
+          315500.0,
+          279795
+        ],
+        [
+          "2026-07-08T00:00:00+00:00",
+          311000.0,
+          316000.0,
+          301000.0,
+          304000.0,
+          289364
+        ],
+        [
+          "2026-07-09T00:00:00+00:00",
+          306000.0,
+          310000.0,
+          292000.0,
+          297000.0,
+          444238
+        ],
+        [
+          "2026-07-10T00:00:00+00:00",
+          304000.0,
+          320500.0,
+          304000.0,
+          313500.0,
+          298245
+        ],
+        [
+          "2026-07-13T00:00:00+00:00",
+          313500.0,
+          324000.0,
+          306500.0,
+          308000.0,
+          337638
+        ],
+        [
+          "2026-07-14T00:00:00+00:00",
+          308500.0,
+          311500.0,
+          299000.0,
+          303500.0,
+          341126
+        ],
+        [
+          "2026-07-15T00:00:00+00:00",
+          309000.0,
+          319500.0,
+          309000.0,
+          314500.0,
+          313817
+        ],
+        [
+          "2026-07-16T00:00:00+00:00",
+          312000.0,
+          320000.0,
+          305500.0,
+          311500.0,
+          287682
+        ],
+        [
+          "2026-07-20T00:00:00+00:00",
+          309000.0,
+          310000.0,
+          298500.0,
+          302500.0,
+          307990
+        ],
+        [
+          "2026-07-21T00:00:00+00:00",
+          298500.0,
+          303000.0,
+          293000.0,
+          303000.0,
+          254065
+        ],
+        [
+          "2026-07-22T00:00:00+00:00",
+          307500.0,
+          314000.0,
+          301500.0,
+          303000.0,
+          254159
+        ],
+        [
+          "2026-07-23T00:00:00+00:00",
+          303500.0,
+          325000.0,
+          303000.0,
+          323500.0,
+          326824
+        ],
+        [
+          "2026-07-24T00:00:00+00:00",
+          316500.0,
+          319500.0,
+          308500.0,
+          313000.0,
+          257402
+        ],
+        [
+          "2026-07-27T00:00:00+00:00",
+          319000.0,
+          322000.0,
+          313500.0,
+          316000.0,
+          201640
+        ],
+        [
+          "2026-07-28T00:00:00+00:00",
+          309000.0,
+          310000.0,
+          293000.0,
+          299000.0,
+          367586
+        ],
+        [
+          "2026-07-29T00:00:00+00:00",
+          300000.0,
+          303500.0,
+          275000.0,
+          288500.0,
+          467638
+        ],
+        [
+          "2026-07-30T00:00:00+00:00",
+          282000.0,
+          305000.0,
+          282000.0,
+          300500.0,
+          485070
+        ],
+        [
+          "2026-07-31T00:00:00+00:00",
+          311500.0,
+          317500.0,
+          301000.0,
+          312500.0,
+          431276
+        ],
+        [
+          "2026-08-03T00:00:00+00:00",
+          310000.0,
+          311500.0,
+          298000.0,
+          303500.0,
+          294993
+        ],
+        [
+          "2026-08-04T00:00:00+00:00",
+          305500.0,
+          313000.0,
+          303000.0,
+          313000.0,
+          276520
+        ],
+        [
+          "2026-08-05T00:00:00+00:00",
+          317500.0,
+          322500.0,
+          315000.0,
+          317000.0,
+          230639
+        ],
+        [
+          "2026-08-06T00:00:00+00:00",
+          315000.0,
+          321500.0,
+          311000.0,
+          319000.0,
+          249364
+        ],
+        [
+          "2026-08-07T00:00:00+00:00",
+          327000.0,
+          331000.0,
+          318500.0,
+          331000.0,
+          322295
+        ],
+        [
+          "2026-08-10T00:00:00+00:00",
+          330500.0,
+          337000.0,
+          323500.0,
+          336000.0,
+          272691
+        ],
+        [
+          "2026-08-11T00:00:00+00:00",
+          332500.0,
+          334000.0,
+          324500.0,
+          326500.0,
+          222094
+        ],
+        [
+          "2026-08-12T00:00:00+00:00",
+          327000.0,
+          329000.0,
+          321000.0,
+          325000.0,
+          187542
+        ],
+        [
+          "2026-08-13T00:00:00+00:00",
+          326500.0,
+          328500.0,
+          320500.0,
+          325500.0,
+          450110
+        ],
+        [
+          "2026-08-14T00:00:00+00:00",
+          326500.0,
+          335000.0,
+          326000.0,
+          334000.0,
+          322904
+        ],
+        [
+          "2026-08-18T00:00:00+00:00",
+          332500.0,
+          333500.0,
+          320500.0,
+          324500.0,
+          245400
+        ],
+        [
+          "2026-08-19T00:00:00+00:00",
+          312500.0,
+          320000.0,
+          308000.0,
+          320000.0,
+          195126
+        ]
+      ],
+      "group": "market",
+      "score": 50
+    },
+    {
+      "rank": 29,
       "name": "현대글로비스",
       "code": "086280",
       "market": "KR",
@@ -44841,7 +43754,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.3701,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -44852,7 +43765,7 @@
       "ask_ratio": 0.3149,
       "bid_rem": 3849,
       "ask_rem": 8372,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00",
       "score": 50
     }
   ],
@@ -44865,7 +43778,7 @@
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -4.83,
-      "vol_surge": 0.78,
+      "vol_surge": 0.71,
       "score": 90,
       "score_reasons": [
         "기본 점수 +50",
@@ -46229,7 +45142,7 @@
           422500.0,
           406500.0,
           414000.0,
-          587240
+          533273
         ]
       ],
       "daily_30d": [
@@ -46471,7 +45384,7 @@
           422500.0,
           406500.0,
           414000.0,
-          587240
+          533273
         ]
       ],
       "daily_90d": [
@@ -47193,7 +46106,7 @@
           422500.0,
           406500.0,
           414000.0,
-          587240
+          533273
         ]
       ],
       "plan_tentative": true,
@@ -47210,7 +46123,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": -0.3756,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -47221,7 +46134,7 @@
       "ask_ratio": 0.3122,
       "bid_rem": 12711,
       "ask_rem": 28001,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00"
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00"
     },
     {
       "name": "LG에너지솔루션",
@@ -49577,7 +48490,7 @@
       "hold_cap_hours": 72,
       "reachable": true,
       "orderbook_imbalance": -0.8215,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -49588,23 +48501,23 @@
       "ask_ratio": 0.0892,
       "bid_rem": 2698,
       "ask_rem": 27534,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00"
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00"
     },
     {
       "name": "한화에어로스페이스",
       "code": "012450",
       "market": "KR",
-      "price": 1167000.0,
+      "price": 1168000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": 2.71,
-      "vol_surge": 1.85,
+      "vol_surge": 1.79,
       "score": 67,
       "score_reasons": [
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 급증 1.85배 +15",
+        "거래량 급증 1.79배 +15",
         "윗꼬리/분배(종가위치 25.7%) -12",
         "RSI 83.2 (과열 >75) -10",
         "5일 모멘텀 +7.19% (양) +8",
@@ -49619,7 +48532,7 @@
       "foreign_net_1d": 10361.0,
       "inst_net_1d": -5549.0,
       "supply_1d_date": "2026-08-18",
-      "reason": "기술 점수 67점 — 조건 미충족(관망). 정배열(MA5>MA20), 거래량 급증 1.85x, 윗꼬리/분배(종가위치 25.7%), RSI 83.2(과열), 미국증시 환경 -6.5 (전일 S&P-0.69%·나스닥-1.33%·SOX-4.98%), 외국인 순매수, 기관 순매도. ATR 6.28%.",
+      "reason": "기술 점수 67점 — 조건 미충족(관망). 정배열(MA5>MA20), 거래량 급증 1.79x, 윗꼬리/분배(종가위치 25.7%), RSI 83.2(과열), 미국증시 환경 -6.5 (전일 S&P-0.69%·나스닥-1.33%·SOX-4.98%), 외국인 순매수, 기관 순매도. ATR 6.28%.",
       "intraday_5m": [
         [
           "2026-08-14T13:40:00+09:00",
@@ -50957,7 +49870,7 @@
           1255000.0,
           1150000.0,
           1177000.0,
-          422274
+          407773
         ]
       ],
       "daily_30d": [
@@ -51199,7 +50112,7 @@
           1255000.0,
           1150000.0,
           1177000.0,
-          422274
+          407773
         ]
       ],
       "daily_90d": [
@@ -51921,7 +50834,7 @@
           1255000.0,
           1150000.0,
           1177000.0,
-          422274
+          407773
         ]
       ],
       "plan_tentative": true,
@@ -51938,7 +50851,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": -0.4369,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -51949,7 +50862,7 @@
       "ask_ratio": 0.2815,
       "bid_rem": 2545,
       "ask_rem": 6495,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00"
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00"
     },
     {
       "name": "한화오션",
@@ -54303,7 +53216,7 @@
       "hold_cap_hours": 72,
       "reachable": true,
       "orderbook_imbalance": -0.0492,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -54314,13 +53227,13 @@
       "ask_ratio": 0.4754,
       "bid_rem": 28195,
       "ask_rem": 31115,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00"
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00"
     },
     {
       "name": "NAVER",
       "code": "035420",
       "market": "KR",
-      "price": 208500.0,
+      "price": 209000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -4.15,
@@ -56664,9 +55577,9 @@
       "stop_pct": 5.1,
       "est_loss_pct": 0.66,
       "hold_cap_hours": 72,
-      "reachable": false,
+      "reachable": true,
       "orderbook_imbalance": 0.3256,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -56677,13 +55590,13 @@
       "ask_ratio": 0.6628,
       "bid_rem": 85669,
       "ask_rem": 43586,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00"
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00"
     },
     {
       "name": "두산에너빌리티",
       "code": "034020",
       "market": "KR",
-      "price": 76400.0,
+      "price": 76500.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -2.18,
@@ -59029,7 +57942,7 @@
       "hold_cap_hours": 72,
       "reachable": true,
       "orderbook_imbalance": -0.4311,
-      "orderbook_imbalance_asof": "2026-08-19T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-19T16:29:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -59040,7 +57953,7 @@
       "ask_ratio": 0.2844,
       "bid_rem": 38311,
       "ask_rem": 96376,
-      "ask_ratio_asof": "2026-08-19T16:22:00+09:00"
+      "ask_ratio_asof": "2026-08-19T16:29:00+09:00"
     }
   ],
   "positions": [],
@@ -59182,7 +58095,7 @@
     ]
   },
   "kr_context": {
-    "asof": "2026-08-19T16:24:00+09:00",
+    "asof": "2026-08-19T16:32:00+09:00",
     "basis": "한국 지수(KIS 실측)",
     "session": "after",
     "stale": false,
@@ -59214,10 +58127,10 @@
     "regime_pct": -2.6,
     "adj": -6.5
   },
-  "analyzed_at": "2026-08-19T16:24:00+09:00",
+  "analyzed_at": "2026-08-19T16:31:00+09:00",
   "watch_advice": {
     "level": "normal",
-    "headline": "매수 신호 35건 — 상위 후보 한미반도체(162점)",
+    "headline": "매수 신호 34건 — 상위 후보 한미반도체(162점)",
     "bullets": [
       "최상위 한미반도체 162점 · 진입 전 재료·시초가 갭 확인.",
       "전일 미국증시 약세(-2.6%) — 위험회피 국면, 비중 보수적으로.",
@@ -59225,12 +58138,12 @@
       "공통 유의: 뉴스/촉매 미반영(기술 신호만). 실주문은 본인 판단·실행."
     ],
     "action": "선별 진입 — 상위 후보 우선 검토",
-    "signal_count": 35,
+    "signal_count": 34,
     "top_signal": "한미반도체",
     "top_score": 162
   },
   "integrity": {
-    "checked_at": "2026-08-19T16:24:00+09:00",
+    "checked_at": "2026-08-19T16:31:00+09:00",
     "critical": [],
     "warn": []
   }
