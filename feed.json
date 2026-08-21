@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0",
   "date": "2026-08-21",
-  "generated_at": "2026-08-21T16:24:00+09:00",
+  "generated_at": "2026-08-21T16:32:00+09:00",
   "horizon_hours": 72,
-  "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 수급(외국인·기관) + 재무(PER·PBR) + 미국증시 전일 환경 보정 · 분석 범위: 통합 분석 — 관심종목(4 신호) + 전체종목 거래대금 상위(KOSPI, 26 신호). 뉴스/촉매는 ‘뉴스도 함께’에서만.",
+  "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 수급(외국인·기관) + 재무(PER·PBR) + 미국증시 전일 환경 보정 · 분석 범위: 통합 분석 — 관심종목(4 신호) + 전체종목 거래대금 상위(KOSPI, 25 신호). 뉴스/촉매는 ‘뉴스도 함께’에서만.",
   "market_state": {
     "korea": {
       "status": "post",
       "basis": "장후 NXT 애프터마켓(15:30~20:00, 네이버 지수 실측)",
-      "asof": "2026-08-21T16:25:00+09:00",
+      "asof": "2026-08-21T16:32:00+09:00",
       "session": "after"
     },
     "us": {
@@ -18,18 +18,18 @@
     }
   },
   "summary": {
-    "signal_count": 30,
+    "signal_count": 29,
     "observation_count": 7,
     "position_count": 0,
     "top_signal": "NAVER",
-    "headline": "기술 분석 갱신(08-21 16:24 KST) — 차트·거래량·변동성 기준 30개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
+    "headline": "기술 분석 갱신(08-21 16:32 KST) — 차트·거래량·변동성 기준 29개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
     "market_outlook": {
       "regime": "혼조",
       "headline": "코스피·코스닥 방향 엇갈린 혼조 — 기술분석·온디맨드·즉시진입 선별 진입. 섹터 순환매 가능성, 방향 확인 후 진입.",
       "buy_view": "강한 섹터(수급 유입·거래량 증가)에 한정 진입. 주도 테마(기술분석·온디맨드·즉시진입) 위주 선별 진입. 지수 방향 불일치 구간 — 단기 변동성 확대 대비 비중 절제.",
       "sell_view": "방향성 부재 구간 — 목표가 도달 시 즉시 분할 익절. 48시간 보유캡 준수, 수익 확보 후 현금화 우선.",
-      "basis": "매수신호 30개·평균점수 109.4 · 코스피 +0.88% · 코스닥 -4.63% · 전일 S&P -0.87% · SOX +0.53% (실측 지표, 날조 없음)",
-      "asof": "2026-08-21T16:25:11+09:00"
+      "basis": "매수신호 29개·평균점수 111.0 · 코스피 +0.88% · 코스닥 -4.63% · 전일 S&P -0.87% · SOX +0.53% (실측 지표, 날조 없음)",
+      "asof": "2026-08-21T16:32:42+09:00"
     }
   },
   "signals": [
@@ -40,7 +40,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 223000.0,
+      "price": 222000.0,
       "currency": "KRW",
       "entry": 226000.0,
       "entry_type": "breakout",
@@ -52,7 +52,7 @@
       "atr_pct": 5.21,
       "hold_cap_hours": 72,
       "weight_pct": 13,
-      "vol_surge": 0.81,
+      "vol_surge": 0.74,
       "foreign_net": 384790.0,
       "inst_net": 120272.0,
       "supply_days": 5,
@@ -1428,7 +1428,7 @@
           225000.0,
           214000.0,
           222000.0,
-          1077181
+          987136
         ]
       ],
       "daily_30d": [
@@ -1670,7 +1670,7 @@
           225000.0,
           214000.0,
           222000.0,
-          1077181
+          987136
         ]
       ],
       "daily_90d": [
@@ -2392,12 +2392,12 @@
           225000.0,
           214000.0,
           222000.0,
-          1077181
+          987136
         ]
       ],
       "group": "watchlist",
       "orderbook_imbalance": 0.1179,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -2408,7 +2408,7 @@
       "ask_ratio": 0.559,
       "bid_rem": 92798,
       "ask_rem": 73224,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 204
     },
     {
@@ -2430,7 +2430,7 @@
       "atr_pct": 6.22,
       "hold_cap_hours": 72,
       "weight_pct": 15,
-      "vol_surge": 0.9,
+      "vol_surge": 0.97,
       "foreign_net": 5134006.0,
       "inst_net": 448981.0,
       "supply_days": 5,
@@ -3811,7 +3811,7 @@
           285000.0,
           266000.0,
           281500.0,
-          27672190
+          29829587
         ]
       ],
       "daily_30d": [
@@ -4053,7 +4053,7 @@
           285000.0,
           266000.0,
           281500.0,
-          27672190
+          29829587
         ]
       ],
       "daily_90d": [
@@ -4775,12 +4775,12 @@
           285000.0,
           266000.0,
           281500.0,
-          27672190
+          29829587
         ]
       ],
       "group": "watchlist",
       "orderbook_imbalance": -0.3716,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -4791,7 +4791,7 @@
       "ask_ratio": 0.3142,
       "bid_rem": 558750,
       "ask_rem": 1219459,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 200
     },
     {
@@ -4801,7 +4801,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 1738000.0,
+      "price": 1735000.0,
       "currency": "KRW",
       "entry": 1773000.0,
       "entry_type": "breakout",
@@ -4813,7 +4813,7 @@
       "atr_pct": 7.96,
       "hold_cap_hours": 72,
       "weight_pct": 10,
-      "vol_surge": 0.78,
+      "vol_surge": 0.74,
       "foreign_net": 952571.0,
       "inst_net": -574161.0,
       "supply_days": 5,
@@ -6189,7 +6189,7 @@
           1773000.0,
           1669000.0,
           1730000.0,
-          4495764
+          4247418
         ]
       ],
       "daily_30d": [
@@ -6431,7 +6431,7 @@
           1773000.0,
           1669000.0,
           1730000.0,
-          4495764
+          4247418
         ]
       ],
       "daily_90d": [
@@ -7153,12 +7153,12 @@
           1773000.0,
           1669000.0,
           1730000.0,
-          4495764
+          4247418
         ]
       ],
       "group": "watchlist",
       "orderbook_imbalance": -0.1898,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -7169,7 +7169,7 @@
       "ask_ratio": 0.4051,
       "bid_rem": 26368,
       "ask_rem": 38719,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 143
     },
     {
@@ -7179,19 +7179,19 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 416000.0,
+      "price": 415500.0,
       "currency": "KRW",
-      "entry": 416000.0,
+      "entry": 415500.0,
       "entry_type": "now",
-      "entry_note": "기술 점수 상위·돌파 상회. 현재가(416,000) 부근 즉시 진입 가능, 거래량 확인.",
-      "stop": 405000,
-      "target1": 438000,
-      "target2": 449000,
+      "entry_note": "기술 점수 상위·돌파 상회. 현재가(415,500) 부근 즉시 진입 가능, 거래량 확인.",
+      "stop": 404500,
+      "target1": 437500,
+      "target2": 448500,
       "rr": 2.0,
       "atr_pct": 5.21,
       "hold_cap_hours": 72,
       "weight_pct": 15,
-      "vol_surge": 0.52,
+      "vol_surge": 0.55,
       "foreign_net": -24341.0,
       "inst_net": -215533.0,
       "supply_days": 5,
@@ -7206,12 +7206,12 @@
       "data_quality": "good",
       "catalyst_verified": false,
       "change_pct": -0.6,
-      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 위축 0.52x, 강세 마감(종가위치 64.5%), RSI 59.7(상승), 변동성 돌파 상회, 미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%), 외국인 순매도, 기관 순매도, 외국인 매수 전환(최근 확정 2026-08-20 기준(장중이면 D-1)), 기관 매도 가속(최근 확정 2026-08-20 기준(장중이면 D-1)). ATR 5.21%·5일모멘텀 -0.84%.",
+      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 위축 0.55x, 강세 마감(종가위치 64.5%), RSI 59.7(상승), 변동성 돌파 상회, 미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%), 외국인 순매도, 기관 순매도, 외국인 매수 전환(최근 확정 2026-08-20 기준(장중이면 D-1)), 기관 매도 가속(최근 확정 2026-08-20 기준(장중이면 D-1)). ATR 5.21%·5일모멘텀 -0.84%.",
       "score_reasons": [
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 위축(매수세 이탈) 0.52배 -8",
+        "거래량 위축(매수세 이탈) 0.55배 -8",
         "강세 마감(종가위치 64.5%) +14",
         "RSI 59.7 (상승 구간 50~70) +13",
         "변동성 돌파선 상회 +14",
@@ -8571,7 +8571,7 @@
           420500.0,
           405000.0,
           415000.0,
-          371705
+          390161
         ]
       ],
       "daily_30d": [
@@ -8813,7 +8813,7 @@
           420500.0,
           405000.0,
           415000.0,
-          371705
+          390161
         ]
       ],
       "daily_90d": [
@@ -9535,12 +9535,12 @@
           420500.0,
           405000.0,
           415000.0,
-          371705
+          390161
         ]
       ],
       "group": "watchlist",
       "orderbook_imbalance": 0.0205,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -9551,7 +9551,7 @@
       "ask_ratio": 0.5103,
       "bid_rem": 18565,
       "ask_rem": 17818,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 85
     },
     {
@@ -9674,7 +9674,7 @@
           210000.0,
           188600.0,
           207000.0,
-          10596671
+          10602386
         ]
       ],
       "daily_30d": [
@@ -9916,7 +9916,7 @@
           210000.0,
           188600.0,
           207000.0,
-          10596671
+          10602386
         ]
       ],
       "daily_90d": [
@@ -10638,12 +10638,12 @@
           210000.0,
           188600.0,
           207000.0,
-          10596671
+          10602386
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.454,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -10654,7 +10654,7 @@
       "ask_ratio": 0.273,
       "bid_rem": 175857,
       "ask_rem": 468318,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 188
     },
     {
@@ -10676,7 +10676,7 @@
       "atr_pct": 8.86,
       "hold_cap_hours": 72,
       "weight_pct": 15,
-      "vol_surge": 1.28,
+      "vol_surge": 1.29,
       "foreign_net": 45811.0,
       "inst_net": 365306.0,
       "supply_days": 5,
@@ -10696,7 +10696,7 @@
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 양호 1.28배 +7",
+        "거래량 양호 1.29배 +7",
         "강세 마감(종가위치 88.2%) +14",
         "RSI 83.9 (과열 >75) -10",
         "변동성 돌파선 상회 +14",
@@ -10775,7 +10775,7 @@
           76200.0,
           67700.0,
           75200.0,
-          439938
+          446317
         ]
       ],
       "daily_30d": [
@@ -11017,7 +11017,7 @@
           76200.0,
           67700.0,
           75200.0,
-          439938
+          446317
         ]
       ],
       "daily_90d": [
@@ -11739,12 +11739,12 @@
           76200.0,
           67700.0,
           75200.0,
-          439938
+          446317
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.3961,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -11755,7 +11755,7 @@
       "ask_ratio": 0.302,
       "bid_rem": 2460,
       "ask_rem": 5687,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 150
     },
     {
@@ -11777,7 +11777,7 @@
       "atr_pct": 5.39,
       "hold_cap_hours": 72,
       "weight_pct": 13,
-      "vol_surge": 0.71,
+      "vol_surge": 0.76,
       "foreign_net": 162700.0,
       "inst_net": 916946.0,
       "supply_days": 5,
@@ -11877,7 +11877,7 @@
           50500.0,
           48000.0,
           49750.0,
-          500156
+          539286
         ]
       ],
       "daily_30d": [
@@ -12119,7 +12119,7 @@
           50500.0,
           48000.0,
           49750.0,
-          500156
+          539286
         ]
       ],
       "daily_90d": [
@@ -12841,12 +12841,12 @@
           50500.0,
           48000.0,
           49750.0,
-          500156
+          539286
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.2918,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -12857,7 +12857,7 @@
       "ask_ratio": 0.3541,
       "bid_rem": 14567,
       "ask_rem": 26569,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 150
     },
     {
@@ -12879,7 +12879,7 @@
       "atr_pct": 6.12,
       "hold_cap_hours": 72,
       "weight_pct": 13,
-      "vol_surge": 1.23,
+      "vol_surge": 1.28,
       "foreign_net": 88438.0,
       "inst_net": -31042.0,
       "supply_days": 5,
@@ -12899,7 +12899,7 @@
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 양호 1.23배 +7",
+        "거래량 양호 1.28배 +7",
         "강세 마감(종가위치 85.9%) +14",
         "RSI 62.6 (상승 구간 50~70) +13",
         "변동성 돌파선 상회 +14",
@@ -12978,7 +12978,7 @@
           400000.0,
           368000.0,
           395500.0,
-          584692
+          611336
         ]
       ],
       "daily_30d": [
@@ -13220,7 +13220,7 @@
           400000.0,
           368000.0,
           395500.0,
-          584692
+          611336
         ]
       ],
       "daily_90d": [
@@ -13942,12 +13942,12 @@
           400000.0,
           368000.0,
           395500.0,
-          584692
+          611336
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.1286,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -13958,7 +13958,7 @@
       "ask_ratio": 0.4357,
       "bid_rem": 12028,
       "ask_rem": 15577,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 138
     },
     {
@@ -13980,7 +13980,7 @@
       "atr_pct": 4.3,
       "hold_cap_hours": 72,
       "weight_pct": 15,
-      "vol_surge": 1.02,
+      "vol_surge": 1.12,
       "foreign_net": 5668.0,
       "inst_net": -15078.0,
       "supply_days": 5,
@@ -14000,7 +14000,7 @@
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 양호 1.02배 +7",
+        "거래량 양호 1.12배 +7",
         "강세 마감(종가위치 90.9%) +14",
         "RSI 57.9 (상승 구간 50~70) +13",
         "변동성 돌파선 상회 +14",
@@ -14078,7 +14078,7 @@
           666000.0,
           611000.0,
           661000.0,
-          116996
+          129711
         ]
       ],
       "daily_30d": [
@@ -14320,7 +14320,7 @@
           666000.0,
           611000.0,
           661000.0,
-          116996
+          129711
         ]
       ],
       "daily_90d": [
@@ -15042,12 +15042,12 @@
           666000.0,
           611000.0,
           661000.0,
-          116996
+          129711
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.5331,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -15058,7 +15058,7 @@
       "ask_ratio": 0.2334,
       "bid_rem": 2553,
       "ask_rem": 8383,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 128
     },
     {
@@ -15080,16 +15080,16 @@
       "atr_pct": 3.97,
       "hold_cap_hours": 72,
       "weight_pct": 15,
-      "vol_surge": 1.01,
+      "vol_surge": 0.92,
       "foreign_net": 87911.0,
       "inst_net": -112583.0,
       "supply_days": 5,
       "foreign_net_1d": 60355.0,
       "inst_net_1d": -120995.0,
       "supply_1d_date": "2026-08-20",
-      "combo_winrate": 0.53,
-      "combo_sample": 727,
-      "combo_lift": 0.03,
+      "combo_winrate": 0.553,
+      "combo_sample": 906,
+      "combo_lift": 0.053,
       "stop_pct": 5.2,
       "est_loss_pct": 0.78,
       "data_quality": "good",
@@ -15100,7 +15100,6 @@
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 양호 1.01배 +7",
         "강세 마감(종가위치 85.3%) +14",
         "RSI 54.6 (상승 구간 50~70) +13",
         "변동성 돌파선 상회 +14",
@@ -15111,7 +15110,7 @@
         "PBR 0.77 자산가치 이하 +3",
         "외국인 매수 가속(최근 확정 2026-08-20 기준(장중이면 D-1): 평소 대비 8.8배) — 압도적 우선 반영 +62",
         "기관 매도 전환 감지(최근 확정 2026-08-20 기준(장중이면 D-1): 직전 순매수/보합→순매도) — 압도적 우선 감점 -38",
-        "조합 보정(과거 승률 53.0%·표본 727) +1"
+        "조합 보정(과거 승률 55.3%·표본 906) +2"
       ],
       "risk_notes": [
         "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
@@ -15179,7 +15178,7 @@
           129800.0,
           123000.0,
           128800.0,
-          814132
+          743883
         ]
       ],
       "daily_30d": [
@@ -15421,7 +15420,7 @@
           129800.0,
           123000.0,
           128800.0,
-          814132
+          743883
         ]
       ],
       "daily_90d": [
@@ -16143,12 +16142,12 @@
           129800.0,
           123000.0,
           128800.0,
-          814132
+          743883
         ]
       ],
       "group": "market",
       "orderbook_imbalance": 0.2623,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -16159,7 +16158,7 @@
       "ask_ratio": 0.6312,
       "bid_rem": 38265,
       "ask_rem": 22361,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 124
     },
     {
@@ -16181,7 +16180,7 @@
       "atr_pct": 3.8,
       "hold_cap_hours": 72,
       "weight_pct": 13,
-      "vol_surge": 0.52,
+      "vol_surge": 0.54,
       "foreign_net": -1128425.0,
       "inst_net": -4903266.0,
       "supply_days": 5,
@@ -16196,11 +16195,11 @@
       "data_quality": "good",
       "catalyst_verified": false,
       "change_pct": -0.16,
-      "evidence": "기술 분석(뉴스 미확인) — 거래량 위축 0.52x, 강세 마감(종가위치 93.8%), 미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%), 외국인 순매도, 기관 순매도, 외국인 매수 전환(최근 확정 2026-08-20 기준(장중이면 D-1)), 기관 매수 전환(최근 확정 2026-08-20 기준(장중이면 D-1)). ATR 3.8%·5일모멘텀 -4.08%.",
+      "evidence": "기술 분석(뉴스 미확인) — 거래량 위축 0.54x, 강세 마감(종가위치 93.8%), 미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%), 외국인 순매도, 기관 순매도, 외국인 매수 전환(최근 확정 2026-08-20 기준(장중이면 D-1)), 기관 매수 전환(최근 확정 2026-08-20 기준(장중이면 D-1)). ATR 3.8%·5일모멘텀 -4.08%.",
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
-        "거래량 위축(매수세 이탈) 0.52배 -8",
+        "거래량 위축(매수세 이탈) 0.54배 -8",
         "강세 마감(종가위치 93.8%) +14",
         "RSI 32.8 (침체 반등 기대 <35) +4",
         "미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%)",
@@ -16278,7 +16277,7 @@
           31800.0,
           31000.0,
           31750.0,
-          833434
+          871122
         ]
       ],
       "daily_30d": [
@@ -16520,7 +16519,7 @@
           31800.0,
           31000.0,
           31750.0,
-          833434
+          871122
         ]
       ],
       "daily_90d": [
@@ -17242,12 +17241,12 @@
           31800.0,
           31000.0,
           31750.0,
-          833434
+          871122
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.1762,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -17258,7 +17257,7 @@
       "ask_ratio": 0.4119,
       "bid_rem": 42636,
       "ask_rem": 60874,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 120
     },
     {
@@ -17280,7 +17279,7 @@
       "atr_pct": 4.07,
       "hold_cap_hours": 72,
       "weight_pct": 13,
-      "vol_surge": 0.53,
+      "vol_surge": 0.55,
       "foreign_net": 219131.0,
       "inst_net": -135909.0,
       "supply_days": 5,
@@ -17295,12 +17294,12 @@
       "data_quality": "good",
       "catalyst_verified": false,
       "change_pct": 1.02,
-      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 위축 0.53x, 강세 마감(종가위치 84.8%), RSI 61.7(상승), 미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%), 외국인 순매수, 기관 순매도, 기관 매수 전환(최근 확정 2026-08-20 기준(장중이면 D-1)), 호가 매도우위(-54%). ATR 4.07%·5일모멘텀 2.6%.",
+      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 위축 0.55x, 강세 마감(종가위치 84.8%), RSI 61.7(상승), 미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%), 외국인 순매수, 기관 순매도, 기관 매수 전환(최근 확정 2026-08-20 기준(장중이면 D-1)), 호가 매도우위(-54%). ATR 4.07%·5일모멘텀 2.6%.",
       "score_reasons": [
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 위축(매수세 이탈) 0.53배 -8",
+        "거래량 위축(매수세 이탈) 0.55배 -8",
         "강세 마감(종가위치 84.8%) +14",
         "RSI 61.7 (상승 구간 50~70) +13",
         "5일 모멘텀 +2.6% (양) +8",
@@ -17376,7 +17375,7 @@
           138500.0,
           135200.0,
           138000.0,
-          207098
+          217173
         ]
       ],
       "daily_30d": [
@@ -17618,7 +17617,7 @@
           138500.0,
           135200.0,
           138000.0,
-          207098
+          217173
         ]
       ],
       "daily_90d": [
@@ -18340,12 +18339,12 @@
           138500.0,
           135200.0,
           138000.0,
-          207098
+          217173
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.5355,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -18356,7 +18355,7 @@
       "ask_ratio": 0.2323,
       "bid_rem": 4828,
       "ask_rem": 15958,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 116
     },
     {
@@ -18378,16 +18377,16 @@
       "atr_pct": 3.78,
       "hold_cap_hours": 72,
       "weight_pct": 15,
-      "vol_surge": 0.96,
+      "vol_surge": 1.06,
       "foreign_net": 195075.0,
       "inst_net": -157334.0,
       "supply_days": 5,
       "foreign_net_1d": 93770.0,
       "inst_net_1d": -213831.0,
       "supply_1d_date": "2026-08-20",
-      "combo_winrate": 0.553,
-      "combo_sample": 906,
-      "combo_lift": 0.053,
+      "combo_winrate": 0.53,
+      "combo_sample": 727,
+      "combo_lift": 0.03,
       "stop_pct": 3.0,
       "est_loss_pct": 0.45,
       "data_quality": "good",
@@ -18398,6 +18397,7 @@
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
+        "거래량 양호 1.06배 +7",
         "강세 마감(종가위치 83.8%) +14",
         "RSI 55.8 (상승 구간 50~70) +13",
         "변동성 돌파선 상회 +14",
@@ -18408,7 +18408,7 @@
         "PBR 0.83 자산가치 이하 +3",
         "외국인 매수 가속(최근 확정 2026-08-20 기준(장중이면 D-1): 평소 대비 3.7배) — 압도적 우선 반영 +53",
         "기관 매도 전환 감지(최근 확정 2026-08-20 기준(장중이면 D-1): 직전 순매수/보합→순매도) — 압도적 우선 감점 -38",
-        "조합 보정(과거 승률 55.3%·표본 906) +2"
+        "조합 보정(과거 승률 53.0%·표본 727) +1"
       ],
       "risk_notes": [
         "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
@@ -18476,7 +18476,7 @@
           104700.0,
           101000.0,
           104100.0,
-          1059195
+          1175663
         ]
       ],
       "daily_30d": [
@@ -18718,7 +18718,7 @@
           104700.0,
           101000.0,
           104100.0,
-          1059195
+          1175663
         ]
       ],
       "daily_90d": [
@@ -19440,12 +19440,12 @@
           104700.0,
           101000.0,
           104100.0,
-          1059195
+          1175663
         ]
       ],
       "group": "market",
       "orderbook_imbalance": 0.4008,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -19456,7 +19456,7 @@
       "ask_ratio": 0.7004,
       "bid_rem": 82025,
       "ask_rem": 35087,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 115
     },
     {
@@ -19478,7 +19478,7 @@
       "atr_pct": 7.22,
       "hold_cap_hours": 72,
       "weight_pct": 12,
-      "vol_surge": 2.16,
+      "vol_surge": 2.28,
       "foreign_net": -75598.0,
       "inst_net": -77086.0,
       "supply_days": 5,
@@ -19493,12 +19493,12 @@
       "data_quality": "good",
       "catalyst_verified": false,
       "change_pct": 10.61,
-      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 급증 2.16x, 강세 마감(종가위치 98.8%), RSI 54.0(상승), 변동성 돌파 상회, 미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%), 외국인 순매도, 기관 순매도, 기관 매수 전환(최근 확정 2026-08-20 기준(장중이면 D-1)). ATR 7.22%·5일모멘텀 12.69%.",
+      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 급증 2.28x, 강세 마감(종가위치 98.8%), RSI 54.0(상승), 변동성 돌파 상회, 미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%), 외국인 순매도, 기관 순매도, 기관 매수 전환(최근 확정 2026-08-20 기준(장중이면 D-1)). ATR 7.22%·5일모멘텀 12.69%.",
       "score_reasons": [
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 급증 2.16배 +15",
+        "거래량 급증 2.28배 +15",
         "강세 마감(종가위치 98.8%) +14",
         "RSI 54.0 (상승 구간 50~70) +13",
         "변동성 돌파선 상회 +14",
@@ -19578,7 +19578,7 @@
           329000.0,
           287000.0,
           328500.0,
-          1037198
+          1102173
         ]
       ],
       "daily_30d": [
@@ -19820,7 +19820,7 @@
           329000.0,
           287000.0,
           328500.0,
-          1037198
+          1102173
         ]
       ],
       "daily_90d": [
@@ -20542,12 +20542,12 @@
           329000.0,
           287000.0,
           328500.0,
-          1037198
+          1102173
         ]
       ],
       "group": "market",
       "orderbook_imbalance": 0.4031,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -20558,7 +20558,7 @@
       "ask_ratio": 0.7015,
       "bid_rem": 22060,
       "ask_rem": 9385,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 113
     },
     {
@@ -20580,7 +20580,7 @@
       "atr_pct": 6.76,
       "hold_cap_hours": 72,
       "weight_pct": 13,
-      "vol_surge": 0.96,
+      "vol_surge": 0.99,
       "foreign_net": -570831.0,
       "inst_net": 587647.0,
       "supply_days": 5,
@@ -20679,7 +20679,7 @@
           117400.0,
           110700.0,
           116200.0,
-          574519
+          594510
         ]
       ],
       "daily_30d": [
@@ -20921,7 +20921,7 @@
           117400.0,
           110700.0,
           116200.0,
-          574519
+          594510
         ]
       ],
       "daily_90d": [
@@ -21643,12 +21643,12 @@
           117400.0,
           110700.0,
           116200.0,
-          574519
+          594510
         ]
       ],
       "group": "market",
       "orderbook_imbalance": 0.4973,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -21659,7 +21659,7 @@
       "ask_ratio": 0.7486,
       "bid_rem": 20259,
       "ask_rem": 6802,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 108
     },
     {
@@ -21681,7 +21681,7 @@
       "atr_pct": 5.94,
       "hold_cap_hours": 72,
       "weight_pct": 13,
-      "vol_surge": 0.62,
+      "vol_surge": 0.65,
       "foreign_net": 196680.0,
       "inst_net": -109903.0,
       "supply_days": 5,
@@ -21774,7 +21774,7 @@
           230000.0,
           221000.0,
           228000.0,
-          200600
+          211610
         ]
       ],
       "daily_30d": [
@@ -22016,7 +22016,7 @@
           230000.0,
           221000.0,
           228000.0,
-          200600
+          211610
         ]
       ],
       "daily_90d": [
@@ -22738,12 +22738,12 @@
           230000.0,
           221000.0,
           228000.0,
-          200600
+          211610
         ]
       ],
       "group": "market",
       "orderbook_imbalance": 0.0707,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -22754,7 +22754,7 @@
       "ask_ratio": 0.5354,
       "bid_rem": 9248,
       "ask_rem": 8026,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 100
     },
     {
@@ -22871,7 +22871,7 @@
           25950.0,
           24700.0,
           25800.0,
-          3973562
+          3973651
         ]
       ],
       "daily_30d": [
@@ -23113,7 +23113,7 @@
           25950.0,
           24700.0,
           25800.0,
-          3973562
+          3973651
         ]
       ],
       "daily_90d": [
@@ -23835,12 +23835,12 @@
           25950.0,
           24700.0,
           25800.0,
-          3973562
+          3973651
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.0883,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -23851,7 +23851,7 @@
       "ask_ratio": 0.4558,
       "bid_rem": 145011,
       "ask_rem": 173102,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 98
     },
     {
@@ -23873,7 +23873,7 @@
       "atr_pct": 3.7,
       "hold_cap_hours": 72,
       "weight_pct": 13,
-      "vol_surge": 0.45,
+      "vol_surge": 0.49,
       "foreign_net": 445082.0,
       "inst_net": -462131.0,
       "supply_days": 5,
@@ -23888,12 +23888,12 @@
       "data_quality": "good",
       "catalyst_verified": false,
       "change_pct": -0.93,
-      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 위축 0.45x, 강세 마감(종가위치 85.5%), RSI 55.5(상승), 미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%), 외국인 순매수, 기관 순매도. ATR 3.7%·5일모멘텀 -4.8%.",
+      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 위축 0.49x, 강세 마감(종가위치 85.5%), RSI 55.5(상승), 미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%), 외국인 순매수, 기관 순매도. ATR 3.7%·5일모멘텀 -4.8%.",
       "score_reasons": [
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 위축(매수세 이탈) 0.45배 -8",
+        "거래량 위축(매수세 이탈) 0.49배 -8",
         "강세 마감(종가위치 85.5%) +14",
         "RSI 55.5 (상승 구간 50~70) +13",
         "미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%)",
@@ -23966,7 +23966,7 @@
           193100.0,
           187600.0,
           192300.0,
-          354956
+          387359
         ]
       ],
       "daily_30d": [
@@ -24208,7 +24208,7 @@
           193100.0,
           187600.0,
           192300.0,
-          354956
+          387359
         ]
       ],
       "daily_90d": [
@@ -24930,12 +24930,12 @@
           193100.0,
           187600.0,
           192300.0,
-          354956
+          387359
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.2868,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -24946,7 +24946,7 @@
       "ask_ratio": 0.3566,
       "bid_rem": 7758,
       "ask_rem": 13997,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 97
     },
     {
@@ -24968,7 +24968,7 @@
       "atr_pct": 6.7,
       "hold_cap_hours": 72,
       "weight_pct": 15,
-      "vol_surge": 1.02,
+      "vol_surge": 1.08,
       "foreign_net": -859518.0,
       "inst_net": 819886.0,
       "supply_days": 5,
@@ -24988,7 +24988,7 @@
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 양호 1.02배 +7",
+        "거래량 양호 1.08배 +7",
         "강세 마감(종가위치 82.2%) +14",
         "변동성 돌파선 상회 +14",
         "5일 모멘텀 +12.18% (양) +8",
@@ -25064,7 +25064,7 @@
           103800.0,
           94800.0,
           102200.0,
-          2006782
+          2121682
         ]
       ],
       "daily_30d": [
@@ -25306,7 +25306,7 @@
           103800.0,
           94800.0,
           102200.0,
-          2006782
+          2121682
         ]
       ],
       "daily_90d": [
@@ -26028,12 +26028,12 @@
           103800.0,
           94800.0,
           102200.0,
-          2006782
+          2121682
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.2147,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -26044,7 +26044,7 @@
       "ask_ratio": 0.3926,
       "bid_rem": 55841,
       "ask_rem": 86376,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 96
     },
     {
@@ -26066,7 +26066,7 @@
       "atr_pct": 5.27,
       "hold_cap_hours": 72,
       "weight_pct": 15,
-      "vol_surge": 1.46,
+      "vol_surge": 1.48,
       "foreign_net": 5367.0,
       "inst_net": 4766.0,
       "supply_days": 5,
@@ -26086,7 +26086,7 @@
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 양호 1.46배 +7",
+        "거래량 양호 1.48배 +7",
         "강세 마감(종가위치 73.7%) +14",
         "RSI 80.1 (과열 >75) -10",
         "변동성 돌파선 상회 +14",
@@ -26164,7 +26164,7 @@
           428000.0,
           380500.0,
           415500.0,
-          124032
+          125605
         ]
       ],
       "daily_30d": [
@@ -26406,7 +26406,7 @@
           428000.0,
           380500.0,
           415500.0,
-          124032
+          125605
         ]
       ],
       "daily_90d": [
@@ -27128,12 +27128,12 @@
           428000.0,
           380500.0,
           415500.0,
-          124032
+          125605
         ]
       ],
       "group": "market",
       "orderbook_imbalance": 0.0534,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -27144,7 +27144,7 @@
       "ask_ratio": 0.5267,
       "bid_rem": 1025,
       "ask_rem": 921,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 89
     },
     {
@@ -27166,7 +27166,7 @@
       "atr_pct": 5.74,
       "hold_cap_hours": 72,
       "weight_pct": 13,
-      "vol_surge": 0.79,
+      "vol_surge": 0.74,
       "foreign_net": 97122.0,
       "inst_net": -109931.0,
       "supply_days": 5,
@@ -27262,7 +27262,7 @@
           506000.0,
           491500.0,
           496000.0,
-          233704
+          219337
         ]
       ],
       "daily_30d": [
@@ -27504,7 +27504,7 @@
           506000.0,
           491500.0,
           496000.0,
-          233704
+          219337
         ]
       ],
       "daily_90d": [
@@ -28226,12 +28226,12 @@
           506000.0,
           491500.0,
           496000.0,
-          233704
+          219337
         ]
       ],
       "group": "market",
       "orderbook_imbalance": 0.5979,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -28242,7 +28242,7 @@
       "ask_ratio": 0.799,
       "bid_rem": 15431,
       "ask_rem": 3883,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 88
     },
     {
@@ -29327,7 +29327,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.1499,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -29338,7 +29338,7 @@
       "ask_ratio": 0.425,
       "bid_rem": 8003,
       "ask_rem": 10826,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 82
     },
     {
@@ -29360,26 +29360,27 @@
       "atr_pct": 5.2,
       "hold_cap_hours": 72,
       "weight_pct": 15,
-      "vol_surge": 0.61,
+      "vol_surge": 0.58,
       "foreign_net": 60855.0,
       "inst_net": -47943.0,
       "supply_days": 5,
       "foreign_net_1d": 6127.0,
       "inst_net_1d": -4147.0,
       "supply_1d_date": "2026-08-20",
-      "combo_winrate": 0.553,
-      "combo_sample": 906,
-      "combo_lift": 0.053,
+      "combo_winrate": 0.498,
+      "combo_sample": 227,
+      "combo_lift": -0.002,
       "stop_pct": 5.6,
       "est_loss_pct": 0.84,
       "data_quality": "good",
       "catalyst_verified": false,
       "change_pct": 2.79,
-      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 강세 마감(종가위치 80.0%), RSI 62.0(상승), 변동성 돌파 상회, 미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%), 외국인 순매수, 기관 순매도, 호가 매도우위(-53%). ATR 5.2%·5일모멘텀 3.13%.",
+      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 위축 0.58x, 강세 마감(종가위치 80.0%), RSI 62.0(상승), 변동성 돌파 상회, 미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%), 외국인 순매수, 기관 순매도, 호가 매도우위(-53%). ATR 5.2%·5일모멘텀 3.13%.",
       "score_reasons": [
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
+        "거래량 위축(매수세 이탈) 0.58배 -8",
         "강세 마감(종가위치 80.0%) +14",
         "RSI 62.0 (상승 구간 50~70) +13",
         "변동성 돌파선 상회 +14",
@@ -29388,8 +29389,7 @@
         "외국인 순매수(최근 5일) +14",
         "기관 순매도(최근 5일) -11",
         "PBR 0.94 자산가치 이하 +3",
-        "호가 불균형 강한 매도우위(-53%, 방금) — 빠른 회피 감점 -21",
-        "조합 보정(과거 승률 55.3%·표본 906) +2"
+        "호가 불균형 강한 매도우위(-53%, 방금) — 빠른 회피 감점 -21"
       ],
       "risk_notes": [
         "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
@@ -29457,7 +29457,7 @@
           316000.0,
           301000.0,
           313000.0,
-          77096
+          73598
         ]
       ],
       "daily_30d": [
@@ -29699,7 +29699,7 @@
           316000.0,
           301000.0,
           313000.0,
-          77096
+          73598
         ]
       ],
       "daily_90d": [
@@ -30421,12 +30421,12 @@
           316000.0,
           301000.0,
           313000.0,
-          77096
+          73598
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.526,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -30437,8 +30437,8 @@
       "ask_ratio": 0.237,
       "bid_rem": 1661,
       "ask_rem": 5348,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
-      "score": 81
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
+      "score": 79
     },
     {
       "rank": 20,
@@ -30459,7 +30459,7 @@
       "atr_pct": 6.28,
       "hold_cap_hours": 72,
       "weight_pct": 13,
-      "vol_surge": 1.67,
+      "vol_surge": 1.63,
       "foreign_net": 94013.0,
       "inst_net": -257791.0,
       "supply_days": 5,
@@ -30474,11 +30474,11 @@
       "data_quality": "good",
       "catalyst_verified": false,
       "change_pct": -1.3,
-      "evidence": "기술 분석(뉴스 미확인) — 거래량 급증 1.67x, 강세 마감(종가위치 78.4%), 미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%), 외국인 순매수, 기관 순매도. ATR 6.28%·5일모멘텀 -11.85%.",
+      "evidence": "기술 분석(뉴스 미확인) — 거래량 급증 1.63x, 강세 마감(종가위치 78.4%), 미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%), 외국인 순매수, 기관 순매도. ATR 6.28%·5일모멘텀 -11.85%.",
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
-        "거래량 급증 1.67배 +15",
+        "거래량 급증 1.63배 +15",
         "강세 마감(종가위치 78.4%) +14",
         "미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%)",
         "외국인 순매수(최근 5일) +14",
@@ -30552,7 +30552,7 @@
           122400.0,
           117300.0,
           121300.0,
-          218315
+          212635
         ]
       ],
       "daily_30d": [
@@ -30794,7 +30794,7 @@
           122400.0,
           117300.0,
           121300.0,
-          218315
+          212635
         ]
       ],
       "daily_90d": [
@@ -31516,12 +31516,12 @@
           122400.0,
           117300.0,
           121300.0,
-          218315
+          212635
         ]
       ],
       "group": "market",
       "orderbook_imbalance": 0.3562,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -31532,7 +31532,7 @@
       "ask_ratio": 0.6781,
       "bid_rem": 3118,
       "ask_rem": 1480,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 77
     },
     {
@@ -32620,7 +32620,7 @@
       ],
       "group": "market",
       "orderbook_imbalance": -0.767,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -32631,7 +32631,7 @@
       "ask_ratio": 0.1165,
       "bid_rem": 2273,
       "ask_rem": 17238,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 76
     },
     {
@@ -32653,7 +32653,7 @@
       "atr_pct": 6.17,
       "hold_cap_hours": 72,
       "weight_pct": 13,
-      "vol_surge": 0.68,
+      "vol_surge": 0.71,
       "foreign_net": 337590.0,
       "inst_net": -196215.0,
       "supply_days": 5,
@@ -32746,7 +32746,7 @@
           185800.0,
           180300.0,
           184500.0,
-          169238
+          178582
         ]
       ],
       "daily_30d": [
@@ -32988,7 +32988,7 @@
           185800.0,
           180300.0,
           184500.0,
-          169238
+          178582
         ]
       ],
       "daily_90d": [
@@ -33710,12 +33710,12 @@
           185800.0,
           180300.0,
           184500.0,
-          169238
+          178582
         ]
       ],
       "group": "market",
       "orderbook_imbalance": 0.0754,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -33726,7 +33726,7 @@
       "ask_ratio": 0.5377,
       "bid_rem": 3216,
       "ask_rem": 2765,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 67
     },
     {
@@ -33748,7 +33748,7 @@
       "atr_pct": 3.64,
       "hold_cap_hours": 72,
       "weight_pct": 13,
-      "vol_surge": 0.46,
+      "vol_surge": 0.52,
       "foreign_net": 14786.0,
       "inst_net": -231039.0,
       "supply_days": 5,
@@ -33760,11 +33760,11 @@
       "data_quality": "good",
       "catalyst_verified": false,
       "change_pct": 0.23,
-      "evidence": "기술 분석(뉴스 미확인) — 거래량 위축 0.46x, 강세 마감(종가위치 80.0%), 미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%), 외국인 순매수, 기관 순매도, 외국인 매수 전환(최근 확정 2026-08-20 기준(장중이면 D-1)), 기관 매도 가속(최근 확정 2026-08-20 기준(장중이면 D-1)). ATR 3.64%·5일모멘텀 -0.86%.",
+      "evidence": "기술 분석(뉴스 미확인) — 거래량 위축 0.52x, 강세 마감(종가위치 80.0%), 미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%), 외국인 순매수, 기관 순매도, 외국인 매수 전환(최근 확정 2026-08-20 기준(장중이면 D-1)), 기관 매도 가속(최근 확정 2026-08-20 기준(장중이면 D-1)). ATR 3.64%·5일모멘텀 -0.86%.",
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
-        "거래량 위축(매수세 이탈) 0.46배 -8",
+        "거래량 위축(매수세 이탈) 0.52배 -8",
         "강세 마감(종가위치 80.0%) +14",
         "미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%)",
         "외국인 순매수(최근 5일) +14",
@@ -33838,7 +33838,7 @@
           173000.0,
           169500.0,
           172300.0,
-          141821
+          160830
         ]
       ],
       "daily_30d": [
@@ -34080,7 +34080,7 @@
           173000.0,
           169500.0,
           172300.0,
-          141821
+          160830
         ]
       ],
       "daily_90d": [
@@ -34802,12 +34802,12 @@
           173000.0,
           169500.0,
           172300.0,
-          141821
+          160830
         ]
       ],
       "group": "market",
       "orderbook_imbalance": 0.0695,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -34818,7 +34818,7 @@
       "ask_ratio": 0.5348,
       "bid_rem": 6286,
       "ask_rem": 5469,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 63
     },
     {
@@ -34840,7 +34840,7 @@
       "atr_pct": 6.19,
       "hold_cap_hours": 72,
       "weight_pct": 8,
-      "vol_surge": 1.32,
+      "vol_surge": 1.35,
       "foreign_net": 89341.0,
       "inst_net": 5997.0,
       "supply_days": 5,
@@ -34857,7 +34857,7 @@
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 양호 1.32배 +7",
+        "거래량 양호 1.35배 +7",
         "강세 마감(종가위치 82.4%) +14",
         "RSI 88.6 (과열 >75) -10",
         "5일 모멘텀 +8.84% (양) +8",
@@ -34936,7 +34936,7 @@
           274000.0,
           257000.0,
           271000.0,
-          198135
+          203416
         ]
       ],
       "daily_30d": [
@@ -35178,7 +35178,7 @@
           274000.0,
           257000.0,
           271000.0,
-          198135
+          203416
         ]
       ],
       "daily_90d": [
@@ -35900,12 +35900,12 @@
           274000.0,
           257000.0,
           271000.0,
-          198135
+          203416
         ]
       ],
       "group": "market",
       "orderbook_imbalance": -0.6342,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -35916,7 +35916,7 @@
       "ask_ratio": 0.1829,
       "bid_rem": 2253,
       "ask_rem": 10066,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 62
     },
     {
@@ -35938,7 +35938,7 @@
       "atr_pct": 4.12,
       "hold_cap_hours": 72,
       "weight_pct": 15,
-      "vol_surge": 0.9,
+      "vol_surge": 0.95,
       "foreign_net": 854225.0,
       "inst_net": 1134594.0,
       "supply_days": 5,
@@ -36032,7 +36032,7 @@
           21750.0,
           20850.0,
           21600.0,
-          1413376
+          1504230
         ]
       ],
       "daily_30d": [
@@ -36274,7 +36274,7 @@
           21750.0,
           20850.0,
           21600.0,
-          1413376
+          1504230
         ]
       ],
       "daily_90d": [
@@ -36996,12 +36996,12 @@
           21750.0,
           20850.0,
           21600.0,
-          1413376
+          1504230
         ]
       ],
       "group": "market",
       "orderbook_imbalance": 0.0002,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -37012,1088 +37012,8 @@
       "ask_ratio": 0.5001,
       "bid_rem": 92105,
       "ask_rem": 92076,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00",
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00",
       "score": 62
-    },
-    {
-      "rank": 26,
-      "name": "신세계",
-      "code": "004170",
-      "market": "KR",
-      "direction": "long",
-      "confidence": "low",
-      "price": 400500.0,
-      "currency": "KRW",
-      "entry": 405000.0,
-      "entry_type": "breakout",
-      "entry_note": "405,000 돌파 + 거래량 동반 시 진입(미돌파 시 미진입). 추격금지.",
-      "stop": 388000,
-      "target1": 439000,
-      "target2": 456000,
-      "rr": 2.0,
-      "atr_pct": 7.24,
-      "hold_cap_hours": 72,
-      "weight_pct": 13,
-      "vol_surge": 0.6,
-      "foreign_net": 65439.0,
-      "inst_net": -33062.0,
-      "supply_days": 5,
-      "foreign_net_1d": 13105.0,
-      "inst_net_1d": -9544.0,
-      "supply_1d_date": "2026-08-20",
-      "combo_winrate": 0.49,
-      "combo_sample": 300,
-      "combo_lift": -0.01,
-      "stop_pct": 4.2,
-      "est_loss_pct": 0.55,
-      "data_quality": "good",
-      "catalyst_verified": false,
-      "change_pct": -0.99,
-      "evidence": "기술 분석(뉴스 미확인) — 강세 마감(종가위치 78.1%), 미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%), 외국인 순매수, 기관 순매도. ATR 7.24%·5일모멘텀 -4.53%.",
-      "score_reasons": [
-        "기본 점수 +50",
-        "역배열(MA5<MA20) -8",
-        "강세 마감(종가위치 78.1%) +14",
-        "미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%)",
-        "외국인 순매수(최근 5일) +14",
-        "기관 순매도(최근 5일) -11",
-        "PBR 0.75 자산가치 이하 +3"
-      ],
-      "risk_notes": [
-        "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
-        "비중 13%는 위험균등 산정 — 손절(4.2%) 도달 시 자본 약 0.55% 손실 수준(위험 2.0%/트레이드 기준).",
-        "목표1 도달 시 손절을 본전으로 올려 이익 보호 · 보유 72h 경과 시 잔여 청산."
-      ],
-      "tags": [
-        "기술분석",
-        "온디맨드",
-        "돌파대기"
-      ],
-      "intraday_5m": [],
-      "daily_7d": [
-        [
-          "2026-08-12T00:00:00+00:00",
-          445000.0,
-          466500.0,
-          393500.0,
-          399000.0,
-          184454
-        ],
-        [
-          "2026-08-13T00:00:00+00:00",
-          404500.0,
-          424000.0,
-          397500.0,
-          419500.0,
-          125595
-        ],
-        [
-          "2026-08-14T00:00:00+00:00",
-          428000.0,
-          439000.0,
-          415000.0,
-          427000.0,
-          50719
-        ],
-        [
-          "2026-08-18T00:00:00+00:00",
-          438500.0,
-          445000.0,
-          416500.0,
-          424500.0,
-          74029
-        ],
-        [
-          "2026-08-19T00:00:00+00:00",
-          410000.0,
-          414000.0,
-          397000.0,
-          400500.0,
-          46614
-        ],
-        [
-          "2026-08-20T00:00:00+00:00",
-          407500.0,
-          412000.0,
-          401500.0,
-          404500.0,
-          51071
-        ],
-        [
-          "2026-08-21T00:00:00+00:00",
-          399500.0,
-          404000.0,
-          388000.0,
-          400500.0,
-          61468
-        ]
-      ],
-      "daily_30d": [
-        [
-          "2026-07-09T00:00:00+00:00",
-          626000.0,
-          640000.0,
-          588000.0,
-          606000.0,
-          107760
-        ],
-        [
-          "2026-07-10T00:00:00+00:00",
-          633000.0,
-          659000.0,
-          622000.0,
-          629000.0,
-          57141
-        ],
-        [
-          "2026-07-13T00:00:00+00:00",
-          635000.0,
-          644000.0,
-          577000.0,
-          591000.0,
-          60563
-        ],
-        [
-          "2026-07-14T00:00:00+00:00",
-          602000.0,
-          602000.0,
-          530000.0,
-          561000.0,
-          160631
-        ],
-        [
-          "2026-07-15T00:00:00+00:00",
-          589000.0,
-          618000.0,
-          583000.0,
-          610000.0,
-          87231
-        ],
-        [
-          "2026-07-16T00:00:00+00:00",
-          609000.0,
-          609000.0,
-          582000.0,
-          589000.0,
-          33462
-        ],
-        [
-          "2026-07-20T00:00:00+00:00",
-          568000.0,
-          573000.0,
-          518000.0,
-          531000.0,
-          111705
-        ],
-        [
-          "2026-07-21T00:00:00+00:00",
-          531000.0,
-          572000.0,
-          530000.0,
-          562000.0,
-          49316
-        ],
-        [
-          "2026-07-22T00:00:00+00:00",
-          569000.0,
-          583000.0,
-          541000.0,
-          547000.0,
-          52786
-        ],
-        [
-          "2026-07-23T00:00:00+00:00",
-          550000.0,
-          550000.0,
-          525000.0,
-          544000.0,
-          64046
-        ],
-        [
-          "2026-07-24T00:00:00+00:00",
-          538000.0,
-          550000.0,
-          495000.0,
-          504000.0,
-          109732
-        ],
-        [
-          "2026-07-27T00:00:00+00:00",
-          511000.0,
-          522000.0,
-          496000.0,
-          517000.0,
-          70547
-        ],
-        [
-          "2026-07-28T00:00:00+00:00",
-          502000.0,
-          505000.0,
-          445000.0,
-          465500.0,
-          130392
-        ],
-        [
-          "2026-07-29T00:00:00+00:00",
-          470000.0,
-          487000.0,
-          417500.0,
-          444500.0,
-          147797
-        ],
-        [
-          "2026-07-30T00:00:00+00:00",
-          436000.0,
-          445000.0,
-          392500.0,
-          396000.0,
-          178701
-        ],
-        [
-          "2026-07-31T00:00:00+00:00",
-          428000.0,
-          444500.0,
-          409000.0,
-          423000.0,
-          141168
-        ],
-        [
-          "2026-08-03T00:00:00+00:00",
-          411500.0,
-          417500.0,
-          398000.0,
-          405500.0,
-          68320
-        ],
-        [
-          "2026-08-04T00:00:00+00:00",
-          405000.0,
-          427000.0,
-          395000.0,
-          425500.0,
-          102414
-        ],
-        [
-          "2026-08-05T00:00:00+00:00",
-          434000.0,
-          454500.0,
-          414500.0,
-          430000.0,
-          155932
-        ],
-        [
-          "2026-08-06T00:00:00+00:00",
-          426000.0,
-          432000.0,
-          406000.0,
-          427500.0,
-          102557
-        ],
-        [
-          "2026-08-07T00:00:00+00:00",
-          428000.0,
-          429000.0,
-          400500.0,
-          420000.0,
-          84711
-        ],
-        [
-          "2026-08-10T00:00:00+00:00",
-          424500.0,
-          434500.0,
-          415000.0,
-          432000.0,
-          61605
-        ],
-        [
-          "2026-08-11T00:00:00+00:00",
-          439500.0,
-          440000.0,
-          412500.0,
-          428500.0,
-          115562
-        ],
-        [
-          "2026-08-12T00:00:00+00:00",
-          445000.0,
-          466500.0,
-          393500.0,
-          399000.0,
-          184454
-        ],
-        [
-          "2026-08-13T00:00:00+00:00",
-          404500.0,
-          424000.0,
-          397500.0,
-          419500.0,
-          125595
-        ],
-        [
-          "2026-08-14T00:00:00+00:00",
-          428000.0,
-          439000.0,
-          415000.0,
-          427000.0,
-          50719
-        ],
-        [
-          "2026-08-18T00:00:00+00:00",
-          438500.0,
-          445000.0,
-          416500.0,
-          424500.0,
-          74029
-        ],
-        [
-          "2026-08-19T00:00:00+00:00",
-          410000.0,
-          414000.0,
-          397000.0,
-          400500.0,
-          46614
-        ],
-        [
-          "2026-08-20T00:00:00+00:00",
-          407500.0,
-          412000.0,
-          401500.0,
-          404500.0,
-          51071
-        ],
-        [
-          "2026-08-21T00:00:00+00:00",
-          399500.0,
-          404000.0,
-          388000.0,
-          400500.0,
-          61468
-        ]
-      ],
-      "daily_90d": [
-        [
-          "2026-04-10T00:00:00+00:00",
-          348500.0,
-          350500.0,
-          338500.0,
-          341000.0,
-          32412
-        ],
-        [
-          "2026-04-13T00:00:00+00:00",
-          335500.0,
-          346000.0,
-          331000.0,
-          343000.0,
-          50890
-        ],
-        [
-          "2026-04-14T00:00:00+00:00",
-          346000.0,
-          352000.0,
-          340000.0,
-          346500.0,
-          33529
-        ],
-        [
-          "2026-04-15T00:00:00+00:00",
-          354000.0,
-          361500.0,
-          341000.0,
-          345500.0,
-          67615
-        ],
-        [
-          "2026-04-16T00:00:00+00:00",
-          349500.0,
-          382000.0,
-          348500.0,
-          375500.0,
-          89028
-        ],
-        [
-          "2026-04-17T00:00:00+00:00",
-          375000.0,
-          390000.0,
-          369000.0,
-          379000.0,
-          38057
-        ],
-        [
-          "2026-04-20T00:00:00+00:00",
-          389500.0,
-          390000.0,
-          372500.0,
-          373000.0,
-          34642
-        ],
-        [
-          "2026-04-21T00:00:00+00:00",
-          371500.0,
-          394500.0,
-          371500.0,
-          382000.0,
-          85758
-        ],
-        [
-          "2026-04-22T00:00:00+00:00",
-          382500.0,
-          390500.0,
-          377500.0,
-          382000.0,
-          32972
-        ],
-        [
-          "2026-04-23T00:00:00+00:00",
-          389500.0,
-          402500.0,
-          376500.0,
-          384500.0,
-          68428
-        ],
-        [
-          "2026-04-24T00:00:00+00:00",
-          389500.0,
-          410000.0,
-          388500.0,
-          407000.0,
-          68810
-        ],
-        [
-          "2026-04-27T00:00:00+00:00",
-          423000.0,
-          448000.0,
-          399000.0,
-          402000.0,
-          115007
-        ],
-        [
-          "2026-04-28T00:00:00+00:00",
-          395500.0,
-          417000.0,
-          391500.0,
-          407500.0,
-          72877
-        ],
-        [
-          "2026-04-29T00:00:00+00:00",
-          409500.0,
-          418000.0,
-          403000.0,
-          406500.0,
-          28536
-        ],
-        [
-          "2026-04-30T00:00:00+00:00",
-          405000.0,
-          420000.0,
-          399000.0,
-          407000.0,
-          66865
-        ],
-        [
-          "2026-05-04T00:00:00+00:00",
-          423000.0,
-          428500.0,
-          402000.0,
-          410500.0,
-          75458
-        ],
-        [
-          "2026-05-06T00:00:00+00:00",
-          406000.0,
-          423000.0,
-          399000.0,
-          410000.0,
-          67156
-        ],
-        [
-          "2026-05-07T00:00:00+00:00",
-          414000.0,
-          442000.0,
-          411000.0,
-          433000.0,
-          69559
-        ],
-        [
-          "2026-05-08T00:00:00+00:00",
-          436000.0,
-          437500.0,
-          409000.0,
-          428500.0,
-          49510
-        ],
-        [
-          "2026-05-11T00:00:00+00:00",
-          449500.0,
-          463500.0,
-          439000.0,
-          445500.0,
-          69669
-        ],
-        [
-          "2026-05-12T00:00:00+00:00",
-          455500.0,
-          465500.0,
-          421000.0,
-          441500.0,
-          135994
-        ],
-        [
-          "2026-05-13T00:00:00+00:00",
-          468000.0,
-          509000.0,
-          460000.0,
-          482500.0,
-          188428
-        ],
-        [
-          "2026-05-14T00:00:00+00:00",
-          473000.0,
-          535000.0,
-          471500.0,
-          535000.0,
-          144664
-        ],
-        [
-          "2026-05-15T00:00:00+00:00",
-          573000.0,
-          580000.0,
-          530000.0,
-          541000.0,
-          152256
-        ],
-        [
-          "2026-05-18T00:00:00+00:00",
-          520000.0,
-          525000.0,
-          487000.0,
-          503000.0,
-          90228
-        ],
-        [
-          "2026-05-19T00:00:00+00:00",
-          498500.0,
-          514000.0,
-          490000.0,
-          506000.0,
-          74691
-        ],
-        [
-          "2026-05-20T00:00:00+00:00",
-          496000.0,
-          508000.0,
-          482000.0,
-          494500.0,
-          87448
-        ],
-        [
-          "2026-05-21T00:00:00+00:00",
-          514000.0,
-          599000.0,
-          504000.0,
-          578000.0,
-          125719
-        ],
-        [
-          "2026-05-22T00:00:00+00:00",
-          567000.0,
-          568000.0,
-          528000.0,
-          535000.0,
-          87831
-        ],
-        [
-          "2026-05-26T00:00:00+00:00",
-          520000.0,
-          548000.0,
-          518000.0,
-          525000.0,
-          84786
-        ],
-        [
-          "2026-05-27T00:00:00+00:00",
-          514000.0,
-          527000.0,
-          498500.0,
-          527000.0,
-          83757
-        ],
-        [
-          "2026-05-28T00:00:00+00:00",
-          522000.0,
-          535000.0,
-          499000.0,
-          521000.0,
-          72459
-        ],
-        [
-          "2026-05-29T00:00:00+00:00",
-          528000.0,
-          542000.0,
-          504000.0,
-          515000.0,
-          107091
-        ],
-        [
-          "2026-06-01T00:00:00+00:00",
-          510000.0,
-          532000.0,
-          503000.0,
-          516000.0,
-          68137
-        ],
-        [
-          "2026-06-02T00:00:00+00:00",
-          520000.0,
-          571000.0,
-          512000.0,
-          569000.0,
-          149045
-        ],
-        [
-          "2026-06-04T00:00:00+00:00",
-          577000.0,
-          680000.0,
-          576000.0,
-          659000.0,
-          163545
-        ],
-        [
-          "2026-06-05T00:00:00+00:00",
-          656000.0,
-          722000.0,
-          622000.0,
-          650000.0,
-          156359
-        ],
-        [
-          "2026-06-08T00:00:00+00:00",
-          600000.0,
-          634000.0,
-          557000.0,
-          572000.0,
-          147238
-        ],
-        [
-          "2026-06-09T00:00:00+00:00",
-          596000.0,
-          649000.0,
-          582000.0,
-          624000.0,
-          142971
-        ],
-        [
-          "2026-06-10T00:00:00+00:00",
-          649000.0,
-          691000.0,
-          631000.0,
-          685000.0,
-          62
-        ],
-        [
-          "2026-06-11T00:00:00+00:00",
-          713000.0,
-          725000.0,
-          642000.0,
-          714000.0,
-          207265
-        ],
-        [
-          "2026-06-12T00:00:00+00:00",
-          725000.0,
-          758000.0,
-          681000.0,
-          695000.0,
-          157731
-        ],
-        [
-          "2026-06-15T00:00:00+00:00",
-          715000.0,
-          736000.0,
-          681000.0,
-          705000.0,
-          79159
-        ],
-        [
-          "2026-06-16T00:00:00+00:00",
-          704000.0,
-          778000.0,
-          700000.0,
-          767000.0,
-          115979
-        ],
-        [
-          "2026-06-17T00:00:00+00:00",
-          774000.0,
-          784000.0,
-          731000.0,
-          753000.0,
-          95204
-        ],
-        [
-          "2026-06-18T00:00:00+00:00",
-          761000.0,
-          792000.0,
-          730000.0,
-          730000.0,
-          87207
-        ],
-        [
-          "2026-06-19T00:00:00+00:00",
-          743000.0,
-          764000.0,
-          688000.0,
-          711000.0,
-          91840
-        ],
-        [
-          "2026-06-22T00:00:00+00:00",
-          699000.0,
-          749000.0,
-          694000.0,
-          720000.0,
-          70122
-        ],
-        [
-          "2026-06-23T00:00:00+00:00",
-          720000.0,
-          738000.0,
-          667000.0,
-          672000.0,
-          133513
-        ],
-        [
-          "2026-06-24T00:00:00+00:00",
-          672000.0,
-          706000.0,
-          650000.0,
-          685000.0,
-          89950
-        ],
-        [
-          "2026-06-25T00:00:00+00:00",
-          720000.0,
-          760000.0,
-          712000.0,
-          741000.0,
-          83625
-        ],
-        [
-          "2026-06-26T00:00:00+00:00",
-          773000.0,
-          776000.0,
-          711000.0,
-          740000.0,
-          120827
-        ],
-        [
-          "2026-06-29T00:00:00+00:00",
-          775000.0,
-          786000.0,
-          691000.0,
-          729000.0,
-          69080
-        ],
-        [
-          "2026-06-30T00:00:00+00:00",
-          737000.0,
-          769000.0,
-          723000.0,
-          755000.0,
-          58963
-        ],
-        [
-          "2026-07-01T00:00:00+00:00",
-          774000.0,
-          776000.0,
-          715000.0,
-          776000.0,
-          77545
-        ],
-        [
-          "2026-07-02T00:00:00+00:00",
-          757000.0,
-          765000.0,
-          725000.0,
-          732000.0,
-          60431
-        ],
-        [
-          "2026-07-03T00:00:00+00:00",
-          733000.0,
-          738000.0,
-          677000.0,
-          706000.0,
-          80810
-        ],
-        [
-          "2026-07-06T00:00:00+00:00",
-          708000.0,
-          733000.0,
-          652000.0,
-          690000.0,
-          80173
-        ],
-        [
-          "2026-07-07T00:00:00+00:00",
-          684000.0,
-          716000.0,
-          651000.0,
-          680000.0,
-          115581
-        ],
-        [
-          "2026-07-08T00:00:00+00:00",
-          678000.0,
-          699000.0,
-          609000.0,
-          625000.0,
-          144746
-        ],
-        [
-          "2026-07-09T00:00:00+00:00",
-          626000.0,
-          640000.0,
-          588000.0,
-          606000.0,
-          107760
-        ],
-        [
-          "2026-07-10T00:00:00+00:00",
-          633000.0,
-          659000.0,
-          622000.0,
-          629000.0,
-          57141
-        ],
-        [
-          "2026-07-13T00:00:00+00:00",
-          635000.0,
-          644000.0,
-          577000.0,
-          591000.0,
-          60563
-        ],
-        [
-          "2026-07-14T00:00:00+00:00",
-          602000.0,
-          602000.0,
-          530000.0,
-          561000.0,
-          160631
-        ],
-        [
-          "2026-07-15T00:00:00+00:00",
-          589000.0,
-          618000.0,
-          583000.0,
-          610000.0,
-          87231
-        ],
-        [
-          "2026-07-16T00:00:00+00:00",
-          609000.0,
-          609000.0,
-          582000.0,
-          589000.0,
-          33462
-        ],
-        [
-          "2026-07-20T00:00:00+00:00",
-          568000.0,
-          573000.0,
-          518000.0,
-          531000.0,
-          111705
-        ],
-        [
-          "2026-07-21T00:00:00+00:00",
-          531000.0,
-          572000.0,
-          530000.0,
-          562000.0,
-          49316
-        ],
-        [
-          "2026-07-22T00:00:00+00:00",
-          569000.0,
-          583000.0,
-          541000.0,
-          547000.0,
-          52786
-        ],
-        [
-          "2026-07-23T00:00:00+00:00",
-          550000.0,
-          550000.0,
-          525000.0,
-          544000.0,
-          64046
-        ],
-        [
-          "2026-07-24T00:00:00+00:00",
-          538000.0,
-          550000.0,
-          495000.0,
-          504000.0,
-          109732
-        ],
-        [
-          "2026-07-27T00:00:00+00:00",
-          511000.0,
-          522000.0,
-          496000.0,
-          517000.0,
-          70547
-        ],
-        [
-          "2026-07-28T00:00:00+00:00",
-          502000.0,
-          505000.0,
-          445000.0,
-          465500.0,
-          130392
-        ],
-        [
-          "2026-07-29T00:00:00+00:00",
-          470000.0,
-          487000.0,
-          417500.0,
-          444500.0,
-          147797
-        ],
-        [
-          "2026-07-30T00:00:00+00:00",
-          436000.0,
-          445000.0,
-          392500.0,
-          396000.0,
-          178701
-        ],
-        [
-          "2026-07-31T00:00:00+00:00",
-          428000.0,
-          444500.0,
-          409000.0,
-          423000.0,
-          141168
-        ],
-        [
-          "2026-08-03T00:00:00+00:00",
-          411500.0,
-          417500.0,
-          398000.0,
-          405500.0,
-          68320
-        ],
-        [
-          "2026-08-04T00:00:00+00:00",
-          405000.0,
-          427000.0,
-          395000.0,
-          425500.0,
-          102414
-        ],
-        [
-          "2026-08-05T00:00:00+00:00",
-          434000.0,
-          454500.0,
-          414500.0,
-          430000.0,
-          155932
-        ],
-        [
-          "2026-08-06T00:00:00+00:00",
-          426000.0,
-          432000.0,
-          406000.0,
-          427500.0,
-          102557
-        ],
-        [
-          "2026-08-07T00:00:00+00:00",
-          428000.0,
-          429000.0,
-          400500.0,
-          420000.0,
-          84711
-        ],
-        [
-          "2026-08-10T00:00:00+00:00",
-          424500.0,
-          434500.0,
-          415000.0,
-          432000.0,
-          61605
-        ],
-        [
-          "2026-08-11T00:00:00+00:00",
-          439500.0,
-          440000.0,
-          412500.0,
-          428500.0,
-          115562
-        ],
-        [
-          "2026-08-12T00:00:00+00:00",
-          445000.0,
-          466500.0,
-          393500.0,
-          399000.0,
-          184454
-        ],
-        [
-          "2026-08-13T00:00:00+00:00",
-          404500.0,
-          424000.0,
-          397500.0,
-          419500.0,
-          125595
-        ],
-        [
-          "2026-08-14T00:00:00+00:00",
-          428000.0,
-          439000.0,
-          415000.0,
-          427000.0,
-          50719
-        ],
-        [
-          "2026-08-18T00:00:00+00:00",
-          438500.0,
-          445000.0,
-          416500.0,
-          424500.0,
-          74029
-        ],
-        [
-          "2026-08-19T00:00:00+00:00",
-          410000.0,
-          414000.0,
-          397000.0,
-          400500.0,
-          46614
-        ],
-        [
-          "2026-08-20T00:00:00+00:00",
-          407500.0,
-          412000.0,
-          401500.0,
-          404500.0,
-          51071
-        ],
-        [
-          "2026-08-21T00:00:00+00:00",
-          399500.0,
-          404000.0,
-          388000.0,
-          400500.0,
-          61468
-        ]
-      ],
-      "group": "market",
-      "score": 61
     }
   ],
   "observations": [
@@ -38101,11 +37021,11 @@
       "name": "한화에어로스페이스",
       "code": "012450",
       "market": "KR",
-      "price": 1087000.0,
+      "price": 1086000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -7.03,
-      "vol_surge": 0.85,
+      "vol_surge": 0.92,
       "score": 188,
       "score_reasons": [
         "기본 점수 +50",
@@ -39467,7 +38387,7 @@
           1145000.0,
           1077000.0,
           1085000.0,
-          193649
+          210270
         ]
       ],
       "daily_30d": [
@@ -39709,7 +38629,7 @@
           1145000.0,
           1077000.0,
           1085000.0,
-          193649
+          210270
         ]
       ],
       "daily_90d": [
@@ -40431,7 +39351,7 @@
           1145000.0,
           1077000.0,
           1085000.0,
-          193649
+          210270
         ]
       ],
       "plan_tentative": true,
@@ -40448,7 +39368,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.3874,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -40459,13 +39379,13 @@
       "ask_ratio": 0.6937,
       "bid_rem": 6786,
       "ask_rem": 2996,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00"
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00"
     },
     {
       "name": "삼성바이오로직스",
       "code": "207940",
       "market": "KR",
-      "price": 1549000.0,
+      "price": 1546000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -1.46,
@@ -42812,7 +41732,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.6587,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -42823,13 +41743,13 @@
       "ask_ratio": 0.8294,
       "bid_rem": 11592,
       "ask_rem": 2385,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00"
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00"
     },
     {
       "name": "LG에너지솔루션",
       "code": "373220",
       "market": "KR",
-      "price": 344500.0,
+      "price": 346000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -4.05,
@@ -45175,7 +44095,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.4713,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -45186,17 +44106,17 @@
       "ask_ratio": 0.7356,
       "bid_rem": 20749,
       "ask_rem": 7456,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00"
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00"
     },
     {
       "name": "한화오션",
       "code": "042660",
       "market": "KR",
-      "price": 84300.0,
+      "price": 84200.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -4.86,
-      "vol_surge": 0.67,
+      "vol_surge": 0.71,
       "score": 77,
       "score_reasons": [
         "기본 점수 +50",
@@ -46554,7 +45474,7 @@
           86800.0,
           82900.0,
           84200.0,
-          895144
+          939181
         ]
       ],
       "daily_30d": [
@@ -46796,7 +45716,7 @@
           86800.0,
           82900.0,
           84200.0,
-          895144
+          939181
         ]
       ],
       "daily_90d": [
@@ -47518,7 +46438,7 @@
           86800.0,
           82900.0,
           84200.0,
-          895144
+          939181
         ]
       ],
       "plan_tentative": true,
@@ -47535,7 +46455,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.0199,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -47546,7 +46466,7 @@
       "ask_ratio": 0.51,
       "bid_rem": 46189,
       "ask_rem": 44384,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00"
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00"
     },
     {
       "name": "두산에너빌리티",
@@ -47556,13 +46476,13 @@
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -3.43,
-      "vol_surge": 1.1,
+      "vol_surge": 1.13,
       "score": 55,
       "score_reasons": [
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 양호 1.1배 +7",
+        "거래량 양호 1.13배 +7",
         "윗꼬리/분배(종가위치 14.8%) -12",
         "RSI 60.3 (상승 구간 50~70) +13",
         "미국증시 환경 -0.9 (전일 S&P-0.87%·나스닥-1%·SOX+0.53%)",
@@ -48914,7 +47834,7 @@
           77900.0,
           72500.0,
           73300.0,
-          2463699
+          2542137
         ]
       ],
       "daily_30d": [
@@ -49156,7 +48076,7 @@
           77900.0,
           72500.0,
           73300.0,
-          2463699
+          2542137
         ]
       ],
       "daily_90d": [
@@ -49878,7 +48798,7 @@
           77900.0,
           72500.0,
           73300.0,
-          2463699
+          2542137
         ]
       ],
       "plan_tentative": true,
@@ -49895,7 +48815,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.4366,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -49906,17 +48826,17 @@
       "ask_ratio": 0.7183,
       "bid_rem": 164024,
       "ask_rem": 64334,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00"
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00"
     },
     {
       "name": "SK",
       "code": "034730",
       "market": "KR",
-      "price": 585000.0,
+      "price": 584000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": 3.17,
-      "vol_surge": 0.93,
+      "vol_surge": 0.98,
       "score": 49,
       "score_reasons": [
         "기본 점수 +50",
@@ -51279,7 +50199,7 @@
           599000.0,
           560000.0,
           586000.0,
-          188590
+          198284
         ]
       ],
       "daily_30d": [
@@ -51521,7 +50441,7 @@
           599000.0,
           560000.0,
           586000.0,
-          188590
+          198284
         ]
       ],
       "daily_90d": [
@@ -52243,24 +51163,24 @@
           599000.0,
           560000.0,
           586000.0,
-          188590
+          198284
         ]
       ],
       "plan_tentative": true,
-      "entry": 585000.0,
+      "entry": 584000.0,
       "entry_type": "now",
       "stop": 535000,
-      "target1": 630000,
-      "target2": 660000,
-      "rr": 0.9,
+      "target1": 629000,
+      "target2": 659000,
+      "rr": 0.92,
       "atr_pct": 6.41,
       "weight_pct": 14,
-      "stop_pct": 8.5,
+      "stop_pct": 8.4,
       "est_loss_pct": 1.2,
       "hold_cap_hours": 72,
       "reachable": true,
       "orderbook_imbalance": -0.1694,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -52271,17 +51191,17 @@
       "ask_ratio": 0.4153,
       "bid_rem": 4230,
       "ask_rem": 5955,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00"
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00"
     },
     {
       "name": "한미반도체",
       "code": "042700",
       "market": "KR",
-      "price": 214000.0,
+      "price": 213500.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -5.32,
-      "vol_surge": 0.67,
+      "vol_surge": 0.7,
       "score": 45,
       "score_reasons": [
         "기본 점수 +50",
@@ -53639,7 +52559,7 @@
           220500.0,
           212000.0,
           213500.0,
-          515436
+          541244
         ]
       ],
       "daily_30d": [
@@ -53881,7 +52801,7 @@
           220500.0,
           212000.0,
           213500.0,
-          515436
+          541244
         ]
       ],
       "daily_90d": [
@@ -54603,7 +53523,7 @@
           220500.0,
           212000.0,
           213500.0,
-          515436
+          541244
         ]
       ],
       "plan_tentative": true,
@@ -54620,7 +53540,7 @@
       "hold_cap_hours": 72,
       "reachable": false,
       "orderbook_imbalance": 0.151,
-      "orderbook_imbalance_asof": "2026-08-21T16:22:00+09:00",
+      "orderbook_imbalance_asof": "2026-08-21T16:30:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -54631,7 +53551,7 @@
       "ask_ratio": 0.5755,
       "bid_rem": 38717,
       "ask_rem": 28556,
-      "ask_ratio_asof": "2026-08-21T16:22:00+09:00"
+      "ask_ratio_asof": "2026-08-21T16:30:00+09:00"
     }
   ],
   "positions": [],
@@ -54773,7 +53693,7 @@
     ]
   },
   "kr_context": {
-    "asof": "2026-08-21T16:25:00+09:00",
+    "asof": "2026-08-21T16:32:00+09:00",
     "basis": "한국 지수(KIS 실측)",
     "session": "after",
     "stale": false,
@@ -54805,10 +53725,10 @@
     "regime_pct": -0.35,
     "adj": -0.9
   },
-  "analyzed_at": "2026-08-21T16:24:00+09:00",
+  "analyzed_at": "2026-08-21T16:32:00+09:00",
   "watch_advice": {
     "level": "normal",
-    "headline": "매수 신호 30건 — 상위 후보 NAVER(204점)",
+    "headline": "매수 신호 29건 — 상위 후보 NAVER(204점)",
     "bullets": [
       "최상위 NAVER 204점 · 진입 전 재료·시초가 갭 확인.",
       "전일 미국증시 보합(-0.35%) — 종목 선별 중심.",
@@ -54816,12 +53736,12 @@
       "공통 유의: 뉴스/촉매 미반영(기술 신호만). 실주문은 본인 판단·실행."
     ],
     "action": "선별 진입 — 상위 후보 우선 검토",
-    "signal_count": 30,
+    "signal_count": 29,
     "top_signal": "NAVER",
     "top_score": 204
   },
   "integrity": {
-    "checked_at": "2026-08-21T16:24:00+09:00",
+    "checked_at": "2026-08-21T16:32:00+09:00",
     "critical": [],
     "warn": []
   }
