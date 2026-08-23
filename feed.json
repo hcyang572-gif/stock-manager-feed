@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0",
   "date": "2026-08-24",
-  "generated_at": "2026-08-24T08:32:00+09:00",
+  "generated_at": "2026-08-24T08:40:00+09:00",
   "horizon_hours": 72,
   "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 수급(외국인·기관) + 재무(PER·PBR) + 미국증시 전일 환경 보정 · 분석 범위: 통합 분석 — 관심종목(5 신호) + 전체종목 거래대금 상위(KOSPI, 30 신호). 뉴스/촉매는 ‘뉴스도 함께’에서만.",
   "market_state": {
     "korea": {
       "status": "pre",
       "basis": "장전 NXT 프리마켓(08:00~09:00, 네이버 지수 실측)",
-      "asof": "2026-08-24T08:33:00+09:00",
+      "asof": "2026-08-24T08:40:00+09:00",
       "session": "pre"
     },
     "us": {
@@ -22,14 +22,14 @@
     "observation_count": 6,
     "position_count": 0,
     "top_signal": "현대차",
-    "headline": "기술 분석 갱신(08-24 08:32 KST) — 차트·거래량·변동성 기준 35개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
+    "headline": "기술 분석 갱신(08-24 08:40 KST) — 차트·거래량·변동성 기준 35개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
     "market_outlook": {
       "regime": "중립",
       "headline": "지수 보합 중립 — 뚜렷한 방향성 부재. 신호 35개 내 고점수 종목만 선별 접근.",
       "buy_view": "방향성 불명확 — 점수 상위 소수 종목에 집중(분산 금지). 주도 테마(기술분석·온디맨드·즉시진입) 위주 선별 진입. 거래량·분봉 확인 후 돌파 진입이 원칙.",
       "sell_view": "보유 중 목표가·손절가 룰 엄격 적용. 수익권 진입 종목은 일부 차익실현 후 트레일링 적용 검토. 48시간 보유캡 이내 청산 원칙 유지.",
       "basis": "매수신호 35개·평균점수 103.6 · 코스피 +0% · 코스닥 +0% · 전일 S&P +0.43% · SOX -0.51% (실측 지표, 날조 없음)",
-      "asof": "2026-08-24T08:33:23+09:00"
+      "asof": "2026-08-24T08:40:58+09:00"
     }
   },
   "signals": [
@@ -40,15 +40,15 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 419000.0,
+      "price": 420500.0,
       "currency": "KRW",
-      "entry": 419000.0,
+      "entry": 420500.0,
       "entry_type": "now",
-      "entry_note": "기술 점수 상위·돌파 상회. 현재가(419,000) 부근 즉시 진입 가능, 거래량 확인.",
+      "entry_note": "기술 점수 상위·돌파 상회. 현재가(420,500) 부근 즉시 진입 가능, 거래량 확인.",
       "stop": 405000,
-      "target1": 445000,
-      "target2": 461000,
-      "rr": 1.86,
+      "target1": 446500,
+      "target2": 463500,
+      "rr": 1.68,
       "atr_pct": 5.21,
       "hold_cap_hours": 72,
       "weight_pct": 15,
@@ -62,11 +62,11 @@
       "combo_winrate": 0.433,
       "combo_sample": 134,
       "combo_lift": -0.067,
-      "stop_pct": 3.3,
-      "est_loss_pct": 0.5,
+      "stop_pct": 3.7,
+      "est_loss_pct": 0.55,
       "data_quality": "good",
       "catalyst_verified": false,
-      "change_pct": 0.96,
+      "change_pct": 1.33,
       "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 위축 0.53x, 강세 마감(종가위치 64.5%), RSI 59.7(상승), 변동성 돌파 상회, 미국증시 환경 +0.1 (전일 S&P+0.43%·나스닥+0.43%·SOX-0.51%), 외국인 순매도, 기관 순매도, 외국인 매수 전환(최근 확정 2026-08-21 기준(장중이면 D-1)), 기관 매수 전환(최근 확정 2026-08-21 기준(장중이면 D-1)). ATR 5.21%·5일모멘텀 -0.84%.",
       "score_reasons": [
         "기본 점수 +50",
@@ -87,7 +87,7 @@
       ],
       "risk_notes": [
         "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
-        "비중 15%는 위험균등 산정 — 손절(3.3%) 도달 시 자본 약 0.5% 손실 수준(위험 2.0%/트레이드 기준).",
+        "비중 15%는 위험균등 산정 — 손절(3.7%) 도달 시 자본 약 0.55% 손실 수준(위험 2.0%/트레이드 기준).",
         "목표1 도달 시 손절을 본전으로 올려 이익 보호 · 보유 72h 경과 시 잔여 청산."
       ],
       "tags": [
@@ -2410,14 +2410,14 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 1780000.0,
+      "price": 1782000.0,
       "currency": "KRW",
-      "entry": 1780000.0,
+      "entry": 1782000.0,
       "entry_type": "now",
-      "entry_note": "기술 점수 상위·돌파 상회. 현재가(1,780,000) 부근 즉시 진입 가능, 거래량 확인.",
+      "entry_note": "기술 점수 상위·돌파 상회. 현재가(1,782,000) 부근 즉시 진입 가능, 거래량 확인.",
       "stop": 1486000,
-      "target1": 1945000,
-      "target2": 2056000,
+      "target1": 1947000,
+      "target2": 2058000,
       "rr": 0.56,
       "atr_pct": 7.96,
       "hold_cap_hours": 72,
@@ -2432,11 +2432,11 @@
       "combo_winrate": 0.556,
       "combo_sample": 882,
       "combo_lift": 0.056,
-      "stop_pct": 16.5,
+      "stop_pct": 16.6,
       "est_loss_pct": 2.0,
       "data_quality": "good",
       "catalyst_verified": false,
-      "change_pct": 2.89,
+      "change_pct": 3.01,
       "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), RSI 50.5(상승), 변동성 돌파 상회, 미국증시 환경 +0.1 (전일 S&P+0.43%·나스닥+0.43%·SOX-0.51%), 외국인 순매수, 기관 순매도, 기관 매수 전환(최근 확정 2026-08-21 기준(장중이면 D-1)). ATR 7.96%·5일모멘텀 8.6%.",
       "score_reasons": [
         "기본 점수 +50",
@@ -2454,7 +2454,7 @@
       ],
       "risk_notes": [
         "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
-        "비중 12%는 위험균등 산정 — 손절(16.5%) 도달 시 자본 약 2.0% 손실 수준(위험 2.0%/트레이드 기준).",
+        "비중 12%는 위험균등 산정 — 손절(16.6%) 도달 시 자본 약 2.0% 손실 수준(위험 2.0%/트레이드 기준).",
         "목표1 도달 시 손절을 본전으로 올려 이익 보호 · 보유 72h 경과 시 잔여 청산."
       ],
       "tags": [
@@ -4777,15 +4777,15 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 584000.0,
+      "price": 583000.0,
       "currency": "KRW",
-      "entry": 584000.0,
+      "entry": 583000.0,
       "entry_type": "now",
-      "entry_note": "기술 점수 상위·돌파 상회. 현재가(584,000) 부근 즉시 진입 가능, 거래량 확인.",
+      "entry_note": "기술 점수 상위·돌파 상회. 현재가(583,000) 부근 즉시 진입 가능, 거래량 확인.",
       "stop": 535000,
-      "target1": 629000,
-      "target2": 659000,
-      "rr": 0.92,
+      "target1": 628000,
+      "target2": 658000,
+      "rr": 0.94,
       "atr_pct": 6.41,
       "hold_cap_hours": 72,
       "weight_pct": 15,
@@ -4799,11 +4799,11 @@
       "combo_winrate": 0.531,
       "combo_sample": 821,
       "combo_lift": 0.031,
-      "stop_pct": 8.4,
-      "est_loss_pct": 1.26,
+      "stop_pct": 8.2,
+      "est_loss_pct": 1.23,
       "data_quality": "good",
       "catalyst_verified": false,
-      "change_pct": -0.34,
+      "change_pct": -0.51,
       "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 강세 마감(종가위치 66.7%), RSI 54.9(상승), 변동성 돌파 상회, 미국증시 환경 +0.1 (전일 S&P+0.43%·나스닥+0.43%·SOX-0.51%), 외국인 순매수, 기관 순매수, 기관 매수 전환(최근 확정 2026-08-21 기준(장중이면 D-1)). ATR 6.41%·5일모멘텀 5.97%.",
       "score_reasons": [
         "기본 점수 +50",
@@ -4821,7 +4821,7 @@
       ],
       "risk_notes": [
         "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
-        "비중 15%는 위험균등 산정 — 손절(8.4%) 도달 시 자본 약 1.26% 손실 수준(위험 2.0%/트레이드 기준).",
+        "비중 15%는 위험균등 산정 — 손절(8.2%) 도달 시 자본 약 1.23% 손실 수준(위험 2.0%/트레이드 기준).",
         "목표1 도달 시 손절을 본전으로 올려 이익 보호 · 보유 72h 경과 시 잔여 청산."
       ],
       "tags": [
@@ -7144,7 +7144,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 1552000.0,
+      "price": 1553000.0,
       "currency": "KRW",
       "entry": 1588000.0,
       "entry_type": "breakout",
@@ -7170,7 +7170,7 @@
       "est_loss_pct": 0.83,
       "data_quality": "good",
       "catalyst_verified": false,
-      "change_pct": 0.06,
+      "change_pct": 0.13,
       "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 강세 마감(종가위치 61.8%), RSI 57.8(상승), 미국증시 환경 +0.1 (전일 S&P+0.43%·나스닥+0.43%·SOX-0.51%), 외국인 순매수, 기관 순매도. ATR 3.57%·5일모멘텀 -0.83%.",
       "score_reasons": [
         "기본 점수 +50",
@@ -9509,15 +9509,15 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 228500.0,
+      "price": 231000.0,
       "currency": "KRW",
-      "entry": 228500.0,
+      "entry": 231000.0,
       "entry_type": "now",
-      "entry_note": "기술 점수 상위·돌파 상회. 현재가(228,500) 부근 즉시 진입 가능, 거래량 확인.",
+      "entry_note": "기술 점수 상위·돌파 상회. 현재가(231,000) 부근 즉시 진입 가능, 거래량 확인.",
       "stop": 203000,
-      "target1": 242500,
-      "target2": 251500,
-      "rr": 0.55,
+      "target1": 245000,
+      "target2": 254000,
+      "rr": 0.5,
       "atr_pct": 5.21,
       "hold_cap_hours": 72,
       "weight_pct": 15,
@@ -9531,11 +9531,11 @@
       "combo_winrate": 0.556,
       "combo_sample": 882,
       "combo_lift": 0.056,
-      "stop_pct": 11.2,
-      "est_loss_pct": 1.67,
+      "stop_pct": 12.1,
+      "est_loss_pct": 1.82,
       "data_quality": "good",
       "catalyst_verified": false,
-      "change_pct": 2.93,
+      "change_pct": 4.05,
       "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 강세 마감(종가위치 72.7%), RSI 57.5(상승), 변동성 돌파 상회, 미국증시 환경 +0.1 (전일 S&P+0.43%·나스닥+0.43%·SOX-0.51%), 외국인 순매수, 기관 순매도, 외국인 매도 전환(최근 확정 2026-08-21 기준(장중이면 D-1)), 기관 매수 전환(최근 확정 2026-08-21 기준(장중이면 D-1)). ATR 5.21%·5일모멘텀 -1.99%.",
       "score_reasons": [
         "기본 점수 +50",
@@ -9553,7 +9553,7 @@
       ],
       "risk_notes": [
         "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
-        "비중 15%는 위험균등 산정 — 손절(11.2%) 도달 시 자본 약 1.67% 손실 수준(위험 2.0%/트레이드 기준).",
+        "비중 15%는 위험균등 산정 — 손절(12.1%) 도달 시 자본 약 1.82% 손실 수준(위험 2.0%/트레이드 기준).",
         "목표1 도달 시 손절을 본전으로 올려 이익 보호 · 보유 72h 경과 시 잔여 청산."
       ],
       "tags": [
@@ -30329,9 +30329,9 @@
       "orderbook_imbalance_source": "unavailable",
       "large_trade_detected": false,
       "large_trade_direction": null,
-      "large_trade_multiple": 16.67,
-      "large_trade_value_krw": 20700000,
-      "large_trade_asof": "2026-08-24T08:30:01+09:00",
+      "large_trade_multiple": 33.0,
+      "large_trade_value_krw": 20493000,
+      "large_trade_asof": "2026-08-24T08:35:22+09:00",
       "score": 89
     },
     {
@@ -44451,10 +44451,10 @@
       "name": "삼성전자",
       "code": "005930",
       "market": "KR",
-      "price": 273000.0,
+      "price": 272500.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -3.02,
+      "change_pct": -3.2,
       "vol_surge": 0.9,
       "score": 138,
       "score_reasons": [
@@ -46802,7 +46802,7 @@
       "orderbook_imbalance_source": "unavailable",
       "large_trade_detected": false,
       "large_trade_direction": null,
-      "large_trade_multiple": 55.67,
+      "large_trade_multiple": 83.5,
       "large_trade_value_krw": 47010500,
       "large_trade_asof": "2026-08-24T08:30:00+09:00"
     },
@@ -46810,10 +46810,10 @@
       "name": "한화에어로스페이스",
       "code": "012450",
       "market": "KR",
-      "price": 1106000.0,
+      "price": 1100000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 1.94,
+      "change_pct": 1.38,
       "vol_surge": 0.85,
       "score": 64,
       "score_reasons": [
@@ -56213,10 +56213,10 @@
       "name": "두산에너빌리티",
       "code": "034020",
       "market": "KR",
-      "price": 73700.0,
+      "price": 73800.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": 0.55,
+      "change_pct": 0.68,
       "vol_surge": 1.1,
       "score": 0,
       "score_reasons": [
@@ -58701,7 +58701,7 @@
     ]
   },
   "kr_context": {
-    "asof": "2026-08-24T08:33:00+09:00",
+    "asof": "2026-08-24T08:40:00+09:00",
     "basis": "한국 지수(KIS 실측)",
     "session": "pre",
     "stale": false,
@@ -58726,7 +58726,7 @@
       }
     ]
   },
-  "analyzed_at": "2026-08-24T08:32:00+09:00",
+  "analyzed_at": "2026-08-24T08:40:00+09:00",
   "market_regime": {
     "sp": 0.43,
     "nasdaq": 0.43,
@@ -58749,7 +58749,7 @@
     "top_score": 169
   },
   "integrity": {
-    "checked_at": "2026-08-24T08:32:00+09:00",
+    "checked_at": "2026-08-24T08:40:00+09:00",
     "critical": [],
     "warn": [
       "us_context asof 2026-08-21 가 마지막 영업일(2026-08-24)보다 과거(신선도)",
