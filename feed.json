@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0",
   "date": "2026-08-25",
-  "generated_at": "2026-08-25T08:14:00+09:00",
+  "generated_at": "2026-08-25T08:21:00+09:00",
   "horizon_hours": 72,
   "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 수급(외국인·기관) + 재무(PER·PBR) + 미국증시 전일 환경 보정 · 분석 범위: 통합 분석 — 관심종목(4 신호) + 전체종목 거래대금 상위(KOSPI, 30 신호). 뉴스/촉매는 ‘뉴스도 함께’에서만.",
   "market_state": {
     "korea": {
       "status": "pre",
       "basis": "장전 NXT 프리마켓(08:00~09:00, 네이버 지수 실측)",
-      "asof": "2026-08-25T08:14:00+09:00",
+      "asof": "2026-08-25T08:22:00+09:00",
       "session": "pre"
     },
     "us": {
@@ -22,14 +22,14 @@
     "observation_count": 7,
     "position_count": 0,
     "top_signal": "삼성바이오로직스",
-    "headline": "기술 분석 갱신(08-25 08:14 KST) — 차트·거래량·변동성 기준 34개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
+    "headline": "기술 분석 갱신(08-25 08:21 KST) — 차트·거래량·변동성 기준 34개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
     "market_outlook": {
       "regime": "중립",
       "headline": "지수 보합 중립 — 뚜렷한 방향성 부재. 신호 34개 내 고점수 종목만 선별 접근.",
       "buy_view": "방향성 불명확 — 점수 상위 소수 종목에 집중(분산 금지). 주도 테마(기술분석·온디맨드·즉시진입) 위주 선별 진입. 거래량·분봉 확인 후 돌파 진입이 원칙.",
       "sell_view": "보유 중 목표가·손절가 룰 엄격 적용. 수익권 진입 종목은 일부 차익실현 후 트레일링 적용 검토. 48시간 보유캡 이내 청산 원칙 유지.",
       "basis": "매수신호 34개·평균점수 141.1 · 코스피 +0% · 코스닥 +0% · 전일 S&P -0.28% · SOX -2.7% (실측 지표, 날조 없음)",
-      "asof": "2026-08-25T08:14:53+09:00"
+      "asof": "2026-08-25T08:22:31+09:00"
     }
   },
   "signals": [
@@ -40,7 +40,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 1565000.0,
+      "price": 1562000.0,
       "currency": "KRW",
       "entry": 1576000.0,
       "entry_type": "breakout",
@@ -66,7 +66,7 @@
       "est_loss_pct": 0.74,
       "data_quality": "good",
       "catalyst_verified": false,
-      "change_pct": -0.51,
+      "change_pct": -0.7,
       "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 위축 0.53x, 강세 마감(종가위치 93.8%), RSI 69.6(상승), 미국증시 환경 -3.5 (전일 S&P-0.28%·나스닥-0.76%·SOX-2.7%), 외국인 순매수, 기관 순매수, 기관 매수 전환(최근 확정 2026-08-24 기준(장중이면 D-1)). ATR 3.33%·5일모멘텀 1.61%.",
       "score_reasons": [
         "기본 점수 +50",
@@ -7177,15 +7177,15 @@
       "market": "KR",
       "direction": "long",
       "confidence": "mid",
-      "price": 425500.0,
+      "price": 426500.0,
       "currency": "KRW",
-      "entry": 425500.0,
+      "entry": 426500.0,
       "entry_type": "now",
-      "entry_note": "기술 점수 상위·돌파 상회. 현재가(425,500) 부근 즉시 진입 가능, 거래량 확인.",
+      "entry_note": "기술 점수 상위·돌파 상회. 현재가(426,500) 부근 즉시 진입 가능, 거래량 확인.",
       "stop": 405000,
-      "target1": 450500,
-      "target2": 467000,
-      "rr": 1.22,
+      "target1": 451500,
+      "target2": 468000,
+      "rr": 1.16,
       "atr_pct": 4.99,
       "hold_cap_hours": 72,
       "weight_pct": 15,
@@ -7199,11 +7199,11 @@
       "combo_winrate": 0.437,
       "combo_sample": 126,
       "combo_lift": -0.062,
-      "stop_pct": 4.8,
-      "est_loss_pct": 0.72,
+      "stop_pct": 5.0,
+      "est_loss_pct": 0.76,
       "data_quality": "good",
       "catalyst_verified": false,
-      "change_pct": 2.78,
+      "change_pct": 3.02,
       "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 위축 0.51x, RSI 57.8(상승), 변동성 돌파 상회, 미국증시 환경 -3.5 (전일 S&P-0.28%·나스닥-0.76%·SOX-2.7%), 외국인 순매도, 기관 순매도. ATR 4.99%·5일모멘텀 -8.61%.",
       "score_reasons": [
         "기본 점수 +50",
@@ -7221,7 +7221,7 @@
       ],
       "risk_notes": [
         "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
-        "비중 15%는 위험균등 산정 — 손절(4.8%) 도달 시 자본 약 0.72% 손실 수준(위험 2.0%/트레이드 기준).",
+        "비중 15%는 위험균등 산정 — 손절(5.0%) 도달 시 자본 약 0.76% 손실 수준(위험 2.0%/트레이드 기준).",
         "목표1 도달 시 손절을 본전으로 올려 이익 보호 · 보유 72h 경과 시 잔여 청산."
       ],
       "tags": [
@@ -42395,10 +42395,10 @@
       "name": "한화오션",
       "code": "042660",
       "market": "KR",
-      "price": 83100.0,
+      "price": 83200.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -0.36,
+      "change_pct": -0.24,
       "vol_surge": 0.61,
       "score": 122,
       "score_reasons": [
@@ -44757,10 +44757,10 @@
       "name": "한화에어로스페이스",
       "code": "012450",
       "market": "KR",
-      "price": 1095000.0,
+      "price": 1098000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -0.9,
+      "change_pct": -0.63,
       "vol_surge": 0.4,
       "score": 121,
       "score_reasons": [
@@ -47119,10 +47119,10 @@
       "name": "한미반도체",
       "code": "042700",
       "market": "KR",
-      "price": 204500.0,
+      "price": 203500.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -2.15,
+      "change_pct": -2.63,
       "vol_surge": 0.57,
       "score": 68,
       "score_reasons": [
@@ -49478,10 +49478,10 @@
       "name": "NAVER",
       "code": "035420",
       "market": "KR",
-      "price": 221500.0,
+      "price": 221000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -0.89,
+      "change_pct": -1.12,
       "vol_surge": 1.15,
       "score": 65,
       "score_reasons": [
@@ -54197,10 +54197,10 @@
       "name": "SK하이닉스",
       "code": "000660",
       "market": "KR",
-      "price": 1629000.0,
+      "price": 1619000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -2.51,
+      "change_pct": -3.11,
       "vol_surge": 0.7,
       "score": 1,
       "score_reasons": [
@@ -56563,10 +56563,10 @@
       "name": "삼성전자",
       "code": "005930",
       "market": "KR",
-      "price": 252000.0,
+      "price": 250500.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -1.95,
+      "change_pct": -2.53,
       "vol_surge": 1.05,
       "score": 0,
       "score_reasons": [
@@ -59065,7 +59065,7 @@
     ]
   },
   "kr_context": {
-    "asof": "2026-08-25T08:14:00+09:00",
+    "asof": "2026-08-25T08:22:00+09:00",
     "basis": "한국 지수(KIS 실측)",
     "session": "pre",
     "stale": false,
@@ -59090,7 +59090,7 @@
       }
     ]
   },
-  "analyzed_at": "2026-08-25T08:14:00+09:00",
+  "analyzed_at": "2026-08-25T08:21:00+09:00",
   "market_regime": {
     "sp": -0.28,
     "nasdaq": -0.76,
@@ -59104,6 +59104,7 @@
     "bullets": [
       "최상위 삼성바이오로직스 137점 · 진입 전 재료·시초가 갭 확인.",
       "전일 미국증시 약세(-1.39%) — 위험회피 국면, 비중 보수적으로.",
+      "현재 NXT 연장(장전/장후) 시간 — 유동성 얇음, 호가 슬리피지 유의.",
       "공통 유의: 뉴스/촉매 미반영(기술 신호만). 실주문은 본인 판단·실행."
     ],
     "action": "선별 진입 — 상위 후보 우선 검토",
@@ -59112,7 +59113,7 @@
     "top_score": 137
   },
   "integrity": {
-    "checked_at": "2026-08-25T08:14:00+09:00",
+    "checked_at": "2026-08-25T08:21:00+09:00",
     "critical": [],
     "warn": [
       "market_state.us asof 2026-08-22 가 마지막 영업일(2026-08-25)보다 과거(신선도, status=closed)"
