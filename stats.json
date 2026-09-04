@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-09-04T08:18:00+09:00",
+  "generated_at": "2026-09-05T08:03:33+09:00",
   "backtest": {
     "period_days": 240,
     "universe": "관심종목",
@@ -8,104 +8,104 @@
     "hold_bars": 2,
     "score_cutoff": 55,
     "overall": {
-      "signals": 1892,
-      "filled": 1235,
+      "signals": 1888,
+      "filled": 1231,
       "no_fill": 657,
-      "hit_target1": 167,
-      "hit_target2": 150,
-      "hit_stop": 148,
-      "timecut": 770,
-      "win_rate": 53.3,
-      "target_hit_rate": 25.7,
+      "hit_target1": 166,
+      "hit_target2": 148,
+      "hit_stop": 149,
+      "timecut": 768,
+      "win_rate": 52.9,
+      "target_hit_rate": 25.5,
       "avg_r": 0.06
     },
     "by_score": {
       "55-64": {
-        "signals": 266,
-        "filled": 156,
+        "signals": 267,
+        "filled": 157,
         "no_fill": 110,
-        "hit_target1": 18,
+        "hit_target1": 17,
         "hit_target2": 11,
-        "hit_stop": 24,
-        "timecut": 103,
-        "win_rate": 52.6,
-        "target_hit_rate": 18.6,
-        "avg_r": 0.04
+        "hit_stop": 25,
+        "timecut": 104,
+        "win_rate": 51.0,
+        "target_hit_rate": 17.8,
+        "avg_r": 0.03
       },
       "65-74": {
-        "signals": 274,
-        "filled": 152,
+        "signals": 272,
+        "filled": 150,
         "no_fill": 122,
-        "hit_target1": 21,
+        "hit_target1": 20,
         "hit_target2": 17,
         "hit_stop": 18,
-        "timecut": 96,
+        "timecut": 95,
         "win_rate": 50.0,
-        "target_hit_rate": 25.0,
-        "avg_r": 0.12
+        "target_hit_rate": 24.7,
+        "avg_r": 0.13
       },
       "75+": {
-        "signals": 1352,
-        "filled": 927,
+        "signals": 1349,
+        "filled": 924,
         "no_fill": 425,
-        "hit_target1": 128,
-        "hit_target2": 122,
+        "hit_target1": 129,
+        "hit_target2": 120,
         "hit_stop": 106,
-        "timecut": 571,
-        "win_rate": 53.9,
-        "target_hit_rate": 27.0,
+        "timecut": 569,
+        "win_rate": 53.7,
+        "target_hit_rate": 26.9,
         "avg_r": 0.06
       }
     },
     "by_entry_type": {
       "now": {
-        "signals": 527,
-        "filled": 527,
+        "signals": 525,
+        "filled": 525,
         "no_fill": 0,
-        "hit_target1": 84,
-        "hit_target2": 75,
+        "hit_target1": 85,
+        "hit_target2": 74,
         "hit_stop": 71,
-        "timecut": 297,
+        "timecut": 295,
         "win_rate": 53.7,
-        "target_hit_rate": 30.2,
+        "target_hit_rate": 30.3,
         "avg_r": 0.08
       },
       "breakout": {
-        "signals": 1365,
-        "filled": 708,
+        "signals": 1363,
+        "filled": 706,
         "no_fill": 657,
-        "hit_target1": 83,
-        "hit_target2": 75,
-        "hit_stop": 77,
+        "hit_target1": 81,
+        "hit_target2": 74,
+        "hit_stop": 78,
         "timecut": 473,
-        "win_rate": 53.0,
-        "target_hit_rate": 22.3,
-        "avg_r": 0.06
+        "win_rate": 52.3,
+        "target_hit_rate": 22.0,
+        "avg_r": 0.05
       }
     },
     "by_regime": {
       "상승": {
-        "signals": 1472,
-        "filled": 956,
-        "no_fill": 516,
-        "hit_target1": 138,
-        "hit_target2": 140,
+        "signals": 1462,
+        "filled": 947,
+        "no_fill": 515,
+        "hit_target1": 136,
+        "hit_target2": 138,
         "hit_stop": 108,
-        "timecut": 570,
-        "win_rate": 56.5,
-        "target_hit_rate": 29.1,
+        "timecut": 565,
+        "win_rate": 56.2,
+        "target_hit_rate": 28.9,
         "avg_r": 0.09
       },
       "하락": {
-        "signals": 346,
-        "filled": 240,
-        "no_fill": 106,
-        "hit_target1": 27,
+        "signals": 352,
+        "filled": 245,
+        "no_fill": 107,
+        "hit_target1": 28,
         "hit_target2": 7,
-        "hit_stop": 32,
-        "timecut": 174,
-        "win_rate": 42.1,
-        "target_hit_rate": 14.2,
+        "hit_stop": 33,
+        "timecut": 177,
+        "win_rate": 41.6,
+        "target_hit_rate": 14.3,
         "avg_r": -0.02
       },
       "횡보": {
@@ -124,38 +124,38 @@
     "regime_method": "KOSPI(^KS11) 20일 이동평균 기준 국면 분류: 종가>MA20×1.005='상승', 종가<MA20×0.995='하락', 나머지='횡보'. 결측일='횡보'. KOSPI 미확보 시 by_regime 전 버킷 빈 집계.",
     "by_exit_speed": {
       "1일차": {
-        "signals": 109,
-        "filled": 109,
+        "signals": 110,
+        "filled": 110,
         "no_fill": 0,
         "hit_target1": 0,
         "hit_target2": 58,
-        "hit_stop": 51,
+        "hit_stop": 52,
         "timecut": 0,
-        "win_rate": 50.5,
-        "target_hit_rate": 53.2,
-        "avg_r": -0.02
+        "win_rate": 50.0,
+        "target_hit_rate": 52.7,
+        "avg_r": -0.03
       },
       "2일차": {
-        "signals": 356,
-        "filled": 356,
+        "signals": 353,
+        "filled": 353,
         "no_fill": 0,
-        "hit_target1": 167,
-        "hit_target2": 92,
+        "hit_target1": 166,
+        "hit_target2": 90,
         "hit_stop": 97,
         "timecut": 0,
-        "win_rate": 72.8,
-        "target_hit_rate": 72.8,
-        "avg_r": 0.31
+        "win_rate": 72.5,
+        "target_hit_rate": 72.5,
+        "avg_r": 0.32
       },
       "시간청산": {
-        "signals": 770,
-        "filled": 770,
+        "signals": 768,
+        "filled": 768,
         "no_fill": 0,
         "hit_target1": 0,
         "hit_target2": 0,
         "hit_stop": 0,
-        "timecut": 770,
-        "win_rate": 44.7,
+        "timecut": 768,
+        "win_rate": 44.3,
         "target_hit_rate": 0.0,
         "avg_r": -0.04
       }
@@ -192,18 +192,18 @@
   },
   "forward": {
     "status": "ok",
-    "matured": 811,
+    "matured": 795,
     "logged": 1000,
     "agg": {
-      "signals": 811,
-      "filled": 672,
-      "no_fill": 139,
-      "hit_target1": 86,
+      "signals": 795,
+      "filled": 679,
+      "no_fill": 116,
+      "hit_target1": 91,
       "hit_target2": 60,
-      "hit_stop": 105,
-      "timecut": 421,
+      "hit_stop": 109,
+      "timecut": 419,
       "win_rate": 49.6,
-      "target_hit_rate": 21.7,
+      "target_hit_rate": 22.2,
       "avg_r": 0.06
     }
   },
@@ -289,166 +289,166 @@
     ],
     "suggestion": {
       "base": 50,
-      "align_up": -13,
-      "above_ma20": 11,
-      "vol_surge": -4,
-      "vol_ok": 0,
-      "vol_dry": -18,
-      "strong_close": -4,
-      "weak_close": -6,
-      "rsi_up": -6,
+      "align_up": -14,
+      "above_ma20": 10,
+      "vol_surge": -5,
+      "vol_ok": 3,
+      "vol_dry": -17,
+      "strong_close": -10,
+      "weak_close": -11,
+      "rsi_up": -8,
       "rsi_hot": 13,
-      "rsi_oversold": 0,
-      "breakout": -9,
+      "rsi_oversold": 1,
+      "breakout": -5,
       "mom_up": 9,
-      "gap_up": 0,
-      "gap_down": -4,
-      "vol_accel": 8,
-      "streak_up": 13,
-      "near_high": 14,
-      "range_exp": 2,
+      "gap_up": 9,
+      "gap_down": 4,
+      "vol_accel": 12,
+      "streak_up": 7,
+      "near_high": 18,
+      "range_exp": -1,
       "ma20_up": -1,
-      "for_buy": 8,
-      "for_sell": -6,
-      "org_buy": 2,
-      "org_sell": 1,
+      "for_buy": 12,
+      "for_sell": -1,
+      "org_buy": 5,
+      "org_sell": 5,
       "align_down": 0,
-      "val_auc": 0.504,
-      "current_val_auc": 0.517,
-      "basis": "학습은 했지만 검증 성능 개선이 작아요(AUC 0.517→0.504). 참고용으로만 보고, 적용은 신중히 — 표본이 더 쌓이면 정확해져요."
+      "val_auc": 0.509,
+      "current_val_auc": 0.515,
+      "basis": "학습은 했지만 검증 성능 개선이 작아요(AUC 0.515→0.509). 참고용으로만 보고, 적용은 신중히 — 표본이 더 쌓이면 정확해져요."
     },
     "method": "과거 일봉의 '지표→48h 승패'를 로지스틱 회귀로 학습(numpy). train 70%/val 30% 시간분할 · 검증 AUC 가 현재 규칙보다 +0.02 이상 좋을 때만 제안(과최적화 방지). 적용은 사용자 승인.",
     "disclaimer": "학습 가중치는 과거 데이터 기반 확률 추정(베타)이며 미래 수익을 보장하지 않습니다.",
     "metrics": {
-      "train_n": 16774,
-      "val_n": 7190,
-      "win_base_rate": 49.6,
-      "current_val_auc": 0.517,
-      "learned_val_auc": 0.504
+      "train_n": 16433,
+      "val_n": 7044,
+      "win_base_rate": 50.0,
+      "current_val_auc": 0.515,
+      "learned_val_auc": 0.509
     },
     "recommended": false,
-    "generated_at": "2026-09-04T08:18:56+09:00",
-    "sample_count": 23964,
+    "generated_at": "2026-09-05T08:04:23+09:00",
+    "sample_count": 23477,
     "applied": false
   },
   "winrate_combos": {
-    "generated_at": "2026-09-04T08:18:56+09:00",
-    "base_winrate": 0.496,
-    "n_total": 23964,
-    "n_combos": 43,
+    "generated_at": "2026-09-05T08:04:23+09:00",
+    "base_winrate": 0.5,
+    "n_total": 23477,
+    "n_combos": 46,
     "min_sample": 120,
     "method": "과거 일봉의 (점수구간 × 거래량 × 외국인순매매 × 기관순매매) 조합별 48h 승률·평균R·payoff. 표본 120건 미만 조합은 우연 방지로 제외.",
     "disclaimer": "과거 데이터 기반 참고치이며 미래 수익을 보장하지 않습니다. 조합을 좁힐수록 표본이 줄어 신뢰가 낮아집니다. 호가 매수/매도 비율은 과거 기록이 없어 제외(향후 적재 예정).",
     "best": [
       {
-        "score": "65-74",
-        "volume": "보통(0.6~1x)",
-        "foreign": "순매수",
-        "inst": "순매수",
-        "winrate": 0.59,
-        "n": 134,
-        "lift": 0.094,
-        "avg_r": 0.13,
-        "payoff": 1.11
-      },
-      {
-        "score": "65-74",
-        "volume": "보통(0.6~1x)",
-        "foreign": "순매수",
-        "inst": "순매도",
-        "winrate": 0.543,
-        "n": 265,
-        "lift": 0.048,
-        "avg_r": 0.15,
-        "payoff": 1.39
-      },
-      {
-        "score": "75+",
-        "volume": "보통(0.6~1x)",
-        "foreign": "순매수",
-        "inst": "순매수",
-        "winrate": 0.541,
-        "n": 860,
-        "lift": 0.045,
-        "avg_r": 0.07,
-        "payoff": 1.15
-      },
-      {
         "score": "75+",
         "volume": "양호(1~1.5x)",
         "foreign": "순매수",
         "inst": "순매수",
-        "winrate": 0.535,
-        "n": 778,
-        "lift": 0.039,
-        "avg_r": 0.08,
-        "payoff": 1.17
-      },
-      {
-        "score": "75+",
-        "volume": "보통(0.6~1x)",
-        "foreign": "순매수",
-        "inst": "순매도",
-        "winrate": 0.533,
-        "n": 933,
-        "lift": 0.037,
-        "avg_r": 0.1,
-        "payoff": 1.19
-      },
-      {
-        "score": "75+",
-        "volume": "급증(≥1.5x)",
-        "foreign": "순매수",
-        "inst": "순매수",
-        "winrate": 0.526,
-        "n": 666,
-        "lift": 0.03,
-        "avg_r": 0.05,
-        "payoff": 1.13
-      },
-      {
-        "score": "75+",
-        "volume": "양호(1~1.5x)",
-        "foreign": "순매수",
-        "inst": "순매도",
-        "winrate": 0.521,
-        "n": 698,
-        "lift": 0.026,
-        "avg_r": 0.06,
-        "payoff": 1.14
+        "winrate": 0.551,
+        "n": 772,
+        "lift": 0.051,
+        "avg_r": 0.09,
+        "payoff": 1.18
       },
       {
         "score": "<55",
         "volume": "위축(<0.6x)",
         "foreign": "순매도",
         "inst": "순매수",
-        "winrate": 0.52,
-        "n": 221,
-        "lift": 0.025,
+        "winrate": 0.546,
+        "n": 249,
+        "lift": 0.047,
+        "avg_r": 0.14,
+        "payoff": 1.4
+      },
+      {
+        "score": "65-74",
+        "volume": "보통(0.6~1x)",
+        "foreign": "순매수",
+        "inst": "순매수",
+        "winrate": 0.54,
+        "n": 139,
+        "lift": 0.04,
+        "avg_r": 0.08,
+        "payoff": 1.14
+      },
+      {
+        "score": "65-74",
+        "volume": "보통(0.6~1x)",
+        "foreign": "순매수",
+        "inst": "순매도",
+        "winrate": 0.537,
+        "n": 268,
+        "lift": 0.038,
+        "avg_r": 0.14,
+        "payoff": 1.34
+      },
+      {
+        "score": "<55",
+        "volume": "양호(1~1.5x)",
+        "foreign": "순매수",
+        "inst": "순매도",
+        "winrate": 0.536,
+        "n": 166,
+        "lift": 0.037,
+        "avg_r": 0.05,
+        "payoff": 1.0
+      },
+      {
+        "score": "75+",
+        "volume": "양호(1~1.5x)",
+        "foreign": "순매수",
+        "inst": "순매도",
+        "winrate": 0.535,
+        "n": 648,
+        "lift": 0.036,
         "avg_r": 0.07,
+        "payoff": 1.12
+      },
+      {
+        "score": "75+",
+        "volume": "급증(≥1.5x)",
+        "foreign": "순매수",
+        "inst": "순매수",
+        "winrate": 0.534,
+        "n": 764,
+        "lift": 0.035,
+        "avg_r": 0.07,
+        "payoff": 1.18
+      },
+      {
+        "score": "75+",
+        "volume": "보통(0.6~1x)",
+        "foreign": "순매수",
+        "inst": "순매도",
+        "winrate": 0.532,
+        "n": 878,
+        "lift": 0.032,
+        "avg_r": 0.09,
         "payoff": 1.22
       },
       {
         "score": "75+",
-        "volume": "급증(≥1.5x)",
-        "foreign": "순매도",
+        "volume": "보통(0.6~1x)",
+        "foreign": "순매수",
         "inst": "순매수",
-        "winrate": 0.517,
-        "n": 503,
-        "lift": 0.021,
-        "avg_r": 0.04,
-        "payoff": 1.06
+        "winrate": 0.532,
+        "n": 847,
+        "lift": 0.033,
+        "avg_r": 0.06,
+        "payoff": 1.11
       },
       {
-        "score": "75+",
-        "volume": "급증(≥1.5x)",
-        "foreign": "중립",
-        "inst": "중립",
-        "winrate": 0.512,
-        "n": 1218,
-        "lift": 0.017,
-        "avg_r": 0.03,
-        "payoff": 1.07
+        "score": "<55",
+        "volume": "보통(0.6~1x)",
+        "foreign": "순매도",
+        "inst": "순매도",
+        "winrate": 0.531,
+        "n": 305,
+        "lift": 0.032,
+        "avg_r": 0.14,
+        "payoff": 1.36
       }
     ],
     "worst": [
@@ -457,293 +457,311 @@
         "volume": "위축(<0.6x)",
         "foreign": "순매도",
         "inst": "순매도",
-        "winrate": 0.408,
-        "n": 130,
-        "lift": -0.088,
-        "avg_r": -0.16,
-        "payoff": 0.8
+        "winrate": 0.414,
+        "n": 128,
+        "lift": -0.085,
+        "avg_r": -0.09,
+        "payoff": 1.03
       },
       {
-        "score": "<55",
+        "score": "65-74",
         "volume": "위축(<0.6x)",
-        "foreign": "순매수",
-        "inst": "순매도",
-        "winrate": 0.44,
-        "n": 336,
-        "lift": -0.055,
-        "avg_r": -0.03,
-        "payoff": 1.08
+        "foreign": "중립",
+        "inst": "중립",
+        "winrate": 0.417,
+        "n": 259,
+        "lift": -0.083,
+        "avg_r": -0.07,
+        "payoff": 1.09
       },
       {
-        "score": "<55",
-        "volume": "양호(1~1.5x)",
-        "foreign": "순매도",
-        "inst": "순매도",
-        "winrate": 0.443,
-        "n": 149,
-        "lift": -0.053,
-        "avg_r": -0.04,
-        "payoff": 1.01
+        "score": "75+",
+        "volume": "위축(<0.6x)",
+        "foreign": "중립",
+        "inst": "중립",
+        "winrate": 0.447,
+        "n": 615,
+        "lift": -0.052,
+        "avg_r": -0.03,
+        "payoff": 1.06
       }
     ],
     "table": {
       "75+|양호(1~1.5x)|중립|중립": {
-        "winrate": 0.507,
-        "n": 1945,
+        "winrate": 0.51,
+        "n": 1720,
         "lift": 0.011,
-        "avg_r": 0.03
+        "avg_r": 0.02
+      },
+      "55-64|보통(0.6~1x)|중립|중립": {
+        "winrate": 0.478,
+        "n": 556,
+        "lift": -0.021,
+        "avg_r": 0.01
       },
       "75+|급증(≥1.5x)|중립|중립": {
-        "winrate": 0.512,
-        "n": 1218,
-        "lift": 0.017,
-        "avg_r": 0.03
-      },
-      "75+|보통(0.6~1x)|중립|중립": {
-        "winrate": 0.485,
-        "n": 2419,
-        "lift": -0.011,
-        "avg_r": 0.0
-      },
-      "55-64|위축(<0.6x)|중립|중립": {
-        "winrate": 0.492,
-        "n": 258,
-        "lift": -0.003,
+        "winrate": 0.511,
+        "n": 1190,
+        "lift": 0.011,
         "avg_r": 0.02
       },
       "<55|위축(<0.6x)|중립|중립": {
-        "winrate": 0.458,
-        "n": 701,
-        "lift": -0.038,
-        "avg_r": -0.03
-      },
-      "65-74|보통(0.6~1x)|중립|중립": {
-        "winrate": 0.48,
-        "n": 641,
-        "lift": -0.015,
+        "winrate": 0.454,
+        "n": 797,
+        "lift": -0.045,
         "avg_r": -0.02
       },
       "<55|보통(0.6~1x)|중립|중립": {
-        "winrate": 0.501,
-        "n": 876,
-        "lift": 0.005,
-        "avg_r": 0.05
+        "winrate": 0.48,
+        "n": 908,
+        "lift": -0.019,
+        "avg_r": 0.02
+      },
+      "75+|보통(0.6~1x)|중립|중립": {
+        "winrate": 0.482,
+        "n": 2159,
+        "lift": -0.017,
+        "avg_r": 0.01
       },
       "75+|위축(<0.6x)|중립|중립": {
-        "winrate": 0.471,
-        "n": 628,
-        "lift": -0.024,
-        "avg_r": -0.02
+        "winrate": 0.447,
+        "n": 615,
+        "lift": -0.052,
+        "avg_r": -0.03
       },
-      "65-74|위축(<0.6x)|중립|중립": {
-        "winrate": 0.445,
-        "n": 247,
-        "lift": -0.05,
-        "avg_r": -0.04
+      "55-64|위축(<0.6x)|중립|중립": {
+        "winrate": 0.457,
+        "n": 293,
+        "lift": -0.042,
+        "avg_r": -0.06
       },
-      "55-64|보통(0.6~1x)|중립|중립": {
-        "winrate": 0.496,
-        "n": 599,
-        "lift": 0.0,
-        "avg_r": 0.05
-      },
-      "<55|양호(1~1.5x)|중립|중립": {
-        "winrate": 0.493,
-        "n": 353,
-        "lift": -0.003,
+      "65-74|보통(0.6~1x)|중립|중립": {
+        "winrate": 0.502,
+        "n": 621,
+        "lift": 0.003,
         "avg_r": 0.01
       },
       "65-74|양호(1~1.5x)|중립|중립": {
-        "winrate": 0.493,
-        "n": 148,
-        "lift": -0.002,
-        "avg_r": 0.06
+        "winrate": 0.513,
+        "n": 150,
+        "lift": 0.014,
+        "avg_r": 0.07
+      },
+      "65-74|위축(<0.6x)|중립|중립": {
+        "winrate": 0.417,
+        "n": 259,
+        "lift": -0.083,
+        "avg_r": -0.07
       },
       "55-64|양호(1~1.5x)|중립|중립": {
-        "winrate": 0.487,
-        "n": 152,
-        "lift": -0.009,
-        "avg_r": 0.05
-      },
-      "75+|양호(1~1.5x)|순매도|순매수": {
-        "winrate": 0.475,
-        "n": 800,
-        "lift": -0.021,
-        "avg_r": 0.02
-      },
-      "75+|양호(1~1.5x)|순매수|순매수": {
-        "winrate": 0.535,
-        "n": 778,
-        "lift": 0.039,
-        "avg_r": 0.08
-      },
-      "75+|급증(≥1.5x)|순매도|순매수": {
-        "winrate": 0.517,
-        "n": 503,
-        "lift": 0.021,
-        "avg_r": 0.04
-      },
-      "75+|보통(0.6~1x)|순매도|순매수": {
-        "winrate": 0.5,
-        "n": 1083,
-        "lift": 0.005,
+        "winrate": 0.497,
+        "n": 143,
+        "lift": -0.003,
         "avg_r": 0.06
       },
-      "75+|위축(<0.6x)|순매수|순매수": {
-        "winrate": 0.487,
-        "n": 189,
-        "lift": -0.009,
-        "avg_r": 0.05
-      },
-      "75+|보통(0.6~1x)|순매수|순매도": {
-        "winrate": 0.533,
-        "n": 933,
-        "lift": 0.037,
-        "avg_r": 0.1
-      },
-      "75+|양호(1~1.5x)|순매도|순매도": {
-        "winrate": 0.49,
-        "n": 263,
-        "lift": -0.005,
-        "avg_r": 0.08
-      },
-      "75+|보통(0.6~1x)|순매도|순매도": {
-        "winrate": 0.46,
-        "n": 376,
-        "lift": -0.036,
-        "avg_r": 0.01
-      },
-      "75+|보통(0.6~1x)|순매수|순매수": {
-        "winrate": 0.541,
-        "n": 860,
-        "lift": 0.045,
-        "avg_r": 0.07
-      },
-      "75+|위축(<0.6x)|순매도|순매수": {
-        "winrate": 0.475,
-        "n": 223,
-        "lift": -0.02,
-        "avg_r": 0.03
+      "<55|양호(1~1.5x)|중립|중립": {
+        "winrate": 0.457,
+        "n": 322,
+        "lift": -0.043,
+        "avg_r": -0.05
       },
       "75+|급증(≥1.5x)|순매수|순매수": {
-        "winrate": 0.526,
-        "n": 666,
-        "lift": 0.03,
-        "avg_r": 0.05
-      },
-      "75+|양호(1~1.5x)|순매수|순매도": {
-        "winrate": 0.521,
-        "n": 698,
-        "lift": 0.026,
-        "avg_r": 0.06
-      },
-      "55-64|보통(0.6~1x)|순매수|순매도": {
-        "winrate": 0.491,
-        "n": 332,
-        "lift": -0.005,
+        "winrate": 0.534,
+        "n": 764,
+        "lift": 0.035,
         "avg_r": 0.07
       },
-      "75+|급증(≥1.5x)|순매수|순매도": {
-        "winrate": 0.507,
-        "n": 347,
-        "lift": 0.012,
-        "avg_r": -0.01
-      },
-      "65-74|보통(0.6~1x)|순매수|순매수": {
-        "winrate": 0.59,
-        "n": 134,
-        "lift": 0.094,
-        "avg_r": 0.13
-      },
-      "75+|위축(<0.6x)|순매수|순매도": {
-        "winrate": 0.473,
-        "n": 220,
-        "lift": -0.023,
-        "avg_r": 0.01
-      },
-      "<55|보통(0.6~1x)|순매수|순매도": {
-        "winrate": 0.476,
-        "n": 477,
-        "lift": -0.02,
+      "75+|양호(1~1.5x)|순매도|순매수": {
+        "winrate": 0.485,
+        "n": 773,
+        "lift": -0.014,
         "avg_r": 0.03
       },
-      "55-64|보통(0.6~1x)|순매도|순매도": {
-        "winrate": 0.488,
-        "n": 205,
-        "lift": -0.008,
-        "avg_r": 0.08
+      "75+|양호(1~1.5x)|순매수|순매수": {
+        "winrate": 0.551,
+        "n": 772,
+        "lift": 0.051,
+        "avg_r": 0.09
       },
-      "65-74|보통(0.6~1x)|순매도|순매수": {
-        "winrate": 0.493,
-        "n": 225,
-        "lift": -0.002,
+      "75+|급증(≥1.5x)|순매수|순매도": {
+        "winrate": 0.506,
+        "n": 362,
+        "lift": 0.006,
+        "avg_r": -0.01
+      },
+      "75+|양호(1~1.5x)|순매수|순매도": {
+        "winrate": 0.535,
+        "n": 648,
+        "lift": 0.036,
+        "avg_r": 0.07
+      },
+      "75+|급증(≥1.5x)|순매도|순매수": {
+        "winrate": 0.513,
+        "n": 579,
+        "lift": 0.013,
+        "avg_r": 0.04
+      },
+      "75+|양호(1~1.5x)|순매도|순매도": {
+        "winrate": 0.53,
+        "n": 234,
+        "lift": 0.03,
+        "avg_r": 0.16
+      },
+      "75+|위축(<0.6x)|순매수|순매도": {
+        "winrate": 0.47,
+        "n": 247,
+        "lift": -0.03,
         "avg_r": 0.02
       },
-      "<55|보통(0.6~1x)|순매도|순매수": {
-        "winrate": 0.489,
-        "n": 315,
-        "lift": -0.007,
+      "75+|보통(0.6~1x)|순매수|순매도": {
+        "winrate": 0.532,
+        "n": 878,
+        "lift": 0.032,
+        "avg_r": 0.09
+      },
+      "65-74|보통(0.6~1x)|순매수|순매도": {
+        "winrate": 0.537,
+        "n": 268,
+        "lift": 0.038,
+        "avg_r": 0.14
+      },
+      "55-64|보통(0.6~1x)|순매수|순매도": {
+        "winrate": 0.505,
+        "n": 311,
+        "lift": 0.005,
+        "avg_r": 0.09
+      },
+      "75+|위축(<0.6x)|순매도|순매수": {
+        "winrate": 0.49,
+        "n": 247,
+        "lift": -0.01,
+        "avg_r": 0.05
+      },
+      "75+|보통(0.6~1x)|순매수|순매수": {
+        "winrate": 0.532,
+        "n": 847,
+        "lift": 0.033,
         "avg_r": 0.06
       },
       "<55|양호(1~1.5x)|순매도|순매도": {
-        "winrate": 0.443,
-        "n": 149,
-        "lift": -0.053,
-        "avg_r": -0.04
+        "winrate": 0.508,
+        "n": 130,
+        "lift": 0.008,
+        "avg_r": 0.04
       },
-      "65-74|보통(0.6~1x)|순매도|순매도": {
-        "winrate": 0.48,
-        "n": 152,
-        "lift": -0.015,
-        "avg_r": 0.16
+      "75+|보통(0.6~1x)|순매도|순매수": {
+        "winrate": 0.522,
+        "n": 1019,
+        "lift": 0.023,
+        "avg_r": 0.09
       },
-      "65-74|보통(0.6~1x)|순매수|순매도": {
-        "winrate": 0.543,
-        "n": 265,
-        "lift": 0.048,
-        "avg_r": 0.15
-      },
-      "<55|위축(<0.6x)|순매도|순매도": {
-        "winrate": 0.47,
-        "n": 270,
-        "lift": -0.025,
-        "avg_r": 0.03
+      "<55|위축(<0.6x)|순매수|순매수": {
+        "winrate": 0.463,
+        "n": 123,
+        "lift": -0.036,
+        "avg_r": -0.0
       },
       "75+|위축(<0.6x)|순매도|순매도": {
-        "winrate": 0.408,
-        "n": 130,
-        "lift": -0.088,
-        "avg_r": -0.16
+        "winrate": 0.414,
+        "n": 128,
+        "lift": -0.085,
+        "avg_r": -0.09
       },
-      "<55|위축(<0.6x)|순매수|순매도": {
-        "winrate": 0.44,
-        "n": 336,
-        "lift": -0.055,
-        "avg_r": -0.03
+      "<55|보통(0.6~1x)|순매도|순매수": {
+        "winrate": 0.524,
+        "n": 271,
+        "lift": 0.024,
+        "avg_r": 0.07
+      },
+      "65-74|보통(0.6~1x)|순매도|순매수": {
+        "winrate": 0.473,
+        "n": 186,
+        "lift": -0.026,
+        "avg_r": 0.01
+      },
+      "75+|보통(0.6~1x)|순매도|순매도": {
+        "winrate": 0.498,
+        "n": 327,
+        "lift": -0.001,
+        "avg_r": 0.13
+      },
+      "65-74|보통(0.6~1x)|순매도|순매도": {
+        "winrate": 0.474,
+        "n": 133,
+        "lift": -0.026,
+        "avg_r": 0.16
+      },
+      "<55|위축(<0.6x)|순매도|순매도": {
+        "winrate": 0.475,
+        "n": 295,
+        "lift": -0.025,
+        "avg_r": 0.02
       },
       "55-64|보통(0.6~1x)|순매도|순매수": {
-        "winrate": 0.495,
-        "n": 202,
-        "lift": -0.001,
-        "avg_r": 0.05
-      },
-      "<55|양호(1~1.5x)|순매수|순매도": {
-        "winrate": 0.46,
-        "n": 174,
-        "lift": -0.036,
-        "avg_r": -0.02
-      },
-      "<55|보통(0.6~1x)|순매도|순매도": {
-        "winrate": 0.504,
-        "n": 349,
-        "lift": 0.009,
+        "winrate": 0.53,
+        "n": 181,
+        "lift": 0.031,
         "avg_r": 0.1
       },
-      "<55|위축(<0.6x)|순매도|순매수": {
-        "winrate": 0.52,
-        "n": 221,
-        "lift": 0.025,
+      "65-74|위축(<0.6x)|순매수|순매도": {
+        "winrate": 0.472,
+        "n": 123,
+        "lift": -0.028,
+        "avg_r": 0.09
+      },
+      "<55|보통(0.6~1x)|순매수|순매도": {
+        "winrate": 0.47,
+        "n": 445,
+        "lift": -0.03,
+        "avg_r": -0.01
+      },
+      "55-64|위축(<0.6x)|순매수|순매도": {
+        "winrate": 0.488,
+        "n": 125,
+        "lift": -0.012,
         "avg_r": 0.07
+      },
+      "<55|위축(<0.6x)|순매수|순매도": {
+        "winrate": 0.466,
+        "n": 401,
+        "lift": -0.033,
+        "avg_r": 0.01
+      },
+      "65-74|보통(0.6~1x)|순매수|순매수": {
+        "winrate": 0.54,
+        "n": 139,
+        "lift": 0.04,
+        "avg_r": 0.08
+      },
+      "55-64|보통(0.6~1x)|순매도|순매도": {
+        "winrate": 0.497,
+        "n": 185,
+        "lift": -0.002,
+        "avg_r": 0.14
+      },
+      "<55|위축(<0.6x)|순매도|순매수": {
+        "winrate": 0.546,
+        "n": 249,
+        "lift": 0.047,
+        "avg_r": 0.14
+      },
+      "75+|위축(<0.6x)|순매수|순매수": {
+        "winrate": 0.487,
+        "n": 234,
+        "lift": -0.012,
+        "avg_r": 0.05
+      },
+      "<55|보통(0.6~1x)|순매도|순매도": {
+        "winrate": 0.531,
+        "n": 305,
+        "lift": 0.032,
+        "avg_r": 0.14
+      },
+      "<55|양호(1~1.5x)|순매수|순매도": {
+        "winrate": 0.536,
+        "n": 166,
+        "lift": 0.037,
+        "avg_r": 0.05
       }
     }
   }
