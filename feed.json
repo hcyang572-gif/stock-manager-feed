@@ -1,16 +1,16 @@
 {
   "schema_version": "1.0",
   "date": "2026-09-10",
-  "generated_at": "2026-09-10T19:52:00+09:00",
-  "analyzed_at": "2026-09-10T19:52:00+09:00",
+  "generated_at": "2026-09-10T20:00:00+09:00",
+  "analyzed_at": "2026-09-10T20:00:00+09:00",
   "horizon_hours": 72,
   "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 수급(외국인·기관) + 재무(PER·PBR) + 미국증시 전일 환경 보정 · 분석 범위: 통합 분석 — 관심종목(5 신호) + 전체종목 거래대금 상위(KOSPI, 30 신호). 뉴스/촉매는 ‘뉴스도 함께’에서만.",
   "market_state": {
     "korea": {
-      "status": "post",
-      "basis": "장후 NXT 애프터마켓(15:30~20:00, 네이버 지수 실측)",
-      "asof": "2026-09-10T19:53:00+09:00",
-      "session": "after"
+      "status": "closed",
+      "basis": "전일 종가(장 마감)",
+      "asof": "2026-09-10T20:01:00+09:00",
+      "session": "closed"
     },
     "us": {
       "status": "closed",
@@ -136,9 +136,9 @@
     ]
   },
   "kr_context": {
-    "asof": "2026-09-10T19:53:00+09:00",
+    "asof": "2026-09-10T20:01:00+09:00",
     "basis": "한국 지수(KIS 실측)",
-    "session": "after",
+    "session": "closed",
     "stale": false,
     "indices": [
       {
@@ -173,14 +173,14 @@
     "observation_count": 6,
     "position_count": 0,
     "top_signal": "SK",
-    "headline": "기술 분석 갱신(09-10 19:52 KST) — 차트·거래량·변동성 기준 35개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
+    "headline": "기술 분석 갱신(09-10 20:00 KST) — 차트·거래량·변동성 기준 35개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
     "market_outlook": {
       "regime": "중립",
       "headline": "지수 보합 중립 — 뚜렷한 방향성 부재. 신호 35개 내 고점수 종목만 선별 접근.",
       "buy_view": "방향성 불명확 — 점수 상위 소수 종목에 집중(분산 금지). 주도 테마(기술분석·온디맨드·즉시진입) 위주 선별 진입. 거래량·분봉 확인 후 돌파 진입이 원칙.",
       "sell_view": "보유 중 목표가·손절가 룰 엄격 적용. 수익권 진입 종목은 일부 차익실현 후 트레일링 적용 검토. 48시간 보유캡 이내 청산 원칙 유지.",
       "basis": "매수신호 35개·평균점수 113.1 · 코스피 -0.25% · 코스닥 +0.79% · 전일 S&P -0.48% · SOX +0.37% (실측 지표, 날조 없음)",
-      "asof": "2026-09-10T19:53:42+09:00"
+      "asof": "2026-09-10T20:01:25+09:00"
     }
   },
   "signals": [
@@ -190,19 +190,19 @@
       "code": "034730",
       "market": "KR",
       "direction": "long",
-      "confidence": "mid",
-      "price": 607000.0,
+      "confidence": "low",
+      "price": 605000.0,
       "currency": "KRW",
-      "entry": 607000.0,
-      "entry_type": "now",
-      "entry_note": "기술 점수 상위·돌파 상회. 현재가(607,000) 부근 즉시 진입 가능, 거래량 확인.",
+      "entry": 620000.0,
+      "entry_type": "breakout",
+      "entry_note": "620,000 돌파 + 거래량 동반 시 진입(미돌파 시 미진입). 추격금지.",
       "stop": 545000,
-      "target1": 648000,
-      "target2": 675000,
-      "rr": 0.66,
+      "target1": 661000,
+      "target2": 688000,
+      "rr": 0.55,
       "atr_pct": 5.54,
       "hold_cap_hours": 72,
-      "weight_pct": 15,
+      "weight_pct": 13,
       "vol_surge": 1.34,
       "foreign_net": 103913.0,
       "inst_net": -24883.0,
@@ -213,12 +213,12 @@
       "combo_winrate": 0.522,
       "combo_sample": 674,
       "combo_lift": 0.026,
-      "stop_pct": 10.2,
-      "est_loss_pct": 1.53,
+      "stop_pct": 12.1,
+      "est_loss_pct": 1.57,
       "data_quality": "good",
       "catalyst_verified": false,
       "change_pct": 1.66,
-      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 강세 마감(종가위치 77.8%), RSI 55.7(상승), 변동성 돌파 상회, 미국증시 환경 -0.5 (전일 S&P-0.48%·나스닥-0.64%·SOX+0.37%), 외국인 순매수, 기관 순매도, 외국인 매수 가속(2026-09-10 마감확정 기준), 기관 매도 전환(2026-09-10 마감확정 기준). ATR 5.54%·5일모멘텀 12.29%.",
+      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 강세 마감(종가위치 77.8%), RSI 55.7(상승), 미국증시 환경 -0.5 (전일 S&P-0.48%·나스닥-0.64%·SOX+0.37%), 외국인 순매수, 기관 순매도, 외국인 매수 가속(2026-09-10 마감확정 기준), 기관 매도 전환(2026-09-10 마감확정 기준). ATR 5.54%·5일모멘텀 12.29%.",
       "score_reasons": [
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
@@ -226,7 +226,6 @@
         "거래량 양호 1.34배 +7",
         "강세 마감(종가위치 77.8%) +14",
         "RSI 55.7 (상승 구간 50~70) +13",
-        "변동성 돌파선 상회 +14",
         "5일 모멘텀 +12.29% (양) +8",
         "미국증시 환경 -0.5 (전일 S&P-0.48%·나스닥-0.64%·SOX+0.37%)",
         "외국인 순매수(최근 5일) +14",
@@ -239,13 +238,13 @@
       ],
       "risk_notes": [
         "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
-        "비중 15%는 위험균등 산정 — 손절(10.2%) 도달 시 자본 약 1.53% 손실 수준(위험 2.0%/트레이드 기준).",
+        "비중 13%는 위험균등 산정 — 손절(12.1%) 도달 시 자본 약 1.57% 손실 수준(위험 2.0%/트레이드 기준).",
         "목표1 도달 시 손절을 본전으로 올려 이익 보호 · 보유 72h 경과 시 잔여 청산."
       ],
       "tags": [
         "기술분석",
         "온디맨드",
-        "즉시진입",
+        "돌파대기",
         "추격주의"
       ],
       "intraday_5m": [
@@ -2575,7 +2574,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 1064000.0,
+      "price": 1065000.0,
       "currency": "KRW",
       "entry": 1072000.0,
       "entry_type": "breakout",
@@ -4953,7 +4952,7 @@
       "market": "KR",
       "direction": "long",
       "confidence": "low",
-      "price": 1427000.0,
+      "price": 1426000.0,
       "currency": "KRW",
       "entry": 1446000.0,
       "entry_type": "breakout",
@@ -45014,7 +45013,7 @@
       "name": "SK하이닉스",
       "code": "000660",
       "market": "KR",
-      "price": 1851000.0,
+      "price": 1850000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -0.16,
@@ -47381,7 +47380,7 @@
       "name": "LG에너지솔루션",
       "code": "373220",
       "market": "KR",
-      "price": 363000.0,
+      "price": 364000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -1.62,
@@ -49744,7 +49743,7 @@
       "name": "한미반도체",
       "code": "042700",
       "market": "KR",
-      "price": 250500.0,
+      "price": 250000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": 1.0,
@@ -54470,7 +54469,7 @@
       "name": "NAVER",
       "code": "035420",
       "market": "KR",
-      "price": 207500.0,
+      "price": 208000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -0.95,
@@ -56833,7 +56832,7 @@
       "name": "한화오션",
       "code": "042660",
       "market": "KR",
-      "price": 85500.0,
+      "price": 85600.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -2.95,
@@ -59230,7 +59229,7 @@
     "top_score": 124
   },
   "integrity": {
-    "checked_at": "2026-09-10T19:52:00+09:00",
+    "checked_at": "2026-09-10T20:00:00+09:00",
     "critical": [],
     "warn": []
   }
