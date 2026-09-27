@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-09-27T08:38:24+09:00",
+  "generated_at": "2026-09-28T08:49:29+09:00",
   "backtest": {
     "period_days": 240,
     "universe": "관심종목",
@@ -289,53 +289,53 @@
     ],
     "suggestion": {
       "base": 50,
-      "align_up": -13,
-      "above_ma20": 4,
-      "vol_surge": -9,
-      "vol_ok": -4,
-      "vol_dry": -17,
-      "strong_close": -6,
-      "weak_close": -9,
-      "rsi_up": -2,
-      "rsi_hot": 7,
-      "rsi_oversold": 5,
+      "align_up": -10,
+      "above_ma20": 9,
+      "vol_surge": -4,
+      "vol_ok": -2,
+      "vol_dry": -18,
+      "strong_close": -3,
+      "weak_close": -8,
+      "rsi_up": -3,
+      "rsi_hot": 9,
+      "rsi_oversold": 4,
       "breakout": -6,
-      "mom_up": 8,
-      "gap_up": 4,
-      "gap_down": 2,
-      "vol_accel": 10,
-      "streak_up": 6,
-      "near_high": 18,
-      "range_exp": 10,
-      "ma20_up": 0,
+      "mom_up": 10,
+      "gap_up": 0,
+      "gap_down": -2,
+      "vol_accel": 6,
+      "streak_up": 9,
+      "near_high": 14,
+      "range_exp": 3,
+      "ma20_up": -1,
       "for_buy": 0,
       "for_sell": 0,
       "org_buy": 0,
       "org_sell": 0,
       "align_down": 0,
-      "val_auc": 0.506,
-      "current_val_auc": 0.511,
-      "basis": "학습은 했지만 검증 성능 개선이 작아요(AUC 0.511→0.506). 참고용으로만 보고, 적용은 신중히 — 표본이 더 쌓이면 정확해져요."
+      "val_auc": 0.5,
+      "current_val_auc": 0.502,
+      "basis": "학습은 했지만 검증 성능 개선이 작아요(AUC 0.502→0.5). 참고용으로만 보고, 적용은 신중히 — 표본이 더 쌓이면 정확해져요."
     },
     "method": "과거 일봉의 '지표→48h 승패'를 로지스틱 회귀로 학습(numpy). train 70%/val 30% 시간분할 · 검증 AUC 가 현재 규칙보다 +0.02 이상 좋을 때만 제안(과최적화 방지). 적용은 사용자 승인.",
     "disclaimer": "학습 가중치는 과거 데이터 기반 확률 추정(베타)이며 미래 수익을 보장하지 않습니다.",
     "metrics": {
-      "train_n": 16622,
-      "val_n": 7124,
-      "win_base_rate": 49.6,
-      "current_val_auc": 0.511,
-      "learned_val_auc": 0.506
+      "train_n": 16775,
+      "val_n": 7190,
+      "win_base_rate": 49.4,
+      "current_val_auc": 0.502,
+      "learned_val_auc": 0.5
     },
     "recommended": false,
-    "generated_at": "2026-09-27T08:39:12+09:00",
-    "sample_count": 23746,
+    "generated_at": "2026-09-28T08:50:25+09:00",
+    "sample_count": 23965,
     "applied": false
   },
   "winrate_combos": {
-    "generated_at": "2026-09-27T08:39:12+09:00",
-    "base_winrate": 0.496,
-    "n_total": 23746,
-    "n_combos": 14,
+    "generated_at": "2026-09-28T08:50:25+09:00",
+    "base_winrate": 0.494,
+    "n_total": 23965,
+    "n_combos": 15,
     "min_sample": 120,
     "method": "과거 일봉의 (점수구간 × 거래량 × 외국인순매매 × 기관순매매) 조합별 48h 승률·평균R·payoff. 표본 120건 미만 조합은 우연 방지로 제외.",
     "disclaimer": "과거 데이터 기반 참고치이며 미래 수익을 보장하지 않습니다. 조합을 좁힐수록 표본이 줄어 신뢰가 낮아집니다. 호가 매수/매도 비율은 과거 기록이 없어 제외(향후 적재 예정).",
@@ -345,110 +345,110 @@
         "volume": "급증(≥1.5x)",
         "foreign": "중립",
         "inst": "중립",
-        "winrate": 0.552,
-        "n": 134,
-        "lift": 0.056,
-        "avg_r": 0.09,
-        "payoff": 1.09
+        "winrate": 0.524,
+        "n": 143,
+        "lift": 0.03,
+        "avg_r": 0.04,
+        "payoff": 0.99
       },
       {
-        "score": "65-74",
-        "volume": "보통(0.6~1x)",
+        "score": "75+",
+        "volume": "양호(1~1.5x)",
         "foreign": "중립",
         "inst": "중립",
-        "winrate": 0.521,
-        "n": 1365,
-        "lift": 0.025,
-        "avg_r": 0.08,
-        "payoff": 1.2
+        "winrate": 0.508,
+        "n": 4450,
+        "lift": 0.014,
+        "avg_r": 0.04,
+        "payoff": 1.12
       },
       {
         "score": "75+",
         "volume": "급증(≥1.5x)",
         "foreign": "중립",
         "inst": "중립",
-        "winrate": 0.511,
-        "n": 3048,
-        "lift": 0.015,
-        "avg_r": 0.03,
-        "payoff": 1.08
-      },
-      {
-        "score": "<55",
-        "volume": "양호(1~1.5x)",
-        "foreign": "중립",
-        "inst": "중립",
-        "winrate": 0.509,
-        "n": 741,
+        "winrate": 0.507,
+        "n": 2811,
         "lift": 0.013,
-        "avg_r": 0.03,
-        "payoff": 1.03
+        "avg_r": 0.02,
+        "payoff": 1.06
       },
       {
-        "score": "75+",
-        "volume": "양호(1~1.5x)",
+        "score": "65-74",
+        "volume": "보통(0.6~1x)",
         "foreign": "중립",
         "inst": "중립",
-        "winrate": 0.506,
-        "n": 4184,
-        "lift": 0.01,
+        "winrate": 0.502,
+        "n": 1422,
+        "lift": 0.008,
         "avg_r": 0.05,
-        "payoff": 1.14
+        "payoff": 1.16
       },
       {
         "score": "75+",
         "volume": "보통(0.6~1x)",
         "foreign": "중립",
         "inst": "중립",
-        "winrate": 0.503,
-        "n": 5334,
+        "winrate": 0.501,
+        "n": 5645,
         "lift": 0.007,
+        "avg_r": 0.04,
+        "payoff": 1.13
+      },
+      {
+        "score": "55-64",
+        "volume": "보통(0.6~1x)",
+        "foreign": "중립",
+        "inst": "중립",
+        "winrate": 0.495,
+        "n": 1447,
+        "lift": 0.001,
+        "avg_r": 0.06,
+        "payoff": 1.21
+      },
+      {
+        "score": "<55",
+        "volume": "보통(0.6~1x)",
+        "foreign": "중립",
+        "inst": "중립",
+        "winrate": 0.491,
+        "n": 2117,
+        "lift": -0.003,
         "avg_r": 0.05,
-        "payoff": 1.18
+        "payoff": 1.2
       },
       {
         "score": "65-74",
         "volume": "양호(1~1.5x)",
         "foreign": "중립",
         "inst": "중립",
-        "winrate": 0.499,
-        "n": 345,
-        "lift": 0.002,
-        "avg_r": 0.05,
-        "payoff": 1.18
+        "winrate": 0.485,
+        "n": 359,
+        "lift": -0.01,
+        "avg_r": 0.04,
+        "payoff": 1.19
       },
       {
         "score": "55-64",
         "volume": "양호(1~1.5x)",
         "foreign": "중립",
         "inst": "중립",
-        "winrate": 0.497,
-        "n": 352,
-        "lift": 0.001,
-        "avg_r": 0.09,
-        "payoff": 1.36
+        "winrate": 0.48,
+        "n": 373,
+        "lift": -0.014,
+        "avg_r": 0.02,
+        "payoff": 1.12
       },
       {
         "score": "<55",
-        "volume": "보통(0.6~1x)",
+        "volume": "양호(1~1.5x)",
         "foreign": "중립",
         "inst": "중립",
-        "winrate": 0.496,
-        "n": 2102,
-        "lift": 0.0,
-        "avg_r": 0.06,
-        "payoff": 1.21
-      },
-      {
-        "score": "55-64",
-        "volume": "보통(0.6~1x)",
-        "foreign": "중립",
-        "inst": "중립",
-        "winrate": 0.491,
-        "n": 1382,
-        "lift": -0.005,
-        "avg_r": 0.06,
-        "payoff": 1.24
+        "winrate": 0.478,
+        "n": 795,
+        "lift": -0.016,
+        "avg_r": -0.01,
+        "payoff": 1.0
       }
     ],
     "worst": [
@@ -457,119 +457,125 @@
         "volume": "위축(<0.6x)",
         "foreign": "중립",
         "inst": "중립",
-        "winrate": 0.412,
-        "n": 585,
-        "lift": -0.084,
-        "avg_r": -0.05,
-        "payoff": 1.17
+        "winrate": 0.446,
+        "n": 525,
+        "lift": -0.049,
+        "avg_r": -0.01,
+        "payoff": 1.16
       },
       {
         "score": "<55",
         "volume": "위축(<0.6x)",
         "foreign": "중립",
         "inst": "중립",
-        "winrate": 0.46,
-        "n": 1816,
-        "lift": -0.036,
-        "avg_r": -0.01,
-        "payoff": 1.08
+        "winrate": 0.463,
+        "n": 1632,
+        "lift": -0.032,
+        "avg_r": -0.0,
+        "payoff": 1.12
       },
       {
         "score": "75+",
         "volume": "위축(<0.6x)",
         "foreign": "중립",
         "inst": "중립",
-        "winrate": 0.462,
-        "n": 1452,
-        "lift": -0.034,
-        "avg_r": 0.01,
-        "payoff": 1.17
+        "winrate": 0.467,
+        "n": 1401,
+        "lift": -0.027,
+        "avg_r": -0.0,
+        "payoff": 1.1
       }
     ],
     "table": {
       "75+|보통(0.6~1x)|중립|중립": {
-        "winrate": 0.503,
-        "n": 5334,
+        "winrate": 0.501,
+        "n": 5645,
         "lift": 0.007,
-        "avg_r": 0.05
+        "avg_r": 0.04
       },
       "75+|급증(≥1.5x)|중립|중립": {
-        "winrate": 0.511,
-        "n": 3048,
-        "lift": 0.015,
-        "avg_r": 0.03
-      },
-      "75+|양호(1~1.5x)|중립|중립": {
-        "winrate": 0.506,
-        "n": 4184,
-        "lift": 0.01,
-        "avg_r": 0.05
-      },
-      "65-74|위축(<0.6x)|중립|중립": {
-        "winrate": 0.412,
-        "n": 585,
-        "lift": -0.084,
-        "avg_r": -0.05
-      },
-      "55-64|보통(0.6~1x)|중립|중립": {
-        "winrate": 0.491,
-        "n": 1382,
-        "lift": -0.005,
-        "avg_r": 0.06
-      },
-      "<55|위축(<0.6x)|중립|중립": {
-        "winrate": 0.46,
-        "n": 1816,
-        "lift": -0.036,
-        "avg_r": -0.01
-      },
-      "65-74|보통(0.6~1x)|중립|중립": {
-        "winrate": 0.521,
-        "n": 1365,
-        "lift": 0.025,
-        "avg_r": 0.08
-      },
-      "55-64|위축(<0.6x)|중립|중립": {
-        "winrate": 0.475,
-        "n": 692,
-        "lift": -0.021,
+        "winrate": 0.507,
+        "n": 2811,
+        "lift": 0.013,
         "avg_r": 0.02
       },
-      "<55|양호(1~1.5x)|중립|중립": {
-        "winrate": 0.509,
-        "n": 741,
-        "lift": 0.013,
-        "avg_r": 0.03
+      "75+|양호(1~1.5x)|중립|중립": {
+        "winrate": 0.508,
+        "n": 4450,
+        "lift": 0.014,
+        "avg_r": 0.04
       },
-      "<55|보통(0.6~1x)|중립|중립": {
-        "winrate": 0.496,
-        "n": 2102,
-        "lift": 0.0,
+      "65-74|위축(<0.6x)|중립|중립": {
+        "winrate": 0.446,
+        "n": 525,
+        "lift": -0.049,
+        "avg_r": -0.01
+      },
+      "<55|위축(<0.6x)|중립|중립": {
+        "winrate": 0.463,
+        "n": 1632,
+        "lift": -0.032,
+        "avg_r": -0.0
+      },
+      "55-64|보통(0.6~1x)|중립|중립": {
+        "winrate": 0.495,
+        "n": 1447,
+        "lift": 0.001,
         "avg_r": 0.06
       },
-      "65-74|급증(≥1.5x)|중립|중립": {
-        "winrate": 0.552,
-        "n": 134,
-        "lift": 0.056,
-        "avg_r": 0.09
+      "75+|위축(<0.6x)|중립|중립": {
+        "winrate": 0.467,
+        "n": 1401,
+        "lift": -0.027,
+        "avg_r": -0.0
       },
-      "55-64|양호(1~1.5x)|중립|중립": {
-        "winrate": 0.497,
-        "n": 352,
-        "lift": 0.001,
-        "avg_r": 0.09
+      "55-64|위축(<0.6x)|중립|중립": {
+        "winrate": 0.47,
+        "n": 613,
+        "lift": -0.024,
+        "avg_r": -0.0
       },
-      "65-74|양호(1~1.5x)|중립|중립": {
-        "winrate": 0.499,
-        "n": 345,
-        "lift": 0.002,
+      "<55|양호(1~1.5x)|중립|중립": {
+        "winrate": 0.478,
+        "n": 795,
+        "lift": -0.016,
+        "avg_r": -0.01
+      },
+      "<55|급증(≥1.5x)|중립|중립": {
+        "winrate": 0.472,
+        "n": 123,
+        "lift": -0.023,
+        "avg_r": -0.0
+      },
+      "<55|보통(0.6~1x)|중립|중립": {
+        "winrate": 0.491,
+        "n": 2117,
+        "lift": -0.003,
         "avg_r": 0.05
       },
-      "75+|위축(<0.6x)|중립|중립": {
-        "winrate": 0.462,
-        "n": 1452,
-        "lift": -0.034,
-        "avg_r": 0.01
+      "65-74|급증(≥1.5x)|중립|중립": {
+        "winrate": 0.524,
+        "n": 143,
+        "lift": 0.03,
+        "avg_r": 0.04
+      },
+      "55-64|양호(1~1.5x)|중립|중립": {
+        "winrate": 0.48,
+        "n": 373,
+        "lift": -0.014,
+        "avg_r": 0.02
+      },
+      "65-74|양호(1~1.5x)|중립|중립": {
+        "winrate": 0.485,
+        "n": 359,
+        "lift": -0.01,
+        "avg_r": 0.04
+      },
+      "65-74|보통(0.6~1x)|중립|중립": {
+        "winrate": 0.502,
+        "n": 1422,
+        "lift": 0.008,
+        "avg_r": 0.05
       }
     }
   }
