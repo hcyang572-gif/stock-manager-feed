@@ -1,15 +1,15 @@
 {
   "schema_version": "1.0",
   "date": "2026-10-12",
-  "generated_at": "2026-10-12T17:15:00+09:00",
-  "analyzed_at": "2026-10-12T17:15:00+09:00",
+  "generated_at": "2026-10-12T17:22:00+09:00",
+  "analyzed_at": "2026-10-12T17:22:00+09:00",
   "horizon_hours": 72,
   "data_source": "온디맨드 기술 분석(KIS 현재가 + yfinance 일봉 지표) + 수급(외국인·기관) + 재무(PER·PBR) + 미국증시 전일 환경 보정 · 분석 범위: 통합 분석 — 관심종목(0 신호) + 전체종목 거래대금 상위(KOSPI, 10 신호). 뉴스/촉매는 ‘뉴스도 함께’에서만.",
   "market_state": {
     "korea": {
       "status": "post",
       "basis": "장후 NXT 애프터마켓(15:30~20:00, 네이버 지수 실측)",
-      "asof": "2026-10-12T17:16:00+09:00",
+      "asof": "2026-10-12T17:23:00+09:00",
       "session": "after"
     },
     "us": {
@@ -136,7 +136,7 @@
     ]
   },
   "kr_context": {
-    "asof": "2026-10-12T17:16:00+09:00",
+    "asof": "2026-10-12T17:23:00+09:00",
     "basis": "한국 지수(KIS 실측)",
     "session": "after",
     "stale": false,
@@ -173,14 +173,14 @@
     "observation_count": 11,
     "position_count": 0,
     "top_signal": "셀트리온",
-    "headline": "기술 분석 갱신(10-12 17:15 KST) — 차트·거래량·변동성 기준 10개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
+    "headline": "기술 분석 갱신(10-12 17:22 KST) — 차트·거래량·변동성 기준 10개 신호. 뉴스 미반영이니 진입 전 재료 확인.",
     "market_outlook": {
       "regime": "중립",
       "headline": "지수 보합 중립 — 뚜렷한 방향성 부재. 신호 10개 내 고점수 종목만 선별 접근.",
       "buy_view": "방향성 불명확 — 점수 상위 소수 종목에 집중(분산 금지). 주도 테마(기술분석·온디맨드·즉시진입) 위주 선별 진입. 거래량·분봉 확인 후 돌파 진입이 원칙.",
       "sell_view": "보유 중 목표가·손절가 룰 엄격 적용. 수익권 진입 종목은 일부 차익실현 후 트레일링 적용 검토. 48시간 보유캡 이내 청산 원칙 유지.",
-      "basis": "매수신호 10개·평균점수 88.4 · 코스피 -3.65% · 코스닥 -4.83% · 전일 S&P +0.59% · SOX -0.41% (실측 지표, 날조 없음)",
-      "asof": "2026-10-12T17:16:12+09:00"
+      "basis": "매수신호 10개·평균점수 87.8 · 코스피 -3.65% · 코스닥 -4.83% · 전일 S&P +0.59% · SOX -0.41% (실측 지표, 날조 없음)",
+      "asof": "2026-10-12T17:23:03+09:00"
     }
   },
   "signals": [
@@ -215,7 +215,7 @@
       "data_quality": "good",
       "catalyst_verified": false,
       "change_pct": 0.22,
-      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 윗꼬리/분배(종가위치 13.0%), RSI 56.2(상승), 미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%), 외국인 순매수, 기관 순매도, 외국인 매수 전환(최근 확정 2026-10-08 기준(장중이면 D-1)), 기관 매도 전환(최근 확정 2026-10-08 기준(장중이면 D-1)), 호가 매수우위(+75%). ATR 2.2%·5일모멘텀 -1.74%.",
+      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 윗꼬리/분배(종가위치 13.0%), RSI 56.2(상승), 미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%), 외국인 순매수, 기관 순매도, 외국인 매수 전환(최근 확정 2026-10-08 기준(장중이면 D-1)), 기관 매도 전환(최근 확정 2026-10-08 기준(장중이면 D-1)), 호가 매수우위(+61%). ATR 2.2%·5일모멘텀 -1.74%.",
       "score_reasons": [
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
@@ -228,7 +228,7 @@
         "기관 순매도(최근 5일) -11",
         "외국인 매수 전환 감지(최근 확정 2026-10-08 기준(장중이면 D-1): 직전 순매도/보합→순매수) — 압도적 우선 반영 +50",
         "기관 매도 전환 감지(최근 확정 2026-10-08 기준(장중이면 D-1): 직전 순매수/보합→순매도) — 압도적 우선 감점 -38",
-        "호가 불균형 강한 매수우위(+75%, 방금) — 높은 우선 반영 +29"
+        "호가 불균형 강한 매수우위(+61%, 방금) — 높은 우선 반영 +23"
       ],
       "risk_notes": [
         "촉매(뉴스) 미확인 — 기술 신호만. 진입 전 재료·시초가 갭 확인.",
@@ -296,7 +296,7 @@
           184400.0,
           179800.0,
           180400.0,
-          411219
+          411239
         ]
       ],
       "daily_30d": [
@@ -538,7 +538,7 @@
           184400.0,
           179800.0,
           180400.0,
-          411219
+          411239
         ]
       ],
       "daily_90d": [
@@ -1260,24 +1260,24 @@
           184400.0,
           179800.0,
           180400.0,
-          411219
+          411239
         ]
       ],
       "group": "market",
-      "orderbook_imbalance": 0.7525,
-      "orderbook_imbalance_asof": "2026-10-12T17:14:00+09:00",
+      "orderbook_imbalance": 0.6139,
+      "orderbook_imbalance_asof": "2026-10-12T17:21:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
       "large_trade_direction": null,
-      "large_trade_multiple": 40.4,
-      "large_trade_value_krw": 36299400,
-      "large_trade_asof": "2026-10-12T16:55:06+09:00",
-      "ask_ratio": 0.8762,
-      "bid_rem": 2811,
-      "ask_rem": 397,
-      "ask_ratio_asof": "2026-10-12T17:14:00+09:00",
-      "score": 128
+      "large_trade_multiple": 97.0,
+      "large_trade_value_krw": 34920000,
+      "large_trade_asof": "2026-10-12T17:05:45+09:00",
+      "ask_ratio": 0.807,
+      "bid_rem": 3010,
+      "ask_rem": 720,
+      "ask_ratio_asof": "2026-10-12T17:21:00+09:00",
+      "score": 122
     },
     {
       "rank": 2,
@@ -1391,7 +1391,7 @@
           31300.0,
           30450.0,
           31100.0,
-          2953298
+          2955250
         ]
       ],
       "daily_30d": [
@@ -1633,7 +1633,7 @@
           31300.0,
           30450.0,
           31100.0,
-          2953298
+          2955250
         ]
       ],
       "daily_90d": [
@@ -2355,23 +2355,23 @@
           31300.0,
           30450.0,
           31100.0,
-          2953298
+          2955250
         ]
       ],
       "group": "market",
-      "orderbook_imbalance": -0.0742,
-      "orderbook_imbalance_asof": "2026-10-12T17:14:00+09:00",
+      "orderbook_imbalance": 0.0222,
+      "orderbook_imbalance_asof": "2026-10-12T17:21:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
       "large_trade_direction": null,
-      "large_trade_multiple": 62.44,
-      "large_trade_value_krw": 48156850,
-      "large_trade_asof": "2026-10-12T17:08:23+09:00",
-      "ask_ratio": 0.4629,
-      "bid_rem": 26183,
-      "ask_rem": 30378,
-      "ask_ratio_asof": "2026-10-12T17:14:00+09:00",
+      "large_trade_multiple": 213.5,
+      "large_trade_value_krw": 13172950,
+      "large_trade_asof": "2026-10-12T17:14:44+09:00",
+      "ask_ratio": 0.5111,
+      "bid_rem": 31705,
+      "ask_rem": 30330,
+      "ask_ratio_asof": "2026-10-12T17:21:00+09:00",
       "score": 100
     },
     {
@@ -2393,7 +2393,7 @@
       "atr_pct": 3.31,
       "hold_cap_hours": 72,
       "weight_pct": 15,
-      "vol_surge": 1.13,
+      "vol_surge": 0.94,
       "foreign_net": 75204.0,
       "inst_net": -71370.0,
       "supply_days": 5,
@@ -2410,7 +2410,6 @@
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 양호 1.13배 +7",
         "강세 마감(종가위치 76.7%) +14",
         "RSI 57.2 (상승 구간 50~70) +13",
         "변동성 돌파선 상회 +14",
@@ -2487,7 +2486,7 @@
           195300.0,
           186700.0,
           193300.0,
-          241716
+          198597
         ]
       ],
       "daily_30d": [
@@ -2729,7 +2728,7 @@
           195300.0,
           186700.0,
           193300.0,
-          241716
+          198597
         ]
       ],
       "daily_90d": [
@@ -3451,12 +3450,12 @@
           195300.0,
           186700.0,
           193300.0,
-          241716
+          198597
         ]
       ],
       "group": "market",
-      "orderbook_imbalance": 0.2635,
-      "orderbook_imbalance_asof": "2026-10-12T17:14:00+09:00",
+      "orderbook_imbalance": 0.4155,
+      "orderbook_imbalance_asof": "2026-10-12T17:21:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -3464,10 +3463,10 @@
       "large_trade_multiple": 14373.0,
       "large_trade_value_krw": 8334902700,
       "large_trade_asof": "2026-10-12T15:30:10+09:00",
-      "ask_ratio": 0.6317,
-      "bid_rem": 211,
-      "ask_rem": 123,
-      "ask_ratio_asof": "2026-10-12T17:14:00+09:00",
+      "ask_ratio": 0.7077,
+      "bid_rem": 201,
+      "ask_rem": 83,
+      "ask_ratio_asof": "2026-10-12T17:21:00+09:00",
       "score": 100
     },
     {
@@ -3500,7 +3499,7 @@
       "est_loss_pct": 2.0,
       "data_quality": "good",
       "catalyst_verified": false,
-      "change_pct": 22.17,
+      "change_pct": 21.9,
       "evidence": "기술 분석(뉴스 미확인) — 거래량 급증 6.63x, 강세 마감(종가위치 70.7%), 변동성 돌파 상회, 미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%), 외국인 순매수, 기관 순매도, 외국인 매수 가속(최근 확정 2026-10-08 기준(장중이면 D-1)), 기관 매도 가속(최근 확정 2026-10-08 기준(장중이면 D-1)). ATR 5.69%·5일모멘텀 9.3%.",
       "score_reasons": [
         "기본 점수 +50",
@@ -3513,7 +3512,7 @@
         "미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%)",
         "외국인 순매수(최근 5일) +14",
         "기관 순매도(최근 5일) -11",
-        "PER 6.54 저평가 +5",
+        "PER 6.55 저평가 +5",
         "외국인 매수 가속(최근 확정 2026-10-08 기준(장중이면 D-1): 평소 대비 1.9배) — 압도적 우선 반영 +43",
         "기관 매도 가속(최근 확정 2026-10-08 기준(장중이면 D-1): 평소 대비 9.2배) — 압도적 우선 감점 -50"
       ],
@@ -3583,7 +3582,7 @@
           14100.0,
           11710.0,
           13400.0,
-          14407166
+          14433924
         ]
       ],
       "daily_30d": [
@@ -3825,7 +3824,7 @@
           14100.0,
           11710.0,
           13400.0,
-          14407166
+          14433924
         ]
       ],
       "daily_90d": [
@@ -4547,23 +4546,23 @@
           14100.0,
           11710.0,
           13400.0,
-          14407166
+          14433924
         ]
       ],
       "group": "market",
-      "orderbook_imbalance": 0.3182,
-      "orderbook_imbalance_asof": "2026-10-12T17:14:00+09:00",
+      "orderbook_imbalance": -0.3213,
+      "orderbook_imbalance_asof": "2026-10-12T17:21:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
       "large_trade_direction": null,
-      "large_trade_multiple": 20.39,
-      "large_trade_value_krw": 7742760,
-      "large_trade_asof": "2026-10-12T17:13:46+09:00",
-      "ask_ratio": 0.6591,
-      "bid_rem": 14987,
-      "ask_rem": 7752,
-      "ask_ratio_asof": "2026-10-12T17:14:00+09:00",
+      "large_trade_multiple": 75.8,
+      "large_trade_value_krw": 5154400,
+      "large_trade_asof": "2026-10-12T17:21:11+09:00",
+      "ask_ratio": 0.3394,
+      "bid_rem": 8514,
+      "ask_rem": 16574,
+      "ask_ratio_asof": "2026-10-12T17:21:00+09:00",
       "score": 93
     },
     {
@@ -4585,7 +4584,7 @@
       "atr_pct": 3.14,
       "hold_cap_hours": 72,
       "weight_pct": 15,
-      "vol_surge": 1.3,
+      "vol_surge": 1.16,
       "foreign_net": 14683.0,
       "inst_net": -22463.0,
       "supply_days": 5,
@@ -4596,20 +4595,20 @@
       "est_loss_pct": 0.36,
       "data_quality": "good",
       "catalyst_verified": false,
-      "change_pct": 0.82,
+      "change_pct": 0.49,
       "evidence": "기술 분석(뉴스 미확인) — 강세 마감(종가위치 65.2%), 변동성 돌파 상회, 미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%), 외국인 순매수, 기관 순매도, 외국인 매수 전환(최근 확정 2026-10-08 기준(장중이면 D-1)), 기관 매도 가속(최근 확정 2026-10-08 기준(장중이면 D-1)). ATR 3.14%·5일모멘텀 -0.64%.",
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
-        "거래량 양호 1.3배 +7",
+        "거래량 양호 1.16배 +7",
         "강세 마감(종가위치 65.2%) +14",
         "RSI 34.6 (침체 반등 기대 <35) +4",
         "변동성 돌파선 상회 +14",
         "미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%)",
         "외국인 순매수(최근 5일) +14",
         "기관 순매도(최근 5일) -11",
-        "PER 14.02 저평가 +5",
-        "PBR 0.73 자산가치 이하 +3",
+        "PER 13.98 저평가 +5",
+        "PBR 0.72 자산가치 이하 +3",
         "외국인 매수 전환 감지(최근 확정 2026-10-08 기준(장중이면 D-1): 직전 순매도/보합→순매수) — 압도적 우선 반영 +50",
         "기관 매도 가속(최근 확정 2026-10-08 기준(장중이면 D-1): 평소 대비 99.0배) — 압도적 우선 감점 -50"
       ],
@@ -4679,7 +4678,7 @@
           630000.0,
           607000.0,
           622000.0,
-          111257
+          98253
         ]
       ],
       "daily_30d": [
@@ -4921,7 +4920,7 @@
           630000.0,
           607000.0,
           622000.0,
-          111257
+          98253
         ]
       ],
       "daily_90d": [
@@ -5643,23 +5642,23 @@
           630000.0,
           607000.0,
           622000.0,
-          111257
+          98253
         ]
       ],
       "group": "market",
-      "orderbook_imbalance": 0.1088,
-      "orderbook_imbalance_asof": "2026-10-12T17:14:00+09:00",
+      "orderbook_imbalance": -0.0805,
+      "orderbook_imbalance_asof": "2026-10-12T17:21:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
       "large_trade_direction": null,
-      "large_trade_multiple": 6502.0,
+      "large_trade_multiple": 4334.67,
       "large_trade_value_krw": 8088488000,
       "large_trade_asof": "2026-10-12T15:30:03+09:00",
-      "ask_ratio": 0.5544,
-      "bid_rem": 214,
-      "ask_rem": 172,
-      "ask_ratio_asof": "2026-10-12T17:14:00+09:00",
+      "ask_ratio": 0.4598,
+      "bid_rem": 160,
+      "ask_rem": 188,
+      "ask_ratio_asof": "2026-10-12T17:21:00+09:00",
       "score": 93
     },
     {
@@ -5681,7 +5680,7 @@
       "atr_pct": 2.2,
       "hold_cap_hours": 72,
       "weight_pct": 15,
-      "vol_surge": 1.09,
+      "vol_surge": 0.99,
       "foreign_net": -65234.0,
       "inst_net": -12577.0,
       "supply_days": 5,
@@ -5698,7 +5697,6 @@
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 양호 1.09배 +7",
         "강세 마감(종가위치 71.1%) +14",
         "RSI 64.5 (상승 구간 50~70) +13",
         "변동성 돌파선 상회 +14",
@@ -5776,7 +5774,7 @@
           181500.0,
           177000.0,
           180200.0,
-          242208
+          218962
         ]
       ],
       "daily_30d": [
@@ -6018,7 +6016,7 @@
           181500.0,
           177000.0,
           180200.0,
-          242208
+          218962
         ]
       ],
       "daily_90d": [
@@ -6740,12 +6738,12 @@
           181500.0,
           177000.0,
           180200.0,
-          242208
+          218962
         ]
       ],
       "group": "market",
-      "orderbook_imbalance": -0.234,
-      "orderbook_imbalance_asof": "2026-10-12T17:14:00+09:00",
+      "orderbook_imbalance": -0.2302,
+      "orderbook_imbalance_asof": "2026-10-12T17:21:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -6753,10 +6751,10 @@
       "large_trade_multiple": 5811.5,
       "large_trade_value_krw": 4188929200,
       "large_trade_asof": "2026-10-12T15:30:11+09:00",
-      "ask_ratio": 0.383,
-      "bid_rem": 599,
-      "ask_rem": 965,
-      "ask_ratio_asof": "2026-10-12T17:14:00+09:00",
+      "ask_ratio": 0.3849,
+      "bid_rem": 597,
+      "ask_rem": 954,
+      "ask_ratio_asof": "2026-10-12T17:21:00+09:00",
       "score": 92
     },
     {
@@ -6789,7 +6787,7 @@
       "est_loss_pct": 0.55,
       "data_quality": "good",
       "catalyst_verified": false,
-      "change_pct": -2.14,
+      "change_pct": -2.19,
       "evidence": "기술 분석(뉴스 미확인) — 거래량 급증 1.97x, 미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%), 외국인 순매수, 기관 순매도, 외국인 매수 가속(최근 확정 2026-10-08 기준(장중이면 D-1)), 기관 매도 가속(최근 확정 2026-10-08 기준(장중이면 D-1)). ATR 3.45%·5일모멘텀 -7.74%.",
       "score_reasons": [
         "기본 점수 +50",
@@ -6799,7 +6797,7 @@
         "미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%)",
         "외국인 순매수(최근 5일) +14",
         "기관 순매도(최근 5일) -11",
-        "PER 3.47 저평가 +5",
+        "PER 3.46 저평가 +5",
         "PBR 0.7 자산가치 이하 +3",
         "외국인 매수 가속(최근 확정 2026-10-08 기준(장중이면 D-1): 평소 대비 5.5배) — 압도적 우선 반영 +62",
         "기관 매도 가속(최근 확정 2026-10-08 기준(장중이면 D-1): 평소 대비 8.6배) — 압도적 우선 감점 -50"
@@ -6870,7 +6868,7 @@
           169700.0,
           162600.0,
           165600.0,
-          332607
+          332608
         ]
       ],
       "daily_30d": [
@@ -7112,7 +7110,7 @@
           169700.0,
           162600.0,
           165600.0,
-          332607
+          332608
         ]
       ],
       "daily_90d": [
@@ -7834,12 +7832,12 @@
           169700.0,
           162600.0,
           165600.0,
-          332607
+          332608
         ]
       ],
       "group": "market",
-      "orderbook_imbalance": 0.056,
-      "orderbook_imbalance_asof": "2026-10-12T17:14:00+09:00",
+      "orderbook_imbalance": -0.1628,
+      "orderbook_imbalance_asof": "2026-10-12T17:21:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -7847,10 +7845,10 @@
       "large_trade_multiple": 25639.5,
       "large_trade_value_krw": 8491802400,
       "large_trade_asof": "2026-10-12T15:30:28+09:00",
-      "ask_ratio": 0.528,
-      "bid_rem": 377,
-      "ask_rem": 337,
-      "ask_ratio_asof": "2026-10-12T17:14:00+09:00",
+      "ask_ratio": 0.4186,
+      "bid_rem": 383,
+      "ask_rem": 532,
+      "ask_ratio_asof": "2026-10-12T17:21:00+09:00",
       "score": 85
     },
     {
@@ -7872,7 +7870,7 @@
       "atr_pct": 3.33,
       "hold_cap_hours": 72,
       "weight_pct": 15,
-      "vol_surge": 1.71,
+      "vol_surge": 1.42,
       "foreign_net": -66039.0,
       "inst_net": 137813.0,
       "supply_days": 5,
@@ -7883,13 +7881,13 @@
       "est_loss_pct": 0.38,
       "data_quality": "good",
       "catalyst_verified": false,
-      "change_pct": 1.73,
-      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 급증 1.71x, 강세 마감(종가위치 70.2%), RSI 57.1(상승), 변동성 돌파 상회, 미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%), 외국인 순매도, 기관 순매수, 외국인 매수 전환(최근 확정 2026-10-08 기준(장중이면 D-1)), 기관 매도 전환(최근 확정 2026-10-08 기준(장중이면 D-1)), 호가 매도우위(-73%). ATR 3.33%·5일모멘텀 2.04%.",
+      "change_pct": 1.41,
+      "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 강세 마감(종가위치 70.2%), RSI 57.1(상승), 변동성 돌파 상회, 미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%), 외국인 순매도, 기관 순매수, 외국인 매수 전환(최근 확정 2026-10-08 기준(장중이면 D-1)), 기관 매도 전환(최근 확정 2026-10-08 기준(장중이면 D-1)), 호가 매도우위(-73%). ATR 3.33%·5일모멘텀 2.04%.",
       "score_reasons": [
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 급증 1.71배 +15",
+        "거래량 양호 1.42배 +7",
         "강세 마감(종가위치 70.2%) +14",
         "RSI 57.1 (상승 구간 50~70) +13",
         "변동성 돌파선 상회 +14",
@@ -7897,7 +7895,7 @@
         "미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%)",
         "외국인 순매도(최근 5일) -14",
         "기관 순매수(최근 5일) +11",
-        "PER 9.33 저평가 +5",
+        "PER 9.31 저평가 +5",
         "외국인 매수 전환 감지(최근 확정 2026-10-08 기준(장중이면 D-1): 직전 순매도/보합→순매수) — 압도적 우선 반영 +50",
         "기관 매도 전환 감지(최근 확정 2026-10-08 기준(장중이면 D-1): 직전 순매수/보합→순매도) — 압도적 우선 감점 -38",
         "호가 불균형 강한 매도우위(-73%, 방금) — 빠른 회피 감점 -31"
@@ -7968,7 +7966,7 @@
           131200.0,
           126500.0,
           129800.0,
-          332479
+          272174
         ]
       ],
       "daily_30d": [
@@ -8210,7 +8208,7 @@
           131200.0,
           126500.0,
           129800.0,
-          332479
+          272174
         ]
       ],
       "daily_90d": [
@@ -8932,12 +8930,12 @@
           131200.0,
           126500.0,
           129800.0,
-          332479
+          272174
         ]
       ],
       "group": "market",
-      "orderbook_imbalance": -0.7311,
-      "orderbook_imbalance_asof": "2026-10-12T17:14:00+09:00",
+      "orderbook_imbalance": -0.7302,
+      "orderbook_imbalance_asof": "2026-10-12T17:21:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -8945,10 +8943,10 @@
       "large_trade_multiple": 30154.0,
       "large_trade_value_krw": 7827978400,
       "large_trade_asof": "2026-10-12T15:30:27+09:00",
-      "ask_ratio": 0.1344,
-      "bid_rem": 253,
+      "ask_ratio": 0.1349,
+      "bid_rem": 254,
       "ask_rem": 1629,
-      "ask_ratio_asof": "2026-10-12T17:14:00+09:00",
+      "ask_ratio_asof": "2026-10-12T17:21:00+09:00",
       "score": 81
     },
     {
@@ -8995,7 +8993,7 @@
         "미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%)",
         "외국인 순매수(최근 5일) +14",
         "기관 순매수(최근 5일) +11",
-        "PER 10.25 저평가 +5",
+        "PER 10.24 저평가 +5",
         "PBR 0.55 자산가치 이하 +3",
         "기관 매도 전환 감지(최근 확정 2026-10-08 기준(장중이면 D-1): 직전 순매수/보합→순매도) — 압도적 우선 감점 -38"
       ],
@@ -9065,7 +9063,7 @@
           6550.0,
           6030.0,
           6450.0,
-          10142664
+          10143626
         ]
       ],
       "daily_30d": [
@@ -9307,7 +9305,7 @@
           6550.0,
           6030.0,
           6450.0,
-          10142664
+          10143626
         ]
       ],
       "daily_90d": [
@@ -10029,23 +10027,23 @@
           6550.0,
           6030.0,
           6450.0,
-          10142664
+          10143626
         ]
       ],
       "group": "market",
-      "orderbook_imbalance": -0.2466,
-      "orderbook_imbalance_asof": "2026-10-12T17:14:00+09:00",
+      "orderbook_imbalance": 0.3564,
+      "orderbook_imbalance_asof": "2026-10-12T17:21:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
       "large_trade_direction": null,
-      "large_trade_multiple": 188.33,
-      "large_trade_value_krw": 18306000,
-      "large_trade_asof": "2026-10-12T17:13:30+09:00",
-      "ask_ratio": 0.3767,
-      "bid_rem": 29527,
-      "ask_rem": 48858,
-      "ask_ratio_asof": "2026-10-12T17:14:00+09:00",
+      "large_trade_multiple": 27.43,
+      "large_trade_value_krw": 7821360,
+      "large_trade_asof": "2026-10-12T17:19:15+09:00",
+      "ask_ratio": 0.6782,
+      "bid_rem": 111618,
+      "ask_rem": 52967,
+      "ask_ratio_asof": "2026-10-12T17:21:00+09:00",
       "score": 62
     },
     {
@@ -10078,7 +10076,7 @@
       "est_loss_pct": 0.69,
       "data_quality": "good",
       "catalyst_verified": false,
-      "change_pct": 5.05,
+      "change_pct": 4.81,
       "evidence": "기술 분석(뉴스 미확인) — 정배열(MA5>MA20), 거래량 급증 3.9x, 강세 마감(종가위치 69.0%), RSI 66.3(상승), 변동성 돌파 상회, 미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%), 외국인 순매수, 기관 순매도, 기관 매도 가속(최근 확정 2026-10-08 기준(장중이면 D-1)). ATR 2.69%·5일모멘텀 3.07%.",
       "score_reasons": [
         "기본 점수 +50",
@@ -10162,7 +10160,7 @@
           22250.0,
           20800.0,
           21800.0,
-          3562446
+          3562626
         ]
       ],
       "daily_30d": [
@@ -10404,7 +10402,7 @@
           22250.0,
           20800.0,
           21800.0,
-          3562446
+          3562626
         ]
       ],
       "daily_90d": [
@@ -11126,23 +11124,23 @@
           22250.0,
           20800.0,
           21800.0,
-          3562446
+          3562626
         ]
       ],
       "group": "market",
-      "orderbook_imbalance": -0.1811,
-      "orderbook_imbalance_asof": "2026-10-12T17:14:00+09:00",
+      "orderbook_imbalance": -0.167,
+      "orderbook_imbalance_asof": "2026-10-12T17:21:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
       "large_trade_direction": null,
-      "large_trade_multiple": 116.2,
-      "large_trade_value_krw": 25389700,
-      "large_trade_asof": "2026-10-12T17:14:22+09:00",
-      "ask_ratio": 0.4095,
-      "bid_rem": 27484,
-      "ask_rem": 39639,
-      "ask_ratio_asof": "2026-10-12T17:14:00+09:00",
+      "large_trade_multiple": 24.5,
+      "large_trade_value_krw": 5353250,
+      "large_trade_asof": "2026-10-12T17:19:40+09:00",
+      "ask_ratio": 0.4165,
+      "bid_rem": 27576,
+      "ask_rem": 38633,
+      "ask_ratio_asof": "2026-10-12T17:21:00+09:00",
       "score": 50
     }
   ],
@@ -11151,17 +11149,17 @@
       "name": "LG에너지솔루션",
       "code": "373220",
       "market": "KR",
-      "price": 396000.0,
+      "price": 395500.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -1.37,
-      "vol_surge": 1.67,
+      "vol_surge": 1.61,
       "score": 124,
       "score_reasons": [
         "기본 점수 +50",
         "정배열(MA5>MA20) +18",
         "현재가가 20일선(MA20) 위 +8",
-        "거래량 급증 1.67배 +15",
+        "거래량 급증 1.61배 +15",
         "윗꼬리/분배(종가위치 9.1%) -12",
         "RSI 66.7 (상승 구간 50~70) +13",
         "5일 모멘텀 +10.4% (양) +8",
@@ -11177,7 +11175,7 @@
       "foreign_net_1d": 119477.0,
       "inst_net_1d": -8534.0,
       "supply_1d_date": "2026-10-08",
-      "reason": "기술 점수 124점 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 정배열(MA5>MA20), 거래량 급증 1.67x, 윗꼬리/분배(종가위치 9.1%), RSI 66.7(상승), 미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%), 외국인 순매수, 기관 순매수, 외국인 매수 가속(최근 확정 2026-10-08 기준(장중이면 D-1)), 기관 매도 전환(최근 확정 2026-10-08 기준(장중이면 D-1)). ATR 3.76%.",
+      "reason": "기술 점수 124점 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 정배열(MA5>MA20), 거래량 급증 1.61x, 윗꼬리/분배(종가위치 9.1%), RSI 66.7(상승), 미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%), 외국인 순매수, 기관 순매수, 외국인 매수 가속(최근 확정 2026-10-08 기준(장중이면 D-1)), 기관 매도 전환(최근 확정 2026-10-08 기준(장중이면 D-1)). ATR 3.76%.",
       "intraday_5m": [
         [
           "2026-10-07T13:40:00+09:00",
@@ -12515,7 +12513,7 @@
           423000.0,
           395500.0,
           398000.0,
-          551456
+          529513
         ]
       ],
       "daily_30d": [
@@ -12757,7 +12755,7 @@
           423000.0,
           395500.0,
           398000.0,
-          551456
+          529513
         ]
       ],
       "daily_90d": [
@@ -13479,7 +13477,7 @@
           423000.0,
           395500.0,
           398000.0,
-          551456
+          529513
         ]
       ],
       "plan_tentative": true,
@@ -13495,30 +13493,30 @@
       "est_loss_pct": 1.2,
       "hold_cap_hours": 72,
       "reachable": false,
-      "orderbook_imbalance": 0.3779,
-      "orderbook_imbalance_asof": "2026-10-12T17:14:00+09:00",
+      "orderbook_imbalance": 0.4026,
+      "orderbook_imbalance_asof": "2026-10-12T17:21:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
       "large_trade_direction": null,
-      "large_trade_multiple": 44.67,
+      "large_trade_multiple": 26.8,
       "large_trade_value_krw": 53064000,
       "large_trade_asof": "2026-10-12T17:13:08+09:00",
-      "ask_ratio": 0.6889,
-      "bid_rem": 1351,
-      "ask_rem": 610,
-      "ask_ratio_asof": "2026-10-12T17:14:00+09:00"
+      "ask_ratio": 0.7013,
+      "bid_rem": 1484,
+      "ask_rem": 632,
+      "ask_ratio_asof": "2026-10-12T17:21:00+09:00"
     },
     {
       "name": "SK하이닉스",
       "code": "000660",
       "market": "KR",
-      "price": 1607000.0,
+      "price": 1606000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -4.34,
+      "change_pct": -4.46,
       "vol_surge": 1.05,
-      "score": 89,
+      "score": 86,
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
@@ -13527,9 +13525,9 @@
         "미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%)",
         "외국인 순매도(최근 5일) -14",
         "기관 순매도(최근 5일) -11",
-        "PER 7.17 저평가 +5",
-        "호가 불균형 강한 매수우위(+66%, 방금) — 높은 우선 반영 +25",
-        "대량체결 감지(평소 대비 132.0배, 6.4억원, 매수, 방금) — 높은 우선 반영 +46"
+        "PER 7.16 저평가 +5",
+        "호가 불균형 강한 매수우위(+60%, 방금) — 높은 우선 반영 +22",
+        "대량체결 감지(평소 대비 54.0배, 4.3억원, 매수, 방금) — 높은 우선 반영 +46"
       ],
       "foreign_net": -2325318.0,
       "inst_net": -175557.0,
@@ -13537,7 +13535,7 @@
       "foreign_net_1d": -513008.0,
       "inst_net_1d": -22595.0,
       "supply_1d_date": "2026-10-08",
-      "reason": "기술 점수 89점 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 윗꼬리/분배(종가위치 0.0%), 미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%), 외국인 순매도, 기관 순매도, 호가 매수우위(+66%), 대량 매수체결(132.0배). ATR 4.31%.",
+      "reason": "기술 점수 86점 — 돌파 진입가가 현재가 +2.5% 초과 — 도달성 낮아 관찰. 윗꼬리/분배(종가위치 0.0%), 미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%), 외국인 순매도, 기관 순매도, 호가 매수우위(+60%), 대량 매수체결(54.0배). ATR 4.31%.",
       "intraday_5m": [
         [
           "2026-10-07T13:40:00+09:00",
@@ -14875,7 +14873,7 @@
           1653000.0,
           1605000.0,
           1605000.0,
-          3279575
+          3280243
         ]
       ],
       "daily_30d": [
@@ -15117,7 +15115,7 @@
           1653000.0,
           1605000.0,
           1605000.0,
-          3279575
+          3280243
         ]
       ],
       "daily_90d": [
@@ -15839,7 +15837,7 @@
           1653000.0,
           1605000.0,
           1605000.0,
-          3279575
+          3280243
         ]
       ],
       "plan_tentative": true,
@@ -15855,19 +15853,19 @@
       "est_loss_pct": 0.57,
       "hold_cap_hours": 72,
       "reachable": false,
-      "orderbook_imbalance": 0.6636,
-      "orderbook_imbalance_asof": "2026-10-12T17:14:00+09:00",
+      "orderbook_imbalance": 0.5997,
+      "orderbook_imbalance_asof": "2026-10-12T17:21:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": true,
       "large_trade_direction": "buy",
-      "large_trade_multiple": 132.0,
-      "large_trade_value_krw": 636768000,
-      "large_trade_asof": "2026-10-12T17:12:51+09:00",
-      "ask_ratio": 0.8318,
-      "bid_rem": 23766,
-      "ask_rem": 4806,
-      "ask_ratio_asof": "2026-10-12T17:14:00+09:00"
+      "large_trade_multiple": 54.0,
+      "large_trade_value_krw": 433890000,
+      "large_trade_asof": "2026-10-12T17:20:00+09:00",
+      "ask_ratio": 0.7998,
+      "bid_rem": 24425,
+      "ask_rem": 6112,
+      "ask_ratio_asof": "2026-10-12T17:21:00+09:00"
     },
     {
       "name": "한화오션",
@@ -15876,7 +15874,7 @@
       "price": 67100.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -6.81,
+      "change_pct": -6.94,
       "vol_surge": 1.73,
       "score": 80,
       "score_reasons": [
@@ -15888,7 +15886,7 @@
         "미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%)",
         "외국인 순매도(최근 5일) -14",
         "기관 순매도(최근 5일) -11",
-        "PER 9.91 저평가 +5",
+        "PER 9.9 저평가 +5",
         "외국인 매수 전환 감지(최근 확정 2026-10-08 기준(장중이면 D-1): 직전 순매도/보합→순매수) — 압도적 우선 반영 +50"
       ],
       "foreign_net": -435410.0,
@@ -17235,7 +17233,7 @@
           70700.0,
           67000.0,
           67300.0,
-          1227512
+          1228048
         ]
       ],
       "daily_30d": [
@@ -17477,7 +17475,7 @@
           70700.0,
           67000.0,
           67300.0,
-          1227512
+          1228048
         ]
       ],
       "daily_90d": [
@@ -18199,7 +18197,7 @@
           70700.0,
           67000.0,
           67300.0,
-          1227512
+          1228048
         ]
       ],
       "plan_tentative": true,
@@ -18215,25 +18213,25 @@
       "est_loss_pct": 0.78,
       "hold_cap_hours": 72,
       "reachable": false,
-      "orderbook_imbalance": 0.062,
-      "orderbook_imbalance_asof": "2026-10-12T17:14:00+09:00",
+      "orderbook_imbalance": 0.1372,
+      "orderbook_imbalance_asof": "2026-10-12T17:21:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
       "large_trade_direction": null,
-      "large_trade_multiple": 90.0,
-      "large_trade_value_krw": 60390000,
-      "large_trade_asof": "2026-10-12T17:12:31+09:00",
-      "ask_ratio": 0.531,
-      "bid_rem": 11670,
-      "ask_rem": 10308,
-      "ask_ratio_asof": "2026-10-12T17:14:00+09:00"
+      "large_trade_multiple": 22.4,
+      "large_trade_value_krw": 15030400,
+      "large_trade_asof": "2026-10-12T17:18:45+09:00",
+      "ask_ratio": 0.5686,
+      "bid_rem": 11412,
+      "ask_rem": 8658,
+      "ask_ratio_asof": "2026-10-12T17:21:00+09:00"
     },
     {
       "name": "SK",
       "code": "034730",
       "market": "KR",
-      "price": 537000.0,
+      "price": 539000.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -3.06,
@@ -19596,7 +19594,7 @@
           570000.0,
           535000.0,
           540000.0,
-          167120
+          167121
         ]
       ],
       "daily_30d": [
@@ -19838,7 +19836,7 @@
           570000.0,
           535000.0,
           540000.0,
-          167120
+          167121
         ]
       ],
       "daily_90d": [
@@ -20560,7 +20558,7 @@
           570000.0,
           535000.0,
           540000.0,
-          167120
+          167121
         ]
       ],
       "plan_tentative": true,
@@ -20576,8 +20574,8 @@
       "est_loss_pct": 0.79,
       "hold_cap_hours": 72,
       "reachable": false,
-      "orderbook_imbalance": -0.2382,
-      "orderbook_imbalance_asof": "2026-10-12T17:14:00+09:00",
+      "orderbook_imbalance": -0.3444,
+      "orderbook_imbalance_asof": "2026-10-12T17:21:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -20585,21 +20583,21 @@
       "large_trade_multiple": 19.0,
       "large_trade_value_krw": 10222000,
       "large_trade_asof": "2026-10-12T17:09:29+09:00",
-      "ask_ratio": 0.3809,
-      "bid_rem": 590,
-      "ask_rem": 959,
-      "ask_ratio_asof": "2026-10-12T17:14:00+09:00"
+      "ask_ratio": 0.3278,
+      "bid_rem": 455,
+      "ask_rem": 933,
+      "ask_ratio_asof": "2026-10-12T17:21:00+09:00"
     },
     {
       "name": "현대차",
       "code": "005380",
       "market": "KR",
-      "price": 319000.0,
+      "price": 318500.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -1.54,
+      "change_pct": -1.85,
       "vol_surge": 1.5,
-      "score": 52,
+      "score": 53,
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
@@ -20611,7 +20609,7 @@
         "기관 순매도(최근 5일) -11",
         "PER 10.39 저평가 +5",
         "PBR 0.68 자산가치 이하 +3",
-        "호가 불균형 강한 매수우위(+52%, 방금) — 높은 우선 반영 +19"
+        "호가 불균형 강한 매수우위(+54%, 방금) — 높은 우선 반영 +20"
       ],
       "foreign_net": -398041.0,
       "inst_net": -370114.0,
@@ -20619,7 +20617,7 @@
       "foreign_net_1d": -55617.0,
       "inst_net_1d": -101763.0,
       "supply_1d_date": "2026-10-08",
-      "reason": "기술 점수 52점 — 조건 미충족(관망). 거래량 급증 1.5x, 윗꼬리/분배(종가위치 9.7%), 미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%), 외국인 순매도, 기관 순매도, 호가 매수우위(+52%). ATR 2.9%.",
+      "reason": "기술 점수 53점 — 조건 미충족(관망). 거래량 급증 1.5x, 윗꼬리/분배(종가위치 9.7%), 미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%), 외국인 순매도, 기관 순매도, 호가 매수우위(+54%). ATR 2.9%.",
       "intraday_5m": [
         [
           "2026-10-07T13:40:00+09:00",
@@ -21957,7 +21955,7 @@
           334000.0,
           318500.0,
           320000.0,
-          729210
+          729243
         ]
       ],
       "daily_30d": [
@@ -22199,7 +22197,7 @@
           334000.0,
           318500.0,
           320000.0,
-          729210
+          729243
         ]
       ],
       "daily_90d": [
@@ -22921,7 +22919,7 @@
           334000.0,
           318500.0,
           320000.0,
-          729210
+          729243
         ]
       ],
       "plan_tentative": true,
@@ -22937,30 +22935,30 @@
       "est_loss_pct": 0.6,
       "hold_cap_hours": 72,
       "reachable": false,
-      "orderbook_imbalance": 0.519,
-      "orderbook_imbalance_asof": "2026-10-12T17:14:00+09:00",
+      "orderbook_imbalance": 0.5355,
+      "orderbook_imbalance_asof": "2026-10-12T17:21:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
       "large_trade_direction": null,
-      "large_trade_multiple": 66.0,
-      "large_trade_value_krw": 21054000,
-      "large_trade_asof": "2026-10-12T17:14:57+09:00",
-      "ask_ratio": 0.7595,
-      "bid_rem": 10787,
-      "ask_rem": 3416,
-      "ask_ratio_asof": "2026-10-12T17:14:00+09:00"
+      "large_trade_multiple": 31.0,
+      "large_trade_value_krw": 9889000,
+      "large_trade_asof": "2026-10-12T17:21:06+09:00",
+      "ask_ratio": 0.7678,
+      "bid_rem": 10966,
+      "ask_rem": 3317,
+      "ask_ratio_asof": "2026-10-12T17:21:00+09:00"
     },
     {
       "name": "NAVER",
       "code": "035420",
       "market": "KR",
-      "price": 180000.0,
+      "price": 180100.0,
       "currency": "KRW",
       "watch_trigger": null,
       "change_pct": -2.07,
       "vol_surge": 0.94,
-      "score": 44,
+      "score": 42,
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
@@ -22971,7 +22969,7 @@
         "기관 순매도(최근 5일) -11",
         "PER 13.98 저평가 +5",
         "PBR 0.91 자산가치 이하 +3",
-        "호가 불균형 강한 매수우위(+71%, 방금) — 높은 우선 반영 +27"
+        "호가 불균형 강한 매수우위(+65%, 방금) — 높은 우선 반영 +25"
       ],
       "foreign_net": -712523.0,
       "inst_net": -438884.0,
@@ -22979,7 +22977,7 @@
       "foreign_net_1d": -176342.0,
       "inst_net_1d": -97475.0,
       "supply_1d_date": "2026-10-08",
-      "reason": "기술 점수 44점 — 조건 미충족(관망). 윗꼬리/분배(종가위치 17.7%), 미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%), 외국인 순매도, 기관 순매도, 호가 매수우위(+71%). ATR 2.51%.",
+      "reason": "기술 점수 42점 — 조건 미충족(관망). 윗꼬리/분배(종가위치 17.7%), 미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%), 외국인 순매도, 기관 순매도, 호가 매수우위(+65%). ATR 2.51%.",
       "intraday_5m": [
         [
           "2026-10-07T13:40:00+09:00",
@@ -24317,7 +24315,7 @@
           185150.0,
           179500.0,
           180500.0,
-          612983
+          613121
         ]
       ],
       "daily_30d": [
@@ -24559,7 +24557,7 @@
           185150.0,
           179500.0,
           180500.0,
-          612983
+          613121
         ]
       ],
       "daily_90d": [
@@ -25281,7 +25279,7 @@
           185150.0,
           179500.0,
           180500.0,
-          612983
+          613121
         ]
       ],
       "plan_tentative": true,
@@ -25297,19 +25295,19 @@
       "est_loss_pct": 0.4,
       "hold_cap_hours": 72,
       "reachable": false,
-      "orderbook_imbalance": 0.7067,
-      "orderbook_imbalance_asof": "2026-10-12T17:14:00+09:00",
+      "orderbook_imbalance": 0.6494,
+      "orderbook_imbalance_asof": "2026-10-12T17:21:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
       "large_trade_direction": null,
-      "large_trade_multiple": 22.6,
-      "large_trade_value_krw": 20351300,
-      "large_trade_asof": "2026-10-12T17:09:24+09:00",
-      "ask_ratio": 0.8533,
-      "bid_rem": 5004,
-      "ask_rem": 860,
-      "ask_ratio_asof": "2026-10-12T17:14:00+09:00"
+      "large_trade_multiple": 84.4,
+      "large_trade_value_krw": 75960000,
+      "large_trade_asof": "2026-10-12T17:21:22+09:00",
+      "ask_ratio": 0.8247,
+      "bid_rem": 5100,
+      "ask_rem": 1084,
+      "ask_ratio_asof": "2026-10-12T17:21:00+09:00"
     },
     {
       "name": "두산에너빌리티",
@@ -25318,9 +25316,9 @@
       "price": 71800.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -7.95,
+      "change_pct": -8.08,
       "vol_surge": 1.16,
-      "score": 40,
+      "score": 37,
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
@@ -25333,7 +25331,7 @@
         "PER 253.71 고평가 -3",
         "외국인 매도 가속(최근 확정 2026-10-08 기준(장중이면 D-1): 평소 대비 4.6배) — 압도적 우선 감점 -59",
         "기관 매수 전환 감지(최근 확정 2026-10-08 기준(장중이면 D-1): 직전 순매도/보합→순매수) — 압도적 우선 반영 +38",
-        "호가 불균형 강한 매수우위(+66%, 방금) — 높은 우선 반영 +25"
+        "호가 불균형 강한 매수우위(+60%, 방금) — 높은 우선 반영 +22"
       ],
       "foreign_net": -2821300.0,
       "inst_net": 5805.0,
@@ -25341,7 +25339,7 @@
       "foreign_net_1d": -1513360.0,
       "inst_net_1d": 342722.0,
       "supply_1d_date": "2026-10-08",
-      "reason": "기술 점수 40점 — 조건 미충족(관망). 윗꼬리/분배(종가위치 6.7%), 미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%), 외국인 순매도, 기관 순매수, 외국인 매도 가속(최근 확정 2026-10-08 기준(장중이면 D-1)), 기관 매수 전환(최근 확정 2026-10-08 기준(장중이면 D-1)), 호가 매수우위(+66%). ATR 4.63%.",
+      "reason": "기술 점수 37점 — 조건 미충족(관망). 윗꼬리/분배(종가위치 6.7%), 미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%), 외국인 순매도, 기관 순매수, 외국인 매도 가속(최근 확정 2026-10-08 기준(장중이면 D-1)), 기관 매수 전환(최근 확정 2026-10-08 기준(장중이면 D-1)), 호가 매수우위(+60%). ATR 4.63%.",
       "intraday_5m": [
         [
           "2026-10-07T13:40:00+09:00",
@@ -26679,7 +26677,7 @@
           75700.0,
           71200.0,
           71500.0,
-          2990945
+          2991134
         ]
       ],
       "daily_30d": [
@@ -26921,7 +26919,7 @@
           75700.0,
           71200.0,
           71500.0,
-          2990945
+          2991134
         ]
       ],
       "daily_90d": [
@@ -27643,7 +27641,7 @@
           75700.0,
           71200.0,
           71500.0,
-          2990945
+          2991134
         ]
       ],
       "plan_tentative": true,
@@ -27659,28 +27657,28 @@
       "est_loss_pct": 1.02,
       "hold_cap_hours": 72,
       "reachable": false,
-      "orderbook_imbalance": 0.6579,
-      "orderbook_imbalance_asof": "2026-10-12T17:14:00+09:00",
+      "orderbook_imbalance": 0.5982,
+      "orderbook_imbalance_asof": "2026-10-12T17:21:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
       "large_trade_direction": null,
-      "large_trade_multiple": 76.71,
-      "large_trade_value_krw": 38502900,
-      "large_trade_asof": "2026-10-12T17:13:05+09:00",
-      "ask_ratio": 0.8289,
-      "bid_rem": 58871,
-      "ask_rem": 12149,
-      "ask_ratio_asof": "2026-10-12T17:14:00+09:00"
+      "large_trade_multiple": 23.2,
+      "large_trade_value_krw": 8317200,
+      "large_trade_asof": "2026-10-12T17:19:06+09:00",
+      "ask_ratio": 0.7991,
+      "bid_rem": 56928,
+      "ask_rem": 14311,
+      "ask_ratio_asof": "2026-10-12T17:21:00+09:00"
     },
     {
       "name": "한화에어로스페이스",
       "code": "012450",
       "market": "KR",
-      "price": 859000.0,
+      "price": 858000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -3.59,
+      "change_pct": -3.7,
       "vol_surge": 1.6,
       "score": 37,
       "score_reasons": [
@@ -29039,7 +29037,7 @@
           892000.0,
           853000.0,
           862000.0,
-          241809
+          241911
         ]
       ],
       "daily_30d": [
@@ -29281,7 +29279,7 @@
           892000.0,
           853000.0,
           862000.0,
-          241809
+          241911
         ]
       ],
       "daily_90d": [
@@ -30003,7 +30001,7 @@
           892000.0,
           853000.0,
           862000.0,
-          241809
+          241911
         ]
       ],
       "plan_tentative": true,
@@ -30019,19 +30017,19 @@
       "est_loss_pct": 1.02,
       "hold_cap_hours": 72,
       "reachable": false,
-      "orderbook_imbalance": 0.2545,
-      "orderbook_imbalance_asof": "2026-10-12T17:14:00+09:00",
+      "orderbook_imbalance": 0.2169,
+      "orderbook_imbalance_asof": "2026-10-12T17:21:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
       "large_trade_direction": null,
-      "large_trade_multiple": 24.0,
-      "large_trade_value_krw": 20616000,
-      "large_trade_asof": "2026-10-12T17:14:33+09:00",
-      "ask_ratio": 0.6273,
-      "bid_rem": 1358,
-      "ask_rem": 807,
-      "ask_ratio_asof": "2026-10-12T17:14:00+09:00"
+      "large_trade_multiple": 27.5,
+      "large_trade_value_krw": 47190000,
+      "large_trade_asof": "2026-10-12T17:20:40+09:00",
+      "ask_ratio": 0.6085,
+      "bid_rem": 1310,
+      "ask_rem": 843,
+      "ask_ratio_asof": "2026-10-12T17:21:00+09:00"
     },
     {
       "name": "삼성전자",
@@ -30040,7 +30038,7 @@
       "price": 251000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -4.2,
+      "change_pct": -4.39,
       "vol_surge": 1.13,
       "score": 0,
       "score_reasons": [
@@ -30051,7 +30049,7 @@
         "미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%)",
         "외국인 순매도(최근 5일) -14",
         "기관 순매도(최근 5일) -11",
-        "PER 11.26 저평가 +5",
+        "PER 11.24 저평가 +5",
         "기관 매도 가속(최근 확정 2026-10-08 기준(장중이면 D-1): 평소 대비 46.4배) — 압도적 우선 감점 -50"
       ],
       "foreign_net": -4598676.0,
@@ -31398,7 +31396,7 @@
           262500.0,
           249500.0,
           250500.0,
-          18866974
+          18867568
         ]
       ],
       "daily_30d": [
@@ -31640,7 +31638,7 @@
           262500.0,
           249500.0,
           250500.0,
-          18866974
+          18867568
         ]
       ],
       "daily_90d": [
@@ -32362,7 +32360,7 @@
           262500.0,
           249500.0,
           250500.0,
-          18866974
+          18867568
         ]
       ],
       "plan_tentative": true,
@@ -32378,19 +32376,19 @@
       "est_loss_pct": 0.71,
       "hold_cap_hours": 72,
       "reachable": false,
-      "orderbook_imbalance": 0.224,
-      "orderbook_imbalance_asof": "2026-10-12T17:14:00+09:00",
+      "orderbook_imbalance": 0.2567,
+      "orderbook_imbalance_asof": "2026-10-12T17:21:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
       "large_trade_direction": null,
-      "large_trade_multiple": 42.5,
-      "large_trade_value_krw": 21292500,
-      "large_trade_asof": "2026-10-12T17:14:35+09:00",
-      "ask_ratio": 0.612,
-      "bid_rem": 290198,
-      "ask_rem": 184000,
-      "ask_ratio_asof": "2026-10-12T17:14:00+09:00"
+      "large_trade_multiple": 33.0,
+      "large_trade_value_krw": 16533000,
+      "large_trade_asof": "2026-10-12T17:22:14+09:00",
+      "ask_ratio": 0.6284,
+      "bid_rem": 318124,
+      "ask_rem": 188147,
+      "ask_ratio_asof": "2026-10-12T17:21:00+09:00"
     },
     {
       "name": "삼성바이오로직스",
@@ -32399,13 +32397,13 @@
       "price": 1192000.0,
       "currency": "KRW",
       "watch_trigger": null,
-      "change_pct": -2.13,
-      "vol_surge": 1.34,
+      "change_pct": -2.21,
+      "vol_surge": 1.35,
       "score": 0,
       "score_reasons": [
         "기본 점수 +50",
         "역배열(MA5<MA20) -8",
-        "거래량 양호 1.34배 +7",
+        "거래량 양호 1.35배 +7",
         "RSI 22.3 (침체 반등 기대 <35) +4",
         "미국증시 환경 +0.5 (전일 S&P+0.59%·나스닥+0.64%·SOX-0.41%)",
         "외국인 순매도(최근 5일) -14",
@@ -33756,7 +33754,7 @@
           1217000.0,
           1179000.0,
           1201000.0,
-          60226
+          60244
         ]
       ],
       "daily_30d": [
@@ -33998,7 +33996,7 @@
           1217000.0,
           1179000.0,
           1201000.0,
-          60226
+          60244
         ]
       ],
       "daily_90d": [
@@ -34720,7 +34718,7 @@
           1217000.0,
           1179000.0,
           1201000.0,
-          60226
+          60244
         ]
       ],
       "plan_tentative": true,
@@ -34736,8 +34734,8 @@
       "est_loss_pct": 0.68,
       "hold_cap_hours": 72,
       "reachable": false,
-      "orderbook_imbalance": 0.1067,
-      "orderbook_imbalance_asof": "2026-10-12T17:14:00+09:00",
+      "orderbook_imbalance": 0.2876,
+      "orderbook_imbalance_asof": "2026-10-12T17:21:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
@@ -34745,10 +34743,10 @@
       "large_trade_multiple": 26.0,
       "large_trade_value_krw": 31018000,
       "large_trade_asof": "2026-10-12T17:04:56+09:00",
-      "ask_ratio": 0.5534,
-      "bid_rem": 140,
-      "ask_rem": 113,
-      "ask_ratio_asof": "2026-10-12T17:14:00+09:00"
+      "ask_ratio": 0.6438,
+      "bid_rem": 197,
+      "ask_rem": 109,
+      "ask_ratio_asof": "2026-10-12T17:21:00+09:00"
     },
     {
       "name": "한미반도체",
@@ -36118,7 +36116,7 @@
           262000.0,
           247000.0,
           248500.0,
-          603504
+          603515
         ]
       ],
       "daily_30d": [
@@ -36360,7 +36358,7 @@
           262000.0,
           247000.0,
           248500.0,
-          603504
+          603515
         ]
       ],
       "daily_90d": [
@@ -37082,7 +37080,7 @@
           262000.0,
           247000.0,
           248500.0,
-          603504
+          603515
         ]
       ],
       "plan_tentative": true,
@@ -37098,19 +37096,19 @@
       "est_loss_pct": 0.92,
       "hold_cap_hours": 72,
       "reachable": false,
-      "orderbook_imbalance": -0.0235,
-      "orderbook_imbalance_asof": "2026-10-12T17:14:00+09:00",
+      "orderbook_imbalance": -0.0409,
+      "orderbook_imbalance_asof": "2026-10-12T17:21:00+09:00",
       "orderbook_imbalance_source": "kis",
       "orderbook_imbalance_stable": true,
       "large_trade_detected": false,
       "large_trade_direction": null,
-      "large_trade_multiple": 23.8,
-      "large_trade_value_krw": 29631000,
-      "large_trade_asof": "2026-10-12T17:11:40+09:00",
-      "ask_ratio": 0.4883,
-      "bid_rem": 5425,
-      "ask_rem": 5686,
-      "ask_ratio_asof": "2026-10-12T17:14:00+09:00"
+      "large_trade_multiple": 30.5,
+      "large_trade_value_krw": 15158500,
+      "large_trade_asof": "2026-10-12T17:18:22+09:00",
+      "ask_ratio": 0.4795,
+      "bid_rem": 5393,
+      "ask_rem": 5853,
+      "ask_ratio_asof": "2026-10-12T17:21:00+09:00"
     }
   ],
   "positions": [],
@@ -37138,9 +37136,9 @@
   "disclaimer": "본 피드는 기술적 분석과 공개 정보를 기반으로 한 신호 표시 전용이며, 자동 매수·매도 주문이 실행되지 않습니다. 투자 판단과 손익에 대한 책임은 전적으로 투자자 본인에게 있으며, 본 분석은 투자 권유가 아닙니다. 수익을 보장하지 않으며, 모든 투자에는 원금 손실 위험이 존재합니다.",
   "watch_advice": {
     "level": "normal",
-    "headline": "매수 신호 10건 — 상위 후보 셀트리온(128점)",
+    "headline": "매수 신호 10건 — 상위 후보 셀트리온(122점)",
     "bullets": [
-      "최상위 셀트리온 128점 · 진입 전 재료·시초가 갭 확인.",
+      "최상위 셀트리온 122점 · 진입 전 재료·시초가 갭 확인.",
       "전일 미국증시 보합(+0.2%) — 종목 선별 중심.",
       "현재 NXT 연장(장전/장후) 시간 — 유동성 얇음, 호가 슬리피지 유의.",
       "공통 유의: 뉴스/촉매 미반영(기술 신호만). 실주문은 본인 판단·실행."
@@ -37148,10 +37146,10 @@
     "action": "선별 진입 — 상위 후보 우선 검토",
     "signal_count": 10,
     "top_signal": "셀트리온",
-    "top_score": 128
+    "top_score": 122
   },
   "integrity": {
-    "checked_at": "2026-10-12T17:15:00+09:00",
+    "checked_at": "2026-10-12T17:22:00+09:00",
     "critical": [],
     "warn": [
       "us_context asof 2026-10-09 가 마지막 영업일(2026-10-12)보다 과거(신선도)",
